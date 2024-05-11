@@ -209,7 +209,7 @@ export default {
                 <div class="text-caption">
                   ID
                 </div>
-                <v-text-field type="number" disabled v-model="id"></v-text-field>
+                <v-text-field type="number" disabled v-model="id" clearable variant="solo-inverted"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -217,7 +217,7 @@ export default {
                 <div class="text-caption">
                   用户名
                 </div>
-                <v-text-field type="text" v-model="userName"></v-text-field>
+                <v-text-field type="text" v-model="userName" clearable variant="solo-inverted"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -225,7 +225,7 @@ export default {
                 <div class="text-caption">
                   真实姓名
                 </div>
-                <v-text-field type="text" disabled v-model="realName"></v-text-field>
+                <v-text-field type="text" disabled v-model="realName" clearable variant="solo-inverted"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -233,7 +233,7 @@ export default {
                 <div class="text-caption">
                   组
                 </div>
-                <v-text-field type="text" disabled v-model="group"></v-text-field>
+                <v-text-field type="text" disabled v-model="group" clearable variant="solo-inverted"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -241,7 +241,7 @@ export default {
                 <div class="text-caption">
                   邮箱
                 </div>
-                <v-text-field type="email" v-model="email"></v-text-field>
+                <v-text-field type="email" v-model="email" clearable variant="solo-inverted"></v-text-field>
               </div>
             </v-row>
           </v-col>

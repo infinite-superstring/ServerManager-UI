@@ -11,10 +11,10 @@ export default {
 <template>
   <v-row>
     <v-col>
-      <EditUserInfo></EditUserInfo>
+      <EditUserInfo/>
     </v-col>
     <v-col cols="5">
-      <change-password></change-password>
+      <change-password/>
     </v-col>
   </v-row>
 

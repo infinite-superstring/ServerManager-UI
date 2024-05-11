@@ -62,7 +62,7 @@ export default {
             <div class="text-caption">
               原密码
             </div>
-            <v-text-field type="password" v-model="oldPassword" :rules="PasswordRules"></v-text-field>
+            <v-text-field type="password" v-model="oldPassword" :rules="PasswordRules" clearable variant="solo-inverted"></v-text-field>
           </div>
         </v-row>
         <v-row>
@@ -70,7 +70,7 @@ export default {
             <div class="text-caption">
               新密码
             </div>
-            <v-text-field type="password" v-model="newPassword" :rules="PasswordRules"></v-text-field>
+            <v-text-field type="password" v-model="newPassword" :rules="PasswordRules" clearable variant="solo-inverted"></v-text-field>
           </div>
         </v-row>
         <v-row>
@@ -78,7 +78,7 @@ export default {
             <div class="text-caption">
               重复一次新密码
             </div>
-            <v-text-field type="password" v-model="newPassword2" :rules="newPasswordRules"></v-text-field>
+            <v-text-field type="password" v-model="newPassword2" :rules="newPasswordRules" clearable variant="solo-inverted"></v-text-field>
           </div>
         </v-row>
       </v-container>
