@@ -5,7 +5,7 @@
       class="machine-item"
       v-for="item in nodeList"
       :key="item.uuid"
-      @click=""
+      @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'
     >
       <v-card-title class="machine-name">
         {{ item.name }}
@@ -16,7 +16,7 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <node-base-info/>
+          <node-base-info :uuid="item.uuid" :data="item.baseData"/>
         </v-row>
         <p class="description" v-if="item.description">
           <v-divider/>

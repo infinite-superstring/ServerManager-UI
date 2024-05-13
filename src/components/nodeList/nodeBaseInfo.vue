@@ -1,9 +1,32 @@
 <script>
+import useClipboard from 'vue-clipboard3'
+import message from "@/scripts/utils/message";
+
 export default {
   name: "nodeBaseInfo",
   props: {
     data: {
-      type: Array
+      type: Array,
+      required: true,
+    },
+    uuid: {
+      type: String,
+      required: true
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    async copy_node_uuid() {
+      try {
+        const {toClipboard } = useClipboard()
+        await toClipboard(this.uuid)
+        message.showSuccess(this, "复制节点UUID成功", 1000)
+      } catch (e) {
+        message.showError(this, "复制失败")
+        console.error(e)
+      }
     }
   }
 }
@@ -19,7 +42,7 @@ export default {
         平台
       </div>
       <div class="status-value">
-        Linux
+        {{data.platform}}
       </div>
     </div>
   </v-col>
@@ -32,7 +55,7 @@ export default {
         CPU
       </div>
       <div class="status-value">
-        10%
+        {{ data.cpu_usage }}
       </div>
     </div>
   </v-col>
@@ -45,7 +68,7 @@ export default {
         内存
       </div>
       <div class="status-value">
-        10%
+        {{ data.memory_used }}
       </div>
     </div>
   </v-col>
@@ -57,8 +80,13 @@ export default {
       <div class="status-name">
         在线状态
       </div>
-      <div class="status-value" style="color: green">
-        <v-icon icon="mdi:mdi-check-circle-outline" size="x-small" />在线
+      <div class="status-value" style="color: green" v-if="data.online">
+        <v-icon icon="mdi:mdi-check-circle-outline" size="x-small"/>
+        在线
+      </div>
+      <div class="status-value" style="color: red" v-else>
+        <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+        离线
       </div>
     </div>
   </v-col>
@@ -68,10 +96,10 @@ export default {
   >
     <div class="status">
       <div class="status-name">
-        节点版本
+        节点主机名
       </div>
       <div class="status-value">
-        v0.1
+        {{ data.hostname }}
       </div>
     </div>
   </v-col>
@@ -84,7 +112,11 @@ export default {
         节点ID
       </div>
       <div class="status-value">
-        <v-icon icon="mdi:mdi-clipboard-text-outline" size="small" color="primary" @click=""/>
+        <v-icon
+          icon="mdi:mdi-clipboard-text-outline"
+          size="small"
+          color="primary"
+          @click="copy_node_uuid()"/>
       </div>
     </div>
   </v-col>

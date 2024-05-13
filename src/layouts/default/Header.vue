@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar>
+    <v-app-bar color="primary">
         <v-app-bar-nav-icon v-if="!isLoginPage()" @click.stop = "menu = !menu" title="展开侧边菜单">
             <v-icon icon="mdi-menu" />
         </v-app-bar-nav-icon>

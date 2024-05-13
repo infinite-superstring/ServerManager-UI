@@ -31,7 +31,7 @@ const routes = [
   },
   // 机器列表
   {
-    path: '/nodeList',
+    path: '/node_manager/nodeList',
     name: "nodeList",
     components: {
       default: nodeList
@@ -39,7 +39,7 @@ const routes = [
   },
   // 节点控制（暂定名）
   {
-    path: '/nodeControl',
+    path: '/node_manager/node',
     name: "nodeControl",
     components: {
       default: NodeControl

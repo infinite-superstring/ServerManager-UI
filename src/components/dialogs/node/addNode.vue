@@ -25,7 +25,7 @@ export default {
   methods: {
     search_tag(tag_name) {
       if (tag_name) {
-        axios.post("/node_tag/search_tag", {tag: tag_name}).then(res => {
+        axios.post("/node_manager/api/node_tag/search_tag", {tag: tag_name}).then(res => {
           const apiStatus = res.data.status
           if (apiStatus === 1) {
             this.tag_items = res.data.data.tags
@@ -49,7 +49,7 @@ export default {
       if (!this.nodeName) {
         return message.showWarning(this, "节点名未填写")
       }
-      axios.post('/node_manager/addNode', {
+      axios.post('/node_manager/api/addNode', {
         node_name: this.nodeName,
         node_description: this.description,
         node_tags: this.tags,

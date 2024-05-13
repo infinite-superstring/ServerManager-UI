@@ -5,7 +5,7 @@ function del_node(el, node_uuid) {
   /**
    * 删除节点
    */
-  axios.post('/node_manager/delNode', {
+  axios.post('/node_manager/api/delNode', {
     uuid: node_uuid
   }).then(res=>{
     const apiStatus = res.data.status;
@@ -21,7 +21,7 @@ function del_node(el, node_uuid) {
 }
 
 function reset_token(el, node_uuid) {
-  axios.post('/node_manager/delNode', {
+  axios.post('/node_manager/api/resetToken', {
     uuid: node_uuid
   }).then(res=>{
     const apiStatus = res.data.status;
