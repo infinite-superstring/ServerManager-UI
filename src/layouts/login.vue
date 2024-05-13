@@ -1,23 +1,20 @@
 <template>
     <v-main>
-        <div class="content">
             <div class="loginBox">
-                <h1 class="title">请登录</h1>
+                <h1 class="title">登录</h1>
                 <v-form fast-fail @submit.prevent action="/auth/login" method="post">
                     <div class="inputs">
                         <v-text-field label="用户名" type="text" name="username" v-model.trim="username"
-                            :rules="userNameRules"></v-text-field>
+                            :rules="userNameRules" variant="solo-filled" clearable></v-text-field>
                         <v-text-field label="密码" type="password" name="password" v-model.trim="password"
-                            :rules="passwordRules"></v-text-field>
+                            :rules="passwordRules" variant="solo-filled" clearable></v-text-field>
                     </div>
                     <div class="buttons">
                         <v-btn id="login" type="submit" color="primary" @click="submit()">登录</v-btn>
-                        <v-btn id="cancel" @click="cancel()">取消</v-btn>
                         <v-btn id="forgetPassword" @click="openHelpPage()">忘记密码</v-btn>
                     </div>
                 </v-form>
             </div>
-        </div>
     </v-main>
 </template>
 
@@ -42,7 +39,6 @@ export default {
                 if (!value) {
                     return "密码不能为空"
                 }
-
                 return true
             }
         ]
@@ -81,10 +77,6 @@ export default {
                 })
                 console.warn(err);
             })
-        },
-        cancel() {
-            this.username = null
-            this.password = null
         },
         openHelpPage() {
             // TODO
