@@ -5,6 +5,8 @@
         </v-app-bar-nav-icon>
 
         <v-app-bar-title>LoongArch-Server-Manager</v-app-bar-title>
+        <userInfoCard color="primary" v-if="!isLoginPage()" style="height:80%"/>
+        <logout-btn/>
         <template v-slot:append>
           <router-view name="appBarBtn"></router-view>
         </template>
@@ -14,8 +16,10 @@
 
 <script>
 import header_sidebar from "@/components/header/sidebar.vue";
+import UserInfoCard from "@/components/header/userInfoCard.vue";
+import LogoutBtn from "@/components/header/logout.vue";
 export default {
-  components: {header_sidebar},
+  components: {LogoutBtn, UserInfoCard, header_sidebar},
   data() {
     return {
       menu: true,
@@ -28,3 +32,6 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+
+</style>
