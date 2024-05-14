@@ -1,6 +1,13 @@
 <script>
+import bytesUtil from "@/scripts/utils/bytesUtil";
+
 export default {
   name: "nodeInfo",
+  computed: {
+    bytesUtil() {
+      return bytesUtil
+    }
+  },
   props: {
     node_base_info: {
       type: Object,
@@ -19,14 +26,17 @@ export default {
   </p>
   <v-divider/>
   <p>主机名：{{ node_base_info.node_hostname }}</p>
-  <p>节点操作系统类型：{{ node_base_info.node_system_type }}</p>
-  <p>节点操作系统版本：{{ node_base_info.node_system_version }}
+  <p>操作系统类型：{{ node_base_info.node_system_type }}</p>
+  <p>操作系统版本：{{ node_base_info.node_system_version }}
     (Build:{{ node_base_info.node_system_build_version }})
   </p>
-  <p>启动时间：{{ node_base_info.node_system_boot_time }}</p>
+  <p>处理器架构：{{ node_base_info?.node_cpu_architecture }}</p>
+  <p>启动时间：{{ node_base_info?.node_system_boot_time }}</p>
   <v-divider/>
-  <p>节点内存：{{ node_base_info.node_memory_total }}</p>
-  <p>节点交换空间：{{ node_base_info.node_swap_total }}</p>
+  <p>核心数：{{ node_base_info.node_core_count }}</p>
+  <p>线程数：{{ node_base_info.node_processor_count }}</p>
+  <p>内存：{{ bytesUtil.formatBytes(node_base_info.node_memory_total) }}</p>
+  <p>交换空间：{{ bytesUtil.formatBytes(node_base_info.node_swap_total) }}</p>
 </template>
 
 <style scoped>

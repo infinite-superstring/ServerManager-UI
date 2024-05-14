@@ -1,83 +1,31 @@
 <script>
-import * as echarts from 'echarts/core';
-import {GaugeChart} from 'echarts/charts';
-import {CanvasRenderer} from 'echarts/renderers';
+import bytesUtil from "@/scripts/utils/bytesUtil";
 
 export default {
   name: "NodeStatus",
+  computed: {
+    bytesUtil() {
+      return bytesUtil
+    }
+  },
+  props: {
+    status_data: {
+      type: Object,
+      required: true
+    },
+    base_info: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      echarts: {
-        cpu: null,
-        memory: null,
-        disk: null,
-        network: null,
-      },
-      echarts_option: {
-        // series: [
-        //   {
-        //     type: 'gauge',
-        //     progress: {
-        //       show: true,
-        //       width: 15
-        //     },
-        //     axisTick: {
-        //       show: false
-        //     },
-        //     splitLine: {
-        //       show: false,
-        //       length: 20,
-        //       lineStyle: {
-        //         width: 2,
-        //         color: '#999'
-        //       }
-        //     },
-        //     axisLabel: {
-        //       show: false,
-        //       distance: 25,
-        //       color: '#999',
-        //       fontSize: 16
-        //     },
-        //     anchor: {
-        //       show: false,
-        //       showAbove: true,
-        //       size: 16,
-        //       itemStyle: {
-        //         borderWidth: 5
-        //       }
-        //     },
-        //     title: {
-        //       show: false
-        //     },
-        //     detail: {
-        //       valueAnimation: true,
-        //       fontSize: 16,
-        //       offsetCenter: [0, '70%']
-        //     },
-        //     data: [
-        //       {
-        //         value: 70
-        //       }
-        //     ]
-        //   }
-        // ]
-      }
     }
   },
   created() {
-    echarts.use([GaugeChart, CanvasRenderer]);
 
   },
   mounted() {
-    // this.echarts.cpu = echarts.init(this.$refs.echarts_cpu);
-    // this.echarts_option && this.echarts.cpu.setOption(this.echarts_option);
-    // this.echarts.memory = echarts.init(this.$refs.echarts_memory);
-    // this.echarts_option && this.echarts.memory.setOption(this.echarts_option);
-    // this.echarts.disk = echarts.init(this.$refs.echarts_disk_io);
-    // this.echarts_option && this.echarts.disk.setOption(this.echarts_option);
-    // this.echarts.network = echarts.init(this.$refs.echarts_network);
-    // this.echarts_option && this.echarts.network.setOption(this.echarts_option);
-    // window.addEventListener('resize', this.echarts.cpu.resize);
   }
 }
 </script>
@@ -85,10 +33,10 @@ export default {
 <template>
   <div class="status-echarts-container">
     <div class="echarts-cpu">
-      <v-tooltip text="总量：xxxx 已用：xxxx 可用：xxxxx" location="top">
+      <v-tooltip location="top">
         <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="35" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> 35 %
+          <v-progress-circular v-bind="props" :model-value="status_data.cpu_usage" :rotate="360" :size="100" :width="15" color="primary">
+            <template v-slot:default> {{ status_data.cpu_usage }} %
             </template>
           </v-progress-circular>
         </template>
@@ -96,10 +44,10 @@ export default {
       <div class="chart-subtitle">CPU占用率</div>
     </div>
     <div class="echarts-memory">
-      <v-tooltip text="总量：xxxx 已用：xxxx 可用：xxxxx" location="top">
+      <v-tooltip :text="'总量：'+ bytesUtil.formatBytes(base_info.node_memory_total) +' 已用：'+ bytesUtil.formatBytes(status_data.memory) +' 可用：'+bytesUtil.formatBytes(base_info.node_memory_total - status_data.memory)" location="top">
         <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="35" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> 35 %
+          <v-progress-circular v-bind="props" :model-value="status_data.memory_used" :rotate="360" :size="100" :width="15" color="primary">
+            <template v-slot:default> {{ status_data.memory_used }} %
             </template>
           </v-progress-circular>
         </template>

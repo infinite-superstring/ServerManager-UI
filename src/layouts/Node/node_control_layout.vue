@@ -31,7 +31,8 @@ export default {
         node_system_version: null,
         node_tags: [],
         node_uuid: null,
-      }
+      },
+      usage_data: {}
     }
   },
   mounted() {
@@ -77,7 +78,7 @@ export default {
       /**
        * websocket 收到消息
        */
-      console.log(event)
+      console.log(event.data)
       let data = null
       try {
         data = JSON.parse(event.data)
@@ -88,21 +89,30 @@ export default {
       if (data) {
         switch (data.action) {
           case "init": {
-            this.node_base_info = data.data
+            this.node_base_info = data.data['base_info']
+            if (data.data['usage']) {
+              this.usage_data = data.data['usage']
+            }
+            break
+          }
+          case "update_node_usage_data": {
+            this.usage_data = data.data
+            console.log(this.usage_data)
+            break
           }
         }
       }
 
     }
   },
-  watch: {
-    hash(val) {
-      console.log(val)
-      if (!val && val.length <= 0) {
-        this.$router.push({name: 'nodeList'})
-      }
-    }
-  }
+  // watch: {
+  //   hash(val) {
+  //     console.log(val)
+  //     if (!val && val.length <= 0) {
+  //       this.$router.push({name: 'nodeList'})
+  //     }
+  //   }
+  // }
 }
 </script>
 
@@ -135,7 +145,7 @@ export default {
             <div class="left">
               <v-card subtitle="系统状态">
                 <v-card-text>
-                  <node-status/>
+                  <node-status :status_data="usage_data" :base_info="node_base_info"/>
                 </v-card-text>
               </v-card>
               <v-card subtitle="监控">
