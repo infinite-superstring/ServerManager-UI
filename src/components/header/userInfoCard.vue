@@ -7,7 +7,8 @@ export default {
     return {
       username: "UserName",
       group: "未知",
-      avatar: "/userInfo/api/getAvatar"
+      avatar: "/userInfo/api/getAvatar",
+      height:"80vh"
     }
   },
   created() {
@@ -23,9 +24,8 @@ export default {
 </script>
 
 <template>
-  <v-list-item :to="{name: 'userInfo'}" :title="username" :subtitle="group" :prepend-avatar="avatar"></v-list-item>
+  <v-card :to="{name: 'userInfo'}" :subtitle="username" :prepend-avatar="avatar" hover/>
 </template>
 
-<style scoped>
-
+<style >
 </style>

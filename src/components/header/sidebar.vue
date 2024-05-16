@@ -1,9 +1,6 @@
 <script>
-import axios from 'axios'
-import UserInfoCard from "@/components/header/userInfoCard.vue";
 import {useUserStore} from "@/store/userInfo";
 import permission from "@/views/admin/Permission.vue";
-import message from "@/scripts/utils/message";
 
 export default {
   name: "header_sidebar",
@@ -12,7 +9,6 @@ export default {
       return permission
     }
   },
-  components: {UserInfoCard},
   props: {
     display: {
       type: Boolean,
@@ -24,25 +20,6 @@ export default {
       UserPermissions: useUserStore().permissions
     }
   },
-  methods: {
-    logout() {
-      axios.get("/auth/logout").then(res=>{
-        let data = res.data
-        switch (data.status) {
-          case 1:
-            message.showSuccess(this, data.msg)
-            this.$router.push({name: "login"})
-            break;
-          case 0:
-            message.showError(this, data.msg)
-            break
-        }
-      }).catch(err=>{
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
-      })
-    }
-  }
 }
 </script>
 
@@ -50,7 +27,10 @@ export default {
   <v-navigation-drawer
     :width="330"
     :model-value="display">
-    <user-info-card></user-info-card>
+    <v-list
+      density="compact"
+      nav
+    >
     <v-divider/>
     <v-list-item :to="{name: 'dashboard'}" title="仪表盘" prepend-icon="mdi:mdi-view-dashboard"></v-list-item>
     <v-divider/>
@@ -66,13 +46,7 @@ export default {
     <v-divider/>
     <v-list-item subtitle="浏览"></v-list-item>
     <v-list-item :to="{name: 'about'}" title="关于LoongArch-Server-Manager" prepend-icon="mdi:mdi-copyright"></v-list-item>
-    <template v-slot:append>
-      <div class="pa-2">
-        <v-btn block prepend-icon="mdi:mdi-logout" @click="logout()">
-          登出
-        </v-btn>
-      </div>
-    </template>
+      </v-list>
     </v-navigation-drawer>
 </template>
 
