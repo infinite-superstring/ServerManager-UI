@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto';
 import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
+import chartUtils from "@/scripts/utils/chartUtils";
 // import * as echarts from 'echarts';
 // import echarts_styles from "@/scripts/option/echarts_styles"
 
@@ -13,6 +14,10 @@ let datasets = []
 export default {
   name: "cpuWatch",
   props: {
+    cpu_usage: {
+      type: Number,
+      required: true,
+    },
     cpu_core_usage_data: {
       type: Object,
       required: true
@@ -24,10 +29,10 @@ export default {
   },
   data() {
     return {
-      labels: [],
-      tags: [],
-      datasets: {},
-      series: []
+      // labels: [],
+      // tags: [],
+      // datasets: {},
+      // series: []
     }
   },
   mounted() {
@@ -59,11 +64,26 @@ export default {
     //   series: series
     // })
     // chart.resize({width: 'auto', height: 400});
+    labels.push(this.update_time)
+    datasets.push({
+      label: "CPU",
+      data: [this.cpu_usage],
+      fill: false,
+      tension: 0.1
+    })
+    for (const cpu_index in this.cpu_core_usage_data) {
+      datasets.push({
+        label: cpu_index,
+        data: [this.cpu_core_usage_data[cpu_index]],
+        fill: false,
+        tension: 0.1
+      })
+    }
     Chart.register(Colors, Zoom);
     chart = new Chart(this.$refs.cpu_chart, {
       type: 'line',
       options: {
-        responsive: true,
+        // responsive: true,
         interaction: {
           mode: 'index',
           intersect: true,
@@ -87,23 +107,31 @@ export default {
           colors: {
             enabled: false
           },
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true
-            },
-            mode: 'x',
-          }
         },
         datasets: datasets
       }
     })
+    chartUtils.hideDatasets(chart, 0)
   },
-  methods: {},
+  methods: {
+    updateUsageData() {
+      /**
+       * 更新使用率数据
+       */
+      labels.push(this.update_time)
+      datasets[0].data.push(this.cpu_usage)
+      for (const cpu_index in this.cpu_core_usage_data) {
+        for (let i = 1; i < datasets.length; i++) {
+          if (datasets[i].label === cpu_index) {
+            datasets[i].data.push(this.cpu_core_usage_data[cpu_index])
+            break
+          }
+        }
+      }
+    }
+  },
   watch: {
-    cpu_core_usage_data(val) {
+    update_time(val) {
       // if (!chart) {
       //   return
       // }
@@ -128,13 +156,7 @@ export default {
       //   },
       //   series: temp
       // })
-      for (const cpu_index in val) {
-        for (let i = 0; i < datasets.length; i++) {
-          if (datasets[i].label === cpu_index) {
-            datasets[i].data.push(val[cpu_index])
-          }
-        }
-      }
+      this.updateUsageData()
       chart.update()
     }
   }
@@ -142,7 +164,7 @@ export default {
 </script>
 
 <template>
-  <canvas id="cpu_chart" ref="cpu_chart" height="200px" width="100%"></canvas>
+  <canvas id="cpu_chart" ref="cpu_chart" width="100%"></canvas>
 </template>
 
 <style scoped>

@@ -27,9 +27,12 @@ export default {
 </script>
 
 <template>
-  <v-card @click="logout()" height="80%" width="100px" append-icon="mdi-logout" color="primary">
+  <v-btn @click="logout()">
+    <template v-slot:prepend>
+      <v-icon icon="mdi:mdi-logout"></v-icon>
+    </template>
     登出
-  </v-card>
+  </v-btn>
 </template>
 
 <style scoped>

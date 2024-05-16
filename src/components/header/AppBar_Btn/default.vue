@@ -1,11 +1,16 @@
 <script>
+import UserInfoCard from "@/components/header/userInfoCard.vue";
+import LogoutBtn from "@/components/header/logout.vue";
+
 export default {
-  name: "appbar_default"
+  name: "appbar_default",
+  components: {LogoutBtn, UserInfoCard}
 }
 </script>
 
 <template>
-  <v-btn icon="mdi:mdi-cog-outline" title="LoongArch-Server-Manager设置"></v-btn>
+  <userInfoCard/>
+  <logout-btn/>
 </template>
 
 <style scoped>

@@ -26,7 +26,8 @@ const routes = [
     path: '/',
     name: "dashboard",
     components: {
-      default: Dashboard
+      default: Dashboard,
+      appBarBtn: appbar_default
     }
   },
   // 机器列表
@@ -34,7 +35,8 @@ const routes = [
     path: '/node_manager/nodeList',
     name: "nodeList",
     components: {
-      default: nodeList
+      default: nodeList,
+      appBarBtn: appbar_default
     }
   },
   // 节点控制（暂定名）
@@ -42,7 +44,8 @@ const routes = [
     path: '/node_manager/node',
     name: "nodeControl",
     components: {
-      default: NodeControl
+      default: NodeControl,
+      appBarBtn: appbar_default
     }
   },
   // 网站可用性监控
@@ -55,6 +58,7 @@ const routes = [
     name: "userInfo",
     components: {
       default: UserInfo,
+      appBarBtn: appbar_default
     }
   },
   // 管理 - 用户管理
@@ -63,6 +67,7 @@ const routes = [
     name: "userManagement",
     components: {
       default: userManagementPage,
+      appBarBtn: appbar_default
     }
   },
   // 管理 - 权限管理
@@ -71,6 +76,7 @@ const routes = [
     name: "permissionManagement",
     components: {
       default: permissionManagementPage,
+      appBarBtn: appbar_default
     }
   },
   // 管理 - 审计与日志
@@ -88,14 +94,15 @@ const routes = [
     name: "settings",
     components: {
       default: configPage,
-      // appBarBtn: appbar_default
+      appBarBtn: appbar_default
     }
   },
   // 关于
   {
     path: "/about/",
     name: "about",
-    component:aboutPage
+    component:aboutPage,
+    appBarBtn: appbar_default
   },
   // 错误
   { path: '/error/:errorCode', component: errorPage },
