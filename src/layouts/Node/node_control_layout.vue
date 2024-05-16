@@ -78,7 +78,7 @@ export default {
       /**
        * websocket 收到消息
        */
-      console.log(event.data)
+      // console.log(event.data)
       let data = null
       try {
         data = JSON.parse(event.data)
@@ -97,7 +97,7 @@ export default {
           }
           case "update_node_usage_data": {
             this.usage_data = data.data
-            console.log(this.usage_data)
+            // console.log(this.usage_data)
             break
           }
         }
@@ -150,7 +150,7 @@ export default {
               </v-card>
               <v-card subtitle="监控">
                 <v-card-text>
-                  <node-watch/>
+                  <node-watch :status_data="usage_data" :base_info="node_base_info"/>
                 </v-card-text>
               </v-card>
             </div>

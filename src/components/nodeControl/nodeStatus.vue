@@ -1,12 +1,12 @@
 <script>
-import bytesUtil from "@/scripts/utils/bytesUtil";
+import format from "@/scripts/utils/format";
 
 export default {
   name: "NodeStatus",
   computed: {
-    bytesUtil() {
-      return bytesUtil
-    }
+    format() {
+      return format
+    },
   },
   props: {
     status_data: {
@@ -19,68 +19,132 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
   created() {
 
   },
   mounted() {
+  },
+  methods: {
+    usage_color(usage) {
+      if(usage <30) return 'green'
+      else if (usage > 30 && usage < 70) return "secondary"
+      else if (usage > 70) return 'red'
+    }
   }
 }
 </script>
 
 <template>
-  <div class="status-echarts-container">
-    <div class="echarts-cpu">
-      <v-tooltip location="top">
-        <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="status_data.cpu_usage" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> {{ status_data.cpu_usage }} %
-            </template>
-          </v-progress-circular>
-        </template>
-      </v-tooltip>
-      <div class="chart-subtitle">CPU占用率</div>
-    </div>
-    <div class="echarts-memory">
-      <v-tooltip :text="'总量：'+ bytesUtil.formatBytes(base_info.node_memory_total) +' 已用：'+ bytesUtil.formatBytes(status_data.memory) +' 可用：'+bytesUtil.formatBytes(base_info.node_memory_total - status_data.memory)" location="top">
-        <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="status_data.memory_used" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> {{ status_data.memory_used }} %
-            </template>
-          </v-progress-circular>
-        </template>
-      </v-tooltip>
-      <div class="chart-subtitle">内存占用率</div>
-    </div>
-    <div class="echarts-disk-io">
-      <v-tooltip text="总量：xxxx 已用：xxxx 可用：xxxxx" location="top">
-        <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="35" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> 35 %
-            </template>
-          </v-progress-circular>
-        </template>
-      </v-tooltip>
-      <div class="chart-subtitle">负载</div>
-    </div>
-    <div class="echarts-network">
-      <v-tooltip text="总量：xxxx 已用：xxxx 可用：xxxxx" location="top">
-        <template v-slot:activator="{ props }">
-          <v-progress-circular v-bind="props" :model-value="35" :rotate="360" :size="100" :width="15" color="primary">
-            <template v-slot:default> 35 %
-            </template>
-          </v-progress-circular>
-        </template>
-      </v-tooltip>
-      <div class="chart-subtitle">磁盘使用率</div>
+  <div class="node-status">
+    <v-overlay
+      :model-value="base_info.node_name && !base_info.node_online"
+      class="align-center justify-center cursor-not-allowed"
+      contained
+      persistent
+      no-click-animation
+    >
+      <div>
+        <v-icon icon="mdi-alert-outline"/>
+        节点离线中!
+      </div>
+    </v-overlay>
+    <div class="status-container" v-if="base_info.node_online">
+      <div class="cpu">
+        <v-tooltip location="top" max-width="250px">
+          <v-chip v-for="(value, cpu_index) in status_data.cpu_core" :key="cpu_index" :color="usage_color(value)">
+            {{ cpu_index }} : {{ value }}%
+          </v-chip>
+          <template v-slot:activator="{ props }">
+            <v-progress-circular
+              v-bind="props"
+              :model-value="status_data.cpu_usage"
+              :rotate="360"
+              :size="100"
+              :width="15"
+              color="primary">
+              <template v-slot:default>
+                {{ status_data.cpu_usage }} %
+              </template>
+            </v-progress-circular>
+          </template>
+        </v-tooltip>
+        <div class="chart-subtitle">CPU占用率</div>
+      </div>
+      <div class="memory">
+        <v-tooltip location="top">
+          <p>总量：{{ format.formatBytes(base_info.node_system_info.memory_total) }}</p>
+          <p>已用：{{ format.formatBytes(status_data.memory) }}</p>
+          <p>可用：{{ format.formatBytes(base_info.node_system_info.memory_total - status_data.memory) }}</p>
+          <v-divider/>
+          <p>交换空间已用：{{ format.formatBytes(status_data.swap) }}</p>
+          <template v-slot:activator="{ props }">
+            <v-progress-circular
+              v-bind="props"
+              :model-value="status_data.memory_used"
+              :rotate="360"
+              :size="100"
+              :width="15"
+              :color="usage_color(status_data.memory_used)">
+              <template v-slot:default>
+                {{ status_data.memory_used }} %
+              </template>
+            </v-progress-circular>
+          </template>
+        </v-tooltip>
+        <div class="chart-subtitle">内存占用率</div>
+      </div>
+      <div class="loadavg">
+        <v-tooltip location="top">
+          <p>1分钟平均负载：{{ status_data.loadavg.one_minute }}</p>
+          <p>5分钟平均负载：{{ status_data.loadavg.five_minute }}</p>
+          <p>15分钟平均负载：{{ status_data.loadavg.fifteen_minute }}</p>
+          <template v-slot:activator="{ props }">
+            <v-progress-circular
+              v-bind="props"
+              :model-value="(status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100"
+              :rotate="360"
+              :size="100"
+              :width="15"
+              :color="usage_color((status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100)">
+              <template v-slot:default>
+                {{ format.formatPercentage((status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100) }} %
+              </template>
+            </v-progress-circular>
+          </template>
+        </v-tooltip>
+        <div class="chart-subtitle">负载</div>
+      </div>
+<!--      <div class="disk">-->
+<!--        <v-tooltip location="top">-->
+<!--          <p>可用：</p>-->
+<!--          <p>已用：</p>-->
+<!--          <template v-slot:activator="{ props }">-->
+<!--            <v-progress-circular-->
+<!--              v-bind="props"-->
+<!--              :model-value="35"-->
+<!--              :rotate="360"-->
+<!--              :size="100"-->
+<!--              :width="15"-->
+<!--              color="primary">-->
+<!--              <template v-slot:default> 35 %-->
+<!--              </template>-->
+<!--            </v-progress-circular>-->
+<!--          </template>-->
+<!--        </v-tooltip>-->
+<!--        <div class="chart-subtitle">磁盘使用率</div>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
 
 <style scoped>
-.status-echarts-container {
+.node-status {
+  min-height: 150px;
+}
+
+.status-container {
   display: flex;
   justify-content: space-between;
 
@@ -96,6 +160,21 @@ export default {
     justify-content: center;
     font-size: 18px;
     margin-top: 15px;
+  }
+
+}
+
+.v-overlay div {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+
+  .v-icon {
+    font-size: 8em;
+    color: red;
   }
 }
 </style>

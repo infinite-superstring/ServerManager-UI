@@ -1,11 +1,11 @@
 <script>
-import bytesUtil from "@/scripts/utils/bytesUtil";
+import format from "@/scripts/utils/format";
 
 export default {
   name: "nodeInfo",
   computed: {
-    bytesUtil() {
-      return bytesUtil
+    format() {
+      return format
     }
   },
   props: {
@@ -24,19 +24,21 @@ export default {
   <p v-if="node_base_info.node_tags.length !== 0">节点标签：
     <v-chip v-for="tag in node_base_info.node_tags" :key="tag" color="secondary" size="x-small">{{ tag }}</v-chip>
   </p>
-  <v-divider/>
-  <p>主机名：{{ node_base_info.node_hostname }}</p>
-  <p>操作系统类型：{{ node_base_info.node_system_type }}</p>
-  <p>操作系统版本：{{ node_base_info.node_system_version }}
-    (Build:{{ node_base_info.node_system_build_version }})
-  </p>
-  <p>处理器架构：{{ node_base_info?.node_cpu_architecture }}</p>
-  <p>启动时间：{{ node_base_info?.node_system_boot_time }}</p>
-  <v-divider/>
-  <p>核心数：{{ node_base_info.node_core_count }}</p>
-  <p>线程数：{{ node_base_info.node_processor_count }}</p>
-  <p>内存：{{ bytesUtil.formatBytes(node_base_info.node_memory_total) }}</p>
-  <p>交换空间：{{ bytesUtil.formatBytes(node_base_info.node_swap_total) }}</p>
+  <div id="system_info" v-if="node_base_info.node_system_info">
+    <v-divider/>
+    <p>主机名：{{ node_base_info.node_system_info.hostname }}</p>
+    <p>操作系统类型：{{ node_base_info.node_system_info.system_type }}</p>
+    <p>操作系统版本：{{ node_base_info.node_system_info.system_version }}
+      (Build:{{ node_base_info.node_system_info.system_build_version }})
+    </p>
+    <p>处理器架构：{{ node_base_info.node_system_info.cpu_architecture }}</p>
+    <p>启动时间：{{ node_base_info.node_system_info.system_boot_time }}</p>
+    <v-divider/>
+    <p>核心数：{{ node_base_info.node_system_info.core_count }}</p>
+    <p>线程数：{{ node_base_info.node_system_info.processor_count }}</p>
+    <p>内存：{{ format.formatBytes(node_base_info.node_system_info.memory_total) }}</p>
+    <p>交换空间：{{ format.formatBytes(node_base_info.node_system_info.swap_total) }}</p>
+  </div>
 </template>
 
 <style scoped>

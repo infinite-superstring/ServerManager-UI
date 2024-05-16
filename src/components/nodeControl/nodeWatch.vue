@@ -4,6 +4,16 @@ import CpuWatch from "@/components/charts/node/cpuWatch.vue";
 export default {
   name: "nodeWatch",
   components: {CpuWatch},
+  props: {
+    status_data: {
+      type: Object,
+      required: true
+    },
+    base_info: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       tab: null
@@ -25,10 +35,6 @@ export default {
       value="memory"
     ></v-tab>
     <v-tab
-      text="交换空间"
-      value="swap"
-    ></v-tab>
-    <v-tab
       text="磁盘IO"
       value="disk_io"
     ></v-tab>
@@ -37,13 +43,11 @@ export default {
       value="network"
     ></v-tab>
   </v-tabs>
-  <v-window v-model="tab">
+  <v-window v-model="tab" v-if="base_info.node_online">
     <v-window-item value="cpu">
-      <cpu-watch/>
+      <cpu-watch :cpu_core_usage_data="status_data.cpu_core" :update_time="status_data.timestamp"/>
     </v-window-item>
     <v-window-item value="memory">
-    </v-window-item>
-    <v-window-item value="swap">
     </v-window-item>
     <v-window-item value="disk_io">
     </v-window-item>
