@@ -28,7 +28,7 @@ export default {
       /**
        * 新增用户
        */
-      axios.post("/admin/api/addUser", {
+      axios.post("/api/admin/userManager/addUser", {
         userName: this.userName,
         realName: this.realName,
         email: this.email,

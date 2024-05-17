@@ -1,5 +1,4 @@
 <script>
-import axios from "axios";
 import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
 import PermissionGroupTable from "@/components/tables/users/permissionGroupTable.vue";

@@ -54,7 +54,7 @@ export default {
     },
     // 获取用户列表
     getPermissionGroupList(search = "", page = 1, pageSize = 20) {
-      axios.post("/admin/api/getPermissionGroups", {
+      axios.post("/api/admin/permissionManager/getPermissionGroups", {
         page: page,
         pageSize: pageSize,
         search: search
@@ -101,14 +101,14 @@ export default {
     },
     // 获取权限列表
     getPermissionList() {
-      return axios.get("/admin/api/getPermissionList").catch(err => {
+      return axios.get("/api/admin/permissionManager/getPermissionList").catch(err => {
         console.error(err)
         this.showApiErrorMsg(err.message)
       })
     },
     // 获取权限组信息
     getPermissionGroupInfo(groupId) {
-      return axios.post("/admin/api/getPermissionGroupInfo", {id: groupId}).catch(err => {
+      return axios.post("/api/admin/permissionManager/getPermissionGroupInfo", {id: groupId}).catch(err => {
         console.error(err)
         this.showApiErrorMsg(err.message)
       })
@@ -184,7 +184,7 @@ export default {
           this.$dialog.confirm("操作确认", "确定要删除这个组吗", 'warning', '否', '是')
             .then((anwser) => {
               if (anwser) {
-                axios.post('/admin/api/delPermissionGroup', {id: groupId}).then(res => {
+                axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
                   const apiStatus = res.data.status
                   if (apiStatus === 1) {
                     this.getPermissionGroupList(this.search, this.currentPage)
@@ -228,7 +228,7 @@ export default {
         permission[permissionKey] = this.newPermissionGroupDialog.selected.includes(permissionKey)
       }
       console.log(permission)
-      axios.post("/admin/api/addPermissionGroup", {
+      axios.post("/api/admin/permissionManager/addPermissionGroup", {
         name: this.newPermissionGroupDialog.newGroupName,
         disable: !this.newPermissionGroupDialog.newGroupStatus,
         permissions: permission
@@ -271,7 +271,7 @@ export default {
     },
     // 重命名组
     rename(groupId, newName) {
-      axios.post("/admin/api/setPermissionGroup", {
+      axios.post("/api/admin/permissionManager/setPermissionGroup", {
         id: groupId,
         data: {
           newName: newName
@@ -290,7 +290,7 @@ export default {
     },
     // 更新权限组状态
     updateStatus(groupId, value) {
-      axios.post("/admin/api/setPermissionGroup", {
+      axios.post("/api/admin/permissionManager/setPermissionGroup", {
         id: groupId,
         data: {
           disable: !value
@@ -338,7 +338,7 @@ export default {
         permission[permissionKey] = this.editPermissionGroupDialog.selected.includes(permissionKey)
         console.log(permissionKey, this.editPermissionGroupDialog.selected.includes(permissionKey))
       }
-      axios.post("/admin/api/setPermissionGroup", {
+      axios.post("/api/admin/permissionManager/setPermissionGroup", {
         id: this.editPermissionGroupDialog.gid,
         data: {
           newName: this.editPermissionGroupDialog.name,

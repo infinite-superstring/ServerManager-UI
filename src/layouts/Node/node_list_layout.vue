@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     getNodeList(page = 1, search = "") {
-      axios.post('/node_manager/api/getNodeList',{
+      axios.post('/api/node_manager/getNodeList',{
         page: page,
         search: search
       }).then((res) => {

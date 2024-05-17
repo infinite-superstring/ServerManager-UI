@@ -40,7 +40,7 @@ export default {
     this.connect_websocket()
   },
   unmounted() {
-    this.websocket.clone()
+    this.websocket.close()
     this.websocket = null
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
        * 连接到 WebSocket
        * @type {WebSocket}
        */
-      this.websocket = new WebSocket(`ws://${location.host}/node_manager/websocket/node_control/${this.hash}/`)
+      this.websocket = new WebSocket(`ws://${location.host}/ws/node/node_control/${this.hash}/`)
       this.websocket.addEventListener('open', this.on_websocket)
       this.websocket.addEventListener('close', this.close_websocket)
       this.websocket.addEventListener('error', this.error_websocket)

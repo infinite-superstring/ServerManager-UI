@@ -21,6 +21,7 @@
 <script>
 import axios from 'axios'
 import {useUserStore} from "@/store/userInfo";
+import message from "@/scripts/utils/message";
 
 export default {
     data: () => ({
@@ -45,10 +46,8 @@ export default {
     }),
     methods: {
         submit() {
-            // console.log("submit data......");
-            axios.post("/auth/login", { "username": this.username, "password": this.password }).then(res => {
+            axios.post("/api/auth/login", { "username": this.username, "password": this.password }).then(res => {
                 let data = res.data
-                console.log(data);
                 switch (data.status) {
                     case 1:
                       useUserStore().getUserInfo().then(()=>{
@@ -56,26 +55,12 @@ export default {
                       })
                       break;
                     default:
-                      this.$notify.create({
-                        text: data.msg,
-                        level: 'error',
-                        location: 'bottom right',
-                        notifyOptions: {
-                          "close-delay": 3000
-                        }
-                      })
+                      message.showWarning(this, data.msg)
                       break;
                 }
             }).catch(err => {
-                this.$notify.create({
-                  text: err.message,
-                  level: 'error',
-                  location: 'bottom right',
-                  notifyOptions: {
-                    "close-delay": 3000
-                  }
-                })
-                console.warn(err);
+              console.error(err);
+              message.showApiErrorMsg(this, err.message)
             })
         },
         openHelpPage() {

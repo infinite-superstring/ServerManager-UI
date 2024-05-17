@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     getUserinfo() {
-      axios.get("/userInfo/api/getInfo").then(res => {
+      axios.get("/api/userInfo/getInfo").then(res => {
         const data = res.data.data
         this.id = data.id;
         this.userName = data.userName
@@ -39,7 +39,7 @@ export default {
       })
     },
     saveUserInfo() {
-      axios.post("userInfo/api/editInfo", {
+      axios.post("/api/userInfo/editInfo", {
         data: {
           userName: this.userName,
           realName: this.realName,
@@ -135,7 +135,7 @@ export default {
         maxWidth: 512
       }).toDataURL("image/webp", 0.8)
 
-      axios.post("/userInfo/api/uploadAvatar", {
+      axios.post("/api/userInfo/uploadAvatar", {
         data: {
           avatarImg: imgBase64,
           avatarHash: await calculateMD5(imgBase64)

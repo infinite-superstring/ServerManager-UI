@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getUserList(search = "", page = 1, pageSize = 20) {
-      axios.post("/admin/api/getUserList", {
+      axios.post("/api/admin/userManager/getUserList", {
         page: page,
         pageSize: pageSize,
         search: search

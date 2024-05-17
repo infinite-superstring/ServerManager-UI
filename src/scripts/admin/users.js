@@ -8,7 +8,7 @@ function updateUserInfo(el, uid, data) {
    * @param uid 用户UID
    * @param data 更新的数据
    */
-  return axios.post("/admin/api/setUserInfo", {id: uid, data: data}).then(res => {
+  return axios.post("/api/admin/userManager/setUserInfo", {id: uid, data: data}).then(res => {
     const status = res.data.status
     if (status !== 1) {
       message.showApiErrorMsg(el, res.data.msg, status)
@@ -24,7 +24,7 @@ function getUserInfo(el, uid) {
    * 获取用户信息
    * @param uid 用户ID
    */
-  return axios.post("/admin/api/getUserInfo", {id: uid}).catch(err => {
+  return axios.post("/api/admin/userManager/getUserInfo", {id: uid}).catch(err => {
     message.showApiErrorMsg(this, err.message)
   })
 }

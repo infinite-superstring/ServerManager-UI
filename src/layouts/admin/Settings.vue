@@ -23,7 +23,7 @@ export default {
       /**
        * 获取设置数据
        */
-      axios.get('/admin/api/settings/getSettings').then(res => {
+      axios.get('/api/admin/settings/getSettings').then(res => {
         this.settings = res.data
       }).catch(err => {
         console.error(err)
@@ -33,7 +33,7 @@ export default {
       /**
        * 保存设置信息
        */
-      axios.post('/admin/api/settings/editSettings', this.settings).then(() => {
+      axios.post('/api/admin/settings/editSettings', this.settings).then(() => {
         message.showSuccess(this, "设置已保存")
       }).catch(err => {
         console.error(err)

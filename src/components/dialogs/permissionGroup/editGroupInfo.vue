@@ -2,7 +2,6 @@
 import PermissionItemTable from "@/components/tables/permissionGroup/permissionItemTable.vue";
 import message from "@/scripts/utils/message.js"
 import permission from "@/scripts/admin/permission";
-import axios from "axios";
 
 export default {
   name: "EditGroupInfo",

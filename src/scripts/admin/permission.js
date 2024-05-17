@@ -3,7 +3,7 @@ import message from "@/scripts/utils/message";
 
 function editGroup(el, gid, data) {
   return new Promise((resolve, reject) => {
-    axios.post("/admin/api/setPermissionGroup", {
+    axios.post("/api/admin/permissionManager/setPermissionGroup", {
       id: gid,
       data: data
     }).then(res => {
@@ -22,7 +22,7 @@ function editGroup(el, gid, data) {
 }
 
 function getGroupInfo(el, gid) {
-   return axios.post("/admin/api/getPermissionGroupInfo", {id: gid}).catch(err => {
+   return axios.post("/api/admin/permissionManager/getPermissionGroupInfo", {id: gid}).catch(err => {
     console.error(err)
     message.showApiErrorMsg(el, err.message)
   })

@@ -6,7 +6,7 @@ export default {
   name: "logoutBtn",
   methods: {
     logout() {
-      axios.get("/auth/logout").then(res=>{
+      axios.get("/api/auth/logout").then(res=>{
         let data = res.data
         switch (data.status) {
           case 1:

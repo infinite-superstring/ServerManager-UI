@@ -25,7 +25,7 @@ export default {
       /**
        * 获取权限列表
        */
-      axios.get("/admin/api/getPermissionList").then(res=>{
+      axios.get("/api/admin/permissionManager/getPermissionList").then(res=>{
         this.permissionItemList = res.data.data
       }).catch(err => {
         console.error(err)

@@ -25,7 +25,7 @@ export const useUserStore = defineStore('UserInfo', {
   actions: {
     getUserInfo() {
       return new Promise((resolve)=>{
-        axios.get("/userInfo/api/getInfo").then(res=>{
+        axios.get("/api/userInfo/getInfo").then(res=>{
           const data = res.data.data
           this.id = data.id
           this.userName = data.userName

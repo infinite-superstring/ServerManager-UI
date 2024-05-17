@@ -35,7 +35,7 @@ export default {
       this.$dialog.confirm("操作确认", "确定要删除这个组吗", 'warning', '否', '是')
         .then((anwser) => {
           if (anwser) {
-            axios.post('/admin/api/delPermissionGroup', {id: groupId}).then(res => {
+            axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
               const apiStatus = res.data.status
               if (apiStatus === 1) {
                 this.$emit("updateData")

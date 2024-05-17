@@ -24,7 +24,7 @@ export default {
     },
     // 获取用户列表
     getTable(page=1, pageSize=20) {
-      axios.post("/admin/api/auditAndLogger/systemLog",{
+      axios.post("/api/admin/auditAndLogger/systemLog",{
         page: page,
         pageSize: pageSize,
       }).then(res=>{

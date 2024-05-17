@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     changePassword() {
-      axios.post("userInfo/api/setPassword",{
+      axios.post("/api/userInfo/setPassword",{
         data: {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword2

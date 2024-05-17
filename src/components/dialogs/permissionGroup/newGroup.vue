@@ -34,7 +34,7 @@ export default {
       /**
        * 获取权限列表
        */
-      axios.get("/admin/api/getPermissionList").then(res => {
+      axios.get("/api/admin/permissionManager/getPermissionList").then(res => {
         if (res.data.status === 1) {
           this.permissionList = res.data.data
         } else {
@@ -86,7 +86,7 @@ export default {
         permission[permissionKey] = this.permissionSelect.includes(permissionKey)
       }
       console.log(permission)
-      axios.post("/admin/api/addPermissionGroup", {
+      axios.post("/api/admin/permissionManager/addPermissionGroup", {
         name: this.newGroupName,
         disable: !this.newGroupStatus,
         permissions: permission

@@ -7,11 +7,11 @@ export default {
     return {
       username: "UserName",
       group: "未知",
-      avatar: "/userInfo/api/getAvatar",
+      avatar: "/api/userInfo/getAvatar",
     }
   },
   created() {
-    axios.get("/userInfo/api/getInfo").then(res => {
+    axios.get("/api/userInfo/getInfo").then(res => {
       const data = res.data.data
       this.username = data.userName
       this.group = data.group

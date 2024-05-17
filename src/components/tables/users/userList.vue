@@ -20,7 +20,7 @@ export default {
       this.$dialog.confirm("操作确认", "确定要删除这个用户吗", 'warning', '否', '是')
       .then((anwser) => {
         if (anwser) {
-          axios.post("/admin/api/delUser", {id:uid}).then(res=>{
+          axios.post("/api/admin/userManager/delUser", {id:uid}).then(res=>{
             const status = res.data.status
             if (status !== 1) {
               message.showApiErrorMsg(this, res.data.msg, status)

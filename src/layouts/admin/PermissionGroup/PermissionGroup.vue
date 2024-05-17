@@ -46,7 +46,7 @@ export default {
       /**
        * 获取用户列表
        */
-      axios.post("/admin/api/getPermissionGroups", {
+      axios.post("/api/admin/permissionManager/getPermissionGroups", {
         page: page,
         pageSize: pageSize,
         search: search
@@ -149,7 +149,7 @@ export default {
           this.$dialog.confirm("操作确认", "确定要删除这个组吗", 'warning', '否', '是')
             .then((anwser) => {
               if (anwser) {
-                axios.post('/admin/api/delPermissionGroup', {id: groupId}).then(res => {
+                axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
                   const apiStatus = res.data.status
                   if (apiStatus === 1) {
                     this.getPermissionGroupList(this.search, this.currentPage)
@@ -183,7 +183,7 @@ export default {
     },
     // 重命名组
     rename(groupId, newName) {
-      axios.post("/admin/api/setPermissionGroup", {
+      axios.post("/api/admin/permissionManager/setPermissionGroup", {
         id: groupId,
         data: {
           newName: newName
@@ -202,7 +202,7 @@ export default {
     },
     // 更新权限组状态
     updateStatus(groupId, value) {
-      axios.post("/admin/api/setPermissionGroup", {
+      axios.post("/api/admin/permissionManager/setPermissionGroup", {
         id: groupId,
         data: {
           disable: !value

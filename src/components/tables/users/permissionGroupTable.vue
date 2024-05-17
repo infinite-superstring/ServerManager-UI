@@ -30,7 +30,7 @@ export default {
       /**
        * 加载权限组列表
        */
-      axios.post("/admin/api/getPermissionGroups", {search: search, page: page, pageSize: pageSize}).then(res => {
+      axios.post("/api/admin/permissionManager/getPermissionGroups", {search: search, page: page, pageSize: pageSize}).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
           this.maxPage = res.data.data.maxPage
