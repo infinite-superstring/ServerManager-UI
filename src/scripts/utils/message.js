@@ -31,6 +31,7 @@ function showInfo(el, message, close_delay = 3000) {
     text: message,
     level: 'info',
     location: 'top center',
+    'content-class': 'snackbars',
     notifyOptions: {
       "close-delay": close_delay
     }

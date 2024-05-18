@@ -35,13 +35,35 @@ export default {
 </script>
 
 <template>
-  <v-btn class="userInfoCard pa-2" size="auto" @click="this.$router.push({name: 'userInfo'})">
-    <template v-slot:prepend>
-      <v-avatar :image="avatar"></v-avatar>
+  <!--  <v-btn class="userInfoCard pa-2" size="auto" @click="this.$router.push({name: 'userInfo'})">-->
+  <!--    <template v-slot:prepend>-->
+  <!--      <v-avatar :image="avatar"></v-avatar>-->
+  <!--    </template>-->
+  <!--    <span class="username">{{ username }}</span>-->
+  <!--  </v-btn>-->
+  <v-menu>
+    <template v-slot:activator="{ props }">
+      <v-btn
+        class="userInfoCard pa-2"
+        size="auto"
+        v-bind="props">
+        <template v-slot:prepend>
+          <v-avatar :image="avatar"></v-avatar>
+        </template>
+        <span class="username">{{ username }}</span>
+      </v-btn>
     </template>
-    <span class="username">{{ username }}</span>
-  </v-btn>
-  <!--  <v-card :to="{name: 'userInfo'}" :subtitle="username" :prepend-avatar="avatar" hover/>-->
+    <v-list>
+      <v-list-item @click="this.$router.push({name: 'userInfo'})">
+        <v-icon icon="mdi-account-outline"/>
+        个人信息
+      </v-list-item>
+      <v-list-item>
+        <v-icon icon="mdi-bell-outline"/>
+        消息中心
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <style scoped>
