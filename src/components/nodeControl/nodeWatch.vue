@@ -1,9 +1,10 @@
 <script>
 import CpuWatch from "@/components/charts/node/cpuWatch.vue";
+import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
 
 export default {
   name: "nodeWatch",
-  components: {CpuWatch},
+  components: {NodeOfflineOverlay, CpuWatch},
   props: {
     status_data: {
       type: Object,
@@ -43,22 +44,25 @@ export default {
       value="network"
     ></v-tab>
   </v-tabs>
-  <v-window v-model="tab" v-if="base_info.node_online">
-    <v-window-item value="cpu">
-      <cpu-watch :cpu_usage="status_data.cpu_usage" :cpu_core_usage_data="status_data.cpu_core" :update_time="status_data.timestamp"/>
-    </v-window-item>
-    <v-window-item value="memory">
-    </v-window-item>
-    <v-window-item value="disk_io">
-    </v-window-item>
-    <v-window-item value="network">
-    </v-window-item>
-  </v-window>
-
+  <v-sheet :height="300" width="100%">
+    <node-offline-overlay :flag="base_info.node_name && !base_info.node_online"/>
+    <v-window v-model="tab" v-if="base_info.node_online">
+      <v-window-item value="cpu">
+        <cpu-watch :cpu_usage="status_data.cpu_usage" :cpu_core_usage_data="status_data.cpu_core"
+                   :update_time="status_data.timestamp"/>
+      </v-window-item>
+      <v-window-item value="memory">
+      </v-window-item>
+      <v-window-item value="disk_io">
+      </v-window-item>
+      <v-window-item value="network">
+      </v-window-item>
+    </v-window>
+  </v-sheet>
 </template>
 
 <style scoped>
-  .v-tabs {
-    margin-bottom: 15px;
-  }
+.v-tabs {
+  margin-bottom: 15px;
+}
 </style>

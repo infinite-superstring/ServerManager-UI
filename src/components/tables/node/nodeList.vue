@@ -5,13 +5,12 @@
       class="machine-item"
       v-for="item in nodeList"
       :key="item.uuid"
-      @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'
     >
       <v-card-title class="machine-name">
         {{ item.name }}
         <div class="machine-action">
-          <v-btn size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
-          <v-btn size="x-small" color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
+          <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
+          <v-btn variant="text" size="x-small" color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
         </div>
       </v-card-title>
       <v-card-text>
@@ -22,7 +21,7 @@
           <v-divider/>
           {{ item.description }}
         </p>
-        <div class="tags" v-if="item.tags">
+        <div class="tags" v-if="item.tags.length > 0">
           <v-divider/>
           <v-chip
             color="secondary"
@@ -34,6 +33,11 @@
           </v-chip>
         </div>
       </v-card-text>
+      <v-card-actions>
+        <v-btn color="#00B0FF" block @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'>
+          进入控制页
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-container>
 </template>

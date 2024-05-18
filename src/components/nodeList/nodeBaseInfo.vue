@@ -52,10 +52,10 @@ export default {
   >
     <div class="status">
       <div class="status-name">
-        CPU
+        CPU使用率
       </div>
       <div class="status-value">
-        {{ data.cpu_usage }}
+        {{ data.online ? data.cpu_usage : "未知" }}
       </div>
     </div>
   </v-col>
@@ -65,10 +65,10 @@ export default {
   >
     <div class="status">
       <div class="status-name">
-        内存
+        内存使用率
       </div>
       <div class="status-value">
-        {{ data.memory_used }}
+        {{ data.online ? data.memory_used : "未知" }}
       </div>
     </div>
   </v-col>
@@ -96,7 +96,7 @@ export default {
   >
     <div class="status">
       <div class="status-name">
-        节点主机名
+        主机名
       </div>
       <div class="status-value">
         {{ data.hostname }}
@@ -116,6 +116,7 @@ export default {
           icon="mdi:mdi-clipboard-text-outline"
           size="small"
           color="primary"
+          title="复制到剪贴板"
           @click="copy_node_uuid()"/>
       </div>
     </div>

@@ -1,3 +1,5 @@
+// import Vue from '@/main'
+
 function showApiErrorMsg(el, message, status = null, close_delay = 3000) {
   /**
    * 显示API错误信息
@@ -9,10 +11,12 @@ function showSuccess(el, message, close_delay = 3000) {
   /**
    * 显示成功信息
    */
+  // console.log(Vue)
   return el.$notify.create({
     text: message,
     level: 'success',
-    location: 'bottom right',
+    location: 'top center',
+    'z_index': "2500",
     notifyOptions: {
       "close-delay": close_delay
     }
@@ -26,7 +30,7 @@ function showInfo(el, message, close_delay = 3000) {
   return el.$notify.create({
     text: message,
     level: 'info',
-    location: 'bottom right',
+    location: 'top center',
     notifyOptions: {
       "close-delay": close_delay
     }
@@ -40,7 +44,7 @@ function showWarning(el, message, close_delay = 3000) {
   return el.$notify.create({
     text: message,
     level: 'warning',
-    location: 'bottom right',
+    location: 'top center',
     notifyOptions: {
       "close-delay": close_delay
     }
@@ -54,7 +58,7 @@ function showError(el, message, close_delay = 3000) {
   return el.$notify.create({
     text: message,
     level: 'error',
-    location: 'bottom right',
+    location: 'top center',
     notifyOptions: {
       "close-delay": close_delay
     }

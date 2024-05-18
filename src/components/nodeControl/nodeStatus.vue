@@ -1,8 +1,10 @@
 <script>
 import format from "@/scripts/utils/format";
+import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
 
 export default {
   name: "NodeStatus",
+  components: {NodeOfflineOverlay},
   computed: {
     format() {
       return format
@@ -28,7 +30,7 @@ export default {
   },
   methods: {
     usage_color(usage) {
-      if(usage <30) return 'green'
+      if (usage < 30) return 'green'
       else if (usage > 30 && usage < 70) return "secondary"
       else if (usage > 70) return 'red'
     }
@@ -38,18 +40,7 @@ export default {
 
 <template>
   <div class="node-status">
-    <v-overlay
-      :model-value="base_info.node_name && !base_info.node_online"
-      class="align-center justify-center cursor-not-allowed"
-      contained
-      persistent
-      no-click-animation
-    >
-      <div>
-        <v-icon icon="mdi-alert-outline"/>
-        节点离线中!
-      </div>
-    </v-overlay>
+    <node-offline-overlay :flag="base_info.node_name && !base_info.node_online"/>
     <div class="status-container" v-if="base_info.node_online">
       <div class="cpu">
         <v-tooltip location="top" max-width="250px">
@@ -109,32 +100,34 @@ export default {
               :width="15"
               :color="usage_color((status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100)">
               <template v-slot:default>
-                {{ format.formatPercentage((status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100) }} %
+                {{
+                  format.formatPercentage((status_data.loadavg.one_minute / base_info.node_system_info.processor_count) * 100)
+                }} %
               </template>
             </v-progress-circular>
           </template>
         </v-tooltip>
         <div class="chart-subtitle">负载</div>
       </div>
-<!--      <div class="disk">-->
-<!--        <v-tooltip location="top">-->
-<!--          <p>可用：</p>-->
-<!--          <p>已用：</p>-->
-<!--          <template v-slot:activator="{ props }">-->
-<!--            <v-progress-circular-->
-<!--              v-bind="props"-->
-<!--              :model-value="35"-->
-<!--              :rotate="360"-->
-<!--              :size="100"-->
-<!--              :width="15"-->
-<!--              color="primary">-->
-<!--              <template v-slot:default> 35 %-->
-<!--              </template>-->
-<!--            </v-progress-circular>-->
-<!--          </template>-->
-<!--        </v-tooltip>-->
-<!--        <div class="chart-subtitle">磁盘使用率</div>-->
-<!--      </div>-->
+      <!--      <div class="disk">-->
+      <!--        <v-tooltip location="top">-->
+      <!--          <p>可用：</p>-->
+      <!--          <p>已用：</p>-->
+      <!--          <template v-slot:activator="{ props }">-->
+      <!--            <v-progress-circular-->
+      <!--              v-bind="props"-->
+      <!--              :model-value="35"-->
+      <!--              :rotate="360"-->
+      <!--              :size="100"-->
+      <!--              :width="15"-->
+      <!--              color="primary">-->
+      <!--              <template v-slot:default> 35 %-->
+      <!--              </template>-->
+      <!--            </v-progress-circular>-->
+      <!--          </template>-->
+      <!--        </v-tooltip>-->
+      <!--        <div class="chart-subtitle">磁盘使用率</div>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -162,19 +155,5 @@ export default {
     margin-top: 15px;
   }
 
-}
-
-.v-overlay div {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  font-size: 18px;
-
-  .v-icon {
-    font-size: 8em;
-    color: red;
-  }
 }
 </style>

@@ -11,6 +11,7 @@ import vuetifyInstance from '@/plugins/vuetify' //Or wherever you have your vuet
 import {Vuetify3Dialog} from 'vuetify3-dialog'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import eventBus from 'vue3-eventbus'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -26,4 +27,5 @@ export function registerPlugins (app) {
       }
     })
     .use(pinia)
+    .use(eventBus)
 }

@@ -32,6 +32,7 @@
     "vue-clipboard3": "^2.0.0",
     "vue-echarts": "^6.7.2",
     "vue-router": "^4.0.0",
+    "vue3-eventbus": "^2.0.0",
     "vuetify": "^3.0.0",
     "vuetify3-dialog": "^1.4.2"
   },

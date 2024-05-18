@@ -8,7 +8,13 @@ export default {
 </script>
 
 <template>
-  <v-card title="节点控制" class="pageMain-card">
+  <v-card class="pageMain-card">
+    <v-card-title>
+      <v-btn variant="text" @click="$router.go(-1)">
+        <v-icon icon="mdi:mdi-arrow-left"></v-icon>
+      </v-btn>
+      节点控制
+    </v-card-title>
     <v-card-text>
       <node_control_layout></node_control_layout>
     </v-card-text>
@@ -16,5 +22,8 @@ export default {
 </template>
 
 <style scoped>
-
+.v-card-title {
+  display: flex;
+  align-items: center;
+}
 </style>

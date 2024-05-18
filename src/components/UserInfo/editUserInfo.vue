@@ -2,8 +2,11 @@
 import axios from "axios";
 import Cropper from "cropperjs";
 import SparkMD5 from "spark-md5";
+import bus from 'vue3-eventbus'
 import {useUserStore} from "@/store/userInfo";
 import 'cropperjs/dist/cropper.css';
+import message from "@/scripts/utils/message";
+import fileUtils from "@/scripts/utils/fileUtils";
 
 export default {
   name: "editUserInfo",
@@ -14,7 +17,7 @@ export default {
       realName: "",
       email: "",
       group: "",
-      avatarUrl: "/userInfo/api/getAvatar",
+      avatarUrl: "/api/userInfo/getAvatar",
       uploadAvatar: {
         flag: false,
         file: null,
@@ -22,8 +25,10 @@ export default {
       }
     }
   },
+  emits: ["update:"],
   mounted() {
    this.getUserinfo()
+    console.log(this)
   },
   methods: {
     getUserinfo() {
@@ -50,33 +55,14 @@ export default {
         if (apiStatus === 1) {
           const userStore = useUserStore()
           userStore.getUserInfo()
-          this.$notify.create({
-            text: `用户信息保存成功~`,
-            level: 'success',
-            location: 'bottom right',
-            notifyOptions: {
-              "close-delay": 3000
-            }
-          })
+          message.showSuccess(this, "用户信息保存成功")
+          bus.emit('update:UserInfo')
         } else {
-          this.$notify.create({
-            text: `API错误：${res.data.msg}(status:${apiStatus})`,
-            level: 'error',
-            location: 'bottom right',
-            notifyOptions: {
-              "close-delay": 3000
-            }
-          })
+          message.showWarning(this, res.data.msg)
         }
       }).catch(err => {
-        this.$notify.create({
-          text: `API错误：${err.message}`,
-          level: 'error',
-          location: 'bottom right',
-          notifyOptions: {
-            "close-delay": 3000
-          }
-        })
+        console.error(err)
+        message.showApiErrorMsg(this, err.message)
       })
     },
     // 开启头像上传框
@@ -115,21 +101,6 @@ export default {
     },
     // 头像上传
     async uploadAvatarImg() {
-
-      async function calculateMD5(dataUrl) {
-        // 从 base64 数据中提取文件内容
-        const base64Content = dataUrl.split(',')[1];
-
-        // 计算MD5哈希值
-        const spark = new SparkMD5.ArrayBuffer();
-        const buffer = Uint8Array.from(atob(base64Content), c => c.charCodeAt(0)).buffer;
-        spark.append(buffer);
-        const hash = spark.end();
-
-        console.log('Image MD5 Hash:', hash);
-        return hash
-      }
-
       const imgBase64 = this.uploadAvatar.cropper.getCroppedCanvas({
         maxHeight: 512,
         maxWidth: 512
@@ -138,41 +109,22 @@ export default {
       axios.post("/api/userInfo/uploadAvatar", {
         data: {
           avatarImg: imgBase64,
-          avatarHash: await calculateMD5(imgBase64)
+          avatarHash: await fileUtils.calculateMD5(imgBase64)
         }
       }).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
-          this.$notify.create({
-            text: `头像上传成功`,
-            level: 'success',
-            location: 'bottom right',
-            notifyOptions: {
-              "close-delay": 3000
-            }
-          })
+          message.showSuccess(this, "头像上传成功")
           this.uploadAvatar.flag = false
           this.uploadAvatar.file = null
-          this.avatarUrl = "/userInfo/api/getAvatar?v" + Math.random()
+          this.avatarUrl = "/api/userInfo/getAvatar?v" + Math.random()
+          bus.emit('update:Avatar')
         } else {
-          this.$notify.create({
-            text: `API错误：${res.data.msg}(status:${apiStatus})`,
-            level: 'error',
-            location: 'bottom right',
-            notifyOptions: {
-              "close-delay": 3000
-            }
-          })
+          message.showError(this, res.data.msg)
         }
       }).catch(err => {
-        this.$notify.create({
-          text: `API错误：${err.message}`,
-          level: 'error',
-          location: 'bottom right',
-          notifyOptions: {
-            "close-delay": 3000
-          }
-        })
+        console.error(err)
+        message.showApiErrorMsg(this, err.message)
       })
     }
   },
@@ -198,8 +150,12 @@ export default {
               <div class="editAvatar" @click="openAvatarUploader()">
                 <v-icon icon="mdi:mdi-pencil-outline"></v-icon>
                 <span>更换头像</span>
-                <input type="file" accept="image/*" id="uploadAvatar"
-                       @change="uploadAvatar.file = $event.target.files[0]" style="display: none;">
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="uploadAvatar"
+                  @change="uploadAvatar.file = $event.target.files[0]"
+                  style="display: none;">
               </div>
             </v-row>
           </v-col>
