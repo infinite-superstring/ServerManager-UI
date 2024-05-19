@@ -22,11 +22,5 @@ export default {
 </template>
 
 <style scoped>
-  .left {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-right: 25px;
-  }
 
 </style>

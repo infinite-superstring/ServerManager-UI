@@ -165,7 +165,7 @@ export default {
                 <div class="text-caption">
                   ID
                 </div>
-                <v-text-field type="number" disabled v-model="id" clearable variant="solo-inverted"></v-text-field>
+                <v-text-field type="number" disabled v-model="id" clearable variant="solo"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -173,7 +173,7 @@ export default {
                 <div class="text-caption">
                   用户名
                 </div>
-                <v-text-field type="text" v-model="userName" clearable variant="solo-inverted"></v-text-field>
+                <v-text-field type="text" v-model="userName" clearable variant="solo"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -181,7 +181,7 @@ export default {
                 <div class="text-caption">
                   真实姓名
                 </div>
-                <v-text-field type="text" disabled v-model="realName" clearable variant="solo-inverted"></v-text-field>
+                <v-text-field type="text" disabled v-model="realName" clearable variant="solo"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -189,7 +189,7 @@ export default {
                 <div class="text-caption">
                   组
                 </div>
-                <v-text-field type="text" disabled v-model="group" clearable variant="solo-inverted"></v-text-field>
+                <v-text-field type="text" disabled v-model="group" clearable variant="solo"></v-text-field>
               </div>
             </v-row>
             <v-row>
@@ -197,7 +197,7 @@ export default {
                 <div class="text-caption">
                   邮箱
                 </div>
-                <v-text-field type="email" v-model="email" clearable variant="solo-inverted"></v-text-field>
+                <v-text-field type="email" v-model="email" clearable variant="solo"></v-text-field>
               </div>
             </v-row>
           </v-col>
@@ -205,7 +205,7 @@ export default {
       </v-container>
     </v-card-text>
     <v-card-actions>
-      <v-btn block color="success" @click="saveUserInfo()">保存修改</v-btn>
+      <v-btn block base-color="success" @click="saveUserInfo()">保存修改</v-btn>
     </v-card-actions>
   </v-card>
   <div>
@@ -222,8 +222,8 @@ export default {
           <img id="previewImage">
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="uploadAvatar.flag = false">取消</v-btn>
-          <v-btn color="success" @click="uploadAvatarImg()">确定</v-btn>
+          <v-btn base-color="error" @click="uploadAvatar.flag = false">取消</v-btn>
+          <v-btn base-color="success" @click="uploadAvatarImg()">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

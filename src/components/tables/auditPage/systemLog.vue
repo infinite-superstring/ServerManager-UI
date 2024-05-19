@@ -92,10 +92,10 @@ export default {
         <v-chip variant="flat" v-if="item.level === 1">
           INFO
         </v-chip>
-        <v-chip variant="flat" color="yellow" v-if="item.level === 2">
+        <v-chip variant="flat" base-color="yellow" v-if="item.level === 2">
           Warn
         </v-chip>
-        <v-chip variant="flat" color="red" v-if="item.level === 3">
+        <v-chip variant="flat" base-color="red" v-if="item.level === 3">
           Error
         </v-chip>
       </td>

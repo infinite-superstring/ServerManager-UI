@@ -134,7 +134,7 @@ export default {
       <v-card-title>新建权限组</v-card-title>
       <v-card-text>
         <v-text-field type="text" label="请输入要创建的权限组名" v-model="newGroupName"></v-text-field>
-        <v-switch label="是否启用" v-model="newGroupStatus" color="primary"></v-switch>
+        <v-switch label="是否启用" v-model="newGroupStatus" base-color="primary"></v-switch>
         <v-card class="pa-1">
           <v-card-title>选择该组可使用的权限</v-card-title>
           <v-card-text>
@@ -165,15 +165,15 @@ export default {
             </v-table>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="warning" :disabled="permissionSelect.length < 1" @click="permissionSelect = []">
+            <v-btn base-color="warning" :disabled="permissionSelect.length < 1" @click="permissionSelect = []">
               清空已选择
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" @click="reset(); $emit('exit')">取消</v-btn>
-        <v-btn color="success" @click="submitNewGroup()">确定</v-btn>
+        <v-btn base-color="error" @click="reset(); $emit('exit')">取消</v-btn>
+        <v-btn base-color="success" @click="submitNewGroup()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -110,17 +110,17 @@ export default {
               <permission-group-table :select="permission" @update="args => {this.permission = args}"/>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="warning" :disabled="permission == null" @click="permission = null">
+              <v-btn base-color="warning" :disabled="permission == null" @click="permission = null">
                 清除已选择
               </v-btn>
             </v-card-actions>
           </v-card>
         </div>
-        <v-switch color="primary" label="禁用用户" v-model="disable"></v-switch>
+        <v-switch base-color="primary" label="禁用用户" v-model="disable"></v-switch>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" @click="close()">取消</v-btn>
-        <v-btn color="success" @click="submit()">确定</v-btn>
+        <v-btn base-color="error" @click="close()">取消</v-btn>
+        <v-btn base-color="success" @click="submit()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

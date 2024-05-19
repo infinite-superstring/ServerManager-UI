@@ -376,9 +376,21 @@ export default {
 
 <template>
   <div class="toolsBar">
-    <v-btn id="addUser" color="success" @click="action('newPermissionGroup')">新增权限组</v-btn>
-    <v-text-field id="searchUser" class="search" density="compact" label="搜索" variant="solo-filled" single-line
-                  hide-details v-model="search"></v-text-field>
+    <v-btn
+      id="addUser"
+      base-color="success"
+      @click="action('newPermissionGroup')">
+      新增权限组
+    </v-btn>
+    <v-text-field
+      id="searchUser"
+      class="search"
+      density="compact"
+      label="搜索"
+      variant="solo-filled"
+      single-line
+      hide-details
+      v-model="search"/>
   </div>
   <v-table>
     <thead>
@@ -419,7 +431,7 @@ export default {
       </td>
       <td>
         <v-btn size="small" @click="action('edit', item.id)">编辑</v-btn>
-        <v-btn color="error" size="small" @click="action('del', item.id)">删除</v-btn>
+        <v-btn base-color="error" size="small" @click="action('del', item.id)">删除</v-btn>
       </td>
     </tr>
     </tbody>
@@ -449,8 +461,8 @@ export default {
           <v-text-field v-model="inputDialog.input" :label="inputDialog.label" :type="inputDialog.type"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="inputDialog.flag = false;inputDialog.input = null">取消</v-btn>
-          <v-btn color="success"
+          <v-btn base-color="error" @click="inputDialog.flag = false;inputDialog.input = null">取消</v-btn>
+          <v-btn base-color="success"
                  @click="inputDialog.callback(inputDialog.uid, inputDialog.input);inputDialog.flag = false;inputDialog.input = null">
             确定
           </v-btn>
@@ -471,7 +483,7 @@ export default {
         <v-card-text>
           <v-text-field type="text" label="请输入要创建的权限组名"
                         v-model="newPermissionGroupDialog.newGroupName"></v-text-field>
-          <v-switch label="是否启用" v-model="newPermissionGroupDialog.newGroupStatus" color="primary"></v-switch>
+          <v-switch label="是否启用" v-model="newPermissionGroupDialog.newGroupStatus" base-color="primary"></v-switch>
           <v-card class="pa-1">
             <v-card-title>选择该组可使用的权限</v-card-title>
             <v-card-text>
@@ -501,15 +513,15 @@ export default {
               </v-table>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="warning" :disabled="newPermissionGroupDialog.selected.length < 1"
+              <v-btn base-color="warning" :disabled="newPermissionGroupDialog.selected.length < 1"
                      @click="newPermissionGroupDialog.selected = []">清空已选择
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="restore_init('newPermissionGroupDialog')">取消</v-btn>
-          <v-btn color="success" @click="newPermissionGroup()">确定</v-btn>
+          <v-btn base-color="error" @click="restore_init('newPermissionGroupDialog')">取消</v-btn>
+          <v-btn base-color="success" @click="newPermissionGroup()">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -525,11 +537,11 @@ export default {
       <v-card>
         <v-card-title>修改权限组状态</v-card-title>
         <v-card-text>
-          <v-switch label="是否启用" v-model="updateGroupStatusDialog.value" color="primary"></v-switch>
+          <v-switch label="是否启用" v-model="updateGroupStatusDialog.value" base-color="primary"></v-switch>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="restore_init('updateGroupStatusDialog')">取消</v-btn>
-          <v-btn color="success" @click="updateStatus(updateGroupStatusDialog.gid,updateGroupStatusDialog.value)">确定
+          <v-btn base-color="error" @click="restore_init('updateGroupStatusDialog')">取消</v-btn>
+          <v-btn base-color="success" @click="updateStatus(updateGroupStatusDialog.gid,updateGroupStatusDialog.value)">确定
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -547,7 +559,7 @@ export default {
         <v-card-title>编辑权限组--{{ editPermissionGroupDialog.name }}</v-card-title>
         <v-card-text>
           <v-text-field type="text" label="权限组名" v-model="editPermissionGroupDialog.name"></v-text-field>
-          <v-switch label="是否启用" v-model="editPermissionGroupDialog.status" color="primary"></v-switch>
+          <v-switch label="是否启用" v-model="editPermissionGroupDialog.status" base-color="primary"></v-switch>
           <v-card class="pa-1">
             <v-card-title>请选择该组可使用的权限</v-card-title>
             <v-card-text>
@@ -580,8 +592,8 @@ export default {
           </v-card>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="restore_init('editPermissionGroupDialog')">取消</v-btn>
-          <v-btn color="success" @click="editPermissionGroup()">确定</v-btn>
+          <v-btn base-color="error" @click="restore_init('editPermissionGroupDialog')">取消</v-btn>
+          <v-btn base-color="success" @click="editPermissionGroup()">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

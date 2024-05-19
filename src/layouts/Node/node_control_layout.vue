@@ -97,7 +97,14 @@ export default {
           }
           case "update_node_usage_data": {
             this.usage_data = data.data
-            // console.log(this.usage_data)
+            break
+          }
+          case "node_online": {
+            this.node_base_info.node_online = true
+            break
+          }
+          case "node_offline": {
+            this.node_base_info.node_online = false
             break
           }
         }
@@ -191,6 +198,20 @@ export default {
 
   .v-card:not(:last-child) {
     margin-bottom: 25px;
+  }
+}
+@media screen and (max-width: 950px) {
+  .status {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    .left {
+      width: 100%;
+      margin-right: 0 !important;
+    }
+    .right {
+      width: 100%;
+    }
   }
 }
 </style>

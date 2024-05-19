@@ -73,8 +73,8 @@ export default {
         <permission-group-table :select="select" @update="(val)=>{select = val;console.log(val)}"/>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" @click="close()">取消</v-btn>
-        <v-btn color="success" @click="submit()">确定</v-btn>
+        <v-btn base-color="error" @click="close()">取消</v-btn>
+        <v-btn base-color="success" @click="submit()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

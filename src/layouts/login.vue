@@ -10,7 +10,7 @@
                             :rules="passwordRules" variant="solo-filled" clearable></v-text-field>
                     </div>
                     <div class="buttons">
-                        <v-btn id="login" type="submit" color="primary" @click="submit()">登录</v-btn>
+                        <v-btn id="login" type="submit" base-color="primary" @click="submit()">登录</v-btn>
                         <v-btn id="forgetPassword" @click="openHelpPage()">忘记密码</v-btn>
                     </div>
                 </v-form>

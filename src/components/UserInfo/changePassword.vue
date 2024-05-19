@@ -84,7 +84,7 @@ export default {
       </v-container>
     </v-card-text>
     <v-card-actions>
-      <v-btn block color="success" @click="changePassword()">保存修改</v-btn>
+      <v-btn block base-color="success" @click="changePassword()">保存修改</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -101,7 +101,7 @@ export default {
       <v-card-title>编辑权限组--{{ name }}</v-card-title>
       <v-card-text>
         <v-text-field type="text" label="权限组名" v-model="new_name"></v-text-field>
-        <v-switch label="是否启用" v-model="status" color="primary"></v-switch>
+        <v-switch label="是否启用" v-model="status" base-color="primary"></v-switch>
         <v-card class="pa-1">
           <v-card-title>请选择该组可使用的权限</v-card-title>
           <v-card-text>
@@ -110,8 +110,8 @@ export default {
         </v-card>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" @click="close()">取消</v-btn>
-        <v-btn color="success" @click="submit()">确定</v-btn>
+        <v-btn base-color="error" @click="close()">取消</v-btn>
+        <v-btn base-color="success" @click="submit()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

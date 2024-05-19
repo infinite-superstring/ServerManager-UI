@@ -54,7 +54,7 @@ export default {
               :rotate="360"
               :size="100"
               :width="15"
-              color="primary">
+              :color="usage_color(status_data.cpu_usage)">
               <template v-slot:default>
                 {{ status_data.cpu_usage }} %
               </template>

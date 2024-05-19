@@ -115,7 +115,7 @@ export default {
         <v-icon
           icon="mdi:mdi-clipboard-text-outline"
           size="small"
-          color="primary"
+          base-color="primary"
           title="复制到剪贴板"
           @click="copy_node_uuid()"/>
       </div>

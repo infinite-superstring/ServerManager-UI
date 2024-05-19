@@ -184,7 +184,7 @@ export default {
   <div class="toolsBar">
     <v-btn
       id="addUser"
-      color="success"
+      base-color="success"
       @click="newUser.flag = true">
       新增用户
     </v-btn>

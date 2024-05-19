@@ -20,7 +20,7 @@ export default {
   <div class="toolsBar">
     <v-btn
       id="addUser"
-      color="success"
+      base-color="success"
       @click="$emit('action:addNode')">
       添加节点
     </v-btn>

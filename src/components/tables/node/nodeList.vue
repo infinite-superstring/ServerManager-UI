@@ -10,7 +10,7 @@
         {{ item.name }}
         <div class="machine-action">
           <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
-          <v-btn variant="text" size="x-small" color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
+          <v-btn variant="text" size="x-small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
         </div>
       </v-card-title>
       <v-card-text>
@@ -24,7 +24,7 @@
         <div class="tags" v-if="item.tags.length > 0">
           <v-divider/>
           <v-chip
-            color="secondary"
+            base-color="secondary"
             v-for="tag in item.tags"
             :key="tag"
             @click="$emit('action:click_tag', tag)"
@@ -34,7 +34,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="#00B0FF" block @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'>
+        <v-btn base-color="#00B0FF" block @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'>
           进入控制页
         </v-btn>
       </v-card-actions>

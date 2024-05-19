@@ -58,25 +58,25 @@ export default {
       </v-window-item>
     </v-window>
     <div class="actionButton">
-      <v-btn @click="save()" color="green">保存设置</v-btn>
+      <v-btn @click="save()" base-color="green">保存设置</v-btn>
     </div>
   </div>
   <v-list>
     <v-list-subheader>设置项</v-list-subheader>
     <v-list-item
-      color="primary"
+      base-color="primary"
       value="baseSettings"
       @click="openWindow = 'Base_Settings'">
       基础设置
     </v-list-item>
     <v-list-item
-      color="primary"
+      base-color="primary"
       value="displaySettings"
       @click="openWindow = 'Node_Settings'">
       节点全局设置
     </v-list-item>
     <v-list-item
-      color="primary"
+      base-color="primary"
       value="GPIO_Settings"
       @click="openWindow = 'Message_Settings'">
       消息设置

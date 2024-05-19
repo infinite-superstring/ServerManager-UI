@@ -24,7 +24,7 @@ export default {
       text="该节点目前不在线，请检查节点客户端与控制器的网络连接"
     >
       <template v-slot:media>
-        <v-icon icon="mdi-alert-outline" color="#FFEE58"/>
+        <v-icon icon="mdi-alert-outline" base-color="#FFEE58"/>
       </template>
     </v-empty-state>
   </v-overlay>

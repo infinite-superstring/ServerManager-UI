@@ -65,4 +65,8 @@ export default {
 .v-tabs {
   margin-bottom: 15px;
 }
+.v-window, .v-window .v-window-item {
+  width: 100%;
+  height: 100%;
+}
 </style>
