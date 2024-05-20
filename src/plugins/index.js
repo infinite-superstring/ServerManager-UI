@@ -12,9 +12,15 @@ import {Vuetify3Dialog} from 'vuetify3-dialog'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import eventBus from 'vue3-eventbus'
+import Toast, { POSITION  } from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+
+const toast_options = {
+  position: POSITION.TOP_CENTER
+};
 
 export function registerPlugins (app) {
   app
@@ -28,4 +34,5 @@ export function registerPlugins (app) {
     })
     .use(pinia)
     .use(eventBus)
+    .use(Toast, toast_options)
 }

@@ -1,4 +1,9 @@
-// import Vue from '@/main'
+import Vue from '@/main'
+// import Vue from 'vue'
+
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 function showApiErrorMsg(el, message, status = null, close_delay = 3000) {
   /**
@@ -11,59 +16,28 @@ function showSuccess(el, message, close_delay = 3000) {
   /**
    * 显示成功信息
    */
-  // console.log(Vue)
-  return el.$notify.create({
-    text: message,
-    level: 'success',
-    location: 'top center',
-    'z_index': "2500",
-    notifyOptions: {
-      "close-delay": close_delay
-    }
-  })
+  toast.success(message, { timeout: close_delay })
 }
 
 function showInfo(el, message, close_delay = 3000) {
   /**
    * 显示信息
    */
-  return el.$notify.create({
-    text: message,
-    level: 'info',
-    location: 'top center',
-    'content-class': 'snackbars',
-    notifyOptions: {
-      "close-delay": close_delay
-    }
-  })
+  toast.info(message, { timeout: close_delay })
 }
 
 function showWarning(el, message, close_delay = 3000) {
   /**
    * 显示警告信息
    */
-  return el.$notify.create({
-    text: message,
-    level: 'warning',
-    location: 'top center',
-    notifyOptions: {
-      "close-delay": close_delay
-    }
-  })
+  toast.warning(message, { timeout: close_delay })
 }
 
 function showError(el, message, close_delay = 3000) {
   /**
    * 显示错误信息
    */
-  return el.$notify.create({
-    text: message,
-    level: 'error',
-    location: 'top center',
-    notifyOptions: {
-      "close-delay": close_delay
-    }
-  })
+  toast.error(message, { timeout: close_delay })
 }
 
 export default {

@@ -2,7 +2,7 @@ function formatBytes(bytes) {
   /**
    * 格式化字节数
    */
-  if (bytes === 0) return '0 字节';
+  if (bytes === 0) return '0 Bytes';
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
 

@@ -10,7 +10,7 @@ export default {
 <template>
   <v-card class="pageMain-card">
     <v-card-title>
-      <v-btn variant="text" @click="$router.go(-1)">
+      <v-btn variant="text" @click="this.$router.push({name: 'nodeList'})">
         <v-icon icon="mdi:mdi-arrow-left"></v-icon>
       </v-btn>
       节点控制

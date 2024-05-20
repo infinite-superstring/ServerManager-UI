@@ -4,6 +4,7 @@ import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
 import chartUtils from "@/scripts/utils/chartUtils";
+import format from "@/scripts/utils/format";
 // import * as echarts from 'echarts';
 // import echarts_styles from "@/scripts/option/echarts_styles"
 
@@ -69,21 +70,21 @@ export default {
       label: "CPU",
       data: [this.cpu_usage],
       fill: false,
-      tension: 0.1
+      tension: 0.4
     })
     for (const cpu_index in this.cpu_core_usage_data) {
       datasets.push({
         label: cpu_index,
         data: [this.cpu_core_usage_data[cpu_index]],
         fill: false,
-        tension: 0.1
+        tension: 0.4
       })
     }
     Chart.register(Colors, Zoom);
-    chart = new Chart(this.$refs.cpu_chart, {
+    chart = new Chart(this.$refs.chart, {
       type: 'line',
       options: {
-        // responsive: true,
+        responsive: true,
         interaction: {
           mode: 'index',
           intersect: true,
@@ -99,6 +100,27 @@ export default {
             min: 0,
             max: 100,
           }
+        },
+        plugins: {
+          tooltip: {
+            intersect: false,
+            callbacks: {
+              label: function (context) {
+                return context.dataset.label + ": " + context.parsed.y + "%"
+              }
+            }
+          },
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true
+              },
+              mode: 'x',
+            }
+          }
         }
       },
       data: {
@@ -112,6 +134,11 @@ export default {
       }
     })
     chartUtils.hideDatasets(chart, 0)
+  },
+  unmounted() {
+    chart.destroy()
+    datasets = []
+    labels = []
   },
   methods: {
     updateUsageData() {
@@ -164,7 +191,7 @@ export default {
 </script>
 
 <template>
-  <canvas id="cpu_chart" ref="cpu_chart" width="100%"></canvas>
+  <canvas id="cpu_chart" ref="chart" width="100%"></canvas>
 </template>
 
 <style scoped>

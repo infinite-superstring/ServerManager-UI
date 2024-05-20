@@ -1,10 +1,12 @@
 <script>
 import CpuWatch from "@/components/charts/node/cpuWatch.vue";
 import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
+import disk_io_watch from "@/components/charts/node/diskIO_Watch.vue";
+import MemoryWatch from "@/components/charts/node/memoryWatch.vue";
 
 export default {
   name: "nodeWatch",
-  components: {NodeOfflineOverlay, CpuWatch},
+  components: {MemoryWatch, disk_io_watch, NodeOfflineOverlay, CpuWatch},
   props: {
     status_data: {
       type: Object,
@@ -48,12 +50,24 @@ export default {
     <node-offline-overlay :flag="base_info.node_name && !base_info.node_online"/>
     <v-window v-model="tab" v-if="base_info.node_online">
       <v-window-item value="cpu">
-        <cpu-watch :cpu_usage="status_data.cpu_usage" :cpu_core_usage_data="status_data.cpu_core"
-                   :update_time="status_data.timestamp"/>
+        <cpu-watch
+          :cpu_usage="status_data.cpu_usage"
+          :cpu_core_usage_data="status_data.cpu_core"
+          :update_time="status_data.timestamp"
+        />
       </v-window-item>
       <v-window-item value="memory">
+        <memory-watch
+          :update_time="status_data.timestamp"
+          :max="base_info.node_system_info.memory_total"
+          :usage="status_data.memory"
+        />
       </v-window-item>
       <v-window-item value="disk_io">
+        <disk_io_watch
+          :usage_data="status_data.disk_io"
+          :update_time="status_data.timestamp"
+        />
       </v-window-item>
       <v-window-item value="network">
       </v-window-item>
