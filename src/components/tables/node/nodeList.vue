@@ -10,7 +10,8 @@
         {{ item.name }}
         <div class="machine-action">
           <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
-          <v-btn variant="text" size="x-small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
+          <v-btn variant="text" size="x-small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点
+          </v-btn>
         </div>
       </v-card-title>
       <v-card-text>
@@ -66,6 +67,7 @@ export default {
 
 .machine-list {
   max-width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -73,6 +75,8 @@ export default {
 
 .machine-item {
   width: 32%;
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 1000px) {
