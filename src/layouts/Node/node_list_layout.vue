@@ -67,8 +67,8 @@ export default {
   <node-list
     :nodeList="nodeListData"
     @action:click_tag="args => search = `tag:${args}`"
-    @action:del_node="args => node_manager.del_node(this, args)"
-    @action:reset_token=""
+    @action:del_node="args => node_manager.del_node(this, args) ? getNodeList() : null"
+    @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"
   />
   <div class="dialogs">
     <add-node
