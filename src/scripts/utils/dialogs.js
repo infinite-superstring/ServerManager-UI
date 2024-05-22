@@ -15,7 +15,7 @@ function confirm(title, text, level="info", buttons = null, cardOptions=null, di
       //any v-card api options
     },
     dialogOptions: dialogOptions ? dialogOptions : {
-      maxWidth: '300px'
+      maxWidth: '400px'
     }
   })
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
 
-function del_node(el, node_uuid) {
+function del_node(el, node_uuid, callback) {
   /**
    * 删除节点
    */
@@ -17,7 +17,7 @@ function del_node(el, node_uuid) {
           message.showApiErrorMsg(el, res.data.msg, apiStatus)
         } else {
           message.showSuccess(el, res.data.msg)
-          return true
+          return callback()
         }
       }).catch(err => {
         console.error(err)

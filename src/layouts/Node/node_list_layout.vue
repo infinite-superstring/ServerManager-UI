@@ -46,13 +46,15 @@ export default {
           this.maxPage = res.data.data.maxPage
           this.currentPage = res.data.data.currentPage
           this.nodeListData = res.data.data.PageContent
+          return true
         } else {
          message.error(res.data.msg)
         }
       }).catch(err=>{
-        console.log(err)
+        console.error(err)
         message.showApiErrorMsg(this, err.message)
       })
+      return false
     }
   }
 }
@@ -67,7 +69,7 @@ export default {
   <node-list
     :nodeList="nodeListData"
     @action:click_tag="args => search = `tag:${args}`"
-    @action:del_node="args => node_manager.del_node(this, args) ? getNodeList() : null"
+    @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
     @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"
   />
   <div class="dialogs">

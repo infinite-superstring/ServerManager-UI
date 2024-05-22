@@ -10,9 +10,11 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@xterm/xterm": "^5.5.0",
     "axios": "^1.6.1",
     "chart.js": "^4.4.2",
     "chartjs-adapter-moment": "^1.0.1",
+    "chartjs-plugin-zoom": "^2.0.1",
     "clipboard": "^2.0.11",
     "core-js": "^3.29.0",
     "cropperjs": "^1.6.1",

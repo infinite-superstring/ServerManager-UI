@@ -109,25 +109,6 @@ export default {
         </v-tooltip>
         <div class="chart-subtitle">负载</div>
       </div>
-      <!--      <div class="disk">-->
-      <!--        <v-tooltip location="top">-->
-      <!--          <p>可用：</p>-->
-      <!--          <p>已用：</p>-->
-      <!--          <template v-slot:activator="{ props }">-->
-      <!--            <v-progress-circular-->
-      <!--              v-bind="props"-->
-      <!--              :model-value="35"-->
-      <!--              :rotate="360"-->
-      <!--              :size="100"-->
-      <!--              :width="15"-->
-      <!--              color="primary">-->
-      <!--              <template v-slot:default> 35 %-->
-      <!--              </template>-->
-      <!--            </v-progress-circular>-->
-      <!--          </template>-->
-      <!--        </v-tooltip>-->
-      <!--        <div class="chart-subtitle">磁盘使用率</div>-->
-      <!--      </div>-->
     </div>
   </div>
 </template>

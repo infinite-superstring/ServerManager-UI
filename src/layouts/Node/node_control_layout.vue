@@ -5,6 +5,7 @@ import NodeWatch from "@/components/nodeControl/nodeWatch.vue";
 import node from "../../components/settings/node.vue";
 import message from "@/scripts/utils/message";
 import NodeInfo from "@/components/nodeControl/nodeInfo.vue";
+import NodeTerminal from "@/components/nodeControl/nodeTerminal.vue";
 
 export default {
   name: "node_control_layout",
@@ -13,7 +14,7 @@ export default {
       return node
     }
   },
-  components: {NodeInfo, NodeWatch, NodeStatus},
+  components: {NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
   data() {
     return {
       hash: location.hash.slice(1),
@@ -171,6 +172,7 @@ export default {
           </div>
         </v-window-item>
         <v-window-item value="Control">
+          <node-terminal :node_id="node_base_info.node_uuid"/>
         </v-window-item>
         <v-window-item value="Event">
         </v-window-item>
