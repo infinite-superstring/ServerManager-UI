@@ -7,10 +7,30 @@ let terminal
 
 export default {
   name: "nodeTerminal",
+  props: {
+    ws: {
+      type: Object,
+      required: true,
+    },
+    node_uuid: {
+      type: String,
+      required: true,
+    }
+  },
+  created() {
+    this.send({
+      action: 'connect_terminal'
+    })
+  },
   mounted() {
     terminal = new Terminal();
     terminal.open(this.$refs.terminal)
     terminal.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+  },
+  methods: {
+    send(data) {
+      this.ws.send(JSON.stringify(data))
+    }
   }
 }
 </script>

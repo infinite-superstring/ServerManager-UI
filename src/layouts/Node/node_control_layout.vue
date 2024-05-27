@@ -172,7 +172,7 @@ export default {
           </div>
         </v-window-item>
         <v-window-item value="Control">
-          <node-terminal :node_id="node_base_info.node_uuid"/>
+          <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket"/>
         </v-window-item>
         <v-window-item value="Event">
         </v-window-item>
