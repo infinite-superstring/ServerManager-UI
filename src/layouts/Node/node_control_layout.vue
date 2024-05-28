@@ -20,6 +20,7 @@ export default {
       hash: location.hash.slice(1),
       tab: null,
       websocket: null,
+      terminal_output: [],
       node_base_info: {
         node_description: null,
         node_hostname: null,
@@ -79,7 +80,6 @@ export default {
       /**
        * websocket 收到消息
        */
-      // console.log(event.data)
       let data = null
       try {
         data = JSON.parse(event.data)
@@ -134,6 +134,14 @@ export default {
         value="Status"
       ></v-tab>
       <v-tab
+        text="进程列表"
+        value="Process_list"
+      ></v-tab>
+      <v-tab
+        text="性能记录"
+        value="Performance_records"
+      ></v-tab>
+      <v-tab
         text="控制"
         value="Control"
       ></v-tab>
@@ -170,6 +178,10 @@ export default {
               </v-card>
             </div>
           </div>
+        </v-window-item>
+        <v-window-item value="Process_list">
+        </v-window-item>
+        <v-window-item value="Performance_records">
         </v-window-item>
         <v-window-item value="Control">
           <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket"/>

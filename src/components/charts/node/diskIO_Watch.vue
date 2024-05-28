@@ -4,6 +4,7 @@ import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
 import format from "@/scripts/utils/format"
+import chartUtils from "@/scripts/utils/chartUtils";
 
 let chart
 let labels = []
@@ -25,13 +26,13 @@ export default {
     labels.push(this.update_time)
     datasets.push({
       label: "write",
-      data: [this.usage_data['write']],
+      data: [],
       fill: false,
       tension: 0.4
     })
     datasets.push({
       label: "read",
-      data: [this.usage_data['read']],
+      data: [],
       fill: false,
       tension: 0.4
     })
@@ -119,6 +120,9 @@ export default {
   watch: {
     update_time(val) {
       this.updateUsageData()
+      const data = chartUtils.delOldDataAndLabel(datasets, labels, 30)
+      datasets = data.datasets
+      labels = data.labels
       chart.update()
     }
   }

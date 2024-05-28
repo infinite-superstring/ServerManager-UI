@@ -5,8 +5,6 @@ import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
 import chartUtils from "@/scripts/utils/chartUtils";
 import format from "@/scripts/utils/format";
-// import * as echarts from 'echarts';
-// import echarts_styles from "@/scripts/option/echarts_styles"
 
 let chart
 let labels = []
@@ -28,54 +26,18 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      // labels: [],
-      // tags: [],
-      // datasets: {},
-      // series: []
-    }
-  },
   mounted() {
-    // let series = []
-    // this.labels.push(this.update_time)
-    // chart = echarts.init(document.getElementById('cpu_chart'))
-    // chart.setOption(echarts_styles.getNodeStatusEChartsConfig())
-    // for (const cpu_index in this.cpu_core_usage_data) {
-    //   this.tags.push(cpu_index)
-    //   this.datasets[cpu_index] = [this.cpu_core_usage_data[cpu_index]]
-    //   series.push({
-    //     name: cpu_index,
-    //     type: 'line',
-    //     symbol: 'none',
-    //     sampling: 'lttb',
-    //     data: this.datasets[cpu_index]
-    //   })
-    // }
-    // chart.setOption({
-    //
-    //   legend: {
-    //     data: this.tags,
-    //   },
-    //   xAxis: {
-    //     type: 'category',
-    //     boundaryGap: false,
-    //     data: this.labels
-    //   },
-    //   series: series
-    // })
-    // chart.resize({width: 'auto', height: 400});
     labels.push(this.update_time)
     datasets.push({
       label: "CPU",
-      data: [this.cpu_usage],
+      data: [],
       fill: false,
       tension: 0.4
     })
     for (const cpu_index in this.cpu_core_usage_data) {
       datasets.push({
         label: cpu_index,
-        data: [this.cpu_core_usage_data[cpu_index]],
+        data: [],
         fill: false,
         tension: 0.4
       })
@@ -108,17 +70,6 @@ export default {
               label: function (context) {
                 return context.dataset.label + ": " + context.parsed.y + "%"
               }
-            }
-          },
-          zoom: {
-            zoom: {
-              wheel: {
-                enabled: true,
-              },
-              pinch: {
-                enabled: true
-              },
-              mode: 'x',
             }
           }
         }
@@ -159,30 +110,9 @@ export default {
   },
   watch: {
     update_time(val) {
-      // if (!chart) {
-      //   return
-      // }
-      // let temp = []
-      // this.labels.push(this.update_time)
-      // for (const cpu_index in val) {
-      //   this.datasets[cpu_index].push(val[cpu_index])
-      //   temp.push({
-      //     name: cpu_index,
-      //     type: 'line',
-      //     symbol: 'none',
-      //     sampling: 'lttb',
-      //     data: this.datasets[cpu_index]
-      //   })
-      // }
-      // chart.setOption({
-      //   xAxis: {
-      //     type: 'category',
-      //     boundaryGap: false,
-      //     max: 100,
-      //     data: this.labels
-      //   },
-      //   series: temp
-      // })
+      const data = chartUtils.delOldDataAndLabel(datasets, labels, 30)
+      datasets = data.datasets
+      labels = data.labels
       this.updateUsageData()
       chart.update()
     }

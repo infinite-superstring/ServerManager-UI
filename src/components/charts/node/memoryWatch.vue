@@ -5,6 +5,7 @@ import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
 import format from "@/scripts/utils/format"
 import calculate from "@/scripts/utils/calculate";
+import chartUtils from "@/scripts/utils/chartUtils";
 
 let chart
 let labels = []
@@ -27,11 +28,10 @@ export default {
     }
   },
   mounted() {
-    const that = this;
     labels.push(this.update_time)
     datasets.push({
       label: "内存使用率",
-      data: [calculate.calculate_percentage(this.usage, this.max)],
+      data: [],
       fill: false,
       tension: 0.4
     })
@@ -69,17 +69,6 @@ export default {
           legend: {
             display: false,
           },
-          zoom: {
-            zoom: {
-              wheel: {
-                enabled: true,
-              },
-              pinch: {
-                enabled: true
-              },
-              mode: 'x',
-            }
-          }
         }
       },
       data: {
@@ -116,6 +105,9 @@ export default {
   watch: {
     update_time(val) {
       this.updateUsageData()
+      const data = chartUtils.delOldDataAndLabel(datasets, labels, 30)
+      datasets = data.datasets
+      labels = data.labels
       chart.update()
     }
   }

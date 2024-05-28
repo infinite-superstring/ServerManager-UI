@@ -3,10 +3,11 @@ import CpuWatch from "@/components/charts/node/cpuWatch.vue";
 import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
 import disk_io_watch from "@/components/charts/node/diskIO_Watch.vue";
 import MemoryWatch from "@/components/charts/node/memoryWatch.vue";
+import Network_watch from "@/components/charts/node/networkWatch.vue";
 
 export default {
   name: "nodeWatch",
-  components: {MemoryWatch, disk_io_watch, NodeOfflineOverlay, CpuWatch},
+  components: {Network_watch, MemoryWatch, disk_io_watch, NodeOfflineOverlay, CpuWatch},
   props: {
     status_data: {
       type: Object,
@@ -70,6 +71,10 @@ export default {
         />
       </v-window-item>
       <v-window-item value="network">
+        <network_watch
+          :update_time="status_data.timestamp"
+          :usage_data="status_data.network_io"
+        />
       </v-window-item>
     </v-window>
   </v-sheet>
