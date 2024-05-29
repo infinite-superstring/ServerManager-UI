@@ -13,7 +13,6 @@ import aboutPage from "@/views/About.vue"
 import errorPage from "@/views/Error.vue"
 import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
-import Messages from "@/views/Messages.vue";
 
 
 const routes = [
@@ -77,15 +76,6 @@ const routes = [
     },
     meta: {
       title: "个人信息"
-    }
-  },
-    // 站内信
-  {
-    path: '/message',
-    name: "message",
-    components: {
-      default: Messages,
-      appBarBtn: appbar_default
     }
   },
   // 管理 - 用户管理
@@ -174,23 +164,21 @@ router.beforeEach((to, from, next) => {
 });
 
 let userStore
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   userStore = useUserStore()
-  const loginStatus = userStore.login_status()
-  console.log(loginStatus)
   if (to.meta.pass_login) {
-      next()
+      await next()
   } else {
-    if (loginStatus === true) {
-      next()
+    if (sessionStorage.getItem('loginStatus') === "true" && userStore.userName) {
+      await next()
     }
-    if (loginStatus instanceof Promise) {
-      console.log("Promise")
-      loginStatus.then(res => {
-        res ? next() : next("/login")
-      }).catch(() => next("/login"))
+    console.log(await userStore.login_status())
+    if (await userStore.login_status()) {
+      await next()
+    } else {
+      await next("/login")
     }
-    next("/login")
+
   }
 });
 
