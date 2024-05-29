@@ -12,6 +12,7 @@ import configPage from "@/views/admin/Config.vue"
 import aboutPage from "@/views/About.vue"
 import errorPage from "@/views/Error.vue"
 import appbar_default from "@/components/header/AppBar_Btn/default.vue"
+import {useUserStore} from "@/store/userInfo";
 
 
 const routes = [
@@ -20,6 +21,10 @@ const routes = [
     path: '/login',
     name: "login",
     component: login,
+    meta: {
+      title: "请登录",
+      pass_login: true
+    }
   },
   // 仪表板
   {
@@ -28,24 +33,33 @@ const routes = [
     components: {
       default: Dashboard,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "仪表盘"
     }
   },
-  // 机器列表
+  // 节点列表
   {
     path: '/node_manager/nodeList',
     name: "nodeList",
     components: {
       default: nodeList,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "节点列表"
     }
   },
-  // 节点控制（暂定名）
+  // 节点控制
   {
     path: '/node_manager/node',
     name: "nodeControl",
     components: {
       default: NodeControl,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "节点控制"
     }
   },
   // 网站可用性监控
@@ -59,6 +73,9 @@ const routes = [
     components: {
       default: UserInfo,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "个人信息"
     }
   },
   // 管理 - 用户管理
@@ -68,6 +85,10 @@ const routes = [
     components: {
       default: userManagementPage,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "用户管理",
+      permission: "manageUser"
     }
   },
   // 管理 - 权限管理
@@ -77,6 +98,10 @@ const routes = [
     components: {
       default: permissionManagementPage,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "权限管理",
+      permission: "managePermissionGroup"
     }
   },
   // 管理 - 审计与日志
@@ -86,15 +111,23 @@ const routes = [
     components: {
       default: auditAndLoggerPage,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "审计与日志",
+      permission: "viewAudit"
     }
   },
-  // 配置文件编辑
+  // 管理 - 设置
   {
     path: "/admin/settings",
     name: "settings",
     components: {
       default: configPage,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "设置",
+      permission: "changeSettings"
     }
   },
   // 关于
@@ -102,10 +135,20 @@ const routes = [
     path: "/about/",
     name: "about",
     component:aboutPage,
-    appBarBtn: appbar_default
+    appBarBtn: appbar_default,
+    meta: {
+      title: "关于"
+    }
   },
   // 错误
-  { path: '/error/:errorCode', component: errorPage },
+  {
+    path: '/error/:errorCode',
+    component: errorPage,
+    meta: {
+      title: "Error!",
+      pass_login: true
+    }
+  },
   { path: '/:pathMatch(.*)*', redirect: '/error/404' } // 重定向到404页
 ]
 
@@ -113,5 +156,40 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
+
+router.beforeEach((to, from, next) => {
+  const default_title = "LoongArch-ServerManager"
+  document.title = to.meta.title ? default_title + " —— " + to.meta.title : default_title
+  next();
+});
+
+let userStore
+router.beforeEach((to, from, next) => {
+  userStore = useUserStore()
+  const loginStatus = userStore.login_status()
+  console.log(loginStatus)
+  if (to.meta.pass_login) {
+      next()
+  } else {
+    if (loginStatus === true) {
+      next()
+    }
+    if (loginStatus instanceof Promise) {
+      console.log("Promise")
+      loginStatus.then(res => {
+        res ? next() : next("/login")
+      }).catch(() => next("/login"))
+    }
+    next("/login")
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.permission && !userStore.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
+      next("/error/403")
+  } else {
+    next()
+  }
+});
 
 export default router

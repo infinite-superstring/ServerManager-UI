@@ -46,22 +46,27 @@ export default {
     }),
     methods: {
         submit() {
-            axios.post("/api/auth/login", { "username": this.username, "password": this.password }).then(res => {
-                let data = res.data
-                switch (data.status) {
-                    case 1:
-                      useUserStore().getUserInfo().then(()=>{
-                        this.$router.push({name:"dashboard"})
-                      })
-                      break;
-                    default:
-                      message.showWarning(this, data.msg)
-                      break;
-                }
-            }).catch(err => {
-              console.error(err);
-              message.showApiErrorMsg(this, err.message)
+          useUserStore().login(this.username, this.password).then(() => {
+            useUserStore().getUserInfo().then(()=>{
+              this.$router.push({name: "dashboard"})
             })
+          })
+            // axios.post("/api/auth/login", { "username": this.username, "password": this.password }).then(res => {
+            //     let data = res.data
+            //     switch (data.status) {
+            //         case 1:
+            //           useUserStore().getUserInfo().then(()=>{
+            //             this.$router.push({name:"dashboard"})
+            //           })
+            //           break;
+            //         default:
+            //           message.showWarning(this, data.msg)
+            //           break;
+            //     }
+            // }).catch(err => {
+            //   console.error(err);
+            //   message.showApiErrorMsg(this, err.message)
+            // })
         },
         openHelpPage() {
             // TODO
