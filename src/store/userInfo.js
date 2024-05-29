@@ -41,7 +41,7 @@ export const useUserStore = defineStore('UserInfo', {
           const data = res.data
           switch (data.status) {
             case 1:
-              localStorage.setItem('loginStatus', "true");
+              sessionStorage.setItem('loginStatus', "true");
               resolve()
               break;
             default:
@@ -70,7 +70,7 @@ export const useUserStore = defineStore('UserInfo', {
           switch (data.status) {
             case 1:
               this.$reset()
-              localStorage.setItem('loginStatus', 'false');
+              sessionStorage.setItem('loginStatus', 'false');
               resolve()
               break;
             case 0:
@@ -85,32 +85,25 @@ export const useUserStore = defineStore('UserInfo', {
         })
       })
     },
-    login_status() {
+    async login_status() {
       /**
        * 验证用户登录状态
        * @return Boolean||Promise
        */
-      const Status = localStorage.getItem('loginStatus') ? JSON.parse(localStorage.getItem('loginStatus')) : null
-      console.log(Status)
-      if (Status === true) {
-        return true
-      } else if (Status === false) {
-        return false
-      }
-      return new Promise((resolve, reject) => {
-        axios.get('/api/auth/getUserLoginStatus').then(res => {
+      let status
+      await axios.get('/api/auth/getUserLoginStatus').then(res => {
         if (res.data.status !== 1) {
-          localStorage.setItem('loginStatus', "false");
-          resolve(false)
+          sessionStorage.setItem('loginStatus', "false");
+          status = false
         } else {
-          localStorage.setItem('loginStatus', "true");
-          resolve(false)
+          sessionStorage.setItem('loginStatus', "true");
+          status = true
         }
       }).catch(err => {
         console.error(err)
-        reject(err)
+        status = false
       })
-      })
+      return status
     },
     check_user_permission(permission) {
       /**
@@ -127,5 +120,6 @@ export const useUserStore = defineStore('UserInfo', {
       return this.permissions.includes(permission)
     }
   },
-  persist: true,
+  persist: true
 })
+
