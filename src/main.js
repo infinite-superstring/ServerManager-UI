@@ -19,4 +19,6 @@ registerPlugins(app)
 
 app.mount('#app')
 
+app.config.globalProperties.$default_title = "LoongArch-ServerManager"
+
 export default app

@@ -7,7 +7,7 @@ import message from "@/scripts/utils/message.js"
  */
 
 export default {
-  name: "List",
+  name: "GroupList",
   emits: [
     /**
      * 动作

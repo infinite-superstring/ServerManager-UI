@@ -10,40 +10,40 @@
 // );
 
 body {
-    //background-color: #101010;
-    //color: #fff;
+  //background-color: #101010;
+  //color: #fff;
 }
 
 .v-btn {
-    //color: #fff;
+  //color: #fff;
 }
 
 header {
-    //background-color: rgba(0, 0, 0, 0.4);
+  //background-color: rgba(0, 0, 0, 0.4);
 
-    strong {
-        padding: 5px 0;
-        font-size: 32px;
-    }
+  strong {
+    padding: 5px 0;
+    font-size: 32px;
+  }
 }
 
 .content {
-    width: 95%;
-    margin: 0 auto;
+  width: 95%;
+  margin: 0 auto;
 }
 
 a {
-    display: inline-block;
-    color: unset;
-    text-decoration: unset;
+  display: inline-block;
+  color: unset;
+  text-decoration: unset;
 }
 
 .pageMain-card {
-    height: 100%;
+  height: 100%;
 }
 
 .cropper-bg {
-    background-repeat: repeat
+  background-repeat: repeat
 }
 
 .v-divider {
@@ -51,21 +51,23 @@ a {
 }
 
 .setting_subtitle {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
+
 .toolsBar {
-    display: flex;
-    align-items: center;
-    .v-btn {
-        margin-right: 10px;
-    }
+  display: flex;
+  align-items: center;
+
+  .v-btn {
+    margin-right: 10px;
+  }
 }
 
 .action-btn {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .v-dialog {
-    z-index: 1900;
+  z-index: 1900;
 }

@@ -1,8 +1,8 @@
 <script>
-import UserList from "@/layouts/admin/users.vue";
+import UserList from "@/layouts/admin/user_manager_layout.vue";
 
 export default {
-name: "UserManager",
+name: "User_Manager",
   components: {UserList},
 }
 </script>

@@ -100,7 +100,7 @@ export const useUserStore = defineStore('UserInfo', {
           status = true
         }
       }).catch(err => {
-        console.error(err)
+        err.status !== 403 ? console.error(err) : null
         status = false
       })
       return status
@@ -111,7 +111,7 @@ export const useUserStore = defineStore('UserInfo', {
        * @param permission 权限名
        * @return boolean
        */
-      if (this.permissions.length <= 0) {
+      if (!this.permissions || this.permissions.length <= 0) {
         return false
       }
       if (this.permissions.includes("all")) {
