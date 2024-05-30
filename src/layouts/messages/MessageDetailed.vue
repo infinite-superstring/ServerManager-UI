@@ -16,7 +16,7 @@
 import {ref} from 'vue';
 import MessagesDrawers from '@/components/messages/Drawers.vue'
 import axion from '@/scripts/utils/axios.js'
-import deleteConfirm from '@/scripts/message/message.js'
+import confirmDialog from '@/scripts/confirmDialog.js'
 import message from "@/scripts/utils/message";
 
 const content = ref('')
@@ -36,10 +36,11 @@ const onSelect = (id) => {
 }
 
 const delMessage = () => {
-  deleteConfirm(this, '确定删除该消息吗？', '删除后无法找回', () => {
+  confirmDialog(this, '确定删除该消息吗？', '删除后无法找回', () => {
     axion.delete('/api/message/deleteById?id=' + currentId.value)
       .then((r) => {
         message.showSuccess(this, r.data.msg)
+        content.value = ''
         getList()
       })
   })
