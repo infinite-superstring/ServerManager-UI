@@ -60,7 +60,7 @@ export default {
         </template>
       </v-progress-linear>
       <br>
-      {{ partition.device === partition.mount_point ? `挂载点：${partition.mount_point}` : `设备：${partition.device} 挂载点：${partition.mount_point}` }} 文件系统：{{ partition.fs_type }} 总量：{{ format.formatBytes(partition.total) }} 可用：{{ format.formatBytes(partition.used) }}
+      {{ partition.device === partition.mount_point ? `挂载点：${partition.mount_point}` : `设备：${partition.device} 挂载点：${partition.mount_point}` }} 文件系统：{{ partition.fs_type }} 总量：{{ format.formatBytes(partition.total) }} 可用：{{ format.formatBytes(partition.total - partition.used) }}
     </v-list-item>
   </v-list>
 </template>

@@ -41,6 +41,7 @@ export default {
       type: 'line',
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index',
           intersect: true,
@@ -130,7 +131,9 @@ export default {
 </script>
 
 <template>
-  <canvas id="disk_io_chart" ref="chart" width="100%"></canvas>
+  <div class="chart-container">
+    <canvas id="disk_io_chart" ref="chart" width="100%"></canvas>
+  </div>
 </template>
 
 <style scoped>

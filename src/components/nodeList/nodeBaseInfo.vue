@@ -20,7 +20,7 @@ export default {
   methods: {
     async copy_node_uuid() {
       try {
-        const {toClipboard } = useClipboard()
+        const { toClipboard } = useClipboard()
         await toClipboard(this.uuid)
         message.showSuccess(this, "复制节点UUID成功", 1000)
       } catch (e) {

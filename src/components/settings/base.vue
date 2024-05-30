@@ -1,10 +1,25 @@
 <script>
+import useClipboard from "vue-clipboard3";
+import message from "@/scripts/utils/message";
+
 export default {
   name: "Base_Settings",
   props: {
     setting_data: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    async copy_server_uuid() {
+      try {
+        const {toClipboard } = useClipboard()
+        await toClipboard(this.setting_data.base.server_token)
+        message.showSuccess(this, "复制服务端UUID成功", 1000)
+      } catch (e) {
+        message.showError(this, "复制失败")
+        console.error(e)
+      }
     }
   }
 }
@@ -16,24 +31,25 @@ export default {
     <div class="text-caption">
       服务器Token
     </div>
-    <!-- TODO 样式问题 继承问题 -->
-    <v-text-field type="text" v-model="setting_data.base.server_token" disabled density="compact">
-      <template v-slot:append>
-        <v-btn icon>
-          <v-icon icon="mdi:mdi-refresh"/>
-        </v-btn>
-        <v-btn icon>
+    <div class="input-group">
+      <v-text-field
+        type="text"
+        v-model="setting_data.base.server_token"
+        disabled
+        density="compact"
+        single-line
+        hide-details
+      >
+      </v-text-field>
+      <div class="input-group-buttons">
+<!--        <v-btn icon>-->
+<!--          <v-icon icon="mdi:mdi-refresh"/>-->
+<!--        </v-btn>-->
+        <v-btn icon @click="copy_server_uuid()">
           <v-icon icon="mdi:mdi-clipboard-text-outline"/>
         </v-btn>
-      </template>
-    </v-text-field>
-
-  </div>
-  <div>
-    <div class="text-caption">
-      数据存储时间（天）
+      </div>
     </div>
-    <v-text-field type="number" v-model="setting_data.base.data_storage_time"></v-text-field>
   </div>
   <div>
     <div>

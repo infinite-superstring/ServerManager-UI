@@ -63,6 +63,19 @@ a {
   }
 }
 
+.input-group {
+  display: flex;
+  align-items: center;
+
+  .input-group-buttons {
+    margin-left: 10px;
+  }
+
+  .input-group-buttons > .v-btn:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
 .action-btn {
   display: flex;
   align-items: center;
@@ -70,4 +83,10 @@ a {
 
 .v-dialog {
   z-index: 1900;
+}
+
+.chart-container {
+  position: relative;
+  height:100%;
+  width:100%
 }

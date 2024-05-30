@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "message",
+  name: "message_settings",
   props: {
     setting_data: {
       type: Object,

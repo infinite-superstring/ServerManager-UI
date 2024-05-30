@@ -4,7 +4,6 @@ import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
 import Zoom from "chartjs-plugin-zoom";
 import chartUtils from "@/scripts/utils/chartUtils";
-import format from "@/scripts/utils/format";
 
 let chart
 let labels = []
@@ -47,6 +46,7 @@ export default {
       type: 'line',
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index',
           intersect: true,
@@ -85,6 +85,7 @@ export default {
       }
     })
     chartUtils.hideDatasets(chart, 0)
+    // window.addEventListener("resize", this.resizeScreen)
   },
   unmounted() {
     chart.destroy()
@@ -106,6 +107,11 @@ export default {
           }
         }
       }
+    },
+    resizeScreen() {
+      if (chart) {
+        chart.resize()
+      }
     }
   },
   watch: {
@@ -121,8 +127,11 @@ export default {
 </script>
 
 <template>
-  <canvas id="cpu_chart" ref="chart" width="100%"></canvas>
+  <div class="chart-container">
+    <canvas id="cpu_chart" ref="chart"></canvas>
+  </div>
 </template>
 
 <style scoped>
+
 </style>
