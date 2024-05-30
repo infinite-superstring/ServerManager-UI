@@ -8,12 +8,14 @@
           <v-btn @click="getUnread()">未读</v-btn>
           <v-tooltip text="已读所有消息">
             <template v-slot:activator="{ props }">
-              <v-btn icon="mdi-read" v-bind="props"/>
+              <v-btn v-bind="props">
+                全部已读
+              </v-btn>
             </template>
           </v-tooltip>
           <v-tooltip text="删除所有已读">
             <template v-slot:activator="{ props }">
-              <v-btn @click="confirmDialogDisplay = true" icon="mdi-trash-can" v-bind="props"/>
+              <v-btn @click="confirmDialog(this, '确认删除所有已读消息？', '删除后无法找回！', deleteAll)" icon="mdi-trash-can" v-bind="props"/>
             </template>
           </v-tooltip>
         </v-btn-group>
@@ -30,23 +32,16 @@
         @select="onSelect"/>
     </v-row>
   </v-navigation-drawer>
-  <ConfirmDialog
-    :state="confirmDialogDisplay"
-    content-center
-    title-center
-    title="警告"
-    content="确认删除所有已读信息？"
-    @confirm="deleteAll"
-    @close="closeDialog"
-  />
+
 </template>
 
 <script setup>
 import {ref, onMounted} from "vue";
 import MTable from "@/components/messages/MTable.vue";
 import axios from "@/scripts/utils/axios.js";
-import ConfirmDialog from "@/components/dialogs/ConfirmDialog.vue";
 import message from "@/scripts/utils/message";
+import bus from "vue3-eventbus";
+import confirmDialog from '@/scripts/message/message'
 
 /**
  * 注册事件
@@ -110,8 +105,8 @@ const getUnread = () => {
  */
 const deleteAll = () => {
   axios.delete('/api/message/deleteAll')
-    .then(() => {
-      message.showSuccess(this, '已删除')
+    .then((r) => {
+      message.showSuccess(this, r.data.msg)
       confirmDialogDisplay.value = false
       getList()
     })
@@ -134,13 +129,11 @@ const handlePageChange = (current) => {
   getList()
 }
 
-const closeDialog = () => {
-  confirmDialogDisplay.value = false
-  console.log(confirmDialogDisplay.value);
-}
-
 onMounted(() => {
   getList()
+  bus.on('to:Message', () => {
+    drawer.value = !drawer.value
+  })
 })
 
 

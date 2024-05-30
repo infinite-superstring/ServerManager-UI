@@ -37,6 +37,9 @@ const responseError = (err) => {
       window.location.href = '/login'
     }, 1000)
   }
+  if (err.response.status === 405) {
+    message.showApiErrorMsg(this, err.response.data.msg ? err.response.data.msg : '请求错误')
+  }
   if (err.response.status === 500) {
     // message.sho1wApiErrorMsg(this, err.response.data.msg ? err.response.data.msg : '服务器错误')
   }

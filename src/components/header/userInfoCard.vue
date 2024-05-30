@@ -29,6 +29,10 @@ export default {
       }).catch(err => {
         console.error(err)
       })
+    },
+    toMessage() {
+      bus.emit('to:Message')
+      this.$router.push({name: 'message'})
     }
   }
 }
@@ -58,7 +62,7 @@ export default {
         <v-icon icon="mdi-account-outline"/>
         个人信息
       </v-list-item>
-      <v-list-item>
+      <v-list-item @click="toMessage">
         <v-icon icon="mdi-bell-outline"/>
         消息中心
       </v-list-item>

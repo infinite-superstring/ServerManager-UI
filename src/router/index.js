@@ -14,7 +14,7 @@ import errorPage from "@/views/Error.vue"
 import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
 import vue from "@/main"
-
+import Message from '@/views/Messages.vue'
 
 const routes = [
   // 登录
@@ -77,6 +77,15 @@ const routes = [
     },
     meta: {
       title: "个人信息"
+    }
+  },
+  {
+    // 消息中心
+    path: "/message",
+    name:"message",
+    components: {
+      default: Message,
+      appBarBtn: appbar_default
     }
   },
   // 管理 - 用户管理
