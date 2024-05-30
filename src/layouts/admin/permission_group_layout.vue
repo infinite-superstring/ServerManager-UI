@@ -1,12 +1,12 @@
 <script>
-import group_list from "@/components/tables/permissionGroup/groupList"
+import group_list from "@/components/tables/permissionGroup/groupList.vue"
 import axios from "axios";
-import NewGroup from "@/components/dialogs/permissionGroup/newGroup";
+import NewGroup from "@/components/dialogs/permissionGroup/newGroup.vue";
 import EditGroupInfo from "@/components/dialogs/permissionGroup/editGroupInfo.vue";
 import EditGroupName from "@/components/dialogs/permissionGroup/editGroupName.vue";
 
 export default {
-  name: "PermissionGroup",
+  name: "permission_group_layout",
   components: {EditGroupName, EditGroupInfo, NewGroup, group_list},
   data: () => {
     return {

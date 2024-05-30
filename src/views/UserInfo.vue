@@ -1,6 +1,6 @@
 <script>
 
-import UserInfoEdit from "@/layouts/UserInfo/UserInfoEdit.vue";
+import UserInfoEdit from "@/layouts/UserInfo/user_info_edit_layout.vue";
 
 export default {
   name: "UserInfo",

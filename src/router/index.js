@@ -13,6 +13,7 @@ import aboutPage from "@/views/About.vue"
 import errorPage from "@/views/Error.vue"
 import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
+import vue from "@/main"
 
 
 const routes = [
@@ -158,7 +159,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const default_title = "LoongArch-ServerManager"
+  const default_title = vue.config.globalProperties.$default_title
   document.title = to.meta.title ? default_title + " —— " + to.meta.title : default_title
   next();
 });
@@ -178,7 +179,6 @@ router.beforeEach(async (to, from, next) => {
     } else {
       await next("/login")
     }
-
   }
 });
 

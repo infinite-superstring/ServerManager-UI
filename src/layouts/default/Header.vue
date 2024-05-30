@@ -4,7 +4,7 @@
       <v-icon icon="mdi-menu"/>
     </v-app-bar-nav-icon>
 
-    <v-app-bar-title>LoongArch-Server-Manager</v-app-bar-title>
+    <v-app-bar-title>{{ $default_title }}</v-app-bar-title>
     <template v-slot:append>
       <router-view name="appBarBtn"></router-view>
     </template>

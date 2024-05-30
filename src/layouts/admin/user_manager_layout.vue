@@ -11,7 +11,7 @@ import EditUsername from "@/components/dialogs/users/editUsername.vue";
 import ResetPassword from "@/components/dialogs/users/resetPassword.vue"
 
 export default {
-  name: "users",
+  name: "user_manager_layout",
   components: {EditUsername, EditRealName, EditEmail, NewUser, EditUserPermission, ResetPassword, userList},
   data() {
     return {

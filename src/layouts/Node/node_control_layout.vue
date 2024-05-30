@@ -6,6 +6,8 @@ import node from "../../components/settings/node.vue";
 import message from "@/scripts/utils/message";
 import NodeInfo from "@/components/nodeControl/nodeInfo.vue";
 import NodeTerminal from "@/components/nodeControl/nodeTerminal.vue";
+import ProcessList from "@/components/nodeControl/processList.vue";
+import DiskPartitionList from "@/components/nodeControl/diskPartitionList.vue";
 
 export default {
   name: "node_control_layout",
@@ -14,7 +16,7 @@ export default {
       return node
     }
   },
-  components: {NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
+  components: {DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
   data() {
     return {
       hash: location.hash.slice(1),
@@ -176,10 +178,16 @@ export default {
                   <node-info :node_base_info="node_base_info"/>
                 </v-card-text>
               </v-card>
+              <v-card subtitle="磁盘列表">
+                <v-card-text>
+                  <disk-partition-list :partition_list="usage_data.disk_space"/>
+                </v-card-text>
+              </v-card>
             </div>
           </div>
         </v-window-item>
         <v-window-item value="Process_list">
+          <process-list :ws="ws"/>
         </v-window-item>
         <v-window-item value="Performance_records">
         </v-window-item>

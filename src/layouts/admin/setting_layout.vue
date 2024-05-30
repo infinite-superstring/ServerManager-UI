@@ -7,7 +7,7 @@ import message from "@/scripts/utils/message.js"
 import axios from "axios";
 
 export default {
-  name: "Settings",
+  name: "setting_layout",
   components: {node_settings, message_settings, base_settings},
   data: () => {
     return {
