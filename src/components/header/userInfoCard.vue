@@ -85,7 +85,7 @@ export default {
   <!--    </template>-->
   <!--    <span class="username">{{ username }}</span>-->
   <!--  </v-btn>-->
-  <v-badge v-if="unread!==0" dot color="error">
+<!--  <v-badge v-if="unread!==0" dot color="error">-->
     <v-menu>
       <template v-slot:activator="{ props }">
         <v-btn
@@ -119,7 +119,7 @@ export default {
         </v-list-item>
       </v-list>
     </v-menu>
-  </v-badge>
+<!--  </v-badge>-->
 </template>
 
 <style scoped>
