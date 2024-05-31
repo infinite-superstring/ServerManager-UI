@@ -2,6 +2,7 @@
 import axios from "axios";
 import message from "@/scripts/utils/message";
 import {useUserStore} from "@/store/userInfo";
+import bus from "vue3-eventbus";
 
 export default {
   name: "logoutBtn",

@@ -155,6 +155,9 @@ onMounted(() => {
   bus.on('to:Message', () => {
     drawer.value = !drawer.value
   })
+  bus.on('update:Message', () => {
+    getList()
+  })
 })
 
 

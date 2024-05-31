@@ -12,7 +12,10 @@
           :class="{ 'active': activeId === item.id }">
         <td>
             <span class="title">
-              <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
+              <v-badge v-if="!item.read" color="error" dot>
+                <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
+              </v-badge>
+              <v-icon v-else :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               {{ item.title }}
             </span>
         </td>
