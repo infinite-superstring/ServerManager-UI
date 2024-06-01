@@ -15,6 +15,9 @@ import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
 import vue from "@/main"
 import Message from '@/views/Messages.vue'
+import GroupEdit from "@/views/Node/GroupEdit.vue";
+import ClusterTask from "@/views/Node/ClusterTask.vue";
+import ClusterExecution from "@/views/Node/ClusterExecution.vue";
 
 const routes = [
   // 登录
@@ -61,6 +64,39 @@ const routes = [
     },
     meta: {
       title: "节点控制"
+    }
+  },
+  {
+    path: '/node_manager/groupEdit',
+    name: "groupEdit",
+    components: {
+      default: GroupEdit,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "群组编辑"
+    }
+  },
+  {
+    path: '/node_manager/clusterTask',
+    name: "clusterTask",
+    components: {
+      default: ClusterTask,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "集群任务"
+    }
+  },
+  {
+    path: '/node_manager/clusterExecution',
+    name: "clusterExecution",
+    components: {
+      default: ClusterExecution,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "集群命令"
     }
   },
   // 网站可用性监控
