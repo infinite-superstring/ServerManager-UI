@@ -16,7 +16,6 @@
 import header_sidebar from "@/components/header/sidebar.vue";
 import UserInfoCard from "@/components/header/userInfoCard.vue";
 import LogoutBtn from "@/components/header/logout.vue";
-
 export default {
   components: {LogoutBtn, UserInfoCard, header_sidebar},
   data() {

@@ -12,18 +12,24 @@
           :class="{ 'active': activeId === item.id }">
         <td>
             <span class="title">
-              <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
+              <v-badge v-if="!item.read" color="error" dot>
+                <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
+              </v-badge>
+              <v-icon v-else :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               {{ item.title }}
             </span>
         </td>
         <td>
-          <span class="date">{{ item.createTime }}</span>
+          <span class="date">
+            {{ item.createTime }}
+          </span>
         </td>
       </tr>
       </tbody>
     </v-table>
     <div class="footer">
       <v-pagination
+        active-color="#1867C0FF"
         v-model="pageData.currentPage"
         v-if="pageData.maxPage>1"
         :length="pageData.maxPage"
@@ -44,12 +50,12 @@ const props = defineProps({
       return []
     }
   },
-  total:{
-    type:Number,
+  total: {
+    type: Number,
     default: 0
   },
-  currentPage:{
-    type:Number,
+  currentPage: {
+    type: Number,
     default: 1
   }
 })
@@ -71,10 +77,12 @@ const onClick = (id) => {
 watch(() => pageData.value.currentPage, (val) => {
   emit('pageChange', val)
 })
-watch(()=>props.total,(n,o)=>{
+watch(() => props.total, (n, o) => {
+  o
   pageData.value.maxPage = n
 })
-watch(() => props.currentPage,(n,o)=>{
+watch(() => props.currentPage, (n, o) => {
+  o
   pageData.value.currentPage = n
 })
 
@@ -122,12 +130,15 @@ watch(() => props.currentPage,(n,o)=>{
 
 .msg-row:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  /*transform: translateY(-2px);*/
 }
 
 
 .msg-row.active {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  transform: scale(0.9);
+  background-color: rgb(24, 103, 192, 0.3);
+  /*color: white;*/
+  /*background: rgba(0, 0, 0, 0.05);*/
+  /*transform: scale(0.9);*/
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-card title="消息中心" class="pageMain-card">
-    <v-card-text style="height: 80%;">
+    <v-card-text style="height: 100%;">
       <!--消息详细-->
       <MessageDetailed></MessageDetailed>
     </v-card-text>
