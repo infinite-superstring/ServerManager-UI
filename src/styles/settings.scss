@@ -58,7 +58,7 @@ a {
   display: flex;
   align-items: center;
 
-  .v-btn {
+  .v-btn:not(:last-child), .v-text-field:not(:last-child) {
     margin-right: 10px;
   }
 }
@@ -89,4 +89,9 @@ a {
   position: relative;
   height:100%;
   width:100%
+}
+
+.v-fab>div {
+  margin-right: 35px !important;
+  margin-bottom: 35px !important;
 }

@@ -1,10 +1,11 @@
 <script>
 import ToolsBar from "@/components/nodeList/toolsBar.vue";
-import nodeList from "@/components/tables/node/nodeList.vue";
+import nodeList from "@/components/nodeList/nodeList.vue";
 import addNode from "@/components/dialogs/node/addNode.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
 import node_manager from "@/scripts/node/node_manager";
+import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 
 export default {
   name: "node_list_layout",
@@ -22,7 +23,8 @@ export default {
       search: "",
       currentPage: 1,
       maxPage: null,
-      nodeListData: []
+      nodeListData: [],
+      displayMode: ""
     }
   },
   watch: {
@@ -35,6 +37,7 @@ export default {
   },
   mounted() {
     this.getNodeList()
+    this.displayMode = useWebsiteSettingStore().viewMode.nodeList
   },
   methods: {
     getNodeList(page = 1, search = "") {
@@ -64,10 +67,12 @@ export default {
   <tools-bar
     @action:addNode="add_node=true"
     @action:search="args => {search=args}"
+    @action:switch_display_mode = "args => {displayMode=args}"
     :search="search"
   />
   <node-list
     :nodeList="nodeListData"
+    :display-mode="displayMode"
     @action:click_tag="args => search = `tag:${args}`"
     @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
     @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"

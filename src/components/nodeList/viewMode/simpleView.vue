@@ -1,5 +1,20 @@
-<template>
+<script>
+import NodeBaseInfo from "@/components/nodeList/viewMode/simpleView/nodeBaseInfo.vue";
 
+export default {
+  name: "simpleView",
+  components: {NodeBaseInfo},
+  props: {
+    nodeList: {
+      type: Array,
+      required: true
+    }
+  },
+  emits: ['action:del_node', 'action:reset_token', 'action:click_tag'],
+}
+</script>
+
+<template>
   <v-container class="machine-list">
     <v-card
       class="machine-item"
@@ -10,8 +25,7 @@
         {{ item.name }}
         <div class="machine-action">
           <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
-          <v-btn variant="text" size="x-small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点
-          </v-btn>
+          <v-btn variant="text" size="x-small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
         </div>
       </v-card-title>
       <v-card-text>
@@ -43,23 +57,7 @@
   </v-container>
 </template>
 
-<script>
-import NodeBaseInfo from "@/components/nodeList/nodeBaseInfo.vue";
-
-export default {
-  name: 'NodeList',
-  components: {NodeBaseInfo},
-  props: {
-    nodeList: {
-      type: Array,
-      required: true
-    }
-  },
-  emits: ['action:del_node', 'action:reset_token', 'action:click_tag'],
-}
-</script>
-
-<style>
+<style scoped>
 .machine-name {
   display: flex;
   justify-content: space-between;

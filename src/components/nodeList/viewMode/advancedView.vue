@@ -1,0 +1,68 @@
+<script>
+
+export default {
+  name: "advancedView",
+  props: {
+    nodeList: {
+      type: Array,
+      required: true
+    }
+  },
+  emits: ['action:del_node', 'action:reset_token', 'action:click_tag'],
+  data: () => {
+    return {
+      select: []
+    }
+  }
+}
+</script>
+
+<template>
+  <v-table>
+    <thead>
+      <tr>
+        <th class="text-left">
+
+        </th>
+        <th class="text-left">
+          节点名
+        </th>
+        <th class="text-left">
+          节点组
+        </th>
+        <th class="text-left">
+          主机名
+        </th>
+        <th class="text-left">
+          操作系统类型
+        </th>
+        <th class="text-left">
+          操作
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="item in nodeList"
+        :key="item.uuid"
+      >
+        <td><v-checkbox :value="item.uuid" v-model="select" density="compact" hide-details></v-checkbox></td>
+        <td @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})' class="cursor-pointer">{{ item.name }}</td>
+        <td>{{ item.group ? item.group : "无" }}</td>
+        <td>{{ item.baseData ? item.baseData.hostname : "未知" }}</td>
+        <td>{{ item.baseData ? item.baseData.platform : "未知" }}</td>
+        <td class="action-btn">
+          <v-btn variant="text" size="small" >编辑节点</v-btn>
+          <v-btn variant="text" size="small" base-color="warning" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
+          <v-btn variant="text" size="small" base-color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
+  <v-fab color="primary" size="x-large" icon="mdi-chevron-up" app>
+  </v-fab>
+</template>
+
+<style scoped>
+
+</style>
