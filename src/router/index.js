@@ -15,7 +15,7 @@ import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
 import vue from "@/main"
 import Message from '@/views/Messages.vue'
-import GroupEdit from "@/views/Node/GroupEdit.vue";
+import nodeGroupEdit from "@/views/Node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/Node/ClusterTask.vue";
 import ClusterExecution from "@/views/Node/ClusterExecution.vue";
 
@@ -68,9 +68,9 @@ const routes = [
   },
   {
     path: '/node_manager/groupEdit',
-    name: "groupEdit",
+    name: "nodeGroupEdit",
     components: {
-      default: GroupEdit,
+      default: nodeGroupEdit,
       appBarBtn: appbar_default
     },
     meta: {

@@ -83,7 +83,7 @@ export default {
         </v-list-item>
         <v-list-item
           class="list_group_item"
-          :to="{name: 'groupEdit'}"
+          :to="{name: 'nodeGroupEdit'}"
           title="群组编辑"
           density="compact"
           prepend-icon="mdi:mdi-group">
