@@ -1,5 +1,5 @@
 <script>
-import Node_group_edit_layout from "@/layouts/Node/node_group_edit_layout.vue";
+import Node_group_edit_layout from "@/layouts/Node/node_group_layout.vue";
 
 export default {
   name: "GroupEdit",

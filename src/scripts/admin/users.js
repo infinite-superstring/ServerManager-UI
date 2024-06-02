@@ -1,5 +1,6 @@
 import axios from "axios";
 import message from "@/scripts/utils/message";
+import error from "@/views/Error.vue";
 
 function updateUserInfo(el, uid, data) {
   /**
@@ -29,7 +30,19 @@ function getUserInfo(el, uid) {
   })
 }
 
+function getUserList(el, search = "", page_index = 1, page_size = 20) {
+  return axios.post("/api/admin/userManager/getUserList", {
+    page: page_index,
+    pageSize: page_size,
+    search: search
+  }).catch(err=>{
+    console.error(err)
+    message.showApiErrorMsg(el, err.message)
+  })
+}
+
 export default {
   updateUserInfo,
   getUserInfo,
+  getUserList
 }
