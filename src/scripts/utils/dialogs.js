@@ -2,7 +2,6 @@ import Vue from "@/main";
 
 
 function confirm(title, text, level="info", buttons = null, cardOptions=null, dialogOptions=null) {
-  // console.log(Vue)
   return Vue.config.globalProperties.$dialog.create({
     title: title,
     text: text,

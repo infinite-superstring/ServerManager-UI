@@ -1,5 +1,5 @@
 <script>
-import TimeInput from "@/components/timeInput.vue";
+import TimeInput from "@/components/input/timeInput.vue";
 
 export default {
   name: "time_range_selection",

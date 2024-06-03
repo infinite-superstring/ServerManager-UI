@@ -36,7 +36,7 @@ const onSelect = (id) => {
 }
 
 const delMessage = () => {
-  confirmDialog(this, '确定删除该消息吗？', '删除后无法找回', () => {
+  confirmDialog('确定删除该消息吗？', '删除后无法找回', () => {
     axion.delete('/api/message/deleteById?id=' + currentId.value)
       .then((r) => {
         message.showSuccess(this, r.data.msg)

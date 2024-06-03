@@ -15,7 +15,7 @@
           </v-tooltip>
           <v-tooltip text="删除所有已读">
             <template v-slot:activator="{ props }">
-              <v-btn @click="confirmDialog(this, '确认删除所有已读消息？', '删除后无法找回！', deleteAll)"
+              <v-btn @click="confirmDialog('确认删除所有已读消息？', '删除后无法找回！', deleteAll)"
                      icon="mdi-trash-can" v-bind="props"/>
             </template>
           </v-tooltip>

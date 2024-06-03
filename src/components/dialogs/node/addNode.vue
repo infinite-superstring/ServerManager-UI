@@ -1,5 +1,5 @@
 <script>
-import InputTag from "@/components/inputTag.vue";
+import InputTag from "@/components/input/inputTag.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
 

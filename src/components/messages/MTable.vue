@@ -41,6 +41,7 @@
 
 <script setup>
 import {ref, watch} from 'vue';
+import bus from "vue3-eventbus";
 
 const activeId = ref()
 const props = defineProps({
@@ -77,12 +78,10 @@ const onClick = (id) => {
 watch(() => pageData.value.currentPage, (val) => {
   emit('pageChange', val)
 })
-watch(() => props.total, (n, o) => {
-  o
+watch(() => props.total, (n) => {
   pageData.value.maxPage = n
 })
-watch(() => props.currentPage, (n, o) => {
-  o
+watch(() => props.currentPage, (n) => {
   pageData.value.currentPage = n
 })
 

@@ -9,7 +9,6 @@ import EditEmail from "@/components/dialogs/users/editEmail.vue";
 import EditRealName from "@/components/dialogs/users/editRealName.vue";
 import EditUsername from "@/components/dialogs/users/editUsername.vue";
 import ResetPassword from "@/components/dialogs/users/resetPassword.vue"
-import bus from "vue3-eventbus";
 
 export default {
   name: "user_manager_layout",
@@ -168,9 +167,6 @@ export default {
   },
   mounted() {
     this.getUserList()
-    bus.on('update',()=>{
-      this.getUserList()
-    })
   },
   watch: {
     currentPage(val) {
@@ -203,7 +199,7 @@ export default {
       v-model="search">
     </v-text-field>
   </div>
-  <user-List :user-list="userList" @action="editUser"/>
+  <user-List :user-list="userList" @action="editUser" @update="getUserList()"/>
   <v-pagination
     v-model="currentPage"
     v-if="!maxPage <= 1"

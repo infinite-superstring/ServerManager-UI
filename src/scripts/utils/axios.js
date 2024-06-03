@@ -7,7 +7,6 @@ import axios from 'axios'
 import message from '@/scripts/utils/message.js';
 
 /*远程地址前缀*/
-const baseURL = '/api';
 const axiosplus = axios.create()
 
 

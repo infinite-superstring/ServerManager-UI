@@ -1,12 +1,13 @@
 <script>
 
-import TimeInput from "@/components/timeInput.vue";
-import Time_range_selection from "@/components/timeRangeSelection.vue";
-import SelectUser from "@/components/selectUser.vue";
+import TimeInput from "@/components/input/timeInput.vue";
+import Time_range_selection from "@/components/input/timeRangeSelection.vue";
+import SelectUser from "@/components/input/selectUser.vue";
+import SelectNode from "@/components/input/selectNode.vue";
 
 export default {
   name: "createGroup",
-  components: {SelectUser, Time_range_selection, TimeInput},
+  components: {SelectNode, SelectUser, Time_range_selection, TimeInput},
   props: {
     flag: {
       type: Boolean,
@@ -65,31 +66,16 @@ export default {
         </div>
         <div>
           <div class="text-caption">
+            选择节点
+          </div>
+          <select-node></select-node>
+        </div>
+        <div>
+          <div class="text-caption">
             时间范围
           </div>
           <time_range_selection/>
         </div>
-<!--        <v-card>-->
-<!--          <v-row-->
-<!--            align="center"-->
-<!--            justify="space-around"-->
-<!--          >-->
-<!--            <v-col style="width: 350px; flex: 0 1 auto;">-->
-<!--              <v-time-picker-->
-<!--                v-model="start"-->
-<!--                :max="end"-->
-<!--                title="开始时间"-->
-<!--              ></v-time-picker>-->
-<!--            </v-col>-->
-<!--            <v-col style="width: 350px; flex: 0 1 auto;">-->
-<!--              <v-time-picker-->
-<!--                v-model="end"-->
-<!--                :min="start"-->
-<!--                title="结束时间"-->
-<!--              ></v-time-picker>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--        </v-card>-->
       </v-card-text>
       <v-card-actions>
         <v-btn>确定</v-btn>

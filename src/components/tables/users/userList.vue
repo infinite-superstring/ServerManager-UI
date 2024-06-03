@@ -3,7 +3,6 @@ import axios from "@/scripts/utils/axios.js";
 import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
 import confirmDialog from '@/scripts/confirmDialog'
-import bus from "vue3-eventbus";
 
 export default {
   name: "userList",
@@ -19,30 +18,18 @@ export default {
       /**
        * 删除用户
        */
-      confirmDialog(this, "操作确认", "确定要删除这个用户吗", ()=>{
+      confirmDialog("操作确认", "确定要删除这个用户吗", ()=>{
         axios.post("/api/admin/userManager/delUser", {id:uid})
         .then(res=>{
-          message.showSuccess(this, res.data.msg)
           const status = res.data.status
-          bus.emit('update')
+          if (status === 1) {
+            this.$emit('update')
+            message.showSuccess(this, res.data.msg)
+          } else {
+            message.showError(this, res.data.msg)
+          }
         })
       })
-      // this.$dialog.confirm("操作确认", "确定要删除这个用户吗", 'warning', '否', '是')
-      // .then((anwser) => {
-      //   if (anwser) {
-      //     axios.post("/api/admin/userManager/delUser", {id:uid}).then(res=>{
-      //       const status = res.data.status
-      //       if (status !== 1) {
-      //         message.showApiErrorMsg(this, res.data.msg, status)
-      //       } else {
-      //         // this.getUserList("", this.maxPage)
-      //         this.$emit('update')
-      //       }
-      //     }).catch(err=>{
-      //       message.showApiErrorMsg(this, err.message)
-      //     })
-      //   }
-      // })
     },
     updateUserStatus(uid, status) {
       user.updateUserInfo(this, uid, {disable: status})
