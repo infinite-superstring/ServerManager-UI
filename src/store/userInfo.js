@@ -79,16 +79,21 @@ export const useUserStore = defineStore('UserInfo', {
               break
           }
         }).catch(err => {
-          console.error(err)
-          message.showApiErrorMsg(this, err.message)
-          reject(err)
+          if (err.response.status === 403) {
+            sessionStorage.setItem('loginStatus', "false");
+            this.$reset()
+          } else {
+            console.error(err)
+            message.showApiErrorMsg(this, err.message)
+            reject(err)
+          }
         })
       })
     },
     async login_status() {
       /**
        * 验证用户登录状态
-       * @return Boolean||Promise
+       * @return Boolean
        */
       let status
       await axios.get('/api/auth/getUserLoginStatus').then(res => {
@@ -100,7 +105,11 @@ export const useUserStore = defineStore('UserInfo', {
           status = true
         }
       }).catch(err => {
-        err.status !== 403 ? console.error(err) : null
+        if (err.response.status === 403) {
+          sessionStorage.setItem('loginStatus', "false");
+        } else {
+          console.error(err)
+        }
         status = false
       })
       return status

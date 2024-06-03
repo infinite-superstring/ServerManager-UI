@@ -218,7 +218,6 @@ router.beforeEach(async (to, from, next) => {
     if (sessionStorage.getItem('loginStatus') === "true" && userStore.userName) {
       await next()
     }
-    console.log(await userStore.login_status())
     if (await userStore.login_status()) {
       await next()
     } else {
