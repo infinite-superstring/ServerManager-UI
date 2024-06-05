@@ -1,0 +1,111 @@
+<script>
+import Time_range_selection from "@/components/input/timeRangeSelection.vue";
+import SelectUser from "@/components/input/selectUser.vue";
+import users from "@/scripts/admin/users";
+import dialogs from "@/scripts/utils/dialogs";
+import message from "@/scripts/utils/message";
+
+export default {
+  name: "message_recipient_rules",
+  computed: {
+    users() {
+      return users
+    }
+  },
+  props: {
+    rules: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {SelectUser, Time_range_selection},
+  data: () => {
+    return {
+    }
+  },
+  methods: {
+    addRule() {
+      if (this.rules.length < 10) {
+        this.rules.push({
+          users: [],
+          week: [],
+          start_time: "",
+          end_time: ""
+        })
+      } else {
+        message.showError(this, "每个组最多添加10个消息规则")
+      }
+    },
+    delRule() {
+      if (this.rules.length > 0) {
+        dialogs.confirm("删除规则", "您确定要删除最后一个规则吗", "warning").then(value => {
+          if (value) {
+            this.rules.pop()
+          }
+        })
+      } else {
+        message.showError(this, "没有可删除的规则")
+      }
+    }
+  }
+}
+</script>
+
+<template>
+  <v-card>
+    <v-card-text>
+      <v-card class="pa-3 rule" v-for="rule in rules" :key="rule">
+        <div>
+          <div class="text-caption">
+            消息接收人
+          </div>
+          <select-user :value="users" :multiple="true" @update:select_user="args => rule.users=args"></select-user>
+        </div>
+        <div>
+          <div class="text-caption">
+            在星期几接收信息
+          </div>
+          <v-select
+            label="请选择"
+            v-model="rule.week"
+            :items="[
+              {title: '星期一', value: 'monday'},
+              {title: '星期二', value: 'tuesday'},
+              {title: '星期三', value: 'wednesday'},
+              {title: '星期四', value: 'thursday'},
+              {title: '星期五', value: 'friday'},
+              {title: '星期六', value: 'saturday'},
+              {title: '星期日', value: 'sunday'},
+            ]"
+            multiple
+          ></v-select>
+        </div>
+        <div>
+          <div class="text-caption">
+            接收消息时间
+          </div>
+          <time_range_selection
+            @update:start_time="value => rule.start_time = value"
+            @update:end_time="value => rule.end_time=value"
+          />
+        </div>
+      </v-card>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" @click="addRule">
+        <v-icon icon="mdi:mdi-plus"/>
+        添加规则
+      </v-btn>
+      <v-btn color="error" @click="delRule">
+        <v-icon icon="mdi:mdi-plus"/>
+        删除规则
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<style scoped>
+.rule:not(:last-child) {
+  margin-bottom: 15px;
+}
+</style>

@@ -1,6 +1,7 @@
 <script>
 import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
+import objectUtils from "@/scripts/utils/objectUtils";
 
 export default {
   name: "selectUser",
@@ -11,8 +12,11 @@ export default {
       default: "选择用户"
     },
     value: {
-      type: String,
       required: false,
+    },
+    multiple: {
+      required: false,
+      default: false
     }
   },
   emits: ["update:select_user"],
@@ -24,12 +28,15 @@ export default {
     }
   },
   mounted() {
-    if (this.value) {
+    console.log(typeof this.value)
+    if (this.value && !(this.value instanceof Object)) {
       user.getUserInfo(this, this.value).then(res => {
         if (res.data.status === 1) {
           this.new_value = {id: res.data.data.id, userName: res.data.data.userName}
         }
       })
+    } else if (this.value instanceof Object && this.value.length > 0) {
+      this.new_value = this.value
     }
   },
   unmounted() {
@@ -41,12 +48,12 @@ export default {
       if (!val) {
         return
       }
-      user.getUserList(val).then(res=>{
+      user.getUserList(val).then(res => {
         if (res.data.status !== 1) {
           return message.showWarning(this, res.data.msg)
         }
         if (res.data.data.PageContent.length > 0) {
-          this.userListData = res.data.data.PageContent.map(({ id, userName }) => ({ id, userName }))
+          this.userListData = res.data.data.PageContent.map(({id, userName}) => ({id, userName}))
         } else {
           this.userListData = []
         }
@@ -55,8 +62,13 @@ export default {
   },
   watch: {
     new_value(val) {
-      if (val && val.id != this.value) {
+      console.log(val)
+      console.log(this.multiple)
+      if (val && val.id != this.value && !this.multiple) {
         this.$emit('update:select_user', val.id)
+      }
+      if (this.multiple) {
+        this.$emit('update:select_user', objectUtils.object_select_value_to_list(val, "id"))
       }
     }
   }
@@ -65,15 +77,17 @@ export default {
 
 <template>
   <v-autocomplete
-  :label="label"
-  v-model="new_value"
-  @update:search="value => search(value)"
-  :items="userListData"
-  item-title="userName"
-  item-value="id"
-  return-object
-  auto-select-first
-></v-autocomplete>
+    :label="label"
+    v-model="new_value"
+    @update:search="value => search(value)"
+    :items="userListData"
+    :multiple="multiple"
+    :chips="multiple"
+    item-title="userName"
+    item-value="id"
+    return-object
+    auto-select-first
+  ></v-autocomplete>
 </template>
 
 <style scoped>

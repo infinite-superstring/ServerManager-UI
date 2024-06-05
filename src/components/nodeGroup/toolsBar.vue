@@ -23,7 +23,7 @@ export default {
       id="searchUser"
       class="search"
       density="compact"
-      label="按节点组名搜索"
+      label="按组名搜索"
       variant="solo-filled"
       single-line
       hide-details
