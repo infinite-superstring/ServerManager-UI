@@ -19,7 +19,6 @@
 
 import SimpleView from "@/components/nodeList/viewMode/simpleView.vue";
 import AdvancedView from "@/components/nodeList/viewMode/advancedView.vue";
-import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 
 export default {
   name: 'NodeList',

@@ -202,7 +202,7 @@ export default {
   <user-List :user-list="userList" @action="editUser" @update="getUserList()"/>
   <v-pagination
     v-model="currentPage"
-    v-if="!maxPage <= 1"
+    v-if="maxPage > 1"
     :length="maxPage"
     :total-visible="6"
     prev-icon="mdi:mdi-menu-left"

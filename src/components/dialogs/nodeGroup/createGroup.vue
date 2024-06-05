@@ -1,7 +1,7 @@
 <script>
 import SelectUser from "@/components/input/selectUser.vue";
 import SelectNode from "@/components/input/selectNode.vue";
-import Message_recipient_rules from "@/components/nodeGroup/messageRecipientRules.vue";
+import Message_recipient_rules from "@/components/input/messageRecipientRules.vue";
 import message from "@/scripts/utils/message";
 import axios from "axios";
 

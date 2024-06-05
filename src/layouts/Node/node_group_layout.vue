@@ -2,7 +2,7 @@
 import ToolsBar from "@/components/nodeGroup/toolsBar.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
-import CreateGroup from "@/components/nodeGroup/createGroup.vue";
+import CreateGroup from "@/components/dialogs/nodeGroup/createGroup.vue";
 import Node_group_list from "@/components/nodeGroup/groupList.vue";
 
 export default {

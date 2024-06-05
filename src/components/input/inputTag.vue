@@ -40,13 +40,25 @@ export default {
 <template>
   <v-combobox
     clearable
-    chips
     multiple
     :label="label"
     v-model="chips"
     :items="items"
     @input="$event => {this.$emit('input', $event.target.value)}"
-  ></v-combobox>
+  >
+    <template v-slot:selection="data">
+      <v-chip
+        :key="data.item"
+        :model-value="data.selected"
+        size="small"
+        color="primary"
+        @click:close="chips.splice(data.index, 1)"
+        closable
+      >
+        {{ data.item.title }}
+      </v-chip>
+    </template>
+  </v-combobox>
 </template>
 
 <style scoped>

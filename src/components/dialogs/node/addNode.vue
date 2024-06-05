@@ -19,8 +19,12 @@ export default {
       description: null,
       tags: [],
       tag_items: [],
-      group: null
+      group: null,
+      groupListData: null
     }
+  },
+  mounted() {
+    this.load_node_group()
   },
   methods: {
     search_tag(tag_name) {
@@ -37,6 +41,29 @@ export default {
           return message.showApiErrorMsg(this, err.message)
         })
       }
+    },
+    load_node_group(search = "") {
+      axios.post('/api/node_manager/node_group/getGroupList', {
+        page: 1,
+        search: search
+      }).then((res) => {
+        if (res.data.status === 1) {
+          this.maxPage = res.data.data.maxPage
+          this.currentPage = res.data.data.currentPage
+          this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
+        } else {
+          message.error(res.data.msg)
+        }
+      }).catch(err => {
+        console.error(err)
+        message.showApiErrorMsg(this, err.message)
+      })
+    },
+    open_group_manager_page() {
+      let routeData = this.$router.resolve({
+        name: "nodeGroupEdit"
+      });
+      window.open(routeData.href, '_blank');
     },
     close() {
       this.nodeName = null
@@ -105,16 +132,20 @@ export default {
           <div class="text-caption">
             节点分组
           </div>
-          <v-select
-            :items="['默认组', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+          <v-autocomplete
+            @update:search="value => load_node_group(value)"
+            :items="groupListData"
+            item-title="group_name"
+            item-value="group_id"
             v-model="group"
+            auto-select-first
           >
             <template v-slot:append>
-              <v-btn icon variant="plain">
+              <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
                 <v-icon icon="mdi:mdi-plus"/>
               </v-btn>
             </template>
-          </v-select>
+          </v-autocomplete>
         </div>
         <div>
           <div class="text-caption">
