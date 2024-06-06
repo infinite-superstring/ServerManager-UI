@@ -4,7 +4,7 @@ import message from "@/scripts/utils/message.js"
 
 export default {
   name: "accessLog_table",
-  data:()=>{
+  data: () => {
     return {
       currentPage: 1,
       maxPage: null,
@@ -13,37 +13,44 @@ export default {
   },
   methods: {
     // 获取用户列表
-    getTable(page=1, pageSize=20) {
-      axios.post("/api/admin/auditAndLogger/accessLog",{
+    getTable(page = 1, pageSize = 20) {
+      axios.post("/api/admin/auditAndLogger/accessLog", {
         page: page,
         pageSize: pageSize,
-      }).then(res=>{
+      }).then(res => {
         const apiStatus = res.data.status
-          if (apiStatus === 1) {
-            const data = res.data.data
-            const PageContent = data.PageContent
-            this.table = []
-            this.maxPage = data.maxPage
-            this.currentPage = data.currentPage
-            for (const item of PageContent) {
-              console.log(item)
-              this.table.push({
-                id: item.id,
-                user: item.user,
-                time: item.time,
-                ip: item.ip,
-                module: item.module,
-              })
-            }
-          } else {
-            message.showApiErrorMsg(this, res.data.msg, apiStatus)
+        if (apiStatus === 1) {
+          const data = res.data.data
+          const PageContent = data.PageContent
+          this.table = []
+          this.maxPage = data.maxPage
+          this.currentPage = data.currentPage
+          for (const item of PageContent) {
+            console.log(item)
+            this.table.push({
+              id: item.id,
+              user: item.user,
+              time: item.time,
+              ip: item.ip,
+              module: item.module,
+            })
           }
-      }).catch(err=>{
+        } else {
+          message.showApiErrorMsg(this, res.data.msg, apiStatus)
+        }
+      }).catch(err => {
         console.error(err)
         message.showApiErrorMsg(this, err.message)
       })
     },
+    getTableData() {
+      // 按照时间降序排序 并返回
+      return this.table.sort((a, b) => {
+        return new Date(b.time) - new Date(a.time);
+      });
+    }
   },
+
   created() {
     this.getTable()
   },
@@ -75,7 +82,7 @@ export default {
     </thead>
     <tbody>
     <tr
-      v-for="item in table"
+      v-for="item in this.getTableData()"
       :key="item.id"
     >
       <td>{{ item.user }}</td>

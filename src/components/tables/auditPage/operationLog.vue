@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default {
   name: "operationLog_table",
-  data:()=>{
+  data: () => {
     return {
       currentPage: 1,
       maxPage: null,
@@ -12,9 +12,9 @@ export default {
   },
   methods: {
     // 显示APi错误
-    showApiErrorMsg(message, status=null) {
+    showApiErrorMsg(message, status = null) {
       this.$notify.create({
-        text: `API错误：${message} ${status ? '(status:'+status+')': ''}`,
+        text: `API错误：${message} ${status ? '(status:' + status + ')' : ''}`,
         level: 'error',
         location: 'bottom right',
         notifyOptions: {
@@ -23,36 +23,42 @@ export default {
       })
     },
     // 获取用户列表
-    getTable(page=1, pageSize=20) {
-      axios.post("/api/admin/auditAndLogger/audit",{
+    getTable(page = 1, pageSize = 20) {
+      axios.post("/api/admin/auditAndLogger/audit", {
         page: page,
         pageSize: pageSize,
-      }).then(res=>{
+      }).then(res => {
         const apiStatus = res.data.status
-          if (apiStatus === 1) {
-            const data = res.data.data
-            const PageContent = data.PageContent
-            this.table = []
-            this.maxPage = data.maxPage
-            this.currentPage = data.currentPage
-            for (const item of PageContent) {
-              this.table.push({
-                id: item.id,
-                user: item.user,
-                time: item.time,
-                action: item.action,
-                module: item.module,
-                content: item.content
-              })
-            }
-          } else {
-            this.showApiErrorMsg(res.data.msg,apiStatus)
+        if (apiStatus === 1) {
+          const data = res.data.data
+          const PageContent = data.PageContent
+          this.table = []
+          this.maxPage = data.maxPage
+          this.currentPage = data.currentPage
+          for (const item of PageContent) {
+            this.table.push({
+              id: item.id,
+              user: item.user,
+              time: item.time,
+              action: item.action,
+              module: item.module,
+              content: item.content
+            })
           }
-      }).catch(err=>{
+        } else {
+          this.showApiErrorMsg(res.data.msg, apiStatus)
+        }
+      }).catch(err => {
         console.error(err)
         this.showApiErrorMsg(err.message)
       })
     },
+    getTableData() {
+      // 按照时间降序排序 并返回
+      return this.table.sort((a, b) => {
+        return new Date(b.time) - new Date(a.time);
+      });
+    }
   },
   created() {
     this.getTable()
@@ -88,7 +94,7 @@ export default {
     </thead>
     <tbody>
     <tr
-      v-for="item in table"
+      v-for="item in getTableData()"
       :key="item.id"
     >
       <td>{{ item.user }}</td>

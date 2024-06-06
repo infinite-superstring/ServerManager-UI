@@ -52,6 +52,12 @@ export default {
         this.showApiErrorMsg(err.message)
       })
     },
+    getTableData(){
+      // 按照时间降序排序 并返回
+      return this.table.sort((a, b) => {
+        return new Date(b.time) - new Date(a.time);
+      });
+    }
   },
   created() {
     this.getTable()
@@ -84,7 +90,7 @@ export default {
     </thead>
     <tbody>
     <tr
-      v-for="item in table"
+      v-for="item in this.getTableData()"
       :key="item.id"
     >
       <td>{{ item.time }}</td>

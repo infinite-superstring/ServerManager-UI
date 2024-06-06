@@ -34,6 +34,7 @@ export default {
   unmounted() {
     this.ws.close()
     this.ws = null
+    this.reconnecting = true
   },
   methods: {
     getUserInfo() {
