@@ -1,9 +1,10 @@
 <script>
 import LoadingOverlay from "@/components/nodeControl/loadingOverlay.vue";
+import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
 
 export default {
   name: "processList",
-  components: {LoadingOverlay},
+  components: {NodeOfflineOverlay, LoadingOverlay},
   props: {
     ws: {
       type: WebSocket,
@@ -72,8 +73,10 @@ export default {
 </script>
 
 <template>
-  <loading-overlay :flag="process_list.length < 1"/>
-    <v-table density="compact" v-if="process_list.length > 1">
+  <v-sheet :min-height="300" width="100%">
+    <node-offline-overlay :flag="!online"/>
+    <loading-overlay :flag="process_list.length < 1 && online"/>
+    <v-table density="compact" v-if="process_list.length > 1 && online">
       <thead>
       <tr>
         <th class="text-left">
@@ -117,6 +120,7 @@ export default {
       </tr>
       </tbody>
     </v-table>
+  </v-sheet>
 </template>
 
 <style scoped>
