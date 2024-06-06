@@ -2,7 +2,7 @@
 import axios from "@/scripts/utils/axios.js";
 import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
-import confirmDialog from '@/scripts/confirmDialog'
+import confirmDialog from '@/scripts/utils/confirmDialog'
 
 export default {
   name: "userList",

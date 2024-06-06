@@ -2,6 +2,7 @@
 import InputTag from "@/components/input/inputTag.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
+import {debounce} from '@/scripts/utils/debounce.js'
 
 export default {
   name: "addNode",
@@ -20,6 +21,8 @@ export default {
       tags: [],
       tag_items: [],
       group: null,
+      /*搜索防抖*/
+      debounce_search_tag: debounce(this.search_tag, 500),
       groupListData: null
     }
   },
@@ -95,7 +98,7 @@ export default {
         return message.showApiErrorMsg(this, err.message)
       })
     }
-  }
+  },
 }
 </script>
 
@@ -125,7 +128,7 @@ export default {
             label=""
             :items="tag_items"
             @update:chips="args => {tags = args}"
-            @input="args => {search_tag(args)}"
+            @input="debounce_search_tag"
           />
         </div>
         <div>

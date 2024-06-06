@@ -16,7 +16,7 @@
 import {ref} from 'vue';
 import MessagesDrawers from '@/components/messages/Drawers.vue'
 import axion from '@/scripts/utils/axios.js'
-import confirmDialog from '@/scripts/confirmDialog.js'
+import confirmDialog from '@/scripts/utils/confirmDialog.js'
 import message from "@/scripts/utils/message";
 
 const content = ref('')

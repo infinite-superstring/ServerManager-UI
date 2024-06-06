@@ -42,7 +42,7 @@ import MTable from "@/components/messages/MTable.vue";
 import axios from "@/scripts/utils/axios.js";
 import message from "@/scripts/utils/message";
 import bus from "vue3-eventbus";
-import confirmDialog from '@/scripts/confirmDialog'
+import confirmDialog from '@/scripts/utils/confirmDialog'
 
 /**
  * 注册事件
