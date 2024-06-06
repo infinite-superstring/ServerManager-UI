@@ -22,7 +22,10 @@ export default {
     }
   },
   mounted() {
-    this.chips = this.tags
+    // if (this.tags) {
+    //   console.log(this.tags)
+    //   this.chips = this.tags
+    // }
   },
   methods: {
     remove(item) {
@@ -30,6 +33,11 @@ export default {
     },
   },
   watch: {
+    tags(val) {
+      if (val !== this.chips) {
+        this.chips = val
+      }
+    },
     chips(val) {
       this.$emit('update:chips', val)
     }

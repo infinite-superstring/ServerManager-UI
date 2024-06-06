@@ -6,6 +6,7 @@ import axios from "axios";
 import message from "@/scripts/utils/message";
 import node_manager from "@/scripts/node/node_manager";
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
+import EditNode from "@/components/dialogs/node/editNode.vue";
 
 export default {
   name: "node_list_layout",
@@ -14,11 +15,15 @@ export default {
       return node_manager
     }
   },
-  components: {ToolsBar, nodeList, addNode},
+  components: {EditNode, ToolsBar, nodeList, addNode},
   emits: ['show_token'],
   data() {
     return {
       add_node: false,
+      edit_node: {
+        flag: false,
+        uuid: null
+      },
       token_alert: false,
       search: "",
       currentPage: 1,
@@ -76,12 +81,19 @@ export default {
     @action:click_tag="args => search = `tag:${args}`"
     @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
     @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"
+    @action:edit="args => {edit_node.uuid = args; edit_node.flag = true}"
   />
   <div class="dialogs">
     <add-node
       :flag="add_node"
       @close="add_node = false"
       @success="args => {$emit('show_token', 'new_node', args); getNodeList()}"
+    />
+    <edit-node
+      :flag="edit_node.flag"
+      :uuid="edit_node.uuid"
+      @close="edit_node.flag = false; edit_node.uuid = null"
+      @success="getNodeList(currentPage, search)"
     />
   </div>
   <v-pagination

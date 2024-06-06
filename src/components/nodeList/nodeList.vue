@@ -12,6 +12,7 @@
     @action:reset_token="args => $emit('action:reset_token', args)"
     @action:del_node="args => $emit('action:del_node', args)"
     @action:click_tag="args => $emit('action:click_tag', args)"
+    @action:edit="args => $emit('action:edit', args)"
   />
 </template>
 
@@ -33,7 +34,7 @@ export default {
       required: true
     }
   },
-  emits: ['action:del_node', 'action:reset_token', 'action:click_tag']
+  emits: ['action:del_node', 'action:reset_token', 'action:edit', 'action:click_tag']
 }
 </script>
 
