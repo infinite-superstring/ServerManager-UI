@@ -1,6 +1,5 @@
 <script>
 import {Terminal} from "@xterm/xterm";
-import message from "@/scripts/utils/message";
 import {FitAddon} from "xterm-addon-fit/src/FitAddon";
 
 import("@xterm/xterm/css/xterm.css")

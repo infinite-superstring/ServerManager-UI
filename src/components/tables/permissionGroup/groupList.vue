@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import message from "@/scripts/utils/message.js"
+import dialogs from "@/scripts/utils/dialogs";
 
 /**
  * 权限组列表
@@ -32,9 +33,9 @@ export default {
       /**
        * 删除权限组
        */
-      this.$dialog.confirm("操作确认", "确定要删除这个组吗", 'warning', '否', '是')
-        .then((anwser) => {
-          if (anwser) {
+      dialogs.confirm("您确定要删除这个组吗", "该操作无法撤销，请谨慎操作", 'warning')
+        .then((value) => {
+          if (value) {
             axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
               const apiStatus = res.data.status
               if (apiStatus === 1) {
