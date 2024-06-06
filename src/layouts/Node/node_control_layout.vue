@@ -187,7 +187,7 @@ export default {
           </div>
         </v-window-item>
         <v-window-item value="Process_list">
-          <process-list :ws="ws"/>
+          <process-list :ws="websocket" :online="node_base_info.node_online"/>
         </v-window-item>
         <v-window-item value="Performance_records">
         </v-window-item>
