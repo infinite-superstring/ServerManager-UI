@@ -18,7 +18,41 @@ export default {
   data: () => {
     return {
       heartbeat_interval: null,
-      process_list: []
+      process_list: [],
+      headers: [
+        {
+          key: "pid",
+          title: "PID"
+        },
+        {
+          key: "name",
+          title: "进程名",
+        },
+        {
+          key: "status",
+          title: "状态",
+        },
+        {
+          key: "username",
+          title: "用户"
+        },
+        {
+          key: "cpu_percent",
+          title: "CPU占用率",
+          stock: false,
+        },
+        {
+          key: "memory_usage",
+          title: "内存占用率",
+          stock: false,
+        },
+        {
+          title: '操作',
+          key: 'actions',
+          sortable: false
+        },
+      ],
+      search: ""
     }
   },
   mounted() {
@@ -27,14 +61,15 @@ export default {
         console.log(message)
         let data = null
         try {
-          data = JSON.parse(event.data)
+          data = JSON.parse(message.data)
         } catch (e) {
           console.error(e)
           message.showError(this, `JSON数据解析失败：${e.message}`)
         }
         switch (data.action) {
           case "show_process_list":
-            this.process_list = data.data
+            this.process_list = data.data.process_list
+            console.log(this.process_list)
             break
         }
       }
@@ -75,51 +110,87 @@ export default {
 <template>
   <v-sheet :min-height="300" width="100%">
     <node-offline-overlay :flag="!online"/>
-    <loading-overlay :flag="process_list.length < 1 && online"/>
-    <v-table density="compact" v-if="process_list.length > 1 && online">
-      <thead>
-      <tr>
-        <th class="text-left">
-          PID
-        </th>
-        <th class="text-left">
-          进程名称
-        </th>
-        <th class="text-left">
-          状态
-        </th>
-        <th class="text-left">
-          用户
-        </th>
-        <th class="text-left">
-          CPU
-        </th>
-        <th class="text-left">
-          内存
-        </th>
-        <th class="text-left">
-          操作
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        v-for="item in [1,2,3,4,5,6,7,8,9,10]"
-        :key="item"
+    <!--    <loading-overlay :flag="process_list.length < 1 && online"/>-->
+    <div class="table" v-if="online">
+      <v-text-field
+        v-model="search"
+        label="搜索进程"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        hide-details
+        single-line
+      ></v-text-field>
+
+      <v-data-table
+        :headers="headers"
+        :items="process_list"
+        :search="search"
+        :loading="process_list.length < 1 && online"
+        loading-text="加载中，请稍后......"
       >
-        <td>0</td>
-        <td>System</td>
-        <td>running</td>
-        <td>root</td>
-        <td>10%</td>
-        <td>10%</td>
-        <td class="action-btn">
-          <v-btn size="small" color="warning" variant="text">结束进程</v-btn>
-          <v-btn size="small" color="red" variant="text">结束进程树</v-btn>
-        </td>
-      </tr>
-      </tbody>
-    </v-table>
+        <template v-slot:loading>
+          <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+        </template>
+
+        <template v-slot:item.status="{ value }">
+          <v-chip :color="value==='stopped'?'red':''">
+            {{ value }}
+          </v-chip>
+        </template>
+
+        <template v-slot:item.actions="{ item }">
+          <div class="action-btn">
+            <v-btn size="small" color="warning" variant="text" @click="console.log(item)">结束进程</v-btn>
+            <v-btn size="small" color="red" variant="text">结束进程树</v-btn>
+          </div>
+
+        </template>
+      </v-data-table>
+    </div>
+    <!--    <v-table density="compact" >-->
+    <!--      <thead>-->
+    <!--      <tr>-->
+    <!--        <th class="text-left">-->
+    <!--          PID-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          进程名称-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          状态-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          用户-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          CPU-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          内存-->
+    <!--        </th>-->
+    <!--        <th class="text-left">-->
+    <!--          操作-->
+    <!--        </th>-->
+    <!--      </tr>-->
+    <!--      </thead>-->
+    <!--      <tbody>-->
+    <!--      <tr-->
+    <!--        v-for="item in process_list"-->
+    <!--        :key="item.pid"-->
+    <!--      >-->
+    <!--        <td>{{ item.pid }}</td>-->
+    <!--        <td>{{ item.name }}</td>-->
+    <!--        <td>{{ item.status }}</td>-->
+    <!--        <td>{{ item.username }}</td>-->
+    <!--        <td>{{ item.cpu_percent }} %</td>-->
+    <!--        <td>{{ item.memory_usage }} %</td>-->
+    <!--        <td class="action-btn">-->
+    <!--          <v-btn size="small" color="warning" variant="text">结束进程</v-btn>-->
+    <!--          <v-btn size="small" color="red" variant="text">结束进程树</v-btn>-->
+    <!--        </td>-->
+    <!--      </tr>-->
+    <!--      </tbody>-->
+    <!--    </v-table>-->
   </v-sheet>
 </template>
 
