@@ -7,13 +7,13 @@ export default {
   props: {
     setting_data: {
       type: Object,
-      required: true
+      required: true,
     }
   },
   methods: {
     async copy_server_uuid() {
       try {
-        const {toClipboard } = useClipboard()
+        const {toClipboard} = useClipboard()
         await toClipboard(this.setting_data.base.server_token)
         message.showSuccess(this, "复制服务端UUID成功", 1000)
       } catch (e) {
@@ -42,9 +42,9 @@ export default {
       >
       </v-text-field>
       <div class="input-group-buttons">
-<!--        <v-btn icon>-->
-<!--          <v-icon icon="mdi:mdi-refresh"/>-->
-<!--        </v-btn>-->
+        <!--        <v-btn icon>-->
+        <!--          <v-icon icon="mdi:mdi-refresh"/>-->
+        <!--        </v-btn>-->
         <v-btn icon @click="copy_server_uuid()">
           <v-icon icon="mdi:mdi-clipboard-text-outline"/>
         </v-btn>
@@ -57,6 +57,18 @@ export default {
         Session到期时间(分)
       </div>
       <v-text-field type="number" v-model="setting_data.base.session_expiry"></v-text-field>
+    </div>
+    <div>
+      <div class="text-caption">
+        登录错误次数限制
+      </div>
+      <v-text-field type="number" v-model="setting_data.base.login_error_count"></v-text-field>
+    </div>
+    <div>
+      <div class="text-caption">
+        限制登陆时长(分)
+      </div>
+      <v-text-field type="number" v-model="setting_data.base.login_expiry"></v-text-field>
     </div>
     <v-divider></v-divider>
     <p class="text-h5 setting_subtitle">日志设置</p>

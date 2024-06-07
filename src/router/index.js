@@ -18,7 +18,7 @@ import Message from '@/views/Messages.vue'
 import nodeGroupEdit from "@/views/Node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/Node/ClusterTask.vue";
 import ClusterExecution from "@/views/Node/ClusterExecution.vue";
-
+import PatrolPage from '@/views/Patrol.vue'
 const routes = [
   // 登录
   {
@@ -184,6 +184,15 @@ const routes = [
     appBarBtn: appbar_default,
     meta: {
       title: "关于"
+    }
+  },
+  {
+    path:'/patrol/',
+    name: "patrol",
+    component: PatrolPage,
+    appBarBtn: appbar_default,
+    meta: {
+      title: "巡检"
     }
   },
   // 错误
