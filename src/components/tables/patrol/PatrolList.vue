@@ -1,43 +1,56 @@
 <script setup>
 const props = defineProps({
-
+  list: {
+    type: Array,
+    default: () => []
+  },
 })
 </script>
 
 <template>
-<v-table>
-  <thead>
+  <v-table>
+    <thead>
     <tr>
       <th class="text-left">
-        UID
+        用户
       </th>
       <th class="text-left">
-        用户名
+        时间
       </th>
       <th class="text-left">
-        真实姓名
+        图片
       </th>
       <th class="text-left">
-        邮箱
+        内容
       </th>
       <th class="text-left">
-        权限
-      </th>
-      <th class="text-left">
-        启用
-      </th>
-      <th class="text-left">
-        创建时间
-      </th>
-      <th class="text-left">
-        上次登录时间
+        状态
       </th>
       <th class="text-left">
         操作
       </th>
     </tr>
     </thead>
-</v-table>
+    <tbody>
+    <tr v-for="item in list" :key="item.id">
+      <td class="text-left">
+        {{ item.user }}
+      </td>
+      <td class="text-left">
+        {{ item.time }}
+      </td>
+      <td class="text-left">
+        <v-img :src="item.image" width="100px" height="100px"/>
+      </td>
+      <td class="text-left">
+        {{ item.content }}
+      </td>
+      <td class="text-left">
+        {{ item.status }}
+      </td>
+    </tr>
+    </tbody>
+  </v-table>
 </template>
 
 <style scoped>

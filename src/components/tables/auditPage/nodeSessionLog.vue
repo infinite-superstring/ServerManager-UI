@@ -2,9 +2,7 @@
   <v-table density="compact">
     <thead>
     <tr>
-      <th class="text-left">
-        用户
-      </th>
+
       <th class="text-left">
         节点
       </th>
@@ -25,7 +23,6 @@
       v-for="item in tableData"
       :key="item.id"
     >
-      <td>{{ item.user }}</td>
       <td>{{ item.name }}</td>
       <td>{{ item.time }}</td>
       <td>
