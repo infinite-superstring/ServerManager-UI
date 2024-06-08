@@ -44,6 +44,7 @@ export default {
         <v-col>
           <v-card title="执行结果">
             <v-card-text height="600px">
+              <v-select label="节点"></v-select>
               <v-sheet width="100%">
                 <div id="terminal" ref="terminal"></div>
               </v-sheet>

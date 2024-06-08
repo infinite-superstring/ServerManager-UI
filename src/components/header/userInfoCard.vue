@@ -115,13 +115,6 @@ export default {
 </script>
 
 <template>
-  <!--  <v-btn class="userInfoCard pa-2" size="auto" @click="this.$router.push({name: 'userInfo'})">-->
-  <!--    <template v-slot:prepend>-->
-  <!--      <v-avatar :image="avatar"></v-avatar>-->
-  <!--    </template>-->
-  <!--    <span class="username">{{ username }}</span>-->
-  <!--  </v-btn>-->
-  <!--  <v-badge v-if="unread!==0" dot color="error">-->
   <v-menu>
     <template v-slot:activator="{ props }">
       <v-btn
@@ -142,20 +135,9 @@ export default {
       <v-list-item @click="toMessage">
         <v-icon icon="mdi-bell-outline"/>
         消息中心
-        <!--                  <template v-slot:append>-->
-        <!--                    <v-badge-->
-        <!--                      v-if="unread > 0"-->
-        <!--                      :content="unread"-->
-        <!--                      :value="unread > 0"-->
-        <!--                      color="error"-->
-        <!--                      overlap-->
-        <!--                      dot-->
-        <!--                    />-->
-        <!--                  </template>-->
       </v-list-item>
     </v-list>
   </v-menu>
-  <!--  </v-badge>-->
 </template>
 
 <style scoped>
