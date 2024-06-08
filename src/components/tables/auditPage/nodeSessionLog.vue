@@ -26,7 +26,7 @@
       <td>{{ item.name }}</td>
       <td>{{ item.time }}</td>
       <td>
-        <v-chip color="primary" v-if="item.action === '连接'">
+        <v-chip color="primary" v-if="item.action === '上线'">
           {{ item.action }}
         </v-chip>
         <v-chip color="error" v-else>
