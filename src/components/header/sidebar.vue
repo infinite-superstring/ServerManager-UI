@@ -116,8 +116,8 @@ export default {
                    v-if="UserStore.check_user_permission('changeSettings')"></v-list-item>
       <v-divider/>
       <v-list-item subtitle="浏览" v-if="!display"></v-list-item>
-      <v-list-item :to="{name: 'about'}" title="关于" prepend-icon="mdi:mdi-copyright"></v-list-item>
       <v-list-item :to="{name: 'patrol'}" title="巡检" prepend-icon="mdi-application-edit-outline"></v-list-item>
+      <v-list-item :to="{name: 'about'}" title="关于" prepend-icon="mdi:mdi-copyright"></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
