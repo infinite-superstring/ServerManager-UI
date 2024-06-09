@@ -8,6 +8,7 @@ import NodeInfo from "@/components/nodeControl/nodeInfo.vue";
 import NodeTerminal from "@/components/nodeControl/nodeTerminal.vue";
 import ProcessList from "@/components/nodeControl/processList.vue";
 import DiskPartitionList from "@/components/nodeControl/diskPartitionList.vue";
+import NodePerformanceRecord from "@/components/nodeControl/nodePerformanceRecord.vue";
 
 export default {
   name: "node_control_layout",
@@ -16,7 +17,7 @@ export default {
       return node
     }
   },
-  components: {DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
+  components: {NodePerformanceRecord, DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
   data() {
     return {
       hash: location.hash.slice(1),
@@ -70,7 +71,7 @@ export default {
       /**
        * websocket 连接关闭
        */
-      console.log(event.code)
+      console.warn(event.code)
     },
     error_websocket(event) {
       /**
@@ -115,14 +116,6 @@ export default {
 
     }
   },
-  // watch: {
-  //   hash(val) {
-  //     console.log(val)
-  //     if (!val && val.length <= 0) {
-  //       this.$router.push({name: 'nodeList'})
-  //     }
-  //   }
-  // }
 }
 </script>
 
@@ -190,6 +183,7 @@ export default {
           <process-list :ws="websocket" :online="node_base_info.node_online"/>
         </v-window-item>
         <v-window-item value="Performance_records">
+          <node-performance-record :ws="websocket"/>
         </v-window-item>
         <v-window-item value="Control">
           <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket"/>

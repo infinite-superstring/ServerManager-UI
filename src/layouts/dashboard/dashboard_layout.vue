@@ -66,6 +66,8 @@ export default {
 .dashboard_subtitle {
   font-size: 14px;
   color: #707070;
+  padding-left: 5px;
+  border-left: #0288D1 5px solid;
 }
 .dashboard_card:not(:last-child) {
   margin-bottom: 10px;
