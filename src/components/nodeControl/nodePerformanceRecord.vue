@@ -5,10 +5,17 @@ import calculate from "@/scripts/utils/calculate";
 import disk_io_performance_record from "@/components/charts/node/performance_record/disk_io_performance_record.vue";
 import loadavg_performance_record from "@/components/charts/node/performance_record/loadavg_performance_record.vue";
 import format from "@/scripts/utils/format";
+import network_performance_record from "@/components/charts/node/performance_record/network_performance_record.vue";
 
 export default {
   name: "nodePerformanceRecord",
-  components: {loadavg_performance_record, disk_io_performance_record, memory_performance_record, cpu_performance_record},
+  components: {
+    network_performance_record,
+    loadavg_performance_record,
+    disk_io_performance_record,
+    memory_performance_record,
+    cpu_performance_record
+  },
   props: {
     ws: {
       type: WebSocket,
@@ -18,6 +25,8 @@ export default {
   data() {
     return {
       pre: false,
+      select_network_port: "_all",
+      network_port_list: [],
       cpu: {
         start_time: "",
         end_time: "",
@@ -40,6 +49,7 @@ export default {
       network: {
         start_time: "",
         end_time: "",
+        source_data: [],
         labels: [],
         datasets: []
       },
@@ -147,13 +157,13 @@ export default {
       if (data.device === "_all" || data.device === "network") {
         this.network.start_time = data.start_time
         this.network.end_time = data.end_time
-        this.network.time_line = []
-        this.network.usage_data = []
-        for (let i = 0; i < usage_data.length; i++) {
-          const item = usage_data[i]
-          this.network.time_line.push(item.timestamp)
-          this.network.usage_data.push(item.network_usage)
+        this.network_port_list = []
+        for (let i = 0; i < usage_data[0].network_usage.length; i++) {
+          this.network_port_list.push(usage_data[0].network_usage[i].name)
         }
+        this.network.labels = usage_data.map(entry => entry.timestamp);
+        this.network.source_data = usage_data.map(entry => entry.network_usage)
+        this.load_network_port_data()
       }
       if (data.device === "_all" || data.device === "loadavg") {
         this.loadavg.start_time = data.start_time
@@ -187,9 +197,37 @@ export default {
       console.log(this.network)
       console.log(this.loadavg)
       this.pre = true
+    },
+    load_network_port_data() {
+      const network_port_data = this.network.source_data.map(entry => {
+        const allInterface = entry.find(item => item.name === this.select_network_port);
+        return {
+          bytes_sent: allInterface.bytes_sent,
+          bytes_recv: allInterface.bytes_recv
+        };
+      });
+      this.network.datasets = [
+        {
+          label: "发送",
+          data: network_port_data.map(item => item.bytes_sent),
+          fill: true,
+          pointRadius: 0,
+          tension: 0.1
+        },
+        {
+          label: "接收",
+          data: network_port_data.map(item => item.bytes_recv),
+          fill: true,
+          pointRadius: 0,
+          tension: 0.1
+        }
+      ]
     }
   },
-  // watch: {
+  watch: {
+    select_network_port(val) {
+      this.load_network_port_data()
+    }
   //   "cpu.start_time"(val) {
   //     if (this.pre && val != this.cpu.start_time_time) {
   //       this.send({
@@ -254,7 +292,7 @@ export default {
   //
   //     }
   //   }
-  // }
+  }
 }
 </script>
 
@@ -294,7 +332,10 @@ export default {
         </v-card-title>
         <v-card-text>
           <v-sheet height="300px">
-            <cpu_performance_record :datasets="cpu.datasets" :labels="cpu.labels"/>
+            <cpu_performance_record
+              :datasets="cpu.datasets"
+              :labels="cpu.labels"
+            />
           </v-sheet>
         </v-card-text>
       </v-card>
@@ -311,8 +352,11 @@ export default {
         </v-card-title>
         <v-card-text>
           <v-sheet height="300px">
-            <memory_performance_record :labels="memory.labels" :datasets="memory.datasets"
-                                       :source_data="memory.source_data"/>
+            <memory_performance_record
+              :labels="memory.labels"
+              :datasets="memory.datasets"
+              :source_data="memory.source_data"
+            />
           </v-sheet>
         </v-card-text>
       </v-card>
@@ -349,15 +393,17 @@ export default {
               :close-on-content-click="false"
             >
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" variant="text" color="primary" size="small">All</v-btn>
+                <v-btn v-bind="props" variant="text" color="primary" size="small">
+                  {{ select_network_port }}
+                </v-btn>
               </template>
-                <v-select
-                width="180px"
+              <v-select
+                width="250px"
                 label="网卡"
-                :items="['a','b','c']">
-              </v-select>
+                :items="network_port_list"
+                v-model="select_network_port"
+              ></v-select>
             </v-menu>
-
           </p>
           <div class="">
             <input type="datetime-local" v-model="network.start_time">
@@ -367,6 +413,10 @@ export default {
         </v-card-title>
         <v-card-text>
           <v-sheet height="300px">
+            <network_performance_record
+              :labels="network.labels"
+              :datasets="network.datasets"
+            />
           </v-sheet>
         </v-card-text>
       </v-card>
