@@ -1,9 +1,9 @@
 <script>
-import CpuWatch from "@/components/charts/node/cpuWatch.vue";
+import CpuWatch from "@/components/charts/node/watch/cpuWatch.vue";
 import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
-import disk_io_watch from "@/components/charts/node/diskIO_Watch.vue";
-import MemoryWatch from "@/components/charts/node/memoryWatch.vue";
-import Network_watch from "@/components/charts/node/networkWatch.vue";
+import disk_io_watch from "@/components/charts/node/watch/diskIO_Watch.vue";
+import MemoryWatch from "@/components/charts/node/watch/memoryWatch.vue";
+import Network_watch from "@/components/charts/node/watch/networkWatch.vue";
 
 export default {
   name: "nodeWatch",
