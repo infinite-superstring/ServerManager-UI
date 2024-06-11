@@ -2,7 +2,6 @@
 import Chart from 'chart.js/auto';
 import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
-import Zoom from "chartjs-plugin-zoom";
 import chartUtils from "@/scripts/utils/chartUtils";
 
 let chart
@@ -41,7 +40,7 @@ export default {
         tension: 0.4
       })
     }
-    Chart.register(Colors, Zoom);
+    Chart.register(Colors);
     chart = new Chart(this.$refs.chart, {
       type: 'line',
       options: {
@@ -85,7 +84,6 @@ export default {
       }
     })
     chartUtils.hideDatasets(chart, 0)
-    // window.addEventListener("resize", this.resizeScreen)
   },
   unmounted() {
     chart.destroy()
@@ -106,11 +104,6 @@ export default {
             break
           }
         }
-      }
-    },
-    resizeScreen() {
-      if (chart) {
-        chart.resize()
       }
     }
   },
