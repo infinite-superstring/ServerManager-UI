@@ -33,7 +33,7 @@ const responseError = (err) => {
   if (err.response.status === 403) {
     message.showApiErrorMsg(this, err.response.data.msg ? err.response.data.msg : '权限不足')
     setTimeout(() => {
-      window.location.href = '/login'
+      // window.location.href = '/login'
     }, 1000)
   }
   if (err.response.status === 405) {
