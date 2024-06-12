@@ -17,8 +17,9 @@ export default {
       发件方式
     </div>
     <v-select
-      :title="['邮件', '短信']"
-      :items="['email','SMS']"
+      :items="[{title: '邮件', value: 'email'}, {title: '短信', value: 'SMS'}]"
+      item-title="title"
+      item-value="value"
       v-model="setting_data.message.message_send_type"
     ></v-select>
   </div>
@@ -44,13 +45,13 @@ export default {
       <div class="text-caption">
         使能SSL
       </div>
-      <v-checkbox v-model="setting_data.message.email_ssl" @click="setting_data.message.email_ssl = !setting_data.message.email_ssl"></v-checkbox>
+      <v-checkbox :value="true" v-model="setting_data.message.email_ssl" @click="setting_data.message.email_ssl = !setting_data.message.email_ssl"></v-checkbox>
     </div>
     <div>
       <div class="text-caption">
         邮件服务器端口
       </div>
-      <v-text-field type="number" v-model="setting_data.message.email_port"></v-text-field>
+      <v-text-field type="number" v-model.number="setting_data.message.email_port"></v-text-field>
     </div>
     <div>
       <div class="text-caption">

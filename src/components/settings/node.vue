@@ -16,19 +16,19 @@ export default {
     <div class="text-caption">
       节点运行数据上传间隔（秒）
     </div>
-    <v-text-field type="number" v-model="setting_data.node_usage.upload_data_interval"></v-text-field>
+    <v-text-field type="number" v-model.number="setting_data.node_usage.upload_data_interval"></v-text-field>
   </div>
   <div>
     <div class="text-caption">
       节点运行数据保存间隔（分）
     </div>
-    <v-text-field type="number" v-model="setting_data.node_usage.data_save_interval"></v-text-field>
+    <v-text-field type="number" v-model.number="setting_data.node_usage.data_save_interval"></v-text-field>
   </div>
   <div>
     <div class="text-caption">
       节点运行数据保存时间（天）
     </div>
-    <v-text-field type="number" v-model="setting_data.node_usage.data_storage_time"></v-text-field>
+    <v-text-field type="number" v-model.number="setting_data.node_usage.data_storage_time"></v-text-field>
   </div>
 </template>
 
