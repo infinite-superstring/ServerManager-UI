@@ -5,10 +5,11 @@ import node_settings from "@/components/settings/node";
 import message_settings from "@/components/settings/message";
 import message from "@/scripts/utils/message.js"
 import axios from "axios";
+import Security_Settings from "@/components/settings/security.vue";
 
 export default {
   name: "setting_layout",
-  components: {node_settings, message_settings, base_settings},
+  components: {Security_Settings, node_settings, message_settings, base_settings},
   data: () => {
     return {
       openWindow: "Base_Settings",
@@ -50,6 +51,9 @@ export default {
       <v-window-item value="Base_Settings">
         <base_settings :setting_data="settings"/>
       </v-window-item>
+      <v-window-item value="Security_Settings">
+        <Security_Settings :setting_data="settings"/>
+      </v-window-item>
       <v-window-item value="Node_Settings">
         <node_settings :setting_data="settings"/>
       </v-window-item>
@@ -65,19 +69,25 @@ export default {
     <v-list-subheader>设置项</v-list-subheader>
     <v-list-item
       base-color="primary"
-      value="baseSettings"
+      value="Base_Settings"
       @click="openWindow = 'Base_Settings'">
       基础设置
     </v-list-item>
     <v-list-item
       base-color="primary"
-      value="displaySettings"
+      value="Security_Settings"
+      @click="openWindow = 'Security_Settings'">
+    安全性设置
+    </v-list-item>
+    <v-list-item
+      base-color="primary"
+      value="Node_Settings"
       @click="openWindow = 'Node_Settings'">
       节点全局设置
     </v-list-item>
     <v-list-item
       base-color="primary"
-      value="GPIO_Settings"
+      value="Message_Settings"
       @click="openWindow = 'Message_Settings'">
       消息设置
     </v-list-item>

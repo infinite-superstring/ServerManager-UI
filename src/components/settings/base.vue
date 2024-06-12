@@ -42,14 +42,23 @@ export default {
       >
       </v-text-field>
       <div class="input-group-buttons">
-        <!--        <v-btn icon>-->
-        <!--          <v-icon icon="mdi:mdi-refresh"/>-->
-        <!--        </v-btn>-->
         <v-btn icon @click="copy_server_uuid()">
           <v-icon icon="mdi:mdi-clipboard-text-outline"/>
         </v-btn>
       </div>
     </div>
+  </div>
+  <div>
+    <div class="text-caption">
+      站点名称
+    </div>
+    <v-text-field type="text" v-model="setting_data.base.website_name" max="30"></v-text-field>
+  </div>
+  <div>
+    <div class="text-caption">
+      站点地址
+    </div>
+    <v-text-field type="text" v-model="setting_data.base.website_url" max="50"></v-text-field>
   </div>
   <div>
     <div>
@@ -58,40 +67,28 @@ export default {
       </div>
       <v-text-field type="number" v-model="setting_data.base.session_expiry"></v-text-field>
     </div>
-    <div>
-      <div class="text-caption">
-        登录错误次数限制
-      </div>
-      <v-text-field type="number" v-model="setting_data.base.login_error_count"></v-text-field>
+  </div>
+  <v-divider></v-divider>
+  <p class="text-h5 setting_subtitle">日志设置</p>
+  <div>
+    <div class="text-caption">
+      将debug输出到文件
     </div>
-    <div>
-      <div class="text-caption">
-        限制登陆时长(分)
-      </div>
-      <v-text-field type="number" v-model="setting_data.base.login_expiry"></v-text-field>
+    <v-checkbox></v-checkbox>
+  </div>
+  <div>
+    <div class="text-caption">
+      日志保留时长(天)
     </div>
-    <v-divider></v-divider>
-    <p class="text-h5 setting_subtitle">日志设置</p>
-    <div>
-      <div class="text-caption">
-        将debug输出到文件
-      </div>
-      <v-checkbox></v-checkbox>
+    <v-text-field type="number"></v-text-field>
+  </div>
+  <v-divider></v-divider>
+  <p class="text-h5 setting_subtitle">审计设置</p>
+  <div>
+    <div class="text-caption">
+      审计日志保留时长(天)
     </div>
-    <div>
-      <div class="text-caption">
-        日志保留时长(天)
-      </div>
-      <v-text-field type="number"></v-text-field>
-    </div>
-    <v-divider></v-divider>
-    <p class="text-h5 setting_subtitle">审计设置</p>
-    <div>
-      <div class="text-caption">
-        审计日志保留时长(天)
-      </div>
-      <v-text-field type="number"></v-text-field>
-    </div>
+    <v-text-field type="number"></v-text-field>
   </div>
 </template>
 
