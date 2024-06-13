@@ -1,6 +1,7 @@
 <script>
 import LoadingOverlay from "@/components/nodeControl/loadingOverlay.vue";
 import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
+import dialogs from "@/scripts/utils/dialogs";
 
 export default {
   name: "processList",
@@ -91,6 +92,23 @@ export default {
         action: "process_list:heartbeat",
       })
     },
+    kill(process_info, tree=false) {
+      dialogs.confirm(
+        `确定要结束${process_info.name}(PID:${process_info.pid})进程吗`,
+        "该操作无法撤销，请谨慎操作",
+        "warning"
+      ).then(value => {
+        if (value) {
+          this.send({
+            action: 'kill_process',
+            data: {
+              pid: process_info.pid,
+              tree: tree
+            }
+          })
+        }
+      })
+    },
     send(data) {
       return this.ws.send(JSON.stringify(data))
     },
@@ -140,57 +158,13 @@ export default {
 
         <template v-slot:item.actions="{ item }">
           <div class="action-btn">
-            <v-btn size="small" color="warning" variant="text" @click="console.log(item)">结束进程</v-btn>
-            <v-btn size="small" color="red" variant="text">结束进程树</v-btn>
+            <v-btn size="small" color="warning" variant="text" @click="kill(item)">结束进程</v-btn>
+            <v-btn size="small" color="red" variant="text" @click="kill(item, true)">结束进程树</v-btn>
           </div>
 
         </template>
       </v-data-table>
     </div>
-    <!--    <v-table density="compact" >-->
-    <!--      <thead>-->
-    <!--      <tr>-->
-    <!--        <th class="text-left">-->
-    <!--          PID-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          进程名称-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          状态-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          用户-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          CPU-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          内存-->
-    <!--        </th>-->
-    <!--        <th class="text-left">-->
-    <!--          操作-->
-    <!--        </th>-->
-    <!--      </tr>-->
-    <!--      </thead>-->
-    <!--      <tbody>-->
-    <!--      <tr-->
-    <!--        v-for="item in process_list"-->
-    <!--        :key="item.pid"-->
-    <!--      >-->
-    <!--        <td>{{ item.pid }}</td>-->
-    <!--        <td>{{ item.name }}</td>-->
-    <!--        <td>{{ item.status }}</td>-->
-    <!--        <td>{{ item.username }}</td>-->
-    <!--        <td>{{ item.cpu_percent }} %</td>-->
-    <!--        <td>{{ item.memory_usage }} %</td>-->
-    <!--        <td class="action-btn">-->
-    <!--          <v-btn size="small" color="warning" variant="text">结束进程</v-btn>-->
-    <!--          <v-btn size="small" color="red" variant="text">结束进程树</v-btn>-->
-    <!--        </td>-->
-    <!--      </tr>-->
-    <!--      </tbody>-->
-    <!--    </v-table>-->
   </v-sheet>
 </template>
 
