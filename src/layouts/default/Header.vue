@@ -20,7 +20,7 @@ export default {
   components: {LogoutBtn, UserInfoCard, header_sidebar},
   data() {
     return {
-      menu: true,
+      menu: false,
     }
   },
   methods: {

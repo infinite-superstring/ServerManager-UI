@@ -26,22 +26,21 @@ export default {
       temp: []
     }
   },
+  methods: {
+    close_list_group() {
+      if (this.display) {
+        this.temp = this.open
+        this.open = []
+      } else {
+        this.open = this.temp
+        this.temp = []
+      }
+    }
+  },
   watch: {
-    // display(val) {
-    //   const docs = document.querySelectorAll(".v-navigation-drawer .list_group_item")
-    //
-    //   for (let i = 0; i < docs.length; i++) {
-    //     if (!val) {
-    //       console.log(docs[i].classList)
-    //       docs[i].classList.add("open")
-    //       docs[i].classList.remove('close')
-    //     } else {
-    //       console.log(docs[i].classList)
-    //       docs[i].classList.add("close")
-    //       docs[i].classList.remove("open")
-    //     }
-    //   }
-    // }
+    display(val) {
+      this.close_list_group()
+    }
   }
 }
 </script>

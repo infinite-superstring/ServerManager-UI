@@ -128,7 +128,7 @@ export default {
                 ></v-text-field>
               </td>
               <td>
-                <v-btn variant="text">X</v-btn>
+                <v-btn variant="text" color="red" icon title="删除该条规则"><v-icon icon="mdi-close"></v-icon></v-btn>
               </td>
             </tr>
             </tbody>
