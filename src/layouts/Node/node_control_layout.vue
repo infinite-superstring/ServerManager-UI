@@ -9,6 +9,7 @@ import NodeTerminal from "@/components/nodeControl/nodeTerminal.vue";
 import ProcessList from "@/components/nodeControl/processList.vue";
 import DiskPartitionList from "@/components/nodeControl/diskPartitionList.vue";
 import NodePerformanceRecord from "@/components/nodeControl/nodePerformanceRecord.vue";
+import NodeAlarmSetting from "@/components/nodeControl/nodeAlarmSetting.vue";
 
 export default {
   name: "node_control_layout",
@@ -17,7 +18,9 @@ export default {
       return node
     }
   },
-  components: {NodePerformanceRecord, DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
+  components: {
+    NodeAlarmSetting,
+    NodePerformanceRecord, DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
   data() {
     return {
       hash: location.hash.slice(1),
@@ -123,6 +126,7 @@ export default {
   <v-card>
     <v-tabs
       v-model="tab"
+      color="primary"
     >
       <v-tab
         text="状态"
@@ -191,6 +195,7 @@ export default {
         <v-window-item value="Event">
         </v-window-item>
         <v-window-item value="Rules">
+          <node-alarm-setting/>
         </v-window-item>
       </v-window>
     </v-card-text>
