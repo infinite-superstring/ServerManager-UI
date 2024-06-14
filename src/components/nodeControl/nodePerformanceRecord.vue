@@ -6,6 +6,7 @@ import disk_io_performance_record from "@/components/charts/node/performance_rec
 import loadavg_performance_record from "@/components/charts/node/performance_record/loadavg_performance_record.vue";
 import format from "@/scripts/utils/format";
 import network_performance_record from "@/components/charts/node/performance_record/network_performance_record.vue";
+import {da} from "vuetify/locale";
 
 export default {
   name: "nodePerformanceRecord",
@@ -58,7 +59,7 @@ export default {
         end_time: "",
         labels: [],
         datasets: []
-      }
+      },
     }
   },
   mounted() {
@@ -222,76 +223,126 @@ export default {
           tension: 0.1
         }
       ]
+    },
+    change_time(type) {
+      let data = {}
+      switch (type) {
+        // 平均负载
+        case 'loadavg':
+          data = {
+            start_time: this.$refs.loadavg_start_time.value,
+            end_time: this.$refs.loadavg_end_time.value,
+            device: "loadavg",
+          }
+          break;
+        // CPU负载
+        case 'cpu':
+          data = {
+            start_time: this.$refs.cpu_start_time.value,
+            end_time: this.$refs.cpu_end_time.value,
+            device: "cpu",
+          }
+          break;
+        case 'memory':
+          data = {
+            start_time: this.$refs.memory_start_time.value,
+            end_time: this.$refs.memory_end_time.value,
+            device: "memory",
+          }
+          break;
+        case 'disk_io':
+          data = {
+            start_time: this.$refs.disk_io_start_time.value,
+            end_time: this.$refs.disk_io_end_time.value,
+            device: "disk_io",
+          }
+          break;
+        case 'network':
+          data = {
+            start_time: this.$refs.network_start_time.value,
+            end_time: this.$refs.network_end_time.value,
+            device: "network",
+          }
+          break
+      }
+      console.log(data)
+      this.send({
+        action: 'get_performance_record',
+        data: data
+      })
+      if (type === 'network'){
+        this.load_network_port_data()
+      }
     }
   },
   watch: {
     select_network_port(val) {
       this.load_network_port_data()
     }
-  //   "cpu.start_time"(val) {
-  //     if (this.pre && val != this.cpu.start_time_time) {
-  //       this.send({
-  //         action: 'get_performance_record',
-  //         data: {
-  //           start_time: val,
-  //           end_time: this.cpu.end_time,
-  //           device: "cpu",
-  //         }
-  //       })
-  //     }
-  //   },
-  //   "cpu.end_time"(val) {
-  //     if (this.pre && val != this.cpu.end_time) {
-  //       this.send({
-  //         action: 'get_performance_record',
-  //         data: {
-  //           start_time: this.cpu.start_time,
-  //           end_time: val,
-  //           device: "cpu",
-  //         }
-  //       })
-  //     }
-  //   },
-  //   "memory.start_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "memory.end_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "disk_io.start_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "disk_io.end_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "network.start_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "network.end_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "loadavg.start_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   },
-  //   "loadavg.end_time"(val) {
-  //     if (this.pre) {
-  //
-  //     }
-  //   }
+    //   "cpu.start_time"(val) {
+    //     if (this.pre && val != this.cpu.start_time_time) {
+    //       this.send({
+    //         action: 'get_performance_record',
+    //         data: {
+    //           start_time: val,
+    //           end_time: this.cpu.end_time,
+    //           device: "cpu",
+    //         }
+    //       })
+    //     }
+    //   },
+    //   "cpu.end_time"(val) {
+    //     if (this.pre && val != this.cpu.end_time) {
+    //       this.send({
+    //         action: 'get_performance_record',
+    //         data: {
+    //           start_time: this.cpu.start_time,
+    //           end_time: val,
+    //           device: "cpu",
+    //         }
+    //       })
+    //     }
+    //   },
+    //   "memory.start_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "memory.end_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "disk_io.start_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "disk_io.end_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "network.start_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "network.end_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "loadavg.start_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   },
+    //   "loadavg.end_time"(val) {
+    //     if (this.pre) {
+    //
+    //     }
+    //   }
   }
 }
 </script>
@@ -302,10 +353,12 @@ export default {
       <v-card>
         <v-card-title>
           平均负载
-          <div class="">
-            <input type="datetime-local" v-model="loadavg.start_time">
+          <div class="select-time">
+            <input ref="loadavg_start_time" @change="change_time('loadavg')" type="datetime-local"
+                   v-model="loadavg.start_time">
             <span>到</span>
-            <input type="datetime-local" v-model="loadavg.end_time">
+            <input ref="loadavg_end_time" @change="change_time('loadavg')" type="datetime-local"
+                   v-model="loadavg.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -324,10 +377,10 @@ export default {
       <v-card>
         <v-card-title>
           CPU
-          <div class="">
-            <input type="datetime-local" v-model="cpu.start_time">
+          <div class="select-time">
+            <input ref="cpu_start_time" @change="change_time('cpu')" type="datetime-local" v-model="cpu.start_time">
             <span>到</span>
-            <input type="datetime-local" v-model="cpu.end_time">
+            <input ref="cpu_end_time" @change="change_time('cpu')" type="datetime-local" v-model="cpu.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -344,10 +397,10 @@ export default {
       <v-card>
         <v-card-title>
           内存
-          <div class="">
-            <input type="datetime-local" v-model="memory.start_time">
+          <div class="select-time">
+            <input ref="memory_start_time" @change="change_time('memory')" type="datetime-local" v-model="memory.start_time">
             <span>到</span>
-            <input type="datetime-local" v-model="memory.end_time">
+            <input ref="memory_end_time" @change="change_time('memory')" type="datetime-local" v-model="memory.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -367,10 +420,10 @@ export default {
       <v-card>
         <v-card-title>
           磁盘IO
-          <div class="">
-            <input type="datetime-local" v-model="disk_io.start_time">
+          <div class="select-time">
+            <input ref="disk_io_start_time" @change="change_time('disk_io')" type="datetime-local" v-model="disk_io.start_time">
             <span>到</span>
-            <input type="datetime-local" v-model="disk_io.end_time">
+            <input ref="disk_io_end_time" @change="change_time('disk_io')" type="datetime-local" v-model="disk_io.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -405,10 +458,10 @@ export default {
               ></v-select>
             </v-menu>
           </p>
-          <div class="">
-            <input type="datetime-local" v-model="network.start_time">
+          <div class="select-time">
+            <input ref="network_start_time" @change="change_time('network')" type="datetime-local" v-model="network.start_time">
             <span>到</span>
-            <input type="datetime-local" v-model="network.end_time">
+            <input ref="network_end_time" @change="change_time('network')" type="datetime-local" v-model="network.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -454,5 +507,9 @@ export default {
       margin: 0 5px;
     }
   }
+}
+
+.select-time {
+  width: 100%;
 }
 </style>
