@@ -186,7 +186,7 @@ export default {
           <node-performance-record :ws="websocket"/>
         </v-window-item>
         <v-window-item value="Control">
-          <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket"/>
+          <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket" :online="node_base_info.node_online"/>
         </v-window-item>
         <v-window-item value="Event">
         </v-window-item>

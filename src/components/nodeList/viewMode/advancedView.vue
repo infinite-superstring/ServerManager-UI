@@ -47,7 +47,7 @@ export default {
         :key="item.uuid"
       >
         <td><v-checkbox :value="item.uuid" v-model="select" density="compact" hide-details></v-checkbox></td>
-        <td @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})' class="cursor-pointer">{{ item.name }}</td>
+        <td @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})' class="cursor-pointer text-light-blue-darken-2 font-weight-medium text-decoration-underline">{{ item.name }}</td>
         <td>{{ item.group ? item.group : "无" }}</td>
         <td>{{ item.baseData ? item.baseData.hostname : "未知" }}</td>
         <td>{{ item.baseData ? item.baseData.platform : "未知" }}</td>
