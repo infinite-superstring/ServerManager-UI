@@ -8,7 +8,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="msg-row" v-for="(item ,index) in props.list" :key="item.title" @click="eva => { onClick(item.id,index) }"
+      <tr class="msg-row" v-for="(item ,index) in props.list" :key="item.title"
+          @click="eva => { onClick(item.id,index) }"
           :class="{ 'active': activeId === item.id }">
         <td>
             <span class="title">
@@ -70,9 +71,9 @@ const emit = defineEmits(['select', 'pageChange'])
  * 向父组件发送点击事件
  * @param {Number}id
  */
-const onClick = (id,index) => {
+const onClick = (id, index) => {
   props.list[index].read = true
-  emit('select', id)
+  if (activeId.value !== id) emit('select', id)
   activeId.value = (id === activeId.value ? null : id)
 }
 
