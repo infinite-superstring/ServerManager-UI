@@ -25,7 +25,7 @@
     <v-row class="content">
       <MTable
         ref="MTableRef"
-        :list="data.list"
+        v-model:list="data.list"
         :total="data.maxPage"
         :current-page="currentPage"
         class="table"
@@ -139,7 +139,6 @@ const readAll = () => {
  */
 const onSelect = (id) => {
   emit('select', id)
-  getList() /*刷新列表*/
 }
 /**
  * 分页

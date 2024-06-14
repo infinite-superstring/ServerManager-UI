@@ -8,7 +8,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="msg-row" v-for="item in props.list" :key="item.title" @click="eva => { onClick(item.id) }"
+      <tr class="msg-row" v-for="(item ,index) in props.list" :key="item.title" @click="eva => { onClick(item.id,index) }"
           :class="{ 'active': activeId === item.id }">
         <td>
             <span class="title">
@@ -41,7 +41,6 @@
 
 <script setup>
 import {ref, watch} from 'vue';
-import bus from "vue3-eventbus";
 
 const activeId = ref()
 const props = defineProps({
@@ -60,6 +59,7 @@ const props = defineProps({
     default: 1
   }
 })
+
 const pageData = ref({
   currentPage: props.currentPage,
   maxPage: props.total,
@@ -70,7 +70,8 @@ const emit = defineEmits(['select', 'pageChange'])
  * 向父组件发送点击事件
  * @param {Number}id
  */
-const onClick = (id) => {
+const onClick = (id,index) => {
+  props.list[index].read = true
   emit('select', id)
   activeId.value = (id === activeId.value ? null : id)
 }
