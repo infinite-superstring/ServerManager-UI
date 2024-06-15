@@ -1,4 +1,6 @@
 <script>
+import axiosplus from "@/scripts/utils/axios";
+
 export default {
   name: "showGroupInfo",
   props: {
@@ -23,10 +25,24 @@ export default {
       rules: []
     }
   },
+  methods: {
+    getGroupInfo() {
+      axiosplus.get('/api/node_manager/node_group/getGroupById?group_id=' + this.id)
+        .then(res => {
+          this.group_id = res.data.data.group_id
+          this.group_name = res.data.data.group_name
+          this.group_leader = res.data.data.group_leader
+          this.group_desc = res.data.data.group_desc
+          this.node_list = res.data.data.node_list
+          this.rules = res.data.data.rules
+        })
+    }
+  },
   watch: {
     flag(val) {
       if (val) {
         this.m_flag = val
+        this.getGroupInfo()
       } else {
 
       }
@@ -55,20 +71,37 @@ export default {
         节点组名: {{ group_name }}<br>
         节点组负责人: {{ group_leader }}<br>
         节点列表:
-        <v-chip-group>
-          <v-chip v-for="node in node_list" :key="node.uuid">{{ node.name }}</v-chip>
-        </v-chip-group>
+        <div>
+          <v-chip color="primary" size="small" v-for="node in node_list" :key="node.uuid">
+            {{ node.name }}
+          </v-chip>
+        </div>
         <br>
         节点组介绍: {{ group_desc }}<br>
         <v-divider/>
         消息接收规则:
-        <v-card class="pa-3" v-for="item in group_leader" :key="item.id">
-          星期: {{ item.week }}
+        <v-card
+          class="pa-3 rules"
+          v-for="item in rules"
+          :key="item.id">
+          星期:
+          <span
+            class="week"
+            v-for="week in item.week"
+            :key="week">
+            {{ week }}
+          </span>
           <p>开始时间: {{ item.start_time }} —— 结束时间: {{ item.end_time }} </p>
           接收人:
-          <v-chip-group>
-            <v-chip v-for="user in item.users" :key="user.id">{{ user.userName }}</v-chip>
-          </v-chip-group>
+          <div>
+            <v-chip
+              color="primary"
+              size="small"
+              v-for="user in item.recipients"
+              :key="user">
+              {{ user }}
+            </v-chip>
+          </div>
         </v-card>
       </v-card-text>
     </v-card>
@@ -76,5 +109,12 @@ export default {
 </template>
 
 <style scoped>
+.rules {
+  margin-top: 10px;
+}
 
+.week {
+  padding: 5px;
+  font-size: 0.9em;
+}
 </style>
