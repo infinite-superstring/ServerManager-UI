@@ -1,6 +1,90 @@
 <script>
+import message from "@/scripts/utils/message";
+import axios from "axios";
+
 export default {
-  name: "nodeAlarmSetting"
+  name: "nodeAlarmSetting",
+  props: {
+    node_uuid: {
+      type: String,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      settings: {
+        enable: true,
+        delay_seconds: 360,
+        cpu: {
+          enable: true,
+          threshold: 80
+        },
+        memory: {
+          enable: true,
+          threshold: 80
+        },
+        network: {
+          enable: true,
+          send_threshold: 6000000,
+          receive_threshold: 6000000
+        },
+        disk: {
+          enable: true,
+          rules: [
+            {
+              device: "/dev/sda",
+              threshold: 70
+            }
+          ]
+        }
+      },
+      disk_partition: [
+        '/dev/sda',
+        '/dev/sdb',
+        '/dev/sdc',
+      ]
+    }
+  },
+  mounted() {
+    this.load_disk_partition_list()
+    this.load_alarm_setting()
+  },
+  methods: {
+    load_disk_partition_list() {
+      axios.post('/api/node_manager/node_info/get_disk_partition_list', {node_uuid: this.node_uuid}).then((response) => {
+        if (response.data.status !== 1) {
+          return message.showError(this, response.data.msg)
+        }
+        this.disk_partition = response.data.data.disk_partition
+      }).catch(err => {
+        console.error(err)
+        message.showApiErrorMsg(this, err.msg)
+      })
+    },
+    load_alarm_setting() {
+      axios.post('/api/node_manager/node_info/get_alarm_setting', {node_uuid: this.node_uuid}).then((response) => {
+        if (response.data.status !== 1) {
+          return message.showError(this, response.data.msg)
+        }
+        this.settings = response.data.data
+      }).catch(err => {
+        console.error(err)
+        message.showApiErrorMsg(this, err.msg)
+      })
+    },
+    save_alarm_setting() {
+      axios.post('/api/node_manager/node_info/save_alarm_setting', {node_uuid: this.node_uuid}).then(response=>{
+        if (response.data.status !== 1) {
+          return message.showError(this, response.data.msg)
+        } else {
+          return message.showSuccess(this, response.data.msg)
+        }
+      }).catch(err => {
+        console.error(err)
+        message.showApiErrorMsg(this, err.msg)
+      })
+    }
+  }
 }
 </script>
 
@@ -9,6 +93,7 @@ export default {
     <p class="text-h6 setting_subtitle">告警基础设置</p>
 
     <v-switch
+      v-model="settings.enable"
       color="primary"
       density="compact"
       label="启用节点告警"
@@ -16,6 +101,7 @@ export default {
       persistent-hint
     ></v-switch>
     <v-text-field
+      v-model="settings.delay_seconds"
       type="number"
       variant="underlined"
       label="告警延迟时间"
@@ -26,6 +112,7 @@ export default {
     <div class="alarm_rule">
       <p class="text-h6 setting_subtitle">CPU告警设置</p>
       <v-switch
+        v-model="settings.cpu.enable"
         color="primary"
         density="compact"
         label="启用"
@@ -33,6 +120,7 @@ export default {
         persistent-hint
       ></v-switch>
       <v-text-field
+        v-model.number="settings.cpu.threshold"
         type="number"
         variant="underlined"
         label="告警阈值(百分比)"
@@ -43,6 +131,7 @@ export default {
       <v-divider/>
       <p class="text-h6 setting_subtitle">内存告警设置</p>
       <v-switch
+        v-model="settings.memory.enable"
         color="primary"
         density="compact"
         label="启用"
@@ -50,6 +139,7 @@ export default {
         persistent-hint
       ></v-switch>
       <v-text-field
+        v-model="settings.memory.threshold"
         type="number"
         variant="underlined"
         label="告警阈值(百分比)"
@@ -59,6 +149,7 @@ export default {
       <v-divider/>
       <p class="text-h6 setting_subtitle">网络告警设置</p>
       <v-switch
+        v-model="settings.network.enable"
         color="primary"
         density="compact"
         label="启用"
@@ -66,17 +157,17 @@ export default {
         persistent-hint
       ></v-switch>
       <v-text-field
+        v-model="settings.network.send_threshold"
         type="number"
         variant="underlined"
-        density="compact"
         label="发送数据告警阈值(bytes/s)"
         hint="当每秒发送的数据量超过该值时触发告警"
         persistent-hint
       ></v-text-field>
       <v-text-field
+        v-model="settings.network.receive_threshold"
         type="number"
         variant="underlined"
-        density="compact"
         label="接收数据告警阈值(bytes/s)"
         hint="当每秒接收的数据量超过该值时触发告警"
         persistent-hint
@@ -84,6 +175,7 @@ export default {
       <v-divider/>
       <p class="text-h6 setting_subtitle">磁盘告警设置</p>
       <v-switch
+        v-model="settings.disk.enable"
         color="primary"
         density="compact"
         label="启用"
@@ -108,11 +200,14 @@ export default {
             </thead>
             <tbody>
             <tr
+              v-for="item in settings.disk.rules"
+              :key="item.device"
             >
               <td>
                 <v-select
+                  v-model="item.device"
                   variant="underlined"
-                  :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                  :items="disk_partition"
                   label="磁盘设备"
                   hint="请选择要检查的磁盘设备"
                   persistent-hint
@@ -120,6 +215,7 @@ export default {
               </td>
               <td>
                 <v-text-field
+                  v-model="item.threshold"
                   type="number"
                   variant="underlined"
                   label="告警阈值(百分比)"
@@ -128,7 +224,9 @@ export default {
                 ></v-text-field>
               </td>
               <td>
-                <v-btn variant="text" color="red" icon title="删除该条规则"><v-icon icon="mdi-close"></v-icon></v-btn>
+                <v-btn variant="text" color="red" icon title="删除该条规则">
+                  <v-icon icon="mdi-close"></v-icon>
+                </v-btn>
               </td>
             </tr>
             </tbody>
@@ -143,7 +241,7 @@ export default {
       </v-card>
     </div>
     <div class="actionButton">
-      <v-btn base-color="green">
+      <v-btn base-color="green" @click="save_alarm_setting()">
         保存
       </v-btn>
     </div>

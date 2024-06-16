@@ -198,7 +198,7 @@ export default {
           <node-event/>
         </v-window-item>
         <v-window-item value="Rules">
-          <node-alarm-setting/>
+          <node-alarm-setting :node_uuid="node_base_info.node_uuid"/>
         </v-window-item>
       </v-window>
     </v-card-text>
