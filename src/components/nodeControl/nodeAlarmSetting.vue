@@ -28,15 +28,12 @@ export default {
           send_threshold: 6000000,
           receive_threshold: 6000000
         },
-        disk: {
-          enable: true,
-          rules: [
-            {
-              device: "/dev/sda",
-              threshold: 70
-            }
-          ]
-        }
+        disk: [
+          {
+            device: null,
+            threshold: 70
+          }
+        ]
       },
       disk_partition: [
         '/dev/sda',
@@ -73,7 +70,10 @@ export default {
       })
     },
     save_alarm_setting() {
-      axios.post('/api/node_manager/node_info/save_alarm_setting', {node_uuid: this.node_uuid}).then(response=>{
+      axios.post('/api/node_manager/node_info/save_alarm_setting', {
+        node_uuid: this.node_uuid,
+        setting: this.settings
+      }).then(response => {
         if (response.data.status !== 1) {
           return message.showError(this, response.data.msg)
         } else {
@@ -83,6 +83,15 @@ export default {
         console.error(err)
         message.showApiErrorMsg(this, err.msg)
       })
+    },
+    add_disk_rule() {
+      this.settings.disk.push({
+        device: null,
+        threshold: 70
+      })
+    },
+    delete_disk_rule(index) {
+      this.settings.disk.splice(index, 1)
     }
   }
 }
@@ -174,14 +183,6 @@ export default {
       ></v-text-field>
       <v-divider/>
       <p class="text-h6 setting_subtitle">磁盘告警设置</p>
-      <v-switch
-        v-model="settings.disk.enable"
-        color="primary"
-        density="compact"
-        label="启用"
-        hint="启用磁盘空间使用率告警规则，请在下表中输入告警阈值"
-        persistent-hint
-      ></v-switch>
       <v-card class="ma-3">
         <v-card-text>
           <v-table>
@@ -200,7 +201,7 @@ export default {
             </thead>
             <tbody>
             <tr
-              v-for="item in settings.disk.rules"
+              v-for="(item, index) in settings.disk"
               :key="item.device"
             >
               <td>
@@ -215,7 +216,7 @@ export default {
               </td>
               <td>
                 <v-text-field
-                  v-model="item.threshold"
+                  v-model.number="item.threshold"
                   type="number"
                   variant="underlined"
                   label="告警阈值(百分比)"
@@ -224,7 +225,7 @@ export default {
                 ></v-text-field>
               </td>
               <td>
-                <v-btn variant="text" color="red" icon title="删除该条规则">
+                <v-btn variant="text" color="red" icon title="删除该条规则" @click="delete_disk_rule(index)">
                   <v-icon icon="mdi-close"></v-icon>
                 </v-btn>
               </td>
@@ -233,7 +234,7 @@ export default {
           </v-table>
         </v-card-text>
         <v-card-actions>
-          <v-btn base-color="green" block>
+          <v-btn base-color="green" block @click="add_disk_rule">
             <v-icon icon="mdi:mdi-plus"/>
             添加规则
           </v-btn>
