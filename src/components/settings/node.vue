@@ -27,7 +27,7 @@ export default {
     </div>
     <v-text-field
       type="number"
-      v-model.number="setting_data.node_usage.timeout"
+      v-model.number="setting_data.node.timeout"
     ></v-text-field>
   </div>
   <p class="text-h5 setting_subtitle">节点数据上传与存储</p>
