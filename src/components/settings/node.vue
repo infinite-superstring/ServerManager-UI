@@ -11,6 +11,25 @@ export default {
 </script>
 
 <template>
+  <p class="text-h5 setting_subtitle">节点心跳设置</p>
+  <div>
+    <div class="text-caption">
+      节点心跳包间隔（毫秒）
+    </div>
+    <v-text-field
+      type="number"
+      v-model.number="setting_data.node.heartbeat_time"
+    ></v-text-field>
+  </div>
+  <div>
+    <div class="text-caption">
+      节点超时时间（毫秒）
+    </div>
+    <v-text-field
+      type="number"
+      v-model.number="setting_data.node_usage.timeout"
+    ></v-text-field>
+  </div>
   <p class="text-h5 setting_subtitle">节点数据上传与存储</p>
   <div>
     <div class="text-caption">
@@ -53,11 +72,22 @@ export default {
   </div>
   <div>
     <div class="text-caption">
-      告警延迟时间
+      告警延迟时间(秒)
     </div>
     <v-text-field
       type="number"
       v-model.number="setting_data.node_default_alarm_setting.delay_seconds"
+      color="primary"
+      density="compact"
+    ></v-text-field>
+  </div>
+  <div>
+    <div class="text-caption">
+      告警间隔时间(秒)
+    </div>
+    <v-text-field
+      type="number"
+      v-model.number="setting_data.node_default_alarm_setting.interval"
       color="primary"
       density="compact"
     ></v-text-field>

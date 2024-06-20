@@ -15,6 +15,7 @@ export default {
       settings: {
         enable: true,
         delay_seconds: 360,
+        interval: 60,
         cpu: {
           enable: true,
           threshold: 80
@@ -113,8 +114,16 @@ export default {
       v-model="settings.delay_seconds"
       type="number"
       variant="underlined"
-      label="告警延迟时间"
+      label="告警延迟时间（秒）"
       hint="当节点某个告警项超过阈值时并不会立即发出告警，需持续超过该值设定的时间后才会触发（该值不宜过小，否则可能会引发误报）"
+      persistent-hint
+    ></v-text-field>
+    <v-text-field
+      v-model="settings.interval"
+      type="number"
+      variant="underlined"
+      label="告警间隔时间（秒）"
+      hint="当节点告警项触发后，需等待达到预定时间后才能重新触发"
       persistent-hint
     ></v-text-field>
     <v-divider/>
