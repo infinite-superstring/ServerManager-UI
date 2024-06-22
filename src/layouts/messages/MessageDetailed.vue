@@ -9,7 +9,9 @@
       </v-tooltip>
     </div>
   </v-card>
-  <MessagesDrawers @select="onSelect"/>
+  <MessagesDrawers
+    @deleteAll="content = ''"
+    @select="onSelect"/>
 </template>
 
 <script setup>

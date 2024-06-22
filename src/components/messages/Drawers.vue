@@ -25,7 +25,7 @@
     <v-row class="content">
       <MTable
         ref="MTableRef"
-        v-model:list="data.list"
+        :list="data.list"
         :total="data.maxPage"
         :current-page="currentPage"
         class="table"
@@ -76,14 +76,6 @@ const getList = () => {
     })
     .then(r => {
       data.value = r.data.data
-      data.value.list.sort((a, b) => {
-        if (a.read !== b.read) {
-          return a.read ? 1 : -1;
-        } else {
-          return new Date(b.createTime) - new Date(a.createTime);
-        }
-      })
-
     })
 }
 
@@ -136,8 +128,14 @@ const readAll = () => {
 /**
  * 选中消息
  * @param {Number}id
+ * @param index
  */
 const onSelect = (id) => {
+  data.value.list.forEach((item) => {
+    if (item.id === id) {
+      item.read = true
+    }
+  })
   emit('select', id)
 }
 /**

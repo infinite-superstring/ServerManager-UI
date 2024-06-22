@@ -176,6 +176,19 @@ const routes = [
       permission: "changeSettings"
     }
   },
+  // 巡检
+    {
+    path:'/patrol/',
+    name: "patrol",
+    components: {
+      default: PatrolPage,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "巡检",
+      permission: "viewAudit"
+    }
+  },
   // 关于
   {
     path: "/about/",
@@ -184,15 +197,6 @@ const routes = [
     appBarBtn: appbar_default,
     meta: {
       title: "关于"
-    }
-  },
-  {
-    path:'/patrol/',
-    name: "patrol",
-    component: PatrolPage,
-    appBarBtn: appbar_default,
-    meta: {
-      title: "巡检"
     }
   },
   // 错误

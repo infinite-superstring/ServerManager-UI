@@ -25,11 +25,11 @@
       <td>{{ item.user }}</td>
       <td>{{ item.time }}</td>
       <td>
-        <v-chip color="primary" v-if="item.action === '登录'">
-          {{ item.action }}
+        <v-chip color="primary" v-if="item.action === 0">
+          登录
         </v-chip>
         <v-chip color="error" v-else>
-          {{ item.action }}
+          登出
         </v-chip>
       </td>
       <td>{{ item.ip }}</td>

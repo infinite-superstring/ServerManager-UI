@@ -8,8 +8,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="msg-row" v-for="(item ,index) in props.list" :key="item.title"
-          @click="eva => { onClick(item.id,index) }"
+      <tr class="msg-row"
+          v-for="(item) in list"
+          @click="eva => { onClick(item.id) }"
+          :key="item.id"
           :class="{ 'active': activeId === item.id }">
         <td>
             <span class="title">
@@ -60,7 +62,7 @@ const props = defineProps({
     default: 1
   }
 })
-
+const list = ref(props.list)
 const pageData = ref({
   currentPage: props.currentPage,
   maxPage: props.total,
@@ -71,11 +73,14 @@ const emit = defineEmits(['select', 'pageChange'])
  * 向父组件发送点击事件
  * @param {Number}id
  */
-const onClick = (id, index) => {
-  props.list[index].read = true
+const onClick = (id) => {
   if (activeId.value !== id) emit('select', id)
   activeId.value = (id === activeId.value ? null : id)
 }
+
+watch(() => props.list, (n) => {
+  list.value = n
+})
 
 watch(() => pageData.value.currentPage, (val) => {
   emit('pageChange', val)

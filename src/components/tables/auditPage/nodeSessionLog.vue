@@ -26,11 +26,11 @@
       <td>{{ item.name }}</td>
       <td>{{ item.time }}</td>
       <td>
-        <v-chip color="primary" v-if="item.action === '上线'">
-          {{ item.action }}
+        <v-chip color="primary" v-if="item.action === 0">
+          上线
         </v-chip>
         <v-chip color="error" v-else>
-          {{ item.action }}
+          下线
         </v-chip>
       </td>
       <td>{{ item.ip }}</td>
