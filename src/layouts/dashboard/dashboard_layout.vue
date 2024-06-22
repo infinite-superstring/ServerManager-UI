@@ -3,10 +3,11 @@ import Overview_card from "@/components/dashboard/overview_card.vue";
 import Node_list_card from "@/components/dashboard/node_list_card.vue";
 import Statistics_list_card from "@/components/dashboard/statistics_list_card.vue";
 import UserInfoCard from "@/components/dashboard/user_info_card.vue";
+import TaskLayout from "@/layouts/task/TaskLayout.vue";
 
 export default {
   name: "dashboard_layout",
-  components: {UserInfoCard, Statistics_list_card, Node_list_card, Overview_card}
+  components: {TaskLayout, UserInfoCard, Statistics_list_card, Node_list_card, Overview_card}
 }
 </script>
 
@@ -56,6 +57,7 @@ export default {
           </p>
         </v-card-title>
         <v-card-text>
+          <TaskLayout/>
         </v-card-text>
       </v-card>
     </v-col>
