@@ -22,7 +22,8 @@ export default {
   components: {
     NodeEvent,
     NodeAlarmSetting,
-    NodePerformanceRecord, DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus},
+    NodePerformanceRecord, DiskPartitionList, ProcessList, NodeTerminal, NodeInfo, NodeWatch, NodeStatus
+  },
   data() {
     return {
       hash: location.hash.slice(1),
@@ -39,6 +40,7 @@ export default {
         node_system_build_version: null,
         node_system_type: null,
         node_system_version: null,
+        node_group: null,
         node_tags: [],
         node_uuid: null,
       },
@@ -192,12 +194,17 @@ export default {
           <node-performance-record :ws="websocket"/>
         </v-window-item>
         <v-window-item value="Control">
-          <node-terminal :node_uuid="node_base_info.node_uuid" :ws = "websocket" :online="node_base_info.node_online"/>
+          <node-terminal :node_uuid="node_base_info.node_uuid" :ws="websocket" :online="node_base_info.node_online"/>
         </v-window-item>
         <v-window-item value="Event">
           <node-event/>
         </v-window-item>
         <v-window-item value="Rules">
+          <v-alert
+            variant="tonal"
+            v-if="!node_base_info.node_group"
+            type="warning"
+          >当前节点未绑定集群，将无法接收告警消息</v-alert>
           <node-alarm-setting :node_uuid="node_base_info.node_uuid"/>
         </v-window-item>
       </v-window>
@@ -224,15 +231,18 @@ export default {
     margin-bottom: 25px;
   }
 }
+
 @media screen and (max-width: 950px) {
   .status {
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
+
     .left {
       width: 100%;
       margin-right: 0 !important;
     }
+
     .right {
       width: 100%;
     }

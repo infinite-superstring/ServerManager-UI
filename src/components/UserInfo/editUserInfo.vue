@@ -1,7 +1,6 @@
 <script>
 import axios from "axios";
 import Cropper from "cropperjs";
-import SparkMD5 from "spark-md5";
 import bus from 'vue3-eventbus'
 import {useUserStore} from "@/store/userInfo";
 import 'cropperjs/dist/cropper.css';

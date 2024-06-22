@@ -52,9 +52,7 @@ export default {
         message.showError(this, "未选择节点")
         return
       }
-      if (this.time_slot_recipient.length <= 0) {
-        message.showError(this, "每个节点组至少有一条消息发送规则")
-      } else {
+      if (this.time_slot_recipient.length >= 0) {
         for (let i = 0; i < this.time_slot_recipient.length; i++) {
           const item = this.time_slot_recipient[i]
           if (item.users.length <= 0) {
