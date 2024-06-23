@@ -50,6 +50,9 @@ export default {
       bus.emit('to:Message')
       this.$router.push({name: 'message'})
     },
+    /**
+     * 获取未读消息数量
+     */
     getUnread() {
       axios.get("/api/message/getUnread")
         .then(res => {
@@ -133,6 +136,7 @@ export default {
         个人信息
       </v-list-item>
       <v-list-item @click="toMessage">
+        <v-badge v-if="unread" dot color="red" offset-x="-25" offset-y="-16"/>
         <v-icon icon="mdi-bell-outline"/>
         消息中心
       </v-list-item>

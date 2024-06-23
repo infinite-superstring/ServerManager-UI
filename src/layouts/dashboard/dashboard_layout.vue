@@ -3,11 +3,11 @@ import Overview_card from "@/components/dashboard/overview_card.vue";
 import Node_list_card from "@/components/dashboard/node_list_card.vue";
 import Statistics_list_card from "@/components/dashboard/statistics_list_card.vue";
 import UserInfoCard from "@/components/dashboard/user_info_card.vue";
-import TaskLayout from "@/layouts/task/TaskLayout.vue";
+import TaskCard from "@/components/dashboard/TaskCard.vue";
 
 export default {
   name: "dashboard_layout",
-  components: {TaskLayout, UserInfoCard, Statistics_list_card, Node_list_card, Overview_card}
+  components: {TaskCard, UserInfoCard, Statistics_list_card, Node_list_card, Overview_card}
 }
 </script>
 
@@ -19,7 +19,7 @@ export default {
           <p class="dashboard_subtitle">总览</p>
         </v-card-title>
         <v-card-text height="300px" id="overview">
-         <overview_card/>
+          <overview_card/>
         </v-card-text>
       </v-card>
       <v-card class="dashboard_card">
@@ -57,7 +57,7 @@ export default {
           </p>
         </v-card-title>
         <v-card-text>
-          <TaskLayout/>
+          <TaskCard/>
         </v-card-text>
       </v-card>
     </v-col>
@@ -71,6 +71,7 @@ export default {
   padding-left: 5px;
   border-left: #0288D1 5px solid;
 }
+
 .dashboard_card:not(:last-child) {
   margin-bottom: 10px;
 }
