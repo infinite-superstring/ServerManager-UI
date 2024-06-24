@@ -10,6 +10,7 @@
     </div>
   </v-card>
   <MessagesDrawers
+    ref="messageDrawer"
     @deleteAll="content = ''"
     @select="onSelect"/>
 </template>
@@ -23,9 +24,12 @@ import message from "@/scripts/utils/message";
 
 const content = ref('')
 
+const messageDrawer = ref()
+
+
 const currentId = ref(NaN)
 
-const getList = () => {
+const getById = () => {
   axion.get('/api/message/getById?id=' + currentId.value)
     .then((r) => {
       content.value = r.data.data
@@ -34,7 +38,7 @@ const getList = () => {
 
 const onSelect = (id) => {
   currentId.value = id
-  getList()
+  getById()
 }
 
 const delMessage = () => {
@@ -43,7 +47,8 @@ const delMessage = () => {
       .then((r) => {
         message.showSuccess(this, r.data.msg)
         content.value = ''
-        getList()
+        messageDrawer.value.getList()
+
       })
   })
 }

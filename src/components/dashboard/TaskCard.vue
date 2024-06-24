@@ -8,6 +8,7 @@
 import TaskItemCard from "@/components/task/TaskItemCard.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
+import message from "@/scripts/utils/message";
 
 const task = ref({
   type: 0,
@@ -50,6 +51,7 @@ const signIn = () => {
       if (res.data.status === 1) {
         task.value = res.data.data
         getCheckInStatus()
+        message.showSuccess(this, res.data.msg)
       }
     })
 }

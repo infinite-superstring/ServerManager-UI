@@ -14,15 +14,19 @@
           :key="item.id"
           :class="{ 'active': activeId === item.id }">
         <td>
-            <span class="title">
+          <v-tooltip :text="item.title" location="top">
+            <template #activator="{props}">
+            <span class="title" v-bind="props">
               <v-badge v-if="!item.read" color="error" dot>
                 <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               </v-badge>
               <v-icon v-else :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               {{ item.title }}
             </span>
+            </template>
+          </v-tooltip>
         </td>
-        <td>
+        <td class="td-date">
           <span class="date">
             {{ item.createTime }}
           </span>
@@ -123,7 +127,11 @@ watch(() => props.currentPage, (n) => {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
-  max-width: 100px;
+  max-width: 150px;
+}
+
+.td-date {
+  padding-right: 0;
 }
 
 .date {

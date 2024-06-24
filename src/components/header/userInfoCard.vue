@@ -24,6 +24,10 @@ export default {
     bus.on('update:UserInfo', () => {
       this.getUserInfo()
     })
+    /*已读所有消息事件 清空未读消息数量*/
+    // bus.on('update:Unread', () => {
+    //   this.unread = 0
+    // })
 
     this.ws = new WebSocket(`ws://${location.host}/ws/message`)
     this.ws.addEventListener('open', this.openWs)
@@ -66,6 +70,8 @@ export default {
           notice.info('您有一条新消息')
           this.unread = Number.isSafeInteger(msg.data) ? msg.data : 0
           bus.emit('update:Message', this.unread)
+        } else if (msg.type === 'unread') {
+          this.unread = Number.isSafeInteger(msg.data) ? msg.data : 0
         }
         if (msg.type === '') {
           notice.warning(msg.data)
@@ -125,6 +131,7 @@ export default {
         size="auto"
         v-bind="props">
         <template v-slot:prepend>
+          <v-badge v-if="unread" dot color="red" offset-x="-40" offset-y="-22"/>
           <v-avatar :image="avatar"></v-avatar>
         </template>
         <span class="username">{{ username }}</span>
@@ -136,9 +143,11 @@ export default {
         个人信息
       </v-list-item>
       <v-list-item @click="toMessage">
-        <v-badge v-if="unread" dot color="red" offset-x="-25" offset-y="-16"/>
         <v-icon icon="mdi-bell-outline"/>
         消息中心
+        <template v-slot:append>
+          <v-badge v-if="unread" :content="unread" class="badge" color="red" inline/>
+        </template>
       </v-list-item>
     </v-list>
   </v-menu>

@@ -7,6 +7,7 @@ import loadavg_performance_record from "@/components/charts/node/performance_rec
 import format from "@/scripts/utils/format";
 import network_performance_record from "@/components/charts/node/performance_record/network_performance_record.vue";
 import {da} from "vuetify/locale";
+import message from "@/scripts/utils/message";
 
 export default {
   name: "nodePerformanceRecord",
@@ -234,6 +235,7 @@ export default {
             end_time: this.$refs.loadavg_end_time.value,
             device: "loadavg",
           }
+          data = this.check_time(data, this.$refs.loadavg_start_time, this.$refs.loadavg_end_time)
           break;
         // CPU负载
         case 'cpu':
@@ -265,20 +267,89 @@ export default {
           }
           break
       }
-      console.log(data)
       this.send({
         action: 'get_performance_record',
         data: data
       })
-      if (type === 'network'){
+      if (type === 'network') {
         this.load_network_port_data()
       }
-    }
+
+    },
+    /**
+     * 检查时间选择是否合法,并返回调整后的时间
+     * @param data
+     * @param start_time_ref
+     * @param end_time_ref
+     * @return data
+     */
+    check_time(data, start_time_ref, end_time_ref) {
+      // 现在的时间戳
+      let now = new Date().getTime();
+      // 今日结束时间时间戳
+      let todayEnd = new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1;
+      // 起始时间 时间戳
+      let start_time = this.strDateToTimestamp(start_time_ref.value);
+      // 结束时间 时间戳
+      let end_time = this.strDateToTimestamp(end_time_ref.value);
+
+
+      // 检查结束时间，如果大于今天，则设置为今天的23:59:59
+      if (end_time > todayEnd){
+        console.log(end_time_ref.value)
+        message.showWarning(this, '结束时间不能大于今天')
+        return data
+      }
+      // 检查起始时间，如果大于现在，则设置为现在
+      if (start_time > now){
+        message.showWarning(this, '起始时间不能大于现在')
+        return data
+      }
+
+      // 检查起始时间，如果大于结束时间，则设置为结束时间 -1 小时
+      if (start_time > end_time){
+        message.showWarning(this, '结束时间不能小于起始时间')
+        return data
+      }
+
+      // 检查结束时间，如果小于起始时间，则设置为起始时间
+
+
+      return data
+    },
+    /**
+     * 格式化日期
+     * @param date
+     * @return {string}
+     */
+    formatISOString(date) {
+      function padZero(num) {
+        return num.toString().padStart(2, '0');
+      }
+
+      return [
+          date.getFullYear(),
+          padZero(date.getMonth() + 1), // getMonth 返回的月份是从0开始的，所以需要+1
+          padZero(date.getDate()),
+        ].join('-') + ' ' +
+        [
+          padZero(date.getHours()),
+          padZero(date.getMinutes()),
+          padZero(date.getSeconds()),
+        ].join(':');
+    },
+    strDateToTimestamp(str) {
+      return new Date(str).getTime()
+    },
   },
   watch: {
     select_network_port(val) {
       this.load_network_port_data()
+    },
+    "loadavg.start_time"(n,o){
+      
     }
+
     //   "cpu.start_time"(val) {
     //     if (this.pre && val != this.cpu.start_time_time) {
     //       this.send({
@@ -398,9 +469,11 @@ export default {
         <v-card-title>
           内存
           <div class="select-time">
-            <input ref="memory_start_time" @change="change_time('memory')" type="datetime-local" v-model="memory.start_time">
+            <input ref="memory_start_time" @change="change_time('memory')" type="datetime-local"
+                   v-model="memory.start_time">
             <span>到</span>
-            <input ref="memory_end_time" @change="change_time('memory')" type="datetime-local" v-model="memory.end_time">
+            <input ref="memory_end_time" @change="change_time('memory')" type="datetime-local"
+                   v-model="memory.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -421,9 +494,11 @@ export default {
         <v-card-title>
           磁盘IO
           <div class="select-time">
-            <input ref="disk_io_start_time" @change="change_time('disk_io')" type="datetime-local" v-model="disk_io.start_time">
+            <input ref="disk_io_start_time" @change="change_time('disk_io')" type="datetime-local"
+                   v-model="disk_io.start_time">
             <span>到</span>
-            <input ref="disk_io_end_time" @change="change_time('disk_io')" type="datetime-local" v-model="disk_io.end_time">
+            <input ref="disk_io_end_time" @change="change_time('disk_io')" type="datetime-local"
+                   v-model="disk_io.end_time">
           </div>
         </v-card-title>
         <v-card-text>
@@ -459,9 +534,11 @@ export default {
             </v-menu>
           </p>
           <div class="select-time">
-            <input ref="network_start_time" @change="change_time('network')" type="datetime-local" v-model="network.start_time">
+            <input ref="network_start_time" @change="change_time('network')" type="datetime-local"
+                   v-model="network.start_time">
             <span>到</span>
-            <input ref="network_end_time" @change="change_time('network')" type="datetime-local" v-model="network.end_time">
+            <input ref="network_end_time" @change="change_time('network')" type="datetime-local"
+                   v-model="network.end_time">
           </div>
         </v-card-title>
         <v-card-text>
