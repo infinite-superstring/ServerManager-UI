@@ -1,10 +1,11 @@
 <template>
-  <TaskItemCard :task="task" @click="signIn"/>
+  <SignInTaskCard :task="task" @signIn="signIn"/>
   <TaskItemCard v-for="item in tasks" :task="item" :key="item.id"/>
 </template>
 
 <script setup>
 
+import SignInTaskCard from "@/components/task/TaskItemCard.vue";
 import TaskItemCard from "@/components/task/TaskItemCard.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
@@ -49,6 +50,10 @@ const signIn = () => {
   axiosplus.post('/api/task/attendanceCheckIn')
     .then(res => {
       if (res.data.status === 1) {
+        if (res.data.data === false) {
+          message.showWarning(this, res.data.msg)
+          return
+        }
         task.value = res.data.data
         getCheckInStatus()
         message.showSuccess(this, res.data.msg)

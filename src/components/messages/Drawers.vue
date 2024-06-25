@@ -3,7 +3,7 @@
     <v-row class="options">
       <v-col class="col">
         <v-btn-group class="btn-group">
-          <v-list class="btn-lists">
+          <v-list class="btn-lists" >
             <v-list-item
               value="all"
               active-color="#2196F3"
@@ -86,6 +86,7 @@ const confirmDialogDisplay = ref(false)
 const method = ref('all')
 const currentPage = ref(1)
 const MTableRef = ref()
+const defaultOpen = ref('all')
 
 /**
  * 表格数据
@@ -101,7 +102,7 @@ const data = ref({
  * 获取表格数据列表
  */
 const getList = () => {
-  axios.get('/api/message/list',
+  axios.get('/api/message/getList',
     {
       params: {
         method: method.value,

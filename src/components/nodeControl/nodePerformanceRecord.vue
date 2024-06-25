@@ -244,6 +244,7 @@ export default {
             end_time: this.$refs.cpu_end_time.value,
             device: "cpu",
           }
+          data = this.check_time(data, this.$refs.cpu_start_time, this.$refs.cpu_end_time)
           break;
         case 'memory':
           data = {
@@ -251,6 +252,7 @@ export default {
             end_time: this.$refs.memory_end_time.value,
             device: "memory",
           }
+          data = this.check_time(data, this.$refs.memory_start_time, this.$refs.memory_end_time)
           break;
         case 'disk_io':
           data = {
@@ -258,6 +260,7 @@ export default {
             end_time: this.$refs.disk_io_end_time.value,
             device: "disk_io",
           }
+          data = this.check_time(data, this.$refs.disk_io_start_time, this.$refs.disk_io_end_time)
           break;
         case 'network':
           data = {
@@ -265,6 +268,7 @@ export default {
             end_time: this.$refs.network_end_time.value,
             device: "network",
           }
+          data = this.check_time(data, this.$refs.network_start_time, this.$refs.network_end_time)
           break
       }
       this.send({
@@ -294,25 +298,42 @@ export default {
       let end_time = this.strDateToTimestamp(end_time_ref.value);
 
 
-      // 检查结束时间，如果大于今天，则设置为今天的23:59:59
-      if (end_time > todayEnd){
-        console.log(end_time_ref.value)
-        message.showWarning(this, '结束时间不能大于今天')
+      // 检查结束时间，如果大于现在，则设置为现在
+      if (end_time > now) {
+        this[data['device']].end_time = format.formatTimestampToStr(now)
+        message.showWarning(this, '结束时间不能大于现在')
+        data.end_time = this[data['device']].end_time
         return data
       }
-      // 检查起始时间，如果大于现在，则设置为现在
-      if (start_time > now){
+      // 检查起始时间，如果大于现在，则设置为结束时间 减去一天
+      if (start_time > now) {
+        this[data['device']].start_time = format.formatTimestampToStr(end_time - 24 * 3600000)
         message.showWarning(this, '起始时间不能大于现在')
+        data.start_time = this[data['device']].start_time
         return data
       }
 
       // 检查起始时间，如果大于结束时间，则设置为结束时间 -1 小时
-      if (start_time > end_time){
-        message.showWarning(this, '结束时间不能小于起始时间')
+      if (start_time > end_time) {
+        this[data['device']].start_time = format.formatTimestampToStr(end_time - 3600000)
+        message.showWarning(this, '起始时间不能大于结束时间')
+        data.start_time = this[data['device']].start_time
         return data
       }
 
       // 检查结束时间，如果小于起始时间，则设置为起始时间
+      if (end_time < start_time) {
+        this[data['device']].end_time = format.formatTimestampToStr(start_time + 3600000)
+        message.showWarning(this, '结束时间不能小于起始时间')
+        data.end_time = this[data['device']].end_time
+        return data
+      }
+
+      // 检查 起始时间 对比 结束时间 相差小于一个小时则提示
+      if (end_time - start_time < 3600000) {
+        message.showWarning(this, data.device + '时间范围过于接近')
+        return data
+      }
 
 
       return data
@@ -346,8 +367,12 @@ export default {
     select_network_port(val) {
       this.load_network_port_data()
     },
-    "loadavg.start_time"(n,o){
-      
+    "loadavg.start_time"(n, o) {
+      if (!o) return
+      console.log(this.strDateToTimestamp(n))
+      console.log(this.strDateToTimestamp(o))
+      console.log(n)
+      console.log(o)
     }
 
     //   "cpu.start_time"(val) {
@@ -589,4 +614,6 @@ export default {
 .select-time {
   width: 100%;
 }
+
 </style>
+

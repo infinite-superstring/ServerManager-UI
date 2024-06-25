@@ -14,17 +14,18 @@
           :key="item.id"
           :class="{ 'active': activeId === item.id }">
         <td>
-          <v-tooltip :text="item.title" location="top">
-            <template #activator="{props}">
-            <span class="title" v-bind="props">
+<!--          <v-tooltip :text="item.title" location="top">-->
+<!--            <template #activator="{props}">-->
+<!--            -->
+<!--            </template>-->
+<!--          </v-tooltip>-->
+          <span class="title" :title="item.title">
               <v-badge v-if="!item.read" color="error" dot>
                 <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               </v-badge>
               <v-icon v-else :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
               {{ item.title }}
             </span>
-            </template>
-          </v-tooltip>
         </td>
         <td class="td-date">
           <span class="date">

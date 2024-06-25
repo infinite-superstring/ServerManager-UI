@@ -14,6 +14,7 @@
         <v-col class="item">
           <v-btn
             size="small"
+            @click="onClick"
             :disabled="props.task.status === 1 || props.task.status === 2"
             :color="getCipColor(props.task.status)"
           >
@@ -26,6 +27,8 @@
 </template>
 
 <script setup>
+
+const emit = defineEmits(['signIn','finish'])
 
 
 const props = defineProps({
@@ -72,6 +75,11 @@ const getCipColor = (status) => {
     default:
       return 'primary'
   }
+}
+
+const onClick = () => {
+  emit('signIn', props.task.id)
+  emit('finish', props.task.id)
 }
 </script>
 
