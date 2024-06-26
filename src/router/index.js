@@ -19,6 +19,8 @@ import nodeGroupEdit from "@/views/Node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/Node/ClusterTask.vue";
 import ClusterExecution from "@/views/Node/ClusterExecution.vue";
 import PatrolPage from '@/views/Patrol.vue'
+import DutyPage from '@/views/Duty.vue'
+
 const routes = [
   // 登录
   {
@@ -174,6 +176,19 @@ const routes = [
     meta: {
       title: "设置",
       permission: "changeSettings"
+    }
+  },
+  // 值班
+  {
+    path:'/duty/',
+    name: "duty",
+    components: {
+      default: DutyPage,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "值班",
+      permission: "viewAudit"
     }
   },
   // 巡检

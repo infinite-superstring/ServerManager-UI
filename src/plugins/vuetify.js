@@ -10,19 +10,27 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import { md } from 'vuetify/iconsets/md'
-import { fa } from 'vuetify/iconsets/fa'
+import {aliases, mdi} from 'vuetify/iconsets/mdi'
+import {md} from 'vuetify/iconsets/md'
+import {fa} from 'vuetify/iconsets/fa'
 
 import 'vuetify/styles'
 
 // Composables
-import { createVuetify } from 'vuetify'
+import {createVuetify} from 'vuetify'
 // bata
-import { VTimePicker } from 'vuetify/labs/VTimePicker'
+import {VTimePicker} from 'vuetify/labs/VTimePicker'
+
+// i18n 您自己的翻译文件
+import {zhHans,pl} from 'vuetify/locale'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  // 中文配置
+  locale: {
+    locale: 'zhHans',
+    message: {zhHans},
+  },
   components: {
     VTimePicker,
   },

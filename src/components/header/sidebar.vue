@@ -113,6 +113,8 @@ export default {
                    v-if="UserStore.check_user_permission('viewAudit')"></v-list-item>
       <v-list-item :to="{name: 'settings'}" title="设置" prepend-icon="mdi:mdi-cogs"
                    v-if="UserStore.check_user_permission('changeSettings')"></v-list-item>
+      <v-list-item title="值班记录" :to="{name: 'duty'}" prepend-icon="mdi:mdi-calendar-clock"
+                   v-if="UserStore.check_user_permission('viewDuty')"></v-list-item>
       <v-divider/>
       <v-list-item subtitle="浏览" v-if="!display"></v-list-item>
       <v-list-item :to="{name: 'patrol'}" title="巡检" prepend-icon="mdi-application-edit-outline"></v-list-item>

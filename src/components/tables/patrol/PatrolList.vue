@@ -27,9 +27,9 @@ const show = (item) => {
       <th class="text-center">
         时间
       </th>
-      <th class="text-center">
-        图片
-      </th>
+<!--      <th class="text-center">-->
+<!--        图片-->
+<!--      </th>-->
       <th class="text-center">
         内容
       </th>
@@ -42,16 +42,16 @@ const show = (item) => {
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in list" :key="item.id">
+    <tr class="tbody-tr" v-for="item in list" :key="item.id">
       <td class="text-center">
         {{ item.user }}
       </td>
       <td class="text-center">
         {{ item.time }}
       </td>
-      <td class="text-center">
-        <v-img :src="item.image" height="100px"/>
-      </td>
+<!--      <td class="text-center">-->
+<!--        <v-img :src="item.image"/>-->
+<!--      </td>-->
       <td class="text-center">
         <v-btn variant="text" size="small" @click="show(item)">查看</v-btn>
       </td>

@@ -17,7 +17,16 @@ export default {
     multiple: {
       required: false,
       default: false
+    },
+    singleLine: {
+      required: false,
+      default: false
+    },
+    hideDetails: {
+      required: false,
+      default: false
     }
+
   },
   emits: ["update:select_user"],
   data: () => {
@@ -38,6 +47,7 @@ export default {
     } else if (this.value instanceof Object && this.value.length > 0) {
       this.new_value = this.value
     }
+    this.getUserList()
   },
   unmounted() {
     this.input = ""
@@ -48,17 +58,21 @@ export default {
       if (!val) {
         return
       }
-      user.getUserList(val).then(res => {
-        if (res.data.status !== 1) {
-          return message.showWarning(this, res.data.msg)
-        }
-        if (res.data.data.PageContent.length > 0) {
-          this.userListData = res.data.data.PageContent.map(({id, userName}) => ({id, userName}))
-        } else {
-          this.userListData = []
-        }
-      })
-    }
+      this.getUserList(val)
+    },
+    getUserList(search = '', curr = 1, pageSize = 5) {
+      user.getUserList(this, search, curr, pageSize)
+        .then(res => {
+          if (res.data.status !== 1) {
+            return message.showWarning(this, res.data.msg)
+          }
+          if (res.data.data.PageContent.length > 0) {
+            this.userListData = res.data.data.PageContent.map(({id, userName}) => ({id, userName}))
+          } else {
+            this.userListData = []
+          }
+        })
+    },
   },
   watch: {
     new_value(val) {
@@ -85,6 +99,8 @@ export default {
     :chips="multiple"
     item-title="userName"
     item-value="id"
+    :single-line="singleLine"
+    :hide-details="hideDetails"
     return-object
     auto-select-first
   ></v-autocomplete>
