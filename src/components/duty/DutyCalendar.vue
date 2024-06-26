@@ -28,6 +28,12 @@
           :color="getAvatarColor(event.title)"
           size="small"
         >
+          <v-tooltip
+            activator="parent"
+            location="end">
+            <div>姓名:{{ event.title }}</div>
+            <div>签到时间:{{ event.end.toLocaleString() }}</div>
+          </v-tooltip>
           <span>{{ getAvatarUserName(event.title) }}</span>
         </v-avatar>
       </template>

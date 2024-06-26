@@ -26,11 +26,11 @@ const userList = ref([])
  */
 const getDuty = () => {
   let yearAndMonth = dutyCalendarRef.value.currentYear + '-' + dutyCalendarRef.value.currentMonth
-  if (dutyCalendarRef.value.users.length === 0) {
+  // if (dutyCalendarRef.value.users.length === 0) {
     if (exist.value.includes(yearAndMonth)) {
       return
     }
-  }
+  // }
   axiosplus.get('/api/task/getDuty?year_and_month=' +
     yearAndMonth).then((res) => {
     let result = res.data.data.map((item) => {
@@ -42,14 +42,18 @@ const getDuty = () => {
         pic: item.pic
       }
     })
-    if (dutyCalendarRef.value.users.length === 0) {
-      result.forEach((item) => {
+
+    result.forEach((item) => {
         rawEvents.value.push(item)
       })
-    } else {
-      rawEvents.value = result
-      events.value = rawEvents.value
-    }
+    // if (dutyCalendarRef.value.users.length === 0) {
+    //   result.forEach((item) => {
+    //     rawEvents.value.push(item)
+    //   })
+    // } else {
+    //   rawEvents.value = result
+    //   events.value = rawEvents.value
+    // }
     exist.value.push(yearAndMonth)
     events.value = rawEvents.value
   })

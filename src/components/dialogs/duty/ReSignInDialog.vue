@@ -70,6 +70,7 @@ const getUserInfo = () => {
 }
 
 const submit = () => {
+  reDate.value.setHours(8, 0, 0, 0)
   axiosplus.post('/api/task/attendanceCheckIn', {
     userId: props.userId,
     timestamp: format.formatTimestampToStr(reDate.value.getTime())
