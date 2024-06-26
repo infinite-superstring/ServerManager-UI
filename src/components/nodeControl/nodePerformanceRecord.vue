@@ -92,7 +92,7 @@ export default {
         this.cpu.end_time = data.end_time
         // 提取时间戳作为X轴标签
         this.cpu.labels = usage_data.map(entry => entry.timestamp);
-
+        console.log(usage_data)
         // 准备 cpu_usage 的数据集
         const cpuUsageDataset = {
           label: 'CPU',
@@ -105,10 +105,12 @@ export default {
         // 准备每个核心的使用率数据集
         const coreUsageDatasets = [];
         const coreCount = usage_data[0].cpu_cores_usage.length;
+        console.log(usage_data[0].cpu_cores_usage[0].usage)
         for (let i = 0; i < coreCount; i++) {
+          console.log(i)
           const coreDataset = {
             label: `CPU ${i}`,
-            data: usage_data.map(entry => entry.cpu_cores_usage[i].usage),
+            data: usage_data.map(entry => entry.cpu_cores_usage[i]?.usage),
             fill: false,
             hidden: true,
             pointRadius: 0,
@@ -126,7 +128,7 @@ export default {
         // 提取时间戳作为X轴标签
         this.memory.labels = usage_data.map(entry => entry.timestamp);
 
-        this.memory.source_data = usage_data.map(entry => entry.memory_used);
+        this.memory.source_data = usage_data.map(entry => entry?.memory_used);
 
         this.memory.datasets = [{
           label: "内存使用率",
@@ -139,17 +141,17 @@ export default {
       if (data.device === "_all" || data.device === "disk_io") {
         this.disk_io.start_time = data.start_time
         this.disk_io.end_time = data.end_time
-        this.disk_io.labels = usage_data.map(entry => entry.timestamp);
+        this.disk_io.labels = usage_data.map(entry => entry?.timestamp);
         this.disk_io.datasets = [{
           label: "读取",
-          data: usage_data.map(entry => entry.disk_io_read_bytes),
+          data: usage_data.map(entry => entry?.disk_io_read_bytes),
           fill: true,
           pointRadius: 0,
           tension: 0.1
         }]
         this.disk_io.datasets.push({
           label: "写入",
-          data: usage_data.map(entry => entry.disk_io_write_bytes),
+          data: usage_data.map(entry => entry?.disk_io_write_bytes),
           fill: true,
           pointRadius: 0,
           tension: 0.1
@@ -162,8 +164,8 @@ export default {
         for (let i = 0; i < usage_data[0].network_usage.length; i++) {
           this.network_port_list.push(usage_data[0].network_usage[i].name)
         }
-        this.network.labels = usage_data.map(entry => entry.timestamp);
-        this.network.source_data = usage_data.map(entry => entry.network_usage)
+        this.network.labels = usage_data.map(entry => entry?.timestamp);
+        this.network.source_data = usage_data.map(entry => entry?.network_usage)
         this.load_network_port_data()
       }
       if (data.device === "_all" || data.device === "loadavg") {
@@ -192,19 +194,14 @@ export default {
           tension: 0.1
         })
       }
-      console.log(this.cpu)
-      console.log(this.memory)
-      console.log(this.disk_io)
-      console.log(this.network)
-      console.log(this.loadavg)
       this.pre = true
     },
     load_network_port_data() {
       const network_port_data = this.network.source_data.map(entry => {
         const allInterface = entry.find(item => item.name === this.select_network_port);
         return {
-          bytes_sent: allInterface.bytes_sent,
-          bytes_recv: allInterface.bytes_recv
+          bytes_sent: allInterface?.bytes_sent,
+          bytes_recv: allInterface?.bytes_recv
         };
       });
       this.network.datasets = [
