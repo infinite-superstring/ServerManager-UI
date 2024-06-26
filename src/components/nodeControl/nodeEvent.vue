@@ -124,22 +124,22 @@ export default {
           事件最后更新时间: {{ info_dialog.data.update_time }}<br>
           <div class="phase" v-if="info_dialog.data.phase.length > 0">
             <v-divider/>
-            <v-stepper-vertical>
-              <v-stepper-vertical-item
-                v-for="(index, item) in info_dialog.data.phase"
-                :key="index"
-                :complete="item > 1"
-                :title="item.title"
-                value="index"
-              >
-                {{ item.desc }}
-                <template v-slot:next="{ next }">
-                  <v-btn color="primary" @click="next"></v-btn>
-                </template>
+<!--            <v-stepper-vertical>-->
+<!--              <v-stepper-vertical-item-->
+<!--                v-for="(index, item) in info_dialog.data.phase"-->
+<!--                :key="index"-->
+<!--                :complete="item > 1"-->
+<!--                :title="item.title"-->
+<!--                value="index"-->
+<!--              >-->
+<!--                {{ item.desc }}-->
+<!--                <template v-slot:next="{ next }">-->
+<!--                  <v-btn color="primary" @click="next"></v-btn>-->
+<!--                </template>-->
 
-                <template v-slot:prev></template>
-              </v-stepper-vertical-item>
-            </v-stepper-vertical>
+<!--                <template v-slot:prev></template>-->
+<!--              </v-stepper-vertical-item>-->
+<!--            </v-stepper-vertical>-->
           </div>
         </v-card-text>
         <v-card-actions>

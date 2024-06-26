@@ -47,6 +47,7 @@ const getDuty = () => {
         rawEvents.value.push(item)
       })
     } else {
+      rawEvents.value = result
       events.value = rawEvents.value
     }
     exist.value.push(yearAndMonth)
