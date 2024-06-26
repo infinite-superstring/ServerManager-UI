@@ -197,7 +197,7 @@ export default {
           <node-terminal :node_uuid="node_base_info.node_uuid" :ws="websocket" :online="node_base_info.node_online"/>
         </v-window-item>
         <v-window-item value="Event">
-          <node-event/>
+          <node-event :node_uuid="node_base_info.node_uuid"/>
         </v-window-item>
         <v-window-item value="Rules">
           <v-alert
