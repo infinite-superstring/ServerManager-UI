@@ -6,7 +6,6 @@ import disk_io_performance_record from "@/components/charts/node/performance_rec
 import loadavg_performance_record from "@/components/charts/node/performance_record/loadavg_performance_record.vue";
 import format from "@/scripts/utils/format";
 import network_performance_record from "@/components/charts/node/performance_record/network_performance_record.vue";
-import {da} from "vuetify/locale";
 import message from "@/scripts/utils/message";
 
 export default {
@@ -334,8 +333,6 @@ export default {
         message.showWarning(this, data.device + '时间范围过于接近')
         return data
       }
-
-
       return data
     },
     /**
