@@ -2,7 +2,9 @@
   <v-card>
     <v-sheet>
       <div class="toolsBar searchHeader">
-        <v-btn base-color="success">
+        <v-btn
+          @click="reStatus = true"
+          base-color="success">
           补签
         </v-btn>
         <select-user
@@ -26,10 +28,23 @@
           :color="getAvatarColor(event.title)"
           size="small"
         >
+          <v-tooltip
+            activator="parent"
+            location="end">
+            <div>姓名:{{ event.title }}</div>
+            <div>签到时间:{{ event.end.toLocaleString() }}</div>
+          </v-tooltip>
           <span>{{ getAvatarUserName(event.title) }}</span>
         </v-avatar>
       </template>
     </v-calendar>
+    <ReSignInDialog
+      :user-id="userIds[0]"
+      :status="reStatus"
+      @submit="reSignIn"
+      @close="reStatus = false"
+    />
+
   </v-card>
 </template>
 
@@ -37,15 +52,22 @@
 import {VCalendar} from 'vuetify/labs/VCalendar'
 import {computed, ref, watch} from "vue";
 import SelectUser from "@/components/input/selectUser.vue";
+import ReSignInDialog from "@/components/dialogs/duty/ReSignInDialog.vue";
 
+// 补签对话框
+const reStatus = ref(false)
+// 父组件事件
 const emit = defineEmits(['update']);
-const calendar = ref(null); // 获取日历组件
-const currentDate = ref([new Date()]); // 当前日期
-const type = ref('month'); // 月视图
-// 获取当前年月
+// 日历实例
+const calendar = ref(null);
+// 当前日期
+const currentDate = ref([new Date()]);
+const type = ref('month');
+// 获取当前年
 const currentYear = computed(() => {
   return new Date(currentDate.value[0]).getFullYear();
 });
+// 获取当前月
 const currentMonth = computed(() => {
   return new Date(currentDate.value[0]).getMonth() + 1;
 });
@@ -126,6 +148,11 @@ const getAvatarColor = (name) => {
   return colors[colorIndex];
 };
 
+const reSignIn = () => {
+  reStatus.value = false
+  emit('update')
+}
+
 
 watch(() => currentYear.value, () => {
   emit('update')
@@ -146,10 +173,6 @@ defineExpose({
 
 
 <style scoped>
-.calendar-head {
-  padding: 5px;
-}
-
 .searchHeader {
   display: flex;
   align-items: center;

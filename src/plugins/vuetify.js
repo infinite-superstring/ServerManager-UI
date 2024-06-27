@@ -19,8 +19,9 @@ import 'vuetify/styles'
 // Composables
 import {createVuetify} from 'vuetify'
 // bata
+import {VDateInput} from 'vuetify/labs/VDateInput'
 import { VTimePicker } from 'vuetify/labs/VTimePicker'
-import { VStepperVertical } from 'vuetify/labs/VStepperVertical'
+// import { VStepperVertical } from 'vuetify/labs/VStepperVertical'
 
 // i18n 您自己的翻译文件
 import {zhHans, pl} from 'vuetify/locale'
@@ -34,7 +35,8 @@ export default createVuetify({
   },
   components: {
     VTimePicker,
-    VStepperVertical,
+    VDateInput,
+    // VStepperVertical,
   },
   theme: {
     themes: {

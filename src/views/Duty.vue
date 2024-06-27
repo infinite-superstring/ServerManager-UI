@@ -9,8 +9,3 @@
 <script setup>
 import DutyLayout from '@/layouts/duty/DutyLayout.vue'
 </script>
-
-
-<style scoped>
-
-</style>
