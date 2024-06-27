@@ -98,15 +98,26 @@ export default {
     <tr
       v-for="page_row in PageContent"
       :key="page_row.event_id"
+      :class="page_row.closed ? '': 'blinking-text'"
     >
       <td>{{ page_row.event_id }}</td>
       <td>{{ page_row.type }}</td>
-      <td>{{ page_row.desc ? page_row.desc : '未知' }}</td>
-      <td>{{ page_row.level }}</td>
+      <td>{{ page_row.desc ? page_row.desc : '无' }}</td>
+      <td class="event_level">
+        <span v-if="page_row.level === 'Info'" class="text-blue-darken-1"><v-icon
+          icon="mdi-information-outline"/>信息</span>
+        <span v-if="page_row.level === 'Warning'" class="text-amber-darken-1"><v-icon
+          icon="mdi-alert-outline"/>警告</span>
+        <span v-if="page_row.level === 'Error'" class="text-red-darken-2"><v-icon icon="mdi-alert-circle-outline"/>错误</span>
+        <span v-if="page_row.level === 'Critical'" class="text-red-darken-4"><v-icon icon="mdi-alert-circle-outline"/>致命</span>
+      </td>
       <td>{{ page_row.update_time }}</td>
       <td>
-        <v-btn size="small" color="primary" variant="text"
-               @click="info_dialog.event_id = page_row.event_id;info_dialog.flag=true">
+        <v-btn
+          size="small"
+          color="primary"
+          variant="text"
+          @click="info_dialog.event_id = page_row.event_id;info_dialog.flag=true">
           详细信息
         </v-btn>
       </td>
@@ -124,22 +135,35 @@ export default {
           事件最后更新时间: {{ info_dialog.data.update_time }}<br>
           <div class="phase" v-if="info_dialog.data.phase.length > 0">
             <v-divider/>
-<!--            <v-stepper-vertical>-->
-<!--              <v-stepper-vertical-item-->
-<!--                v-for="(index, item) in info_dialog.data.phase"-->
-<!--                :key="index"-->
-<!--                :complete="item > 1"-->
-<!--                :title="item.title"-->
-<!--                value="index"-->
-<!--              >-->
-<!--                {{ item.desc }}-->
-<!--                <template v-slot:next="{ next }">-->
-<!--                  <v-btn color="primary" @click="next"></v-btn>-->
-<!--                </template>-->
-
-<!--                <template v-slot:prev></template>-->
-<!--              </v-stepper-vertical-item>-->
-<!--            </v-stepper-vertical>-->
+            <v-table max-height="300px">
+              <thead>
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  步骤名
+                </th>
+                <th>
+                  步骤数据
+                </th>
+                <th>
+                  步骤时间
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr
+                v-for="(item, index) in info_dialog.data.phase"
+                :key="index"
+              >
+                <td>{{ index }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.desc }}</td>
+                <td>{{ item.timestamp }}</td>
+              </tr>
+              </tbody>
+            </v-table>
           </div>
         </v-card-text>
         <v-card-actions>
@@ -162,5 +186,16 @@ export default {
 </template>
 
 <style scoped>
-
+.event_level span {
+  display: flex;
+  align-items: center;
+}
+@keyframes blink {
+  0% { background-color: #42A5F5; color: white }
+  50% { background-color: unset; color: black }
+  100% { background-color: #42A5F5; color: white }
+}
+.blinking-text {
+  animation: blink 3s infinite;
+}
 </style>
