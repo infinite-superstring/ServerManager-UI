@@ -101,12 +101,15 @@ export default {
     >
       <td>{{ page_row.event_id }}</td>
       <td>{{ page_row.type }}</td>
-      <td>{{ page_row.desc ? page_row.desc : '未知' }}</td>
+      <td>{{ page_row.desc ? page_row.desc : '无' }}</td>
       <td>{{ page_row.level }}</td>
       <td>{{ page_row.update_time }}</td>
       <td>
-        <v-btn size="small" color="primary" variant="text"
-               @click="info_dialog.event_id = page_row.event_id;info_dialog.flag=true">
+        <v-btn
+          size="small"
+          color="primary"
+          variant="text"
+          @click="info_dialog.event_id = page_row.event_id;info_dialog.flag=true">
           详细信息
         </v-btn>
       </td>
@@ -124,22 +127,35 @@ export default {
           事件最后更新时间: {{ info_dialog.data.update_time }}<br>
           <div class="phase" v-if="info_dialog.data.phase.length > 0">
             <v-divider/>
-            <v-stepper-vertical>
-              <v-stepper-vertical-item
-                v-for="(index, item) in info_dialog.data.phase"
+            <v-table max-height="300px">
+              <thead>
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  步骤名
+                </th>
+                <th>
+                  步骤数据
+                </th>
+                <th>
+                  步骤时间
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr
+                v-for="(item, index) in info_dialog.data.phase"
                 :key="index"
-                :complete="item > 1"
-                :title="item.title"
-                value="index"
               >
-                {{ item.desc }}
-                <template v-slot:next="{ next }">
-                  <v-btn color="primary" @click="next"></v-btn>
-                </template>
-
-                <template v-slot:prev></template>
-              </v-stepper-vertical-item>
-            </v-stepper-vertical>
+                <td>{{ index }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.desc }}</td>
+                <td>{{ item.timestamp }}</td>
+              </tr>
+              </tbody>
+            </v-table>
           </div>
         </v-card-text>
         <v-card-actions>
