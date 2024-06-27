@@ -98,11 +98,19 @@ export default {
     <tr
       v-for="page_row in PageContent"
       :key="page_row.event_id"
+      :class="page_row.closed ? '': 'blinking-text'"
     >
       <td>{{ page_row.event_id }}</td>
       <td>{{ page_row.type }}</td>
       <td>{{ page_row.desc ? page_row.desc : '无' }}</td>
-      <td>{{ page_row.level }}</td>
+      <td class="event_level">
+        <span v-if="page_row.level === 'Info'" class="text-blue-darken-1"><v-icon
+          icon="mdi-information-outline"/>信息</span>
+        <span v-if="page_row.level === 'Warning'" class="text-amber-darken-1"><v-icon
+          icon="mdi-alert-outline"/>警告</span>
+        <span v-if="page_row.level === 'Error'" class="text-red-darken-2"><v-icon icon="mdi-alert-circle-outline"/>错误</span>
+        <span v-if="page_row.level === 'Critical'" class="text-red-darken-4"><v-icon icon="mdi-alert-circle-outline"/>致命</span>
+      </td>
       <td>{{ page_row.update_time }}</td>
       <td>
         <v-btn
@@ -178,5 +186,16 @@ export default {
 </template>
 
 <style scoped>
-
+.event_level span {
+  display: flex;
+  align-items: center;
+}
+@keyframes blink {
+  0% { background-color: #42A5F5; color: white }
+  50% { background-color: unset; color: black }
+  100% { background-color: #42A5F5; color: white }
+}
+.blinking-text {
+  animation: blink 3s infinite;
+}
 </style>
