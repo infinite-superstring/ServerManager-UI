@@ -150,7 +150,7 @@ const getAvatarColor = (name) => {
 
 const reSignIn = () => {
   reStatus.value = false
-  emit('update')
+  emit('update',true)
 }
 
 
@@ -177,4 +177,5 @@ defineExpose({
   display: flex;
   align-items: center;
 }
+
 </style>

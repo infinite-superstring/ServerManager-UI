@@ -24,12 +24,14 @@ const userList = ref([])
 /**
  * 获取值班信息
  */
-const getDuty = () => {
+const getDuty = (state) => {
   let yearAndMonth = dutyCalendarRef.value.currentYear + '-' + dutyCalendarRef.value.currentMonth
   // if (dutyCalendarRef.value.users.length === 0) {
+  if (!state) {
     if (exist.value.includes(yearAndMonth)) {
       return
     }
+  }
   // }
   axiosplus.get('/api/task/getDuty?year_and_month=' +
     yearAndMonth).then((res) => {
@@ -44,8 +46,8 @@ const getDuty = () => {
     })
 
     result.forEach((item) => {
-        rawEvents.value.push(item)
-      })
+      rawEvents.value.push(item)
+    })
     // if (dutyCalendarRef.value.users.length === 0) {
     //   result.forEach((item) => {
     //     rawEvents.value.push(item)

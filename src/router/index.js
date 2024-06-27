@@ -1,10 +1,10 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import login from "@/views/Login.vue";
 import UserInfo from "@/views/UserInfo.vue";
 import Dashboard from "@/views/Dashboard.vue"
-import nodeList from "@/views/Node/NodeList.vue";
-import NodeControl from "@/views/Node/NodeControl.vue";
+import nodeList from "@/views/node/NodeList.vue";
+import NodeControl from "@/views/node/NodeControl.vue";
 import userManagementPage from "@/views/admin/User.vue"
 import permissionManagementPage from "@/views/admin/Permission.vue"
 import auditAndLoggerPage from "@/views/admin/Audit.vue"
@@ -15,11 +15,12 @@ import appbar_default from "@/components/header/AppBar_Btn/default.vue"
 import {useUserStore} from "@/store/userInfo";
 import vue from "@/main"
 import Message from '@/views/Messages.vue'
-import nodeGroupEdit from "@/views/Node/NodeGroupEdit.vue";
-import ClusterTask from "@/views/Node/ClusterTask.vue";
-import ClusterExecution from "@/views/Node/ClusterExecution.vue";
+import nodeGroupEdit from "@/views/node/NodeGroupEdit.vue";
+import ClusterTask from "@/views/node/ClusterTask.vue";
+import ClusterExecution from "@/views/node/ClusterExecution.vue";
 import PatrolPage from '@/views/Patrol.vue'
 import DutyPage from '@/views/Duty.vue'
+import WebStatus from "@/views/web_status/WebStatus.vue";
 
 const routes = [
   // 登录
@@ -102,9 +103,17 @@ const routes = [
     }
   },
   // 网站可用性监控
-  // {
-  //
-  // },
+  {
+    path: '/web_status',
+    name: "webStatus",
+    components: {
+      default: WebStatus,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "网站可用性监控"
+    }
+  },
   // 个人信息设置
   {
     path: '/userInfo',
@@ -120,7 +129,7 @@ const routes = [
   {
     // 消息中心
     path: "/message",
-    name:"message",
+    name: "message",
     components: {
       default: Message,
       appBarBtn: appbar_default
@@ -180,7 +189,7 @@ const routes = [
   },
   // 值班
   {
-    path:'/duty/',
+    path: '/duty/',
     name: "duty",
     components: {
       default: DutyPage,
@@ -192,8 +201,8 @@ const routes = [
     }
   },
   // 巡检
-    {
-    path:'/patrol/',
+  {
+    path: '/patrol/',
     name: "patrol",
     components: {
       default: PatrolPage,
@@ -208,7 +217,7 @@ const routes = [
   {
     path: "/about/",
     name: "about",
-    component:aboutPage,
+    component: aboutPage,
     appBarBtn: appbar_default,
     meta: {
       title: "关于"
@@ -223,7 +232,7 @@ const routes = [
       pass_login: true
     }
   },
-  { path: '/:pathMatch(.*)*', redirect: '/error/404' } // 重定向到404页
+  {path: '/:pathMatch(.*)*', redirect: '/error/404'} // 重定向到404页
 ]
 
 const router = createRouter({
@@ -241,7 +250,7 @@ let userStore
 router.beforeEach(async (to, from, next) => {
   userStore = useUserStore()
   if (to.meta.pass_login) {
-      await next()
+    await next()
   } else {
     if (sessionStorage.getItem('loginStatus') === "true" && userStore.userName) {
       await next()
@@ -256,7 +265,7 @@ router.beforeEach(async (to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   if (to.meta.permission && !userStore.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
-      next("/error/403")
+    next("/error/403")
   } else {
     next()
   }
