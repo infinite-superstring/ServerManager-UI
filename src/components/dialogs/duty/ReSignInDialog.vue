@@ -1,7 +1,8 @@
 <template>
   <v-dialog
+    persistent
     v-model="status"
-    width="30%"
+    width="400"
   >
     <v-card>
       <v-card-title>

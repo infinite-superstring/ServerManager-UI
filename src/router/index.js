@@ -111,7 +111,8 @@ const routes = [
       appBarBtn: appbar_default
     },
     meta: {
-      title: "网站可用性监控"
+      title: "网站可用性监控",
+      permission: "viewWebStatus",
     }
   },
   // 个人信息设置
@@ -197,7 +198,7 @@ const routes = [
     },
     meta: {
       title: "值班",
-      permission: "viewAudit"
+      permission: "viewDuty"
     }
   },
   // 巡检
@@ -210,7 +211,7 @@ const routes = [
     },
     meta: {
       title: "巡检",
-      permission: "viewAudit"
+      permission: "viewPatrol"
     }
   },
   // 关于

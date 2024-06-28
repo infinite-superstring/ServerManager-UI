@@ -45,9 +45,13 @@ const getDuty = (state) => {
       }
     })
 
-    result.forEach((item) => {
-      rawEvents.value.push(item)
-    })
+    if (state) {
+      rawEvents.value = result
+    } else {
+      result.forEach((item) => {
+        rawEvents.value.push(item)
+      })
+    }
     // if (dutyCalendarRef.value.users.length === 0) {
     //   result.forEach((item) => {
     //     rawEvents.value.push(item)

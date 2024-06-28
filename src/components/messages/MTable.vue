@@ -14,11 +14,11 @@
           :key="item.id"
           :class="{ 'active': activeId === item.id }">
         <td>
-<!--          <v-tooltip :text="item.title" location="top">-->
-<!--            <template #activator="{props}">-->
-<!--            -->
-<!--            </template>-->
-<!--          </v-tooltip>-->
+          <!--          <v-tooltip :text="item.title" location="top">-->
+          <!--            <template #activator="{props}">-->
+          <!--            -->
+          <!--            </template>-->
+          <!--          </v-tooltip>-->
           <span class="title" :title="item.title">
               <v-badge v-if="!item.read" color="error" dot>
                 <v-icon :icon="item.read ? 'mdi-email-open' : 'mdi-email'"></v-icon>
@@ -108,6 +108,7 @@ watch(() => props.currentPage, (n) => {
 }
 
 .table {
+  /*滚动条隐藏*/
   height: 97%;
 }
 
@@ -155,5 +156,29 @@ watch(() => props.currentPage, (n) => {
   /*color: white;*/
   /*background: rgba(0, 0, 0, 0.05);*/
   /*transform: scale(0.9);*/
+}
+
+</style>
+
+<style>
+/*隐藏滚动条*/
+.v-table__wrapper {
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*鼠标滑到时显示滚动条*/
+
+.v-table__wrapper:hover{
+  overflow: auto;
+}
+.v-table__wrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 </style>

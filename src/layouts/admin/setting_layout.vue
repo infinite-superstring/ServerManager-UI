@@ -6,10 +6,11 @@ import message_settings from "@/components/settings/message";
 import message from "@/scripts/utils/message.js"
 import axios from "axios";
 import Security_Settings from "@/components/settings/security.vue";
+import WebStatusSettings from "@/components/settings/WebStatusSettings.vue";
 
 export default {
   name: "setting_layout",
-  components: {Security_Settings, node_settings, message_settings, base_settings},
+  components: {WebStatusSettings, Security_Settings, node_settings, message_settings, base_settings},
   data: () => {
     return {
       openWindow: "Base_Settings",
@@ -57,9 +58,13 @@ export default {
       <v-window-item value="Node_Settings">
         <node_settings :setting_data="settings"/>
       </v-window-item>
+      <v-window-item value="Web_Status_Settings">
+        <WebStatusSettings :setting_data="settings"/>
+      </v-window-item>
       <v-window-item value="Message_Settings">
         <message_settings :setting_data="settings"/>
       </v-window-item>
+
     </v-window>
     <div class="actionButton">
       <v-btn @click="save()" base-color="green">保存设置</v-btn>
@@ -77,7 +82,7 @@ export default {
       base-color="primary"
       value="Security_Settings"
       @click="openWindow = 'Security_Settings'">
-    安全性设置
+      安全性设置
     </v-list-item>
     <v-list-item
       base-color="primary"
@@ -87,10 +92,17 @@ export default {
     </v-list-item>
     <v-list-item
       base-color="primary"
+      value="Web_Status_Settings"
+      @click="openWindow = 'Web_Status_Settings'">
+      网站监控设置
+    </v-list-item>
+    <v-list-item
+      base-color="primary"
       value="Message_Settings"
       @click="openWindow = 'Message_Settings'">
       消息设置
     </v-list-item>
+
   </v-list>
 </template>
 

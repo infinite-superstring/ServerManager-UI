@@ -102,7 +102,11 @@ export default {
           prepend-icon="mdi:mdi-timeline-outline">
         </v-list-item>
       </v-list-group>
-      <v-list-item title="网站监控" prepend-icon="mdi:mdi-web-check"></v-list-item>
+      <v-list-item
+        :to="{name:'webStatus'}"
+        title="网站监控"
+        prepend-icon="mdi:mdi-web-check"
+        v-if="UserStore.check_user_permission('viewWebStatus')"></v-list-item>
       <v-divider/>
       <v-list-item subtitle="管理" v-if="!display"></v-list-item>
       <v-list-item

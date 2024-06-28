@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     :model-value="props.status"
-    min-width="500px"
+    min-width="400px"
     width="auto"
     persistent
     @close="close"

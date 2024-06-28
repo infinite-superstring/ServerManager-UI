@@ -190,11 +190,22 @@ export default {
   display: flex;
   align-items: center;
 }
+
 @keyframes blink {
-  0% { background-color: #42A5F5; color: white }
-  50% { background-color: unset; color: black }
-  100% { background-color: #42A5F5; color: white }
+  0% {
+    background-color: #42A5F5;
+    color: white
+  }
+  50% {
+    background-color: unset;
+    color: black
+  }
+  100% {
+    background-color: #42A5F5;
+    color: white
+  }
 }
+
 .blinking-text {
   animation: blink 3s infinite;
 }
