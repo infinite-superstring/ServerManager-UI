@@ -7,10 +7,11 @@ import message from "@/scripts/utils/message.js"
 import axios from "axios";
 import Security_Settings from "@/components/settings/security.vue";
 import WebStatusSettings from "@/components/settings/WebStatusSettings.vue";
+import Terminal_audit from "@/components/settings/terminal_audit.vue";
 
 export default {
   name: "setting_layout",
-  components: {WebStatusSettings, Security_Settings, node_settings, message_settings, base_settings},
+  components: {Terminal_audit, WebStatusSettings, Security_Settings, node_settings, message_settings, base_settings},
   data: () => {
     return {
       openWindow: "Base_Settings",
@@ -55,6 +56,9 @@ export default {
       <v-window-item value="Security_Settings">
         <Security_Settings :setting_data="settings"/>
       </v-window-item>
+      <v-window-item value="Terminal_Audit_Settings">
+        <terminal_audit :setting_data="settings"/>
+      </v-window-item>
       <v-window-item value="Node_Settings">
         <node_settings :setting_data="settings"/>
       </v-window-item>
@@ -83,6 +87,12 @@ export default {
       value="Security_Settings"
       @click="openWindow = 'Security_Settings'">
       安全性设置
+    </v-list-item>
+    <v-list-item
+      base-color="primary"
+      value="Terminal_Audit_Settings"
+      @click="openWindow = 'Terminal_Audit_Settings'">
+      终端审计设置
     </v-list-item>
     <v-list-item
       base-color="primary"
