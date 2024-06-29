@@ -52,8 +52,13 @@ export default {
         // cols: 100, // 不指定行数，自动回车后光标从下一行开始
         convertEol: true, //启用时，光标将设置为下一行的开头
         cursorBlink: true,
-        macOptionIsMeta: true
-
+        macOptionIsMeta: true,
+        theme: {
+          foreground: "#ECECEC", //字体
+          background: "#000000", //背景色
+          cursor: "help", //设置光标
+          lineHeight: 20
+        }
       });
 
       fitAddon = new FitAddon()
@@ -61,8 +66,8 @@ export default {
       terminal.open(this.$refs.terminal)
       // terminal.open(document.getElementById('terminal'))
       window.addEventListener('resize', () => {
-      fitAddon.fit();
-    });
+        fitAddon.fit();
+      });
       this.ws.onmessage = (message) => {
         // console.log(message)
         let data = null
@@ -92,6 +97,32 @@ export default {
           action: 'terminal_input',
           data: key
         })
+      });
+      terminal.element.addEventListener('compositionend', (event) => {
+        const text = event.data;
+        console.log(text)
+        this.send({
+          action: 'terminal_input',
+          data: text
+        })
+      });
+      // 处理键盘按下事件
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.code === 'KeyC') {
+          document.execCommand('copy');
+          e.preventDefault();
+        }
+
+        if (e.ctrlKey && e.shiftKey && e.code === 'KeyV') {
+          navigator.clipboard.readText().then((text) => {
+            console.log(text);
+            this.send({
+              action: 'terminal_input',
+              data: text
+            })
+          });
+          e.preventDefault();
+        }
       });
     },
     send(data) {
