@@ -27,8 +27,7 @@ export default {
     }
   },
   data: () => {
-    return {
-    }
+    return {}
   },
   mounted() {
     this.send({
@@ -51,10 +50,26 @@ export default {
         cursorBlink: true,
         macOptionIsMeta: true,
         theme: {
-          foreground: "#ECECEC", //字体
-          background: "#000000", //背景色
-          cursor: "help", //设置光标
-          lineHeight: 20
+          background: '#272822', // 背景色
+          foreground: '#F8F8F2', // 前景色
+          cursor: '#F8F8F2', // 光标颜色
+          selection: 'rgba(248, 248, 242, 0.3)', // 选中文本颜色
+          black: '#272822', // 基本黑色
+          red: '#F92672', // 基本红色
+          green: '#A6E22E', // 基本绿色
+          yellow: '#F4BF75', // 基本黄色
+          blue: '#66D9EF', // 基本蓝色
+          magenta: '#AE81FF', // 基本紫色
+          cyan: '#A1EFE4', // 基本青色
+          white: '#F8F8F2', // 基本白色
+          brightBlack: '#75715E', // 亮黑色
+          brightRed: '#F92672', // 亮红色
+          brightGreen: '#A6E22E', // 亮绿色
+          brightYellow: '#F4BF75', // 亮黄色
+          brightBlue: '#66D9EF', // 亮蓝色
+          brightMagenta: '#AE81FF', // 亮紫色
+          brightCyan: '#A1EFE4', // 亮青色
+          brightWhite: '#F8F8F2', // 亮白色
         }
       });
 
@@ -64,12 +79,13 @@ export default {
       window.addEventListener('resize', () => {
         this.resize()
       });
+      this.resize()
       this.ws.onmessage = (message) => {
         // console.log(message)
         let data = null
         try {
           data = JSON.parse(event.data)
-          fitAddon.fit();
+          // fitAddon.fit();
         } catch (e) {
           console.error(e)
           message.showError(this, `JSON数据解析失败：${e.message}`)
@@ -117,9 +133,9 @@ export default {
     },
     input(key) {
       this.send({
-          action: 'terminal:input',
-          data: key
-        })
+        action: 'terminal:input',
+        data: key
+      })
     },
     send(data) {
       this.ws.send(JSON.stringify(data))
@@ -143,5 +159,16 @@ export default {
 </template>
 
 <style scoped>
+@font-face {
+    font-family: 'NotoSansSC-Medium'; /* 自定义字体名称 */
+    src: url('/public/fonts/NotoSansSC-Medium.otf');
+}
 
+#terminal {
+  font-family: 'NotoSansSC-Medium' ,'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #272822; /* 背景色为 Monokai 的背景色 */
+  color: #F8F8F2; /* 前景色为 Monokai 的前景色 */
+}
 </style>
