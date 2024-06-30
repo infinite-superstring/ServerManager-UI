@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     this.send({
-      action: 'load_performance_record'
+      action: 'performance_record:load'
     })
     this.ws.onmessage = (message) => {
       let data = null
@@ -75,7 +75,7 @@ export default {
         message.showError(this, `JSON数据解析失败：${e.message}`)
       }
       switch (data.action) {
-        case "load_performance_record": {
+        case "performance_record:show": {
           this.load_performance_record(data.data)
         }
       }
@@ -268,7 +268,7 @@ export default {
           break
       }
       this.send({
-        action: 'get_performance_record',
+        action: 'performance_record:get',
         data: data
       })
       if (type === 'network') {

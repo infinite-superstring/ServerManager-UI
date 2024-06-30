@@ -28,28 +28,25 @@ export default {
   },
   data: () => {
     return {
-      inputBuffer: "",
-      historyIndex: 0,
-      commandHistory: []
     }
   },
-  created() {
-    this.send({
-      action: 'connect_terminal'
-    })
-  },
   mounted() {
+    this.send({
+      action: 'terminal:connect'
+    })
     if (this.online) {
       this.open_terminal()
     }
+  },
+  unmounted() {
+    this.send({
+      action: 'terminal:close'
+    })
   },
   methods: {
     open_terminal() {
       terminal = new Terminal({
         rendererType: "canvas", //渲染类型
-        // disableStdin: true
-        // rows: 30, //行数
-        // cols: 100, // 不指定行数，自动回车后光标从下一行开始
         convertEol: true, //启用时，光标将设置为下一行的开头
         cursorBlink: true,
         macOptionIsMeta: true,
@@ -64,9 +61,8 @@ export default {
       fitAddon = new FitAddon()
       terminal.loadAddon(fitAddon);
       terminal.open(this.$refs.terminal)
-      // terminal.open(document.getElementById('terminal'))
       window.addEventListener('resize', () => {
-        fitAddon.fit();
+        this.resize()
       });
       this.ws.onmessage = (message) => {
         // console.log(message)
@@ -79,32 +75,17 @@ export default {
           message.showError(this, `JSON数据解析失败：${e.message}`)
         }
         switch (data.action) {
-          case "terminal_output":
+          case "terminal:output":
             terminal.write(data.data)
-            break
-          default:
             break
         }
       }
-      terminal.onKey(({key, domEvent}) => {
-        // Example: Handling Ctrl+C
-        console.log(domEvent)
-        const modifiers = [];
-        if (domEvent.ctrlKey) modifiers.push('Ctrl');
-        if (domEvent.altKey) modifiers.push('Alt');
-        if (domEvent.shiftKey) modifiers.push('Shift');
-        this.send({
-          action: 'terminal_input',
-          data: key
-        })
+      terminal.onKey(({key}) => {
+        this.input(key)
       });
       terminal.element.addEventListener('compositionend', (event) => {
         const text = event.data;
-        console.log(text)
-        this.send({
-          action: 'terminal_input',
-          data: text
-        })
+        this.input(text)
       });
       // 处理键盘按下事件
       document.addEventListener('keydown', (e) => {
@@ -116,14 +97,29 @@ export default {
         if (e.ctrlKey && e.shiftKey && e.code === 'KeyV') {
           navigator.clipboard.readText().then((text) => {
             console.log(text);
-            this.send({
-              action: 'terminal_input',
-              data: text
-            })
+            this.input(text)
           });
           e.preventDefault();
         }
       });
+    },
+    resize() {
+      fitAddon.fit();
+      const cols = terminal.cols;
+      const rows = terminal.rows;
+      this.send({
+        action: 'terminal:resize',
+        data: {
+          cols: cols,
+          rows: rows
+        }
+      })
+    },
+    input(key) {
+      this.send({
+          action: 'terminal:input',
+          data: key
+        })
     },
     send(data) {
       this.ws.send(JSON.stringify(data))
