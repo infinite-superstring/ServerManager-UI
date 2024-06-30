@@ -1,113 +1,120 @@
 <template>
-  <div class="container">
-    <v-card v-for="(item) in list" class="web-card" :key="item.id">
-      <!--基本信息-->
-      <v-card-title>
-        <div class="web-info">
-          {{ item.title }}
-          <span class="web-info-option">
+  <v-card class="web-card">
+    <!--基本信息-->
+    <v-card-title>
+      <div class="web-info">
+        {{ item.title }}
+        <span class="web-info-option">
               <v-btn size="x-small" variant="text">修改</v-btn>
-              <v-btn size="x-small" variant="text" color="red">删除</v-btn>
+              <v-btn size="x-small" variant="text" color="red" @click="del(item.id)">删除</v-btn>
             </span>
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <!--监控状态-->
+      <div class="status">
+        <div class="status-item">
+          <p>主机</p>
+          <p>{{ item.host.split('/')[0] }}</p>
         </div>
-      </v-card-title>
-      <v-card-text>
-        <!--监控状态-->
-        <div class="status">
-          <div class="status-item">
-            <p>主机</p>
-            <p>{{ item.host }}</p>
-          </div>
-          <div class="status-item">
-            <p>状态</p>
-            <p>
+        <div class="status-item">
+          <p>状态</p>
+          <p>
               <span
                 :style="{color:'green'}"
-                v-if="/^2/.test(item.status)">
+                v-if="/^2/.test(status_code)">
                 <v-icon
                   size="x-small">
                   mdi-check-circle-outline
                 </v-icon>
                 在线
               </span>
-              <span
-                :style="{color:'orange'}"
-                v-if="/^3/.test(item.status)">
+            <span
+              :style="{color:'orange'}"
+              v-if="/^3/.test(status_code)">
                 <v-icon size="x-small">
                   mdi-help-circle-outline
                 </v-icon>
                 警告
               </span>
-              <span
-                :style="{color:'red'}"
-                v-if="/^4/.test(item.status)">
+            <span
+              :style="{color:'red'}"
+              v-if="/^4/.test(status_code)">
                 <v-icon size="x-small">
                   mdi-close-circle-outline
                 </v-icon>
                 离线
               </span>
-              <span
-                :style="{color:'red'}"
-                v-if="/^5/.test(item.status)">
+            <span
+              :style="{color:'red'}"
+              v-if="/^5/.test(status_code)">
                 <v-icon size="x-small">
                   mdi-close-circle-outline
                 </v-icon>
                 错误
               </span>
-            </p>
-          </div>
-          <div class="status-item">
-            <p>延迟</p>
-            <p><span :style="{color: getDelayColor(item.online ? item.delay : 999)}">{{ item.online ? item.delay : 999 }}ms</span></p>
-
-          </div>
+          </p>
         </div>
-        <!--标签-->
-        <div>
-          <v-chip-group>
-            <v-chip v-for="(item, index) in 3">
-              {{ index }}{{ index }}{{ item }}
-            </v-chip>
-          </v-chip-group>
+        <div class="status-item">
+          <p>延迟</p>
+          <p>
+              <span
+                :style="{color: getDelayColor(isOnline ? item.delay : 999)}">
+                {{ isOnline ? Array.isArray(delay) ? item.delay : delay : 999 }}ms
+              </span>
+          </p>
         </div>
-      </v-card-text>
+        <div class="status-item">
+          <p>上次错误时间</p>
+        </div>
+        <div class="status-item">
+          <p>接口</p>
+          <p>{{ getInterface(item.host) }}</p>
+        </div>
+      </div>
       <v-divider/>
-      <v-card-actions>
-        <v-btn base-color="#00B0FF" block>
-          进入控制页
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </div>
+      <!--      <div>-->
+      <!--        {{ props.item.description }}-->
+      <!--      </div>-->
+    </v-card-text>
+    <WebChart v-if="props.online" ref="webChartRef" :time="time" :data="delay"/>
+    <WebOffline v-else :title="item.title"/>
+  </v-card>
 </template>
 
 <script setup>
-
-
 import {ref, watch} from "vue";
+import WebChart from "@/components/web_status/WebChart.vue";
+import WebOffline from "@/components/web_status/WebOffline.vue";
 
+const webChartRef = ref()
+const emit = defineEmits(['delete', 'update'])
 const props = defineProps({
-  list: {
-    type: Array,
+  item: {
+    type: Object,
     required: true
   },
-  onlineInfo: {
+  time: {
     type: Object,
-    required: false,
-    default: () => {
-      return {
-        ms: 460,
-        status: false
-      }
-    }
+    required: true
+  },
+  delay: {
+    type: Object,
+    required: true
+  },
+  online: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+  status_code: {
+    type: Number,
+    required: true,
+    default: 500
   }
 })
 
-const list = ref(props.list)
-watch(() => props.list, (newValue) => {
-  list.value = newValue
-})
-
+const isOnline = ref(true)
 /**
  * 获取延迟文字颜色
  * @param {number} item 延迟时间，单位：毫秒
@@ -127,18 +134,29 @@ const getDelayColor = (item) => {
   }
 };
 
+/**
+ * 获取主机接口
+ * @param {string} host 主机地址
+ * @returns {string} 接口地址
+ */
+const getInterface = (host) => {
+  const matchResult = host.match(/https?:\/\/[^/]*(\/?.*)/);
+  return matchResult ? (matchResult[1] || '/') : '/';
+};
+
+const del = (id) => {
+  emit('delete', id)
+}
+
+watch(() => props.online, val => {
+  console.log(props.item.host + '状态' + val)
+  isOnline.value = val
+}, {deep: true})
+
 </script>
 
 
 <style scoped>
-.container {
-  /*弹性布局，左对齐，自动换行*/
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
 
 .web-card {
   width: 32%;
@@ -155,6 +173,8 @@ const getDelayColor = (item) => {
 .status {
   display: flex;
   justify-content: space-between;
+  /*自动换行*/
+  flex-wrap: wrap;
 }
 
 .web-info-option {
@@ -162,6 +182,7 @@ const getDelayColor = (item) => {
 }
 
 .status-item {
+  width: 30%;
   display: flex;
   flex-direction: column;
   /*顶端对齐底端对齐*/
@@ -192,10 +213,6 @@ const getDelayColor = (item) => {
     min-height: 250px;
   }
 
-  .status {
-    display: block;
-  }
-
   .status-item {
     display: block;
   }
@@ -205,10 +222,6 @@ const getDelayColor = (item) => {
   .web-card {
     min-width: 100%;
     min-height: 250px;
-  }
-
-  .status {
-    display: block;
   }
 
   .status-item {

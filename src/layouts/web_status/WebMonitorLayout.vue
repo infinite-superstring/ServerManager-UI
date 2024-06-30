@@ -43,9 +43,9 @@ const onSubmit = (data) => {
   axiosplus.post("/api/webStatus/addWeb", data)
     .then(res => {
       if (res.data.status === 1) {
-        addWebDialogStatus.value = false
         message.showSuccess(this, res.data.msg)
         webListRef.value.getList()
+        addWebDialogStatus.value = false
       } else {
         message.showWarning(this, res.data.msg)
       }
