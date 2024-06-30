@@ -106,15 +106,15 @@ export default {
             }
             break
           }
-          case "update_node_usage_data": {
+          case "node:update_usage_data": {
             this.usage_data = data.data
             break
           }
-          case "node_online": {
+          case "node:online": {
             this.node_base_info.node_online = true
             break
           }
-          case "node_offline": {
+          case "node:offline": {
             this.node_base_info.node_online = false
             break
           }

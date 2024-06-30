@@ -68,14 +68,14 @@ export default {
           message.showError(this, `JSON数据解析失败：${e.message}`)
         }
         switch (data.action) {
-          case "show_process_list":
+          case "process_list:show":
             this.process_list = data.data.process_list
             console.log(this.process_list)
             break
         }
       }
       this.send({
-        action: 'load_process_list'
+        action: 'process_list:load'
       })
       this.heartbeat_interval = setInterval(this.heartbeat, 1000)
     }
@@ -100,7 +100,7 @@ export default {
       ).then(value => {
         if (value) {
           this.send({
-            action: 'kill_process',
+            action: 'process_list:kill',
             data: {
               pid: process_info.pid,
               tree: tree
