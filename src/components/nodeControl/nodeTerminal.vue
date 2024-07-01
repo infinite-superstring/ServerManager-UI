@@ -76,10 +76,7 @@ export default {
       fitAddon = new FitAddon()
       terminal.loadAddon(fitAddon);
       terminal.open(this.$refs.terminal)
-      window.addEventListener('resize', () => {
-        this.resize()
-      });
-      this.resize()
+
       this.ws.onmessage = (message) => {
         // console.log(message)
         let data = null
@@ -96,6 +93,24 @@ export default {
             break
         }
       }
+    },
+    terminal_ready() {
+      window.addEventListener('resize', () => {
+        this.resize()
+      });
+      this.resize()
+    },
+    resize() {
+      fitAddon.fit();
+      const cols = terminal.cols;
+      const rows = terminal.rows;
+      this.send({
+        action: 'terminal:resize',
+        data: {
+          cols: cols,
+          rows: rows
+        }
+      })
       terminal.onKey(({key}) => {
         this.input(key)
       });
@@ -118,18 +133,6 @@ export default {
           e.preventDefault();
         }
       });
-    },
-    resize() {
-      fitAddon.fit();
-      const cols = terminal.cols;
-      const rows = terminal.rows;
-      this.send({
-        action: 'terminal:resize',
-        data: {
-          cols: cols,
-          rows: rows
-        }
-      })
     },
     input(key) {
       this.send({
@@ -160,12 +163,12 @@ export default {
 
 <style scoped>
 @font-face {
-    font-family: 'NotoSansSC-Medium'; /* 自定义字体名称 */
-    src: url('/public/fonts/NotoSansSC-Medium.otf');
+  font-family: 'NotoSansSC-Medium'; /* 自定义字体名称 */
+  src: url('/public/fonts/NotoSansSC-Medium.otf');
 }
 
 #terminal {
-  font-family: 'NotoSansSC-Medium' ,'Courier New', Courier, monospace;
+  font-family: 'NotoSansSC-Medium', 'Courier New', Courier, monospace;
   font-size: 14px;
   line-height: 1.5;
   background-color: #272822; /* 背景色为 Monokai 的背景色 */
