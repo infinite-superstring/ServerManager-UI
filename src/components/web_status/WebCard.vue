@@ -12,50 +12,18 @@
     </v-card-title>
     <v-card-text>
       <!--监控状态-->
-      <div class="status">
-        <div class="status-item">
+      <v-row>
+        <v-col>
           <p>主机</p>
           <p>{{ item.host.split('/')[0] }}</p>
-        </div>
-        <div class="status-item">
+        </v-col>
+        <v-col>
           <p>状态</p>
           <p>
-              <span
-                :style="{color:'green'}"
-                v-if="/^2/.test(status_code)">
-                <v-icon
-                  size="x-small">
-                  mdi-check-circle-outline
-                </v-icon>
-                在线
-              </span>
-            <span
-              :style="{color:'orange'}"
-              v-if="/^3/.test(status_code)">
-                <v-icon size="x-small">
-                  mdi-help-circle-outline
-                </v-icon>
-                警告
-              </span>
-            <span
-              :style="{color:'red'}"
-              v-if="/^4/.test(status_code)">
-                <v-icon size="x-small">
-                  mdi-close-circle-outline
-                </v-icon>
-                离线
-              </span>
-            <span
-              :style="{color:'red'}"
-              v-if="/^5/.test(status_code)">
-                <v-icon size="x-small">
-                  mdi-close-circle-outline
-                </v-icon>
-                错误
-              </span>
+            <web-status-code :code="status_code"/>
           </p>
-        </div>
-        <div class="status-item">
+        </v-col>
+        <v-col>
           <p>延迟</p>
           <p>
               <span
@@ -63,6 +31,17 @@
                 {{ isOnline ? Array.isArray(delay) ? item.delay : delay : 999 }}ms
               </span>
           </p>
+        </v-col>
+      </v-row>
+      <div class="status">
+        <div class="status-item">
+
+        </div>
+        <div class="status-item">
+
+        </div>
+        <div class="status-item">
+
         </div>
         <div class="status-item">
           <p>上次错误时间</p>
@@ -86,6 +65,7 @@
 import {ref, watch} from "vue";
 import WebChart from "@/components/web_status/WebChart.vue";
 import WebOffline from "@/components/web_status/WebOffline.vue";
+import WebStatusCode from "@/components/web_status/WebStatusCode.vue";
 
 const webChartRef = ref()
 const emit = defineEmits(['delete', 'update'])
