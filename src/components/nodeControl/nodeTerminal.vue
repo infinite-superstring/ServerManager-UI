@@ -91,6 +91,9 @@ export default {
           case "terminal:output":
             terminal.write(data.data)
             break
+          case "terminal:ready":
+            this.terminal_ready()
+            break
         }
       }
     },
@@ -99,18 +102,6 @@ export default {
         this.resize()
       });
       this.resize()
-    },
-    resize() {
-      fitAddon.fit();
-      const cols = terminal.cols;
-      const rows = terminal.rows;
-      this.send({
-        action: 'terminal:resize',
-        data: {
-          cols: cols,
-          rows: rows
-        }
-      })
       terminal.onKey(({key}) => {
         this.input(key)
       });
@@ -133,6 +124,19 @@ export default {
           e.preventDefault();
         }
       });
+      console.log("ready")
+    },
+    resize() {
+      fitAddon.fit();
+      const cols = terminal.cols;
+      const rows = terminal.rows;
+      this.send({
+        action: 'terminal:resize',
+        data: {
+          cols: cols,
+          rows: rows
+        }
+      })
     },
     input(key) {
       this.send({
