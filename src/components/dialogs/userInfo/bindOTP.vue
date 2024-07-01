@@ -97,6 +97,7 @@ export default {
 <template>
   <v-dialog
     :model-value="flag"
+    @close="$emit('close')"
   >
     <v-card
       class="py-8 px-6 text-center mx-auto ma-4 align-center"

@@ -7,6 +7,7 @@ export const useUserStore = defineStore('UserInfo', {
     email: null,
     group: null,
     id: null,
+    enableOTP: false,
     realName: null,
     userName: null,
     permissions: []
@@ -19,6 +20,7 @@ export const useUserStore = defineStore('UserInfo', {
           this.id = data.id
           this.userName = data.userName
           this.realName = data.realName
+          this.enableOTP = data.enableOTP
           this.group = data.group
           this.email = data.email
           this.permissions = data.permissions

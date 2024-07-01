@@ -1,20 +1,23 @@
 <script>
-import CheckUserEmail from "@/components/dialogs/userInfo/checkUserEmail.vue";
+import bind_otp from "@/components/dialogs/userInfo/bindOTP.vue";
 import message from "@/scripts/utils/message";
 import axios from "@/scripts/utils/axios";
+import {useUserStore} from "@/store/userInfo";
 
 export default {
   name: "OTP_bind",
-  components: {CheckUserEmail},
+  components: {bind_otp},
   data() {
     return {
       flag: false,
-      code_len: null
+      code_len: null,
+      userStore: useUserStore()
     }
   },
   created() {
   },
   methods: {
+    useUserStore,
     bindOTP() {
       axios.get("api/auth/OTP/sendEmailCode").then(res => {
         if (res.data.status !== 1) {
@@ -35,14 +38,17 @@ export default {
 <template>
   <v-card title="OTP手机令牌">
     <v-card-text>
-      <v-container>
+      <v-container v-if="!userStore.enableOTP">
         <span><v-icon icon="mdi:mdi-alert" size="32px" color="error"></v-icon> 未绑定OTP手机令牌</span>
         <v-btn color="primary" size="small" @click="bindOTP">去绑定</v-btn>
+      </v-container>
+      <v-container v-if="userStore.enableOTP">
+        <span><v-icon icon="mdi:mdi-check" size="32px" color="success"></v-icon> 已绑定OTP手机令牌</span>
       </v-container>
     </v-card-text>
   </v-card>
   <div>
-    <check-user-email :flag="flag" :input-len="code_len"/>
+    <bind_otp :flag="flag" :input-len="code_len" @close="flag=false" @success="userStore.enableOTP=true; flag=false"/>
   </div>
 </template>
 
