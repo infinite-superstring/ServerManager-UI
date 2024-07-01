@@ -5,10 +5,11 @@ import accessLog from "@/components/tables/auditPage/accessLog.vue";
 import fileChangeLog from "@/components/tables/auditPage/fileChangeLog.vue";
 import UserSessionLog from "@/components/tables/auditPage/userSessionLog.vue";
 import NodeSessionLog from "@/components/tables/auditPage/nodeSessionLog.vue";
+import TerminalCommandAudit from "@/components/tables/auditPage/terminalCommandAudit.vue";
 
 export default {
   name: "audit_layout",
-  components: {NodeSessionLog, UserSessionLog, fileChangeLog, accessLog, systemLog, operationLog},
+  components: {TerminalCommandAudit, NodeSessionLog, UserSessionLog, fileChangeLog, accessLog, systemLog, operationLog},
   data: () => {
     return {
       tab: null
@@ -28,6 +29,7 @@ export default {
       <v-tab value="File_change_log">文件修改日志</v-tab>
       <v-tab value="User_Session_log">用户会话日志</v-tab>
       <v-tab value="Node_Session_log">节点会话日志</v-tab>
+      <v-tab value="Terminal_Command_audit">终端命令审计</v-tab>
     </v-tabs>
     <v-card-text>
       <v-window v-model="tab">
@@ -48,6 +50,9 @@ export default {
         </v-window-item>
         <v-window-item value="Node_Session_log">
           <node-session-log/>
+        </v-window-item>
+        <v-window-item value="Terminal_Command_audit">
+          <terminal-command-audit/>
         </v-window-item>
       </v-window>
     </v-card-text>

@@ -7,6 +7,27 @@ let terminal
 
 export default {
   name: "ClusterExecution",
+  data() {
+    return {
+      result_list: [
+        {
+          result_id: 1,
+          time: "",
+          command: "ls -a",
+        },
+        {
+          result_id: 2,
+          time: "",
+          command: "tree",
+        },
+        {
+          result_id: 3,
+          time: "",
+          command: "ping 127.0.0.1",
+        }
+      ]
+    }
+  },
   mounted() {
     terminal = new Terminal({
       // disableStdin: true
@@ -39,6 +60,22 @@ export default {
             <v-card-actions>
               <v-btn>执行</v-btn>
             </v-card-actions>
+          </v-card>
+          <v-divider/>
+          <v-card
+            title="结果列表">
+            <v-list
+              density="compact"
+            >
+              <v-list-item
+                v-for="item in result_list"
+                :key="item.result_id"
+                :title="item.time"
+                variant="plain"
+              >
+                {{ item.command }}
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
         <v-col>
