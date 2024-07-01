@@ -73,7 +73,7 @@ onMounted(() => {
 })
 
 watch(() => props.time, (val) => {
-  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 25)
   if (Array.isArray(val)) {
     delayChart.data.labels.push(...val)
   } else {
@@ -87,7 +87,7 @@ watch(() => props.time, (val) => {
  * 监听数据
  */
 watch(() => props.data, (val) => {
-  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 25)
   if (Array.isArray(val)) {
     delayChart.data.datasets[0].data.push(...val)
   } else {

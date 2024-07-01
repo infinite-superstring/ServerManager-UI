@@ -54,6 +54,13 @@ const handleNewData = (data) => {
   let host = Object.keys(data)[0]
   // runtimeData.value[host].time.push(data[host].time`)
   // runtimeData.value[host].data.push(data[host].data)`
+  console.log(host)
+  console.log(data)
+  console.log(data[host])
+  console.log(Object.keys(data[host]))
+  for (let key in data[host]) {
+    console.log(data[host][key])
+  }
   runtimeData.value[host].time = data[host].time
   runtimeData.value[host].data = data[host].data
   runtimeData.value[host].online = data[host].online

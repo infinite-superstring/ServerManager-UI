@@ -110,7 +110,6 @@ const props = defineProps({
   status_code: {
     type: Number,
     required: true,
-    default: 500
   }
 })
 
