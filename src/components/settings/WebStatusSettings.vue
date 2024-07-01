@@ -2,6 +2,7 @@
   <p class="text-h5 setting_subtitle">网站监控设置</p>
   <v-divider/>
   <v-text-field
+    v-model.number="setting_data.web_status.heartbeat"
     type="number"
     variant="underlined"
     label="监控心跳时长(秒)"
@@ -9,6 +10,7 @@
     persistent-hint
   ></v-text-field>
   <v-text-field
+    v-model.number="setting_data.web_status.timeout"
     type="number"
     variant="underlined"
     label="监控超时时间(秒)"
@@ -17,8 +19,16 @@
   ></v-text-field>
 </template>
 
-<script setup>
-
+<script>
+export default {
+  name: "WebStatusSettings",
+  props: {
+    setting_data: {
+      type: Object,
+      required: true,
+    }
+  }
+}
 </script>
 
 
