@@ -7,7 +7,7 @@
     no-click-animation
   >
     <v-empty-state>
-      网站离线
+      站点离线中！
     </v-empty-state>
   </v-overlay>
 </template>

@@ -33,28 +33,22 @@
           </p>
         </v-col>
       </v-row>
-      <div class="status">
-        <div class="status-item">
-
-        </div>
-        <div class="status-item">
-
-        </div>
-        <div class="status-item">
-
-        </div>
-        <div class="status-item">
-          <p>上次错误时间</p>
-        </div>
-        <div class="status-item">
+      <v-row>
+        <v-col cols="6">
           <p>接口</p>
           <p>{{ getInterface(item.host) }}</p>
-        </div>
+        </v-col>
+        <v-col cols="6">
+          <p>上次错误时间</p>
+        </v-col>
+      </v-row>
+      <div v-if="props.item.description">
+        <v-divider/>
+        备注：
+        <p>
+          {{ props.item.description }}
+        </p>
       </div>
-      <v-divider/>
-      <!--      <div>-->
-      <!--        {{ props.item.description }}-->
-      <!--      </div>-->
     </v-card-text>
     <WebChart v-if="props.online" ref="webChartRef" :time="time" :data="delay"/>
     <WebOffline v-else :title="item.title"/>

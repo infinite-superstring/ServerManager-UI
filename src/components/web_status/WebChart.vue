@@ -39,6 +39,7 @@ onMounted(() => {
       responsive: true,
       scales: {
         x: {
+          display: false,
           title: {
             display: false,
             text: 'Date'
