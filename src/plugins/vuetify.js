@@ -21,10 +21,10 @@ import {createVuetify} from 'vuetify'
 // bata
 import {VDateInput} from 'vuetify/labs/VDateInput'
 import { VTimePicker } from 'vuetify/labs/VTimePicker'
-// import { VStepperVertical } from 'vuetify/labs/VStepperVertical'
+import { VTreeview } from 'vuetify/labs/VTreeview'
 
 // i18n 您自己的翻译文件
-import {zhHans, pl} from 'vuetify/locale'
+import {zhHans} from 'vuetify/locale'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -36,7 +36,7 @@ export default createVuetify({
   components: {
     VTimePicker,
     VDateInput,
-    // VStepperVertical,
+    VTreeview,
   },
   theme: {
     themes: {
