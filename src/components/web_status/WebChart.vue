@@ -59,6 +59,7 @@ onMounted(() => {
       },
       plugins: {
         tooltip: {
+          intersect: false,
           callbacks: {
             label: function (context) {
               return "延迟: " + context.parsed.y + "ms"

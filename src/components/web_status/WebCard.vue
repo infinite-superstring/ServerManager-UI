@@ -2,24 +2,24 @@
   <v-card class="web-card">
     <!--基本信息-->
     <v-card-title>
-      <div class="web-info">
-        {{ item.title }}
-        <span class="web-info-option">
-              <v-btn size="x-small" variant="text">修改</v-btn>
-              <v-btn size="x-small" variant="text" color="red" @click="del(item.id)">删除</v-btn>
-            </span>
-      </div>
+      <VRow>
+        <VCol cols="9" class="title" :title="item.title">{{ item.title }}</VCol>
+        <VCol cols="3" class="title-op">
+          <v-btn size="x-small" variant="text" @click="this.$emit('update',item)">修改</v-btn>
+          <v-btn size="x-small" variant="text" color="red" @click="del(item.id)">删除</v-btn>
+        </VCol>
+      </VRow>
     </v-card-title>
     <v-card-text>
       <!--监控状态-->
       <v-row>
         <v-col>
           <p>主机</p>
-          <p>{{ item.host.split('/')[0] }}</p>
+          <p>{{ getHost(item.host) }}</p>
         </v-col>
         <v-col>
           <p>状态</p>
-          <p>
+          <p :title="status_code">
             <web-status-code :code="status_code"/>
           </p>
         </v-col>
@@ -27,8 +27,16 @@
           <p>延迟</p>
           <p>
               <span
-                :style="{color: getDelayColor(isOnline ? item.delay : 999)}">
-                {{ isOnline ? Array.isArray(delay) ? item.delay : delay : 999 }}ms
+                :style="{color: getDelayColor()}">
+                <span
+                  v-if="online"
+                >
+                  {{ Array.isArray(delay) ? item.delay : delay }}
+                </span>
+                <span v-else>
+                  --
+                </span>
+                ms
               </span>
           </p>
         </v-col>
@@ -40,6 +48,7 @@
         </v-col>
         <v-col cols="6">
           <p>上次错误时间</p>
+          <p>{{ props.item.last_error_info }}</p>
         </v-col>
       </v-row>
       <div v-if="props.item.description">
@@ -93,14 +102,16 @@ const isOnline = ref(true)
  * @param {number} item 延迟时间，单位：毫秒
  * @returns {string} 颜色名称
  */
-const getDelayColor = (item) => {
-  if (item <= 30) {
+const getDelayColor = () => {
+  if (!props.online) return 'red'
+  let delay = Array.isArray(props.delay) ? props.item.delay : props.delay
+  if (delay <= 30) {
     return '#4CAF50'; // 极快，绿色
-  } else if (item <= 50) {
+  } else if (delay <= 50) {
     return '#1B5E20'; // 良好，浅绿色
-  } else if (item <= 100) {
+  } else if (delay <= 100) {
     return '#FDD835'; // 普通，黄色
-  } else if (item <= 200) {
+  } else if (delay <= 200) {
     return '#F9A825'; // 较高，橙色
   } else {
     return 'red'; // 非常高，红色
@@ -113,8 +124,22 @@ const getDelayColor = (item) => {
  * @returns {string} 接口地址
  */
 const getInterface = (host) => {
-  const matchResult = host.match(/https?:\/\/[^/]*(\/?.*)/);
-  return matchResult ? (matchResult[1] || '/') : '/';
+  const matchResult = host.match(/^(?:https?:\/\/)?([^/]+)(\/.*)?/);
+  if (matchResult) {
+    const [, hostname, path] = matchResult;
+    return path || '/';
+  }
+  return '/';
+};
+
+const getHost = (host) => {
+  let hostname;
+  // 匹配并提取主机名和端口号的组合
+  const match = host.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+(?::\d+)?)/i);
+  if (match !== null && match.length > 1) {
+    hostname = match[1];
+  }
+  return hostname;
 };
 
 const del = (id) => {
@@ -137,6 +162,17 @@ watch(() => props.online, val => {
   flex-direction: column;
 }
 
+.title {
+  /*溢出隐藏*/
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.title-op {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 
 .web-info {
   display: flex;

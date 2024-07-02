@@ -14,16 +14,26 @@
       variant="solo-filled"
       single-line
       hide-details
+      @input="deOnSearch"
       v-model="search">
     </v-text-field>
   </div>
-  <WebList ref="webListRef"></WebList>
+  <WebList ref="webListRef" @updateWeb="openUpdate"/>
   <div class="dialog">
     <AddWebDialog
+      ref="addWebDialogRef"
       @close="addWebDialogStatus = false"
       @submit="onSubmit"
       :status="addWebDialogStatus"
     ></AddWebDialog>
+    <UpdateWebDialog
+      ref="updateWebDialogRef"
+      @close="updateWebDialogStatus = false"
+      @submit="onUpdate"
+      :status="updateWebDialogStatus"
+      :updateWeb="updateWeb"
+    >
+    </UpdateWebDialog>
   </div>
 </template>
 
@@ -34,10 +44,21 @@ import AddWebDialog from "@/components/dialogs/web_status/AddWebDialog.vue";
 import {ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
+import {debounce} from "@/scripts/utils/debounce";
+import UpdateWebDialog from "@/components/dialogs/web_status/UpdateWebDialog.vue";
 
 const addWebDialogStatus = ref(false)
-
+const updateWebDialogStatus = ref(false)
+const updateWeb = ref({})
+const addWebDialogRef = ref()
 const webListRef = ref()
+const search = ref()
+
+const openUpdate = (data) => {
+  console.log(data)
+  updateWebDialogStatus.value = true
+  updateWeb.value = data
+}
 
 const onSubmit = (data) => {
   axiosplus.post("/api/webStatus/addWeb", data)
@@ -46,11 +67,31 @@ const onSubmit = (data) => {
         message.showSuccess(this, res.data.msg)
         webListRef.value.getList()
         addWebDialogStatus.value = false
+        addWebDialogRef.value.empty()
       } else {
         message.showWarning(this, res.data.msg)
       }
     })
 }
+const onUpdate = (data) => {
+  axiosplus.put('/api/webStatus/update', data)
+    .then(res => {
+      if (res.data.status === 1) {
+        message.showSuccess(this, res.data.msg)
+        webListRef.value.getList()
+        addWebDialogStatus.value = false
+        addWebDialogRef.value.empty()
+      } else {
+        message.showWarning(this, res.data.msg)
+      }
+    })
+}
+
+const onSearch = () => {
+  webListRef.value.getList(search.value)
+}
+const deOnSearch = debounce(onSearch, 500)
+
 </script>
 
 

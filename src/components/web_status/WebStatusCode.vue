@@ -39,6 +39,14 @@ export default {
     </v-icon>
     错误
   </span>
+  <span
+    v-if="code === null"
+  >
+    <v-icon size="x-small">
+      mdi-help-circle-outline
+    </v-icon>
+    未知
+  </span>
 </template>
 
 <style scoped>

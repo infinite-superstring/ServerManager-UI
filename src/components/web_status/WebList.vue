@@ -10,6 +10,7 @@
       :online="getRuntimeOnline(item.host)"
       :status_code="getRuntimeStatusCode(item.host)"
       @delete="deleteWeb"
+      @update="updateWeb"
     />
   </div>
 </template>
@@ -27,17 +28,36 @@ const list = ref([])
 const runtimeData = ref({})
 const webCardRef = ref()
 const ws = ref()
+const emit = defineEmits(['updateWeb'])
 
-const getList = () => {
-  console.log('getList')
-  axiosplus.get('/api/webStatus/getList')
+
+const updateWeb = (data) => {
+  console.log(data)
+  emit('updateWeb', data)
+}
+/**
+ * 获取列表
+ */
+const getList = (name = '') => {
+  let param = {
+    name: name,
+    page: 1,
+    pageSize: 10,
+  }
+  let paramStr = Object.keys(param).map(key => {
+    return `${key}=${param[key]}`
+  }).join('&')
+  axiosplus.get('/api/webStatus/getList?' + paramStr)
     .then(res => {
       if (res.data.status === 1) {
         list.value = res.data.data.list
       }
     })
 }
-
+/**
+ * 监听消息
+ * @param data
+ */
 const onmessage = (data) => {
   let parse = JSON.parse(data.data)
   switch (parse.type) {
@@ -49,24 +69,25 @@ const onmessage = (data) => {
       break
   }
 }
-
+/**
+ * 处理新数据
+ * @param data
+ */
 const handleNewData = (data) => {
   let host = Object.keys(data)[0]
   // runtimeData.value[host].time.push(data[host].time`)
   // runtimeData.value[host].data.push(data[host].data)`
-  console.log(host)
-  console.log(data)
-  console.log(data[host])
-  console.log(Object.keys(data[host]))
-  for (let key in data[host]) {
-    console.log(data[host][key])
-  }
-  runtimeData.value[host].time = data[host].time
+  if (!runtimeData.value[host]) runtimeData.value[host] = {}
+  runtimeData.value[host].time = data[host]['time']
   runtimeData.value[host].data = data[host].data
   runtimeData.value[host].online = data[host].online
   runtimeData.value[host].status_code = data[host].status_code
 }
-
+/**
+ * 获取运行时时间
+ * @param host
+ * @return {*|*[]}
+ */
 const getRuntimeTime = (host) => {
   if (host in runtimeData.value) {
     return runtimeData.value[host].time
@@ -74,6 +95,11 @@ const getRuntimeTime = (host) => {
     return []
   }
 }
+/**
+ * 获取运行时数据
+ * @param host
+ * @return {*|*[]}
+ */
 const getRuntimeData = (host) => {
   if (host in runtimeData.value) {
     return runtimeData.value[host].data
@@ -81,6 +107,11 @@ const getRuntimeData = (host) => {
     return []
   }
 }
+/**
+ * 获取运行时在线状态
+ * @param host
+ * @return
+ */
 const getRuntimeOnline = (host) => {
   if (host in runtimeData.value) {
     // console.log(runtimeData.value[host]);
@@ -89,15 +120,23 @@ const getRuntimeOnline = (host) => {
     return false
   }
 }
+/**
+ * 获取运行时状态码
+ * @param host
+ * @return {number|{type: Number | NumberConstructor, required: boolean}|*}
+ */
 const getRuntimeStatusCode = (host) => {
   if (host in runtimeData.value) {
     return runtimeData.value[host].status_code
   } else {
-    return 0
+    return 500
   }
 }
 
-
+/**
+ * 删除网站
+ * @param id
+ */
 const deleteWeb = (id) => {
   confirmDialog('删除该网站日志将同步删除！', '删除', () => {
     axiosplus.delete(`/api/webStatus/delWeb/${id}`)

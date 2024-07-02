@@ -6,7 +6,7 @@
     <v-card>
       <v-card-title class="headline">
         <span class="text-h5">
-          添加监控网站
+          编辑监控网站
         </span>
       </v-card-title>
       <v-card-text>
@@ -21,6 +21,7 @@
             主机地址
           </div>
           <v-text-field
+            disabled
             v-model="data.host"
             required
             :rules="rules"
@@ -44,19 +45,24 @@
 </template>
 
 <script setup>
-
 import {ref, watch} from "vue";
 
 const emit = defineEmits(['close', 'submit'])
+
 
 const props = defineProps({
   status: {
     type: Boolean,
     default: false
+  },
+  updateWeb: {
+    type: Object,
+    required: true
   }
 })
-const data = ref({})
 const flag = ref(false)
+
+const data = ref({})
 
 const rules = ref([
   v => !!v || '请输入主机地址',
@@ -70,13 +76,15 @@ const close = () => {
 const submit = () => {
   emit('submit', data.value)
 }
-
 const empty = () => {
   data.value = {}
 }
 
 watch(() => props.status, (val) => {
   flag.value = val
+})
+watch(() => props.updateWeb, val => {
+  data.value = {...val}
 })
 
 // 暴露出去
