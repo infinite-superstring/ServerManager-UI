@@ -17,8 +17,12 @@ const axiosplus = axios.create()
  */
 const responseSuccess = (result) => {
   const res = result.data
-  if (res.status !== 1) {
+  if (res.status === -1) {
     message.showApiErrorMsg(this, res.msg ? res.msg : '操作错误')
+    return Promise.reject(result)
+  }
+  if (res.status === 0){
+    message.showSuccess(this, res.msg ? res.msg : '操作错误')
     return Promise.reject(result)
   }
   return result
