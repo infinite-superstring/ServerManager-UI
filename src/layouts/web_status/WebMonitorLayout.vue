@@ -49,6 +49,7 @@ import UpdateWebDialog from "@/components/dialogs/web_status/UpdateWebDialog.vue
 
 const addWebDialogStatus = ref(false)
 const updateWebDialogStatus = ref(false)
+const updateWebDialogRef = ref()
 const updateWeb = ref({})
 const addWebDialogRef = ref()
 const webListRef = ref()
@@ -79,8 +80,8 @@ const onUpdate = (data) => {
       if (res.data.status === 1) {
         message.showSuccess(this, res.data.msg)
         webListRef.value.getList()
-        addWebDialogStatus.value = false
-        addWebDialogRef.value.empty()
+        updateWebDialogStatus.value = false
+        updateWebDialogRef.value.empty()
       } else {
         message.showWarning(this, res.data.msg)
       }

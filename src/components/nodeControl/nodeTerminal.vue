@@ -1,7 +1,7 @@
 <script>
-import {Terminal} from "xterm";
+import {Terminal} from "@xterm/xterm";
 import {FitAddon} from "xterm-addon-fit";
-import "xterm/css/xterm.css";
+import "@xterm/xterm/css/xterm.css";
 import NodeOfflineOverlay from "@/components/nodeControl/nodeOfflineOverlay.vue";
 import TerminalLogin from "@/components/nodeControl/terminalLogin.vue";
 
@@ -27,7 +27,7 @@ export default {
       type: Boolean,
       required: true
     },
-    os:{
+    os: {
       type: String,
       required: true
     }
@@ -39,13 +39,13 @@ export default {
     };
   },
   mounted() {
-    if (this.os==="Windows"){
-      this.terminal_ready=true
+    if (this.os === "Windows") {
+      this.terminal_ready = true
       this.windows_login()
       this.open_terminal()
     }
-    console.log(this.os,this.terminal_ready)
-    if (!this.terminal_ready){
+    console.log(this.os, this.terminal_ready)
+    if (!this.terminal_ready) {
       this.check_login();
     }
   },
@@ -144,19 +144,19 @@ export default {
           if (data.data) {
             this.open_terminal();
             console.log(data.data)
-            this.terminal_ready=data.data
+            this.terminal_ready = data.data
           }
         }
       };
     },
-    windows_login(){
+    windows_login() {
       this.send({
         action: 'terminal:login',
-        data:{
-          'host':1,
-          'port':1,
-          'username':1,
-          'password':1,
+        data: {
+          'host': 1,
+          'port': 1,
+          'username': 1,
+          'password': 1,
         }
       })
     },
@@ -201,17 +201,18 @@ export default {
   <v-sheet height="75vh" max-height="800px" width="100%">
     <node-offline-overlay :flag="!online"/>
     <div style="height: 100%; width: 100%; " v-show="terminal_ready">
-        <div id="terminal" ref="terminal" style="height: 85%" ></div>
-        <div style="display: flex; padding: 10px; height: 15%; width: 100%">
-          <v-text-field clearable label="在此处键入命令" variant="outlined" style="flex: 0.80; height: 20%" v-model="resend"></v-text-field>
-          <div style="flex: 0.025"></div>
-          <v-btn prepend-icon="$vuetify" variant="tonal" style="flex: 0.15; height: 80%" @click="input_end">发送</v-btn>
-          <div style="flex: 0.025"></div>
-        </div>
-    </div>
-      <div style="width:100%;height: 100%" v-show="!terminal_ready">
-        <terminalLogin :ws="ws"></terminalLogin>
+      <div id="terminal" ref="terminal" style="height: 85%"></div>
+      <div style="display: flex; padding: 10px; height: 15%; width: 100%">
+        <v-text-field clearable label="在此处键入命令" variant="outlined" style="flex: 0.80; height: 20%"
+                      v-model="resend"></v-text-field>
+        <div style="flex: 0.025"></div>
+        <v-btn prepend-icon="$vuetify" variant="tonal" style="flex: 0.15; height: 80%" @click="input_end">发送</v-btn>
+        <div style="flex: 0.025"></div>
       </div>
+    </div>
+    <div style="width:100%;height: 100%" v-show="!terminal_ready">
+      <terminalLogin :ws="ws"></terminalLogin>
+    </div>
   </v-sheet>
 </template>
 
