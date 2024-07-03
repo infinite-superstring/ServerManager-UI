@@ -3,9 +3,15 @@ import bind_otp from "@/components/dialogs/userInfo/bindOTP.vue";
 import message from "@/scripts/utils/message";
 import axios from "@/scripts/utils/axios";
 import {useUserStore} from "@/store/userInfo";
+import dialogs from "@/scripts/utils/dialogs";
 
 export default {
   name: "OTP_bind",
+  computed: {
+    dialogs() {
+      return dialogs
+    }
+  },
   components: {bind_otp},
   data() {
     return {
@@ -19,7 +25,7 @@ export default {
   methods: {
     useUserStore,
     bindOTP() {
-      axios.get("api/auth/OTP/sendEmailCode").then(res => {
+      axios.get("/api/auth/OTP/bind/sendEmailCode").then(res => {
         if (res.data.status !== 1) {
           return message.showError(res.data.msg)
         }
@@ -29,6 +35,13 @@ export default {
       }).catch(err=> {
         console.err(err)
         message.showApiErrorMsg(this, err.message)
+      })
+    },
+    test() {
+      dialogs.showOTP_Dialog().then(val=>{
+        console.log(val)
+      }).catch(err=>{
+        console.log(err)
       })
     }
   }
@@ -45,6 +58,7 @@ export default {
       <v-container v-if="userStore.enableOTP">
         <span><v-icon icon="mdi:mdi-check" size="32px" color="success"></v-icon> 已绑定OTP手机令牌</span>
       </v-container>
+      <v-btn color="primary" size="small" @click="test">测试</v-btn>
     </v-card-text>
   </v-card>
   <div>

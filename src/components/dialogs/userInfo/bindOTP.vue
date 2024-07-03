@@ -34,7 +34,7 @@ export default {
       if (this.email_code.length !== this.inputLen) {
         this.error = true
       }
-      axios.post("/api/auth/OTP/checkEmailCode", {
+      axios.post("/api/auth/OTP/bind/verifyEmailCode", {
         code: this.email_code
       }).then(res => {
         if (res.data.data.status !== 1) {
@@ -54,7 +54,7 @@ export default {
       if (this.otp_code.length !== 6) {
         return this.error = true
       }
-      axios.post("/api/auth/OTP/checkOTP_Code", {
+      axios.post("/api/auth/OTP/bind/verifyOTP_Code", {
         code: this.otp_code
       }).then(res => {
         if (res.data.data.status !== 1) {
