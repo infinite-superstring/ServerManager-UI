@@ -1,7 +1,7 @@
 <script>
 import ChangePassword from "@/components/UserInfo/changePassword.vue";
 import EditUserInfo from "@/components/UserInfo/editUserInfo.vue";
-import otp_bind from "@/components/UserInfo/OTP_bind.vue";
+import otp_bind from "@/components/UserInfo/OTP_Status.vue";
 
 export default {
   name: "UserInfoEdit",

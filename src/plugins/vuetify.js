@@ -18,6 +18,7 @@ import 'vuetify/styles'
 
 // Composables
 import {createVuetify} from 'vuetify'
+import { md3 } from 'vuetify/blueprints'
 // bata
 import {VDateInput} from 'vuetify/labs/VDateInput'
 import { VTimePicker } from 'vuetify/labs/VTimePicker'
@@ -28,6 +29,7 @@ import {zhHans} from 'vuetify/locale'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  blueprint: md3,
   // 中文配置
   locale: {
     locale: 'zhHans',

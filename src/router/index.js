@@ -1,6 +1,7 @@
 // Composables
 import {createRouter, createWebHistory} from 'vue-router'
 import login from "@/views/Login.vue";
+import setUserBaseInfo from "@/views/initUser.vue";
 import UserInfo from "@/views/UserInfo.vue";
 import Dashboard from "@/views/Dashboard.vue"
 import nodeList from "@/views/node/NodeList.vue";
@@ -21,6 +22,8 @@ import ClusterExecution from "@/views/node/ClusterExecution.vue";
 import PatrolPage from '@/views/Patrol.vue'
 import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
+import {useWebsiteSettingStore} from "@/store/webSiteSetting";
+import dialogs from "@/scripts/utils/dialogs";
 
 const routes = [
   // 登录
@@ -31,6 +34,14 @@ const routes = [
     meta: {
       title: "请登录",
       pass_login: true
+    }
+  },
+  {
+    path: '/init_user',
+    name: "init:setBaseInfo",
+    component: setUserBaseInfo,
+    meta: {
+      title: "初始化用户"
     }
   },
   // 仪表板
@@ -134,6 +145,9 @@ const routes = [
     components: {
       default: Message,
       appBarBtn: appbar_default
+    },
+    meta: {
+      title: "站内信",
     }
   },
   // 管理 - 用户管理
@@ -197,7 +211,7 @@ const routes = [
       appBarBtn: appbar_default
     },
     meta: {
-      title: "值班",
+      title: "值班记录",
       permission: "viewDuty"
     }
   },
@@ -210,7 +224,7 @@ const routes = [
       appBarBtn: appbar_default
     },
     meta: {
-      title: "巡检",
+      title: "巡检记录",
       permission: "viewPatrol"
     }
   },
@@ -264,6 +278,13 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
+// router.beforeEach((to, from, next) => {
+//   if (!to.meta.pass_login && userStore.isNewUser) {
+//     next({name: 'init:setBaseInfo'})
+//   }
+// });
+
+// 返回403页
 router.beforeEach((to, from, next) => {
   if (to.meta.permission && !userStore.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
     next("/error/403")
@@ -271,5 +292,18 @@ router.beforeEach((to, from, next) => {
     next()
   }
 });
+
+// // 检查OTP绑定
+// router.beforeEach(async (to, from, next) => {
+//   // 绕过不需要登录的界面
+//   if (to.meta.pass_login) {return await next()}
+//   const web_config = useWebsiteSettingStore()
+//   await web_config.updateServerConfig()
+//   await next()
+//   // 如果强制绑定OTP+用户未绑定OTP将弹出绑定框
+//   if (web_config.serverConfig.forceOTP_Bind && !userStore.enableOTP) {
+//     await dialogs.showBindOTP_Dialog()
+//   }
+// })
 
 export default router

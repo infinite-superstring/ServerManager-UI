@@ -2,15 +2,17 @@ import axios from "axios";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
 
-function del_node(el, node_uuid, callback) {
+async function del_node(el, node_uuid, callback) {
   /**
    * 删除节点
    */
-  // dialogs.confirm("你确定要删除该节点吗", "该操作无法撤销，请谨慎操作")
-  dialogs.confirm("你确定要删除该节点吗", "该操作无法撤销，请谨慎操作", "warning").then(res => {
+  await dialogs.confirm("你确定要删除该节点吗", "该操作无法撤销，请谨慎操作", "warning").then(async res => {
     if (res) {
+      let opt_code = ""
+      await dialogs.showOTP_Dialog().then(res => opt_code = res)
       axios.post('/api/node_manager/delNode', {
-        uuid: node_uuid
+        uuid: node_uuid,
+        code: opt_code
       }).then(res => {
         const apiStatus = res.data.status;
         if (apiStatus !== 1) {

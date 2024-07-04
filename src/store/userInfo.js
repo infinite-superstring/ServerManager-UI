@@ -4,12 +4,14 @@ import message from "@/scripts/utils/message";
 
 export const useUserStore = defineStore('UserInfo', {
   state: () => ({
+    init: false,
     email: null,
     group: null,
     id: null,
     enableOTP: false,
     realName: null,
     userName: null,
+    isNewUser: false,
     permissions: []
   }),
   actions: {
@@ -40,14 +42,25 @@ export const useUserStore = defineStore('UserInfo', {
        */
       return new Promise((resolve, reject) => {
         axios.post("/api/auth/login", {"username": username, "password": password}).then(res => {
-          const data = res.data
-          switch (data.status) {
+          const res_data = res.data
+          console.log(res_data)
+          switch (res_data.status) {
             case 1:
               sessionStorage.setItem('loginStatus', "true");
+              if (!res_data?.data) {resolve(); return this.getUserInfo()}
+              this.id = res_data.data.id
+              this.userName = res_data.data.userName;
+              this.realName = res_data.data.realName;
+              this.email = res_data.data.email;
+              this.enableOTP = res_data.data.enableOTP;
+              this.group = res_data.data.group;
+              this.permissions = res_data.data.permissions;
+              this.isNewUser = res_data.data.isNewUser;
+              this.init = true
               resolve()
               break;
             default:
-              message.showWarning(this, data.msg)
+              message.showWarning(this, res_data.msg)
               reject()
               break;
           }

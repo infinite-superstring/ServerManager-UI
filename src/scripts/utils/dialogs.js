@@ -2,7 +2,7 @@ import Vue from "@/main";
 import {createApp} from 'vue';
 import vuetify from '@/plugins/vuetify';
 import inputOTP from "@/components/dialogs/inputDialog.vue"
-import checkOTP from "@/components/dialogs/checkOTP.vue"
+import checkOTP from "@/components/dialogs/OTP/check_OTP.vue"
 
 
 function test() {
@@ -16,11 +16,10 @@ function test() {
   }
 }
 
-function showOTP_Dialog() {
+async function init_Dialog(component, other_data={}) {
   return new Promise((resolve, reject) => {
     let mountNode = document.createElement("div");
-    let dialogApp = createApp(checkOTP, {
-      // visible: true,
+    let dialogApp = createApp(component, {...{
       close: () => {
         if (dialogApp) {
           dialogApp.unmount();
@@ -35,10 +34,24 @@ function showOTP_Dialog() {
         document.body.removeChild(mountNode);
         dialogApp = undefined;
       },
-    }).use(vuetify);
+    }, ...other_data}).use(vuetify);
     document.body.appendChild(mountNode);
     dialogApp.mount(mountNode);
   });
+}
+
+async function showVerifyOTP_Dialog() {
+  /**
+   * 展示验证OTP弹窗
+   */
+  return init_Dialog(checkOTP)
+}
+
+async function showBindOTP_Dialog() {
+  /**
+   * 展示绑定OTP弹窗
+   */
+  return init_Dialog(checkOTP)
 }
 
 function confirm(title, text, level = "info", buttons = null, cardOptions = null, dialogOptions = null) {
@@ -62,5 +75,6 @@ function confirm(title, text, level = "info", buttons = null, cardOptions = null
 export default {
   confirm,
   test,
-  showOTP_Dialog
+  showVerifyOTP_Dialog,
+  showBindOTP_Dialog
 }

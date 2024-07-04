@@ -4,7 +4,7 @@ import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 
 export default {
-  name: "checkUserEmail",
+  name: "bind_OTP",
   props: {
     flag: {
       type: Boolean,

@@ -1,6 +1,5 @@
 <script>
 import axios from "@/scripts/utils/axios";
-import message from "@/scripts/utils/message";
 
 export default {
   name: "checkOTP",

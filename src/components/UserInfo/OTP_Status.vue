@@ -1,5 +1,5 @@
 <script>
-import bind_otp from "@/components/dialogs/userInfo/bindOTP.vue";
+import bind_otp from "@/components/dialogs/OTP/bind_OTP.vue";
 import message from "@/scripts/utils/message";
 import axios from "@/scripts/utils/axios";
 import {useUserStore} from "@/store/userInfo";
@@ -38,7 +38,7 @@ export default {
       })
     },
     test() {
-      dialogs.showOTP_Dialog().then(val=>{
+      dialogs.showVerifyOTP_Dialog().then(val=>{
         console.log(val)
       }).catch(err=>{
         console.log(err)
