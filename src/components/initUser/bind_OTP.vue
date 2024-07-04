@@ -1,10 +1,36 @@
 <script>
+import axios from "@/scripts/utils/axios";
+import QR_Code from "@/scripts/utils/QR_Code";
+import message from "@/scripts/utils/message";
+
 export default {
   name: "init_user_bind_OTP",
+  props: ['qrcode'],
+  mounted() {
+    this.$nextTick(() => {
+      QR_Code.showQR_Code(this.$refs.qr_show_img, this.qrcode)
+    })
+  },
   data() {
     return {
-      qr_code: "otpauth://totp/LoongArch-ServerManager:admin%40admin?secret=W6WM6UX36PRHSKXYMKD2F4NQYW3D467W&issuer=LoongArch-ServerManager",
-      input_code: null
+      input_code: "",
+      error: false
+    }
+  },
+  methods: {
+    submit() {
+      if (this.input_code.length !== 6) {
+        return message.showError(this, "令牌未填写完整")
+      }
+      this.error = false
+      return axios.get('/api/initUser/checkOTP_Code', {
+        params: {
+          code: this.input_code
+        }
+      }).catch(() => {
+        this.error = true
+        this.input_code = null
+      })
     }
   }
 }
@@ -19,7 +45,7 @@ export default {
       </div>
       <v-sheet color="surface">
         <v-otp-input
-          v-model="otp_code"
+          v-model="input_code"
           type="password"
           variant="solo"
           :error="error"

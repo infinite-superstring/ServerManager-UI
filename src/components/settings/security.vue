@@ -41,10 +41,14 @@ export default {
     <v-select
       v-model.number="setting_data.security.password_level"
       :items="password_level"
-      item-title = 'info'
-      item-value = 'level'
+      item-title='info'
+      item-value='level'
     ></v-select>
   </div>
+  <v-checkbox
+    v-model="setting_data.security.force_otp_bind"
+    label="强制绑定OTP令牌"
+  ></v-checkbox>
   <div>
     <div class="text-caption">
       消息验证码重发时间(秒)
