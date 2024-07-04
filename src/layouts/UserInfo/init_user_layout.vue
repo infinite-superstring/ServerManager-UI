@@ -20,9 +20,10 @@ export default {
   created() {
     this.web_config = useWebsiteSettingStore()
     this.user_store = useUserStore()
-    if (!this.user_store.isNewUser) {
-      this.$router.push({name: "dashboard"})
-    }
+    console.log(this.user_store.isNewUser)
+    // if (!this.user_store.isNewUser) {
+    //   this.$router.push({name: "dashboard"})
+    // }
     if (this.web_config.serverConfig.forceOTP_Bind) {
       this.step_item = ['编辑用户信息', '绑定令牌', '完成']
     } else {

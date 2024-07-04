@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: '/init_user',
-    name: "init:setBaseInfo",
+    name: "init_user",
     component: setUserBaseInfo,
     meta: {
       title: "初始化用户"
@@ -277,11 +277,15 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (!to.meta.pass_login && userStore.isNewUser) {
-//     next({name: 'init:setBaseInfo'})
-//   }
-// });
+// 初始化服务端配置文件
+let websiteSettingStore
+router.beforeEach(async (to, from, next) => {
+  // 绕过不需要登录的界面
+  if (to.meta.pass_login) {return await next()}
+  websiteSettingStore = useWebsiteSettingStore()
+  if (!websiteSettingStore.serverConfig.init) await websiteSettingStore.updateServerConfig()
+  await next()
+})
 
 // 返回403页
 router.beforeEach((to, from, next) => {
@@ -292,15 +296,20 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+// 新用户强制跳转初始化页面
+router.beforeEach((to, from, next) => {
+  if (to.meta.pass_login) {return next()}
+  if (userStore.isNewUser && to.name !== 'init_user') {return next("/init_user")}
+  return next()
+})
+
 // // 检查OTP绑定
 // router.beforeEach(async (to, from, next) => {
 //   // 绕过不需要登录的界面
 //   if (to.meta.pass_login) {return await next()}
-//   const web_config = useWebsiteSettingStore()
-//   await web_config.updateServerConfig()
 //   await next()
 //   // 如果强制绑定OTP+用户未绑定OTP将弹出绑定框
-//   if (web_config.serverConfig.forceOTP_Bind && !userStore.enableOTP) {
+//   if (websiteSettingStore.serverConfig.forceOTP_Bind && !userStore.enableOTP) {
 //     await dialogs.showBindOTP_Dialog()
 //   }
 // })
