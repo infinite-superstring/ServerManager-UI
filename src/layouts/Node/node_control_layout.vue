@@ -30,6 +30,7 @@ export default {
       tab: null,
       websocket: null,
       terminal_output: [],
+      os:null,
       node_base_info: {
         node_description: null,
         node_hostname: null,
@@ -102,6 +103,7 @@ export default {
           case "init": {
             this.node_base_info = data.data['base_info']
             if (data.data['usage']) {
+              this.os=data.data['base_info']['node_system_info']['system_type']
               this.usage_data = data.data['usage']
             }
             break
@@ -194,7 +196,7 @@ export default {
           <node-performance-record :ws="websocket"/>
         </v-window-item>
         <v-window-item value="Control">
-          <node-terminal :node_uuid="node_base_info.node_uuid" :ws="websocket" :online="node_base_info.node_online"/>
+          <node-terminal :node_uuid="node_base_info.node_uuid" :ws="websocket" :online="node_base_info.node_online" :os="os"/>
         </v-window-item>
         <v-window-item value="Event">
           <node-event :node_uuid="node_base_info.node_uuid"/>

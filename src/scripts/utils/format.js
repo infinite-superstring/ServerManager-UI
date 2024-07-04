@@ -42,8 +42,28 @@ function formatTimestampToStr(timestamp) {
   return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 }
 
+/**
+ * 时间字符串转秒
+ * 例如 19:00:00
+ * 转换为 19 * 3600 + 00 * 60 + 00 = 68400
+ * @param timeStr
+ * @return {number}
+ */
+function timeStringToSeconds(timeStr) {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // getMonth返回的月份是从0开始的
+  const day = ('0' + currentDate.getDate()).slice(-2);
+  const fullDateTimeStr = `${year}-${month}-${day}T${timeStr}`;
+  const dateObj = new Date(fullDateTimeStr);
+  const seconds = dateObj.getHours() * 3600 + dateObj.getMinutes() * 60 + dateObj.getSeconds();
+  console.log(timeStr)
+  return seconds;
+}
+
 export default {
   formatBytes,
   formatPercentage,
   formatTimestampToStr,
+  timeStringToSeconds
 }
