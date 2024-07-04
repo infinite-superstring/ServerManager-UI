@@ -114,52 +114,33 @@ export default {
     <v-card>
       <v-card-title>添加节点</v-card-title>
       <v-card-text>
-        <div>
-          <div class="text-caption">
-            节点名
-          </div>
-          <v-text-field type="text" v-model="nodeName"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            节点标签
-          </div>
-          <input-tag
-            label=""
-            :items="tag_items"
-            @update:chips="args => {tags = args}"
-            @input="debounce_search_tag"
-          />
-        </div>
-        <div>
-          <div class="text-caption">
-            节点分组
-          </div>
-          <v-autocomplete
-            @update:search="value => load_node_group(value)"
-            :items="groupListData"
-            item-title="group_name"
-            item-value="group_id"
-            v-model="group"
-            auto-select-first
-          >
-            <template v-slot:append>
-              <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
-                <v-icon icon="mdi:mdi-plus"/>
-              </v-btn>
-            </template>
-          </v-autocomplete>
-        </div>
-        <div>
-          <div class="text-caption">
-            节点备注
-          </div>
-          <v-textarea v-model="description"></v-textarea>
-        </div>
+        <v-text-field type="text" label="节点名" v-model="nodeName"></v-text-field>
+        <input-tag
+          label="节点标签"
+          :items="tag_items"
+          @update:chips="args => {tags = args}"
+          @input="debounce_search_tag"
+        />
+        <v-autocomplete
+          label="节点分组"
+          @update:search="value => load_node_group(value)"
+          :items="groupListData"
+          item-title="group_name"
+          item-value="group_id"
+          v-model="group"
+          auto-select-first
+        >
+          <template v-slot:append>
+            <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
+              <v-icon icon="mdi:mdi-plus"/>
+            </v-btn>
+          </template>
+        </v-autocomplete>
+        <v-textarea v-model="description" label="节点备注信息"></v-textarea>
       </v-card-text>
       <v-card-actions>
-        <v-btn base-color="error" @click="close">取消</v-btn>
-        <v-btn base-color="success" @click="submit">确定</v-btn>
+        <v-btn color="success" @click="submit">确定</v-btn>
+        <v-btn color="error" @click="close">取消</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

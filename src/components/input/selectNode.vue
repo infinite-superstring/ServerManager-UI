@@ -13,6 +13,9 @@ export default {
   props: {
     value: {
 
+    },
+    label: {
+      type: String,
     }
   },
   emits: ['update'],
@@ -53,7 +56,7 @@ export default {
     item-title="name"
     item-value="uuid"
     color="primary"
-    label="请选择节点，点击Tag取消选择"
+    :label="label"
     @update:search="value => getNodeBaseList(value)"
     @update:model-value="select => $emit('update', objectUtils.object_select_value_to_list(select.map(({uuid})=>({uuid})), 'uuid'))"
     multiple

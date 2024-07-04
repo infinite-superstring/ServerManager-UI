@@ -2,7 +2,7 @@
   <div class="toolsBar">
     <v-btn
       id="addPatrol"
-      base-color="success"
+      color="success"
       @click="openAddDialog"
     >
       新增记录

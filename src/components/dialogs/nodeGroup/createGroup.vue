@@ -120,30 +120,10 @@ export default {
     <v-card>
       <v-card-title>创建新的节点组</v-card-title>
       <v-card-text>
-        <div>
-          <div class="text-caption">
-            节点组名
-          </div>
-          <v-text-field type="text" v-model="group_name" max="20"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            节点组介绍
-          </div>
-          <v-text-field type="text" v-model="group_desc" max="100"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            组负责人
-          </div>
-          <select-user :value="group_leader" @update:select_user="value => group_leader=value"></select-user>
-        </div>
-        <div>
-          <div class="text-caption">
-            选择节点
-          </div>
-          <select-node @update="value=>group_nodes=value"></select-node>
-        </div>
+        <v-text-field type="text" label="节点组名" v-model="group_name" max="20"></v-text-field>
+        <v-text-field type="text" label="节点组备注" v-model="group_desc" max="100"></v-text-field>
+        <select-user label="节点组负责人" :value="group_leader" @update:select_user="value => group_leader=value"></select-user>
+        <select-node label="请选择节点，点击Tag取消选择" @update="value=>group_nodes=value"></select-node>
         <div>
           <div class="text-caption">
             消息发送规则

@@ -4,7 +4,7 @@
       <div class="toolsBar searchHeader">
         <v-btn
           @click="reStatus = true"
-          base-color="success">
+          color="success">
           补签
         </v-btn>
         <select-user

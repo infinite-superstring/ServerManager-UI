@@ -1,7 +1,7 @@
 <template>
   <div class="toolsBar">
     <v-btn
-      base-color="success"
+      color="success"
       @click="addWebDialogStatus = true"
     >
       新增网站监控

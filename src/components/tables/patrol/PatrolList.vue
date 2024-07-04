@@ -62,7 +62,7 @@ const show = (item) => {
         <v-btn variant="text" size="small" @click="edit(item)">
           编辑
         </v-btn>
-        <v-btn variant="text" size="small" base-color="error" @click="del(item.id)">
+        <v-btn variant="text" size="small" color="error" @click="del(item.id)">
           删除
         </v-btn>
       </td>

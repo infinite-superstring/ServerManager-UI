@@ -100,14 +100,14 @@ export default {
       <td>
         <v-btn
           variant="text"
-          base-color="primary"
+          color="primary"
           size="small"
           @click="$emit('action','edit', item.id)">
           编辑
         </v-btn>
         <v-btn
           variant="text"
-          base-color="error"
+          color="error"
           size="small"
           @click="delGroup(item.id)">
           删除

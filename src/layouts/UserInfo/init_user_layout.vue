@@ -1,4 +1,6 @@
 <script>
+import bus from 'vue3-eventbus'
+
 import Init_user_finish from "@/components/initUser/finish.vue";
 import Init_user_info from "@/components/initUser/edit_info.vue";
 import Init_user_bind_otp from "@/components/initUser/bind_OTP.vue";
@@ -21,9 +23,9 @@ export default {
     this.web_config = useWebsiteSettingStore()
     this.user_store = useUserStore()
     console.log(this.user_store.isNewUser)
-    // if (!this.user_store.isNewUser) {
-    //   this.$router.push({name: "dashboard"})
-    // }
+    if (!this.user_store.isNewUser) {
+      this.$router.push({name: "dashboard"})
+    }
     if (this.web_config.serverConfig.forceOTP_Bind) {
       this.step_item = ['编辑用户信息', '绑定令牌', '完成']
     } else {
@@ -49,6 +51,7 @@ export default {
                 this.user_store.isNewUser = false
                 this.user_store.getUserInfo()
               }
+              bus.emit("update:UserInfo")
               callback()
             })
           }
@@ -63,6 +66,7 @@ export default {
               this.user_store.isNewUser = false
               this.user_store.enableOTP = true
               this.user_store.getUserInfo()
+              bus.emit("update:UserInfo")
               callback()
             })
           }

@@ -100,7 +100,7 @@ export default {
       <td>{{ item.lastLoginTime ? `${item.lastLoginTime}（ip:${item.lastLoginIP}）` : "未登录" }}</td>
       <td class="action-btn">
         <v-btn variant="text" size="small" @click="$emit('action', item.uid, 'resetPassword')">重置密码</v-btn>
-        <v-btn variant="text" size="small" base-color="error" @click="delUser(item.uid)">删除</v-btn>
+        <v-btn variant="text" size="small" color="error" @click="delUser(item.uid)">删除</v-btn>
       </td>
     </tr>
     </tbody>

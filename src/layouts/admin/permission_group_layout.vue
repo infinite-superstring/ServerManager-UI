@@ -251,7 +251,7 @@ export default {
   <div class="toolsBar">
     <v-btn
       id="addUser"
-      base-color="success"
+      color="success"
       @click="flag.newGroup = true"
     >
       新增权限组

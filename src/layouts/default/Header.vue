@@ -1,6 +1,6 @@
 <template>
   <v-app-bar color="primary">
-    <v-app-bar-nav-icon v-if="!isLoginPage()" @click.stop="menu = !menu" title="展开侧边菜单">
+    <v-app-bar-nav-icon v-if="!hideSideBar()" @click.stop="menu = !menu" title="展开侧边菜单">
       <v-icon icon="mdi-menu"/>
     </v-app-bar-nav-icon>
 
@@ -9,7 +9,7 @@
       <router-view name="appBarBtn"></router-view>
     </template>
   </v-app-bar>
-  <header_sidebar :display="menu" v-if="!isLoginPage()"></header_sidebar>
+  <header_sidebar :display="menu" v-if="!hideSideBar()"></header_sidebar>
 </template>
 
 <script>
@@ -24,8 +24,12 @@ export default {
     }
   },
   methods: {
-    isLoginPage() {
-      return this.$route?.name === "login";
+    hideSideBar() {
+      const pages = [
+        'login',
+        'init_user'
+      ]
+      return pages.includes(this.$route?.name)
     }
   },
 }

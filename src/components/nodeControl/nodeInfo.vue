@@ -23,7 +23,7 @@ export default {
   <p v-if="node_base_info.node_group">节点组：{{ node_base_info.node_group }}</p>
   <p v-if="node_base_info.node_description">节点备注：{{ node_base_info.node_description }}</p>
   <p v-if="node_base_info.node_tags.length !== 0">节点标签：
-    <v-chip v-for="tag in node_base_info.node_tags" :key="tag" base-color="secondary" size="x-small">{{ tag }}</v-chip>
+    <v-chip v-for="tag in node_base_info.node_tags" :key="tag" color="secondary" size="x-small">{{ tag }}</v-chip>
   </p>
   <div id="system_info" v-if="node_base_info.node_system_info">
     <v-divider/>

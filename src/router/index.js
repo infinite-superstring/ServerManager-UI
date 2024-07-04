@@ -1,7 +1,7 @@
 // Composables
 import {createRouter, createWebHistory} from 'vue-router'
 import login from "@/views/Login.vue";
-import setUserBaseInfo from "@/views/initUser.vue";
+import initUser from "@/views/initUser.vue";
 import UserInfo from "@/views/UserInfo.vue";
 import Dashboard from "@/views/Dashboard.vue"
 import nodeList from "@/views/node/NodeList.vue";
@@ -38,7 +38,10 @@ const routes = [
   {
     path: '/init_user',
     name: "init_user",
-    component: setUserBaseInfo,
+    components: {
+      default: initUser,
+      appBarBtn: appbar_default
+    },
     meta: {
       title: "初始化用户"
     }

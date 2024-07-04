@@ -204,7 +204,7 @@ export default {
       </v-container>
     </v-card-text>
     <v-card-actions>
-      <v-btn block base-color="success" @click="saveUserInfo()">保存修改</v-btn>
+      <v-btn block color="success" @click="saveUserInfo()">保存修改</v-btn>
     </v-card-actions>
   </v-card>
   <div>
@@ -221,8 +221,8 @@ export default {
           <img id="previewImage">
         </v-card-text>
         <v-card-actions>
-          <v-btn base-color="error" @click="uploadAvatar.flag = false">取消</v-btn>
-          <v-btn base-color="success" @click="uploadAvatarImg()">确定</v-btn>
+          <v-btn color="error" @click="uploadAvatar.flag = false">取消</v-btn>
+          <v-btn color="success" @click="uploadAvatarImg()">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

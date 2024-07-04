@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="toolsBar">
         <v-btn
-          base-color="success"
+          color="success"
           @click="dialogShow = true"
         >
           添加集群任务

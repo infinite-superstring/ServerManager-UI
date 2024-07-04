@@ -77,50 +77,30 @@ export default {
     <v-card>
       <v-card-title>新增用户</v-card-title>
       <v-card-text>
+        <v-text-field label="用户名" type="text" v-model="userName"></v-text-field>
+        <v-text-field label="真实姓名" type="text" v-model="realName"></v-text-field>
+        <v-text-field label="邮箱地址" type="email" v-model="email"></v-text-field>
+        <v-text-field label="初始密码" type="password" v-model="password"></v-text-field>
         <div>
           <div class="text-caption">
-            用户名
-          </div>
-          <v-text-field type="text" v-model="userName"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            真实姓名
-          </div>
-          <v-text-field type="text" v-model="realName"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            邮箱
-          </div>
-          <v-text-field type="email" v-model="email"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            密码
-          </div>
-          <v-text-field type="password" v-model="password"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            权限组
+            权限
           </div>
           <v-card>
             <v-card-text>
               <permission-group-table :select="permission" @update="args => {this.permission = args}"/>
             </v-card-text>
             <v-card-actions>
-              <v-btn base-color="warning" :disabled="permission == null" @click="permission = null">
+              <v-btn color="warning" :disabled="permission == null" @click="permission = null">
                 清除已选择
               </v-btn>
             </v-card-actions>
           </v-card>
         </div>
-        <v-switch base-color="primary" label="禁用用户" v-model="disable"></v-switch>
+        <v-switch color="primary" label="禁用用户" v-model="disable"></v-switch>
       </v-card-text>
       <v-card-actions>
-        <v-btn base-color="error" @click="close()">取消</v-btn>
-        <v-btn base-color="success" @click="submit()">确定</v-btn>
+        <v-btn color="error" @click="close()">取消</v-btn>
+        <v-btn color="success" @click="submit()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

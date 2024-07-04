@@ -15,7 +15,7 @@ export default {
   <div class="toolsBar">
     <v-btn
       id="addUser"
-      base-color="success"
+      color="success"
       @click="$emit('action:create_group')">
       创建组
     </v-btn>

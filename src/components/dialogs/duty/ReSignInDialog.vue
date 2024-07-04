@@ -14,7 +14,6 @@
         <div>
           <v-date-input
             v-model="reDate"
-            base-color="primary"
             color="primary"
             cancel-text="取消"
             ok-text="确定"
@@ -24,8 +23,8 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn base-color="error" @click="close()">取消</v-btn>
-        <v-btn base-color="success" @click="submit()">确定</v-btn>
+        <v-btn color="error" @click="close()">取消</v-btn>
+        <v-btn color="success" @click="submit()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

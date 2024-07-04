@@ -52,7 +52,7 @@ export default {
     disable-route-watcher
     disable-resize-watcher
     permanent
-    base-color="#FAFAFA"
+    color="#FAFAFA"
   >
     <v-list
       density="compact"

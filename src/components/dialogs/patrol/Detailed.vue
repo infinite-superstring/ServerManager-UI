@@ -26,7 +26,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn base-color="success" @click="close()">确定</v-btn>
+        <v-btn color="success" @click="close()">确定</v-btn>
       </v-card-actions>
     </v-card>
   </VDialog>

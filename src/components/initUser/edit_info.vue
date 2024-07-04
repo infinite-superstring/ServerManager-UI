@@ -31,6 +31,7 @@ export default {
           email: this.email,
         }
       }).then(res => {
+        message.showSuccess(this, "发送成功，请检查您的邮箱")
         this.interval = res.data.data.interval;
         this.startTimeout()
       })

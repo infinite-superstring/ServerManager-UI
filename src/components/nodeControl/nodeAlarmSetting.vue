@@ -243,7 +243,7 @@ export default {
           </v-table>
         </v-card-text>
         <v-card-actions>
-          <v-btn base-color="green" block @click="add_disk_rule">
+          <v-btn color="green" block @click="add_disk_rule">
             <v-icon icon="mdi:mdi-plus"/>
             添加规则
           </v-btn>
@@ -251,7 +251,7 @@ export default {
       </v-card>
     </div>
     <div class="actionButton">
-      <v-btn base-color="green" @click="save_alarm_setting()">
+      <v-btn color="green" @click="save_alarm_setting()">
         保存
       </v-btn>
     </div>
