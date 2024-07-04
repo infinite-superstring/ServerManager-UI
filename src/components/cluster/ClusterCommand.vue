@@ -66,6 +66,6 @@ watch(() => shell.value, v => {
 
 .ace {
   width: 100%;
-  min-height: 100px;
+  min-height: 100%;
 }
 </style>

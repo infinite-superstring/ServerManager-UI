@@ -53,7 +53,7 @@ export default {
     <div class="status-container" v-if="base_info.node_online">
       <div class="cpu" v-if="status_data?.cpu_core">
         <v-tooltip location="top" max-width="250px">
-          <v-chip v-for="(value, cpu_index) in status_data.cpu_core" :key="cpu_index" :color="usage_color(value)">
+          <v-chip class="ma-1" v-for="(value, cpu_index) in status_data.cpu_core" :key="cpu_index" :color="usage_color(value)">
             {{ cpu_index }} : {{ value }}%
           </v-chip>
           <template v-slot:activator="{ props }">

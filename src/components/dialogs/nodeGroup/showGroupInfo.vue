@@ -43,10 +43,7 @@ export default {
       if (val) {
         this.m_flag = val
         this.getGroupInfo()
-      } else {
-
       }
-
     },
     m_flag(val) {
       if (!val) {

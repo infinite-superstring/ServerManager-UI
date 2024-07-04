@@ -18,7 +18,7 @@ import vue from "@/main"
 import Message from '@/views/Messages.vue'
 import nodeGroupEdit from "@/views/node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/node/ClusterTask.vue";
-import ClusterExecution from "@/views/node/ClusterExecution.vue";
+import ClusterExecution from "@/views/node/ClusterRun.vue";
 import PatrolPage from '@/views/Patrol.vue'
 import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
