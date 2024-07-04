@@ -145,7 +145,7 @@ export default {
         <v-row>
           <v-col class="left" cols="4">
             <v-row class="avatar">
-              <v-avatar :image="avatarUrl" size="100%"></v-avatar>
+              <v-avatar :image="avatarUrl" size="100%" color="surface-variant"></v-avatar>
               <div class="editAvatar" @click="openAvatarUploader()">
                 <v-icon icon="mdi:mdi-pencil-outline"></v-icon>
                 <span>更换头像</span>
@@ -162,7 +162,7 @@ export default {
             <v-row>
               <div>
                 <div class="text-caption">
-                  ID
+                  用户ID
                 </div>
                 <v-text-field type="number" disabled v-model="id" clearable variant="solo"></v-text-field>
               </div>
@@ -186,7 +186,7 @@ export default {
             <v-row>
               <div>
                 <div class="text-caption">
-                  组
+                  用户组
                 </div>
                 <v-text-field type="text" disabled v-model="group" clearable variant="solo"></v-text-field>
               </div>
@@ -194,7 +194,7 @@ export default {
             <v-row>
               <div>
                 <div class="text-caption">
-                  邮箱
+                  电子邮箱
                 </div>
                 <v-text-field type="email" v-model="email" clearable variant="solo"></v-text-field>
               </div>

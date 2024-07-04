@@ -132,7 +132,7 @@ export default {
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="submit" color="green">提交</v-btn>
+        <v-btn @click="submit" color="green">确定</v-btn>
         <v-btn @click="close" color="red">取消</v-btn>
       </v-card-actions>
     </v-card>

@@ -58,28 +58,13 @@ export default {
     <v-card-text>
       <v-container>
         <v-row>
-          <div>
-            <div class="text-caption">
-              原密码
-            </div>
-            <v-text-field type="password" v-model="oldPassword" :rules="PasswordRules" clearable variant="solo-inverted"></v-text-field>
-          </div>
+          <v-text-field label="原密码" type="password" v-model="oldPassword" :rules="PasswordRules" clearable variant="solo"></v-text-field>
         </v-row>
         <v-row>
-          <div>
-            <div class="text-caption">
-              新密码
-            </div>
-            <v-text-field type="password" v-model="newPassword" :rules="PasswordRules" clearable variant="solo-inverted"></v-text-field>
-          </div>
+          <v-text-field label="新密码" type="password" v-model="newPassword" :rules="PasswordRules" clearable variant="solo"></v-text-field>
         </v-row>
         <v-row>
-          <div>
-            <div class="text-caption">
-              重复一次新密码
-            </div>
-            <v-text-field type="password" v-model="newPassword2" :rules="newPasswordRules" clearable variant="solo-inverted"></v-text-field>
-          </div>
+          <v-text-field label="重复一次新密码" type="password" v-model="newPassword2" :rules="newPasswordRules" clearable variant="solo"></v-text-field>
         </v-row>
       </v-container>
     </v-card-text>

@@ -50,8 +50,8 @@ export default {
           <v-text-field :modelValue="value" :label="label" :type="type" @input="$emit('update', $event.target.value)"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="error" @click="$emit('close')">取消</v-btn>
           <v-btn color="success" @click="$emit('confirm')">确定</v-btn>
+          <v-btn color="error" @click="$emit('close')">取消</v-btn>
         </v-card-actions>
       </v-card>
   </v-dialog>
