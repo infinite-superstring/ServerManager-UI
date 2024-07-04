@@ -24,7 +24,6 @@ import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 import dialogs from "@/scripts/utils/dialogs";
-
 const routes = [
   // 登录
   {

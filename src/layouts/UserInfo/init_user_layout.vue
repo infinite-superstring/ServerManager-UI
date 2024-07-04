@@ -12,12 +12,18 @@ export default {
     return {
       step: null,
       step_item: [],
-      web_config: null
+      qrcode: null,
+      web_config: null,
+      user_store: null
     }
   },
   created() {
-    this.web_config = useWebsiteSettingStore
-    if (this.web_config.serverConfig?.forceOTP_Bind) {
+    this.web_config = useWebsiteSettingStore()
+    this.user_store = useUserStore()
+    if (!this.user_store.isNewUser) {
+      this.$router.push({name: "dashboard"})
+    }
+    if (this.web_config.serverConfig.forceOTP_Bind) {
       this.step_item = ['编辑用户信息', '绑定令牌', '完成']
     } else {
       this.step_item = ['编辑用户信息', '完成']
@@ -34,36 +40,38 @@ export default {
         case 1: {
           const submit = this.$refs.edit_user_info.submit()
           if (submit && submit instanceof Promise) {
-            submit.then(() => {
+            submit.then((res) => {
+              if (this.web_config.serverConfig.forceOTP_Bind) {
+                this.qrcode = res.data.data.qrcode
+                console.log(this.qrcode)
+              } else {
+                this.user_store.isNewUser = false
+                this.user_store.getUserInfo()
+              }
+              callback()
+            })
+          }
+          break
+        }
+        case 2: {
+          const submit = this.$refs.bind_otp.submit()
+          console.log(submit)
+          if (submit && submit instanceof Promise) {
+            submit.then((res) => {
+              if (!res) return
+              this.user_store.isNewUser = false
+              this.user_store.enableOTP = true
+              this.user_store.getUserInfo()
               callback()
             })
           }
         }
-        // case 2:
-        // this.$refs.bind_otp
       }
     },
     finish() {
-      useUserStore().isNewUser = false
       this.$router.push({name: "dashboard"})
     }
   },
-  watch: {
-    step(newVal, oldVal) {
-      if (newVal < oldVal) {
-        console.log("up")
-      } else {
-        switch (newVal) {
-          case 2:
-            if (!this.web_config.serverConfig?.forceOTP_Bind) return
-            this.$nextTick(() => {
-              this.showQR_Code(this.$refs.qr_show_img, this.step2.qr_code)
-            })
-        }
-        console.log("down")
-      }
-    }
-  }
 }
 </script>
 
@@ -80,15 +88,15 @@ export default {
           <init_user_info ref="edit_user_info"></init_user_info>
         </template>
 
-        <template v-slot:item.2 v-if="this.web_config.serverConfig?.forceOTP_Bind">
-          <init_user_bind_otp ref="bind_otp"></init_user_bind_otp>
+        <template v-slot:item.2 v-if="this.web_config.serverConfig.forceOTP_Bind">
+          <init_user_bind_otp ref="bind_otp" :qrcode="qrcode"></init_user_bind_otp>
         </template>
 
-        <template v-slot:item.2 v-if="!this.web_config.serverConfig?.forceOTP_Bind">
+        <template v-slot:item.2 v-if="!this.web_config.serverConfig.forceOTP_Bind">
           <init_user_finish></init_user_finish>
         </template>
 
-        <template v-slot:item.3 v-if="this.web_config.serverConfig?.forceOTP_Bind">
+        <template v-slot:item.3 v-if="this.web_config.serverConfig.forceOTP_Bind">
           <init_user_finish></init_user_finish>
         </template>
 
