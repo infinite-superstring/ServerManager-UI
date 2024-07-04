@@ -19,10 +19,12 @@ export default {
     login(){
       this.send({
         action: 'terminal:login',
+        data:{
         host:this.host,
         port:this.port,
         username:this.username,
         password:this.password
+        }
       })
     },
     send(data) {
