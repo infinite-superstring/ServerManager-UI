@@ -4,12 +4,6 @@ import axios from "axios";
 import NewGroup from "@/components/dialogs/permissionGroup/newGroup.vue";
 import EditGroupInfo from "@/components/dialogs/permissionGroup/editGroupInfo.vue";
 import EditGroupName from "@/components/dialogs/permissionGroup/editGroupName.vue";
-import dialogs from "@/scripts/utils/dialogs";
-import confirmDialog from "@/scripts/utils/confirmDialog";
-import users from "@/scripts/admin/users";
-import message from "@/scripts/utils/message";
-import permission from "@/scripts/admin/permission";
-import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 export default {
   name: "permission_group_layout",
@@ -70,41 +64,12 @@ export default {
         this.showApiErrorMsg(err.message)
       })
     },
-    // 打开输入框
-    openInputDialog(id, title, label, defaultValue, callback = null, type = "text") {
-      if (!this.inputDialog.flag) {
-        this.inputDialog.flag = true
-        this.inputDialog.uid = id
-        this.inputDialog.title = title
-        this.inputDialog.label = label
-        this.inputDialog.input = defaultValue
-        this.inputDialog.type = type
-        this.inputDialog.callback = callback
-      } else {
-        console.warn("当前已有开启中的输入框")
-      }
-    },
     // 动作
     action(action, groupId = null) {
       /**
        * 操作
        */
       switch (action) {
-        case "newPermissionGroup":
-          /**
-           * 新建组
-           */
-          this.getPermissionList().then(res => {
-            const apiStatus = res.data.status
-            if (apiStatus === 1) {
-              this.restore_init("newPermissionGroupDialog")
-              this.newPermissionGroupDialog.permissionList = res.data.data
-              this.newPermissionGroupDialog.flag = true
-            } else {
-              this.showApiErrorMsg(res.data.msg, apiStatus)
-            }
-          })
-          break
         case "rename":
           /**
            * 重命名
@@ -132,7 +97,6 @@ export default {
            * 编辑权限组
            */
           this.editGroupPermission.gid = groupId
-          console.log(this.editGroupPermission.gid)
           this.editGroupPermission.flag = true
           break
       }
