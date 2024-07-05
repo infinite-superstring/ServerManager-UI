@@ -45,7 +45,6 @@ export default {
       label="主机位置"
     ></v-text-field>
     <v-text-field
-      disabled
       v-model="port"
       label="端口"
     ></v-text-field>
