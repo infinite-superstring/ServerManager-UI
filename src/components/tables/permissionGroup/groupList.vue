@@ -2,6 +2,8 @@
 import axios from "axios";
 import message from "@/scripts/utils/message.js"
 import dialogs from "@/scripts/utils/dialogs";
+import permission from "@/scripts/admin/permission";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 /**
  * 权限组列表
@@ -34,17 +36,16 @@ export default {
        * 删除权限组
        */
       dialogs.confirm("您确定要删除这个组吗", "该操作无法撤销，请谨慎操作", 'warning')
-        .then((value) => {
+        .then(async (value) => {
           if (value) {
-            axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
-              const apiStatus = res.data.status
-              if (apiStatus === 1) {
-                this.$emit("updateData")
-              } else {
-                message.showApiErrorMsg(this, res.data.msg, apiStatus)
-              }
-            }).catch(err => {
-              message.showApiErrorMsg(this, err.message)
+            const user_info = localConfigUtils.load_userinfo()
+            const web_config = localConfigUtils.load_web_config()
+            let otp_code = ""
+            if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
+              await dialogs.showVerifyOTP_Dialog().then(res => otp_code = res)
+            }
+            await permission.deleteGroup(this, groupId, otp_code).then(() => {
+              this.$emit("updateData")
             })
           }
         })

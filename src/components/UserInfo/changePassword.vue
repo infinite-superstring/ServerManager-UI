@@ -1,6 +1,8 @@
 <script>
 import message from "@/scripts/utils/message.js"
 import axios from "axios";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
+import dialogs from "@/scripts/utils/dialogs";
 
 export default {
   name: "changePassword",
@@ -29,23 +31,31 @@ export default {
     }
   },
   methods: {
-    changePassword() {
-      axios.post("/api/userInfo/setPassword",{
+    async changePassword() {
+      const user_info = localConfigUtils.load_userinfo()
+      const web_config = localConfigUtils.load_web_config()
+      let otp_code = ""
+      if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
+        await dialogs.showVerifyOTP_Dialog().then(res => otp_code = res)
+      }
+
+      axios.post("/api/userInfo/setPassword", {
         data: {
           oldPassword: this.oldPassword,
-          newPassword: this.newPassword2
+          newPassword: this.newPassword2,
+          code: otp_code
         }
-      }).then(res=>{
+      }).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
-          message.showSuccess(this, "密码修改成功~")
+          message.showSuccess(this, "密码修改成功")
           this.oldPassword = ""
           this.newPassword = ""
           this.newPassword2 = ""
         } else {
           message.showError(this, res.data.msg)
         }
-      }).catch(err=>{
+      }).catch(err => {
         message.showApiErrorMsg(this, err.message)
       })
     }
@@ -58,13 +68,16 @@ export default {
     <v-card-text>
       <v-container>
         <v-row>
-          <v-text-field label="原密码" type="password" v-model="oldPassword" :rules="PasswordRules" clearable variant="solo"></v-text-field>
+          <v-text-field label="原密码" type="password" v-model="oldPassword" :rules="PasswordRules" clearable
+                        variant="solo"></v-text-field>
         </v-row>
         <v-row>
-          <v-text-field label="新密码" type="password" v-model="newPassword" :rules="PasswordRules" clearable variant="solo"></v-text-field>
+          <v-text-field label="新密码" type="password" v-model="newPassword" :rules="PasswordRules" clearable
+                        variant="solo"></v-text-field>
         </v-row>
         <v-row>
-          <v-text-field label="重复一次新密码" type="password" v-model="newPassword2" :rules="newPasswordRules" clearable variant="solo"></v-text-field>
+          <v-text-field label="重复一次新密码" type="password" v-model="newPassword2" :rules="newPasswordRules"
+                        clearable variant="solo"></v-text-field>
         </v-row>
       </v-container>
     </v-card-text>
@@ -75,7 +88,7 @@ export default {
 </template>
 
 <style scoped>
-  .v-row > div {
-    width: 100%;
-  }
+.v-row > div {
+  width: 100%;
+}
 </style>

@@ -4,6 +4,12 @@ import axios from "axios";
 import NewGroup from "@/components/dialogs/permissionGroup/newGroup.vue";
 import EditGroupInfo from "@/components/dialogs/permissionGroup/editGroupInfo.vue";
 import EditGroupName from "@/components/dialogs/permissionGroup/editGroupName.vue";
+import dialogs from "@/scripts/utils/dialogs";
+import confirmDialog from "@/scripts/utils/confirmDialog";
+import users from "@/scripts/admin/users";
+import message from "@/scripts/utils/message";
+import permission from "@/scripts/admin/permission";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 export default {
   name: "permission_group_layout",
@@ -28,19 +34,6 @@ export default {
     }
   },
   methods: {
-    showApiErrorMsg(message, status = null) {
-      /**
-       * 显示API错误信息
-       */
-      this.$notify.create({
-        text: `API错误：${message} ${status ? '(status:' + status + ')' : ''}`,
-        level: 'error',
-        location: 'bottom right',
-        notifyOptions: {
-          "close-delay": 3000
-        }
-      })
-    },
     // 获取用户列表
     getPermissionGroupList(search = "", page = 1, pageSize = 20) {
       /**
@@ -142,26 +135,6 @@ export default {
           console.log(this.editGroupPermission.gid)
           this.editGroupPermission.flag = true
           break
-        case "del":
-          /**
-           * 删除权限组
-           */
-          this.$dialog.confirm("操作确认", "确定要删除这个组吗", 'warning', '否', '是')
-            .then((anwser) => {
-              if (anwser) {
-                axios.post('/api/admin/permissionManager/delPermissionGroup', {id: groupId}).then(res => {
-                  const apiStatus = res.data.status
-                  if (apiStatus === 1) {
-                    this.getPermissionGroupList(this.search, this.currentPage)
-                  } else {
-                    this.showApiErrorMsg(res.data.msg, apiStatus)
-                  }
-                }).catch(err => {
-                  this.showApiErrorMsg(err.message)
-                })
-              }
-            })
-          break
       }
     },
     // 恢复初始值
@@ -236,7 +209,7 @@ export default {
   },
   watch: {
     currentPage(val) {
-      this.getPermissionGroupList(this.search ,val)
+      this.getPermissionGroupList(this.search, val)
     },
     "search"(val) {
       console.log(val)

@@ -6,6 +6,7 @@ import CreateGroup from "@/components/dialogs/nodeGroup/createGroup.vue";
 import Node_group_list from "@/components/nodeGroup/groupList.vue";
 import dialogs from "@/scripts/utils/dialogs";
 import ShowGroupInfo from "@/components/dialogs/nodeGroup/showGroupInfo.vue";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 export default {
   name: "node_group_edit_layout",
@@ -45,10 +46,18 @@ export default {
       })
     },
     delGroup(id) {
-      dialogs.confirm("你确定要删除这个节点组吗", "该操作无法撤销，请谨慎操作", 'warning').then(value => {
+      const user_info = localConfigUtils.load_userinfo()
+      const web_config = localConfigUtils.load_web_config()
+      dialogs.confirm("你确定要删除这个节点组吗", "该操作无法撤销，请谨慎操作", 'warning').then(async value => {
         if (value) {
+          let otp_code = ""
+          console.log(user_info.enableOTP)
+          if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
+            await dialogs.showVerifyOTP_Dialog().then(res => otp_code = res)
+          }
           axios.post("/api/node_manager/node_group/delGroup", {
-            group_id: id
+            group_id: id,
+            code: otp_code
           }).then((res) => {
             if (res.data.status === 1) {
               message.showSuccess(this, res.data.msg)
@@ -84,7 +93,6 @@ export default {
   <node_group_list
     :value="groupListData"
     @action:del="id=>delGroup(id)"
-    @action:edit=""
     @action:show_info="id => {showGroupInfo.id = id; showGroupInfo.flag = true}"
   />
   <div class="dialogs">

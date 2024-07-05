@@ -3,6 +3,7 @@ import axios from "@/scripts/utils/axios.js";
 import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
 import confirmDialog from '@/scripts/utils/confirmDialog'
+import users from "@/scripts/admin/users";
 
 export default {
   name: "userList",
@@ -18,17 +19,10 @@ export default {
       /**
        * 删除用户
        */
-      confirmDialog("操作确认", "确定要删除这个用户吗", ()=>{
-        axios.post("/api/admin/userManager/delUser", {id:uid})
-        .then(res=>{
-          const status = res.data.status
-          if (status === 1) {
+      confirmDialog("操作确认", "确定要删除这个用户吗", async () => {
+        users.deleteUser(this, uid).then(() => {
             this.$emit('update')
-            message.showSuccess(this, res.data.msg)
-          } else {
-            message.showError(this, res.data.msg)
-          }
-        })
+          })
       })
     },
     updateUserStatus(uid, status) {

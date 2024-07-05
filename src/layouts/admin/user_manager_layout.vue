@@ -72,12 +72,10 @@ export default {
               disable: item.disable
             })
           }
-          console.log(this.userList)
         } else {
           message.showApiErrorMsg(this, res.data.msg, apiStatus)
         }
       }).catch(err => {
-        console.error(err)
         message.showApiErrorMsg(this, err.message)
       })
     },

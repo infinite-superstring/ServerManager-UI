@@ -1,6 +1,7 @@
 import axios from "axios";
 import message from "@/scripts/utils/message";
-import error from "@/views/Error.vue";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
+import dialogs from "@/scripts/utils/dialogs";
 
 function updateUserInfo(el, uid, data) {
   /**
@@ -35,14 +36,35 @@ function getUserList(el, search = "", page_index = 1, page_size = 20) {
     page: page_index,
     pageSize: page_size,
     search: search
-  }).catch(err=>{
+  }).catch(err => {
     console.error(err)
     message.showApiErrorMsg(el, err.message)
+  })
+}
+
+async function deleteUser(el, uid) {
+  const user_info = localConfigUtils.load_userinfo()
+  const web_config = localConfigUtils.load_web_config()
+  let opt_code = ""
+  if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
+    await dialogs.showVerifyOTP_Dialog().then(res => opt_code = res)
+  }
+  return axios.post("/api/admin/userManager/delUser", {
+    id: uid,
+    code: opt_code
+  }).then(res => {
+    const status = res.data.status
+    if (status === 1) {
+      message.showSuccess(this, res.data.msg)
+    } else {
+      message.showError(this, res.data.msg)
+    }
   })
 }
 
 export default {
   updateUserInfo,
   getUserInfo,
-  getUserList
+  getUserList,
+  deleteUser
 }
