@@ -30,6 +30,7 @@ export default {
       }).catch(() => {
         this.error = true
         this.input_code = null
+        // throw new Error('bind otp error')
       })
     }
   }

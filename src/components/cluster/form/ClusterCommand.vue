@@ -28,7 +28,7 @@ const props = defineProps({
   theme: {
     type: String,
     default: 'chrome'
-  }
+  },
 })
 
 onMounted(async () => {
@@ -63,6 +63,7 @@ watch(() => shell.value, v => {
 <style scoped>
 .form-time {
   width: 100%;
+  height: 100px;
 }
 
 .ace {

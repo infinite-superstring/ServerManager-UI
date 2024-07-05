@@ -61,9 +61,22 @@ function timeStringToSeconds(timeStr) {
   return seconds;
 }
 
+/**
+ * 秒转时间字符串
+ * 例如 68400 转换为 XX小时XX分XX秒
+ * @param seconds
+ */
+function secondToStr(seconds) {
+  let hour = Math.floor(seconds / 3600);
+  let minute = Math.floor((seconds - hour * 3600) / 60);
+  let second = seconds - hour * 3600 - minute * 60;
+  return `${hour}小时${minute}分${second}秒`;
+}
+
 export default {
   formatBytes,
   formatPercentage,
   formatTimestampToStr,
-  timeStringToSeconds
+  timeStringToSeconds,
+  secondToStr
 }
