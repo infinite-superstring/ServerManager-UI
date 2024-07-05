@@ -1,7 +1,7 @@
 <script>
 import message from "@/scripts/utils/message";
 import axios from "@/scripts/utils/axios";
-import ClusterCommand from "@/components/cluster/ClusterCommand.vue";
+import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
 import SelectNodeGroup from "@/components/input/selectNodeGroup.vue";
 
 export default {

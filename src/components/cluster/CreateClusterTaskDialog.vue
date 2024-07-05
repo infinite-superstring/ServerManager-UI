@@ -82,11 +82,11 @@
 
 <script setup>
 import {ref, watch} from "vue";
-import IntervalExec from "@/components/cluster/IntervalExec.vue";
+import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
 import inputUtil from '@/scripts/utils/inputUtil'
-import CycleExec from "@/components/cluster/CycleExec.vue";
-import DateTimeExec from "@/components/cluster/DateTimeExec.vue";
-import ClusterCommand from "@/components/cluster/ClusterCommand.vue";
+import CycleExec from "@/components/cluster/form/CycleExec.vue";
+import DateTimeExec from "@/components/cluster/form/DateTimeExec.vue";
+import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
 
 const emit = defineEmits(['close'])
 

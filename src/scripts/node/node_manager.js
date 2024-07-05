@@ -2,14 +2,31 @@ import axios from "axios";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
 
+function load_userinfo() {
+  const UserInfo = localStorage.getItem("UserInfo")
+  console.log(UserInfo)
+  return JSON.parse(UserInfo)
+}
+
+function load_web_config() {
+  const web_config = localStorage.getItem("WebsiteSetting")
+  console.log(web_config)
+  return JSON.parse(web_config)
+}
+
 async function del_node(el, node_uuid, callback) {
   /**
    * 删除节点
    */
+  const user_info = load_userinfo()
+  const web_config = load_web_config()
   await dialogs.confirm("你确定要删除该节点吗", "该操作无法撤销，请谨慎操作", "warning").then(async res => {
     if (res) {
       let opt_code = ""
-      await dialogs.showOTP_Dialog().then(res => opt_code = res)
+      console.log(user_info.enableOTP)
+      if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
+        await dialogs.showVerifyOTP_Dialog().then(res => opt_code = res)
+      }
       axios.post('/api/node_manager/delNode', {
         uuid: node_uuid,
         code: opt_code
