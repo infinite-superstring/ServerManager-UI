@@ -73,15 +73,15 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn type="primary" @click="emit('submit', formData)">提交</v-btn>
-        <v-btn type="primary" @click="emit('close')">取消</v-btn>
+        <v-btn color="green" @click="emit('submit', formData)">确定</v-btn>
+        <v-btn color="red" @click="emit('close')">取消</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
 import inputUtil from '@/scripts/utils/inputUtil'
 import CycleExec from "@/components/cluster/form/CycleExec.vue";

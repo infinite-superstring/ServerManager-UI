@@ -1,15 +1,25 @@
 <script>
+import UserSessionLog from "@/components/tables/auditPage/userSessionLog.vue";
+import NodeSessionLog from "@/components/tables/auditPage/nodeSessionLog.vue";
+import WebStatusLog from '@/components/tables/auditPage/webStatusLog.vue'
 import operationLog from "@/components/tables/auditPage/operationLog.vue";
 import systemLog from "@/components/tables/auditPage/systemLog.vue";
 import accessLog from "@/components/tables/auditPage/accessLog.vue";
 import fileChangeLog from "@/components/tables/auditPage/fileChangeLog.vue";
-import UserSessionLog from "@/components/tables/auditPage/userSessionLog.vue";
-import NodeSessionLog from "@/components/tables/auditPage/nodeSessionLog.vue";
 import TerminalCommandAudit from "@/components/tables/auditPage/terminalCommandAudit.vue";
 
 export default {
   name: "audit_layout",
-  components: {TerminalCommandAudit, NodeSessionLog, UserSessionLog, fileChangeLog, accessLog, systemLog, operationLog},
+  components: {
+    NodeSessionLog,
+    UserSessionLog,
+    WebStatusLog,
+    TerminalCommandAudit,
+    fileChangeLog,
+    accessLog,
+    systemLog,
+    operationLog
+  },
   data: () => {
     return {
       tab: null
@@ -29,6 +39,7 @@ export default {
       <v-tab value="File_change_log">文件修改日志</v-tab>
       <v-tab value="User_Session_log">用户会话日志</v-tab>
       <v-tab value="Node_Session_log">节点会话日志</v-tab>
+      <v-tab value="web_status_log">网站监控日志</v-tab>
       <v-tab value="Terminal_Command_audit">终端命令审计</v-tab>
     </v-tabs>
     <v-card-text>
@@ -50,6 +61,9 @@ export default {
         </v-window-item>
         <v-window-item value="Node_Session_log">
           <node-session-log/>
+        </v-window-item>
+        <v-window-item value="web_status_log">
+          <web-status-log/>
         </v-window-item>
         <v-window-item value="Terminal_Command_audit">
           <terminal-command-audit/>

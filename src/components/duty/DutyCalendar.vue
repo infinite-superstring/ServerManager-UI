@@ -150,7 +150,7 @@ const getAvatarColor = (name) => {
 
 const reSignIn = () => {
   reStatus.value = false
-  emit('update',true)
+  emit('update', true)
 }
 
 
@@ -177,5 +177,15 @@ defineExpose({
   display: flex;
   align-items: center;
 }
+</style>
+<style>
+/*.v-calendar-weekly__day-label .v-btn {
+  background-color: white !important;
+  border: black;
+}
+
+.v-calendar-weekly__day-label .v-btn .v-btn__content {
+  color: black !important;
+}*/
 
 </style>

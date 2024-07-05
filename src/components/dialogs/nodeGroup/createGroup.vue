@@ -91,6 +91,7 @@ export default {
         }
         message.showSuccess(this, res.data.msg)
         this.$emit("success")
+        this.close()
       }).catch(err=>{
         console.error(err)
         message.showApiErrorMsg(this, err.message)
