@@ -75,11 +75,12 @@ onMounted(() => {
 })
 
 watch(() => props.time, (val) => {
-  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 25)
   if (Array.isArray(val)) {
-    delayChart.data.labels.push(...val)
+    delayChart.data.labels = []
+    delayChart.data.labels = [...val]
   } else {
     delayChart.data.labels.push(val)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
   }
   delayChart.update()
 }, {
@@ -89,11 +90,12 @@ watch(() => props.time, (val) => {
  * 监听数据
  */
 watch(() => props.data, (val) => {
-  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 25)
   if (Array.isArray(val)) {
-    delayChart.data.datasets[0].data.push(...val)
+    delayChart.data.datasets[0].data = []
+    delayChart.data.datasets[0].data = [...val]
   } else {
     delayChart.data.datasets[0].data.push(val)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
   }
   delayChart.update()
 }, {
@@ -103,22 +105,25 @@ watch(() => props.data, (val) => {
 /**
  * 初始化数据
  */
-const initData = () => {
+const loadData = () => {
   if (Array.isArray(props.time)) {
-    delayChart.data.labels.push(...props.time)
+    delayChart.data.labels = []
+    delayChart.data.labels = [...props.time]
   } else {
     delayChart.data.labels.push(props.time)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
   }
   if (Array.isArray(props.data)) {
-    delayChart.data.datasets[0].data.push(...props.data)
+    delayChart.data.datasets[0].data = []
+    delayChart.data.datasets[0].data = [...props.data]
   } else {
     delayChart.data.datasets[0].data.push(props.data)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
   }
 }
 
 onMounted(() => {
-  chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
-  initData()
+  loadData()
   delayChart.update()
 })
 

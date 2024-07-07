@@ -71,7 +71,8 @@
         />
       </td>
       <td>
-        <v-btn variant="text" color="red" @click="this.emit('onDelete',item.uuid)">删除</v-btn>
+        <v-btn variant="text">详细</v-btn>
+        <v-btn variant="text" color="red" @click="this.$emit('onDelete',item.uuid)">删除</v-btn>
       </td>
     </tr>
     </tbody>

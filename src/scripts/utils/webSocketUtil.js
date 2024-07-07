@@ -16,66 +16,66 @@ let wsInstance = null; // 新增: 用于存储WebSocket实例
  * @return WebSocket
  */
 export const createWebSocket = (url, config) => {
-    const maxReconnectAttempts = config.maxReconnectAttempts || 5; // 默认最大重连次数为5次
+  const maxReconnectAttempts = config.maxReconnectAttempts || 5; // 默认最大重连次数为5次
 
-    wsInstance = new WebSocket(url);
+  wsInstance = new WebSocket(url);
 
-    wsInstance.onopen = () => {
-        console.log('套接字连接成功');
-        resetCount = 0;
+  wsInstance.onopen = () => {
+    console.log('套接字连接成功'+wsInstance.readyState);
+    resetCount = 0;
+    isReconnecting = false;
+    config.onopen && config.onopen(wsInstance);
+  };
+  wsInstance.onmessage = (e) => {
+    config.onmessage && config.onmessage(e,wsInstance);
+  };
+  wsInstance.onclose = () => {
+    console.error('套接字连接关闭');
+    if (!isClose) {
+      handleReconnect();
+    }
+    config.onclose && config.onclose(wsInstance);
+  };
+  wsInstance.onerror = () => {
+    console.error('套接字连接错误');
+    if (!isClose) {
+      handleReconnect();
+    }
+    config.onerror && config.onerror(wsInstance);
+  };
+
+  const handleReconnect = () => {
+    if (!isReconnecting && config.autoReconnect && resetCount < maxReconnectAttempts && !isClose) {
+      isReconnecting = true;
+      resetCount++;
+      console.warn(`套接字将在3秒后尝试第${resetCount}次重连...`);
+      setTimeout(() => {
+        if (wsInstance.readyState !== WebSocket.CLOSED) {
+          wsInstance.close();
+        }
+        wsInstance = createWebSocket(url, config);
         isReconnecting = false;
-        config.onopen && config.onopen();
-    };
-    wsInstance.onmessage = (e) => {
-        config.onmessage && config.onmessage(e);
-    };
-    wsInstance.onclose = () => {
-        console.error('套接字连接关闭');
-        if (!isClose) {
-            handleReconnect();
-        }
-        config.onclose && config.onclose();
-    };
-    wsInstance.onerror = () => {
-        console.error('套接字连接错误');
-        if (!isClose) {
-            handleReconnect();
-        }
-        config.onerror && config.onerror();
-    };
+      }, 3000);
+    } else if (resetCount >= maxReconnectAttempts) {
+      console.error('达到最大重连次数，停止重连');
+      isReconnecting = false;
+    }
+  };
 
-    const handleReconnect = () => {
-        if (!isReconnecting && config.autoReconnect && resetCount < maxReconnectAttempts && !isClose) {
-            isReconnecting = true;
-            resetCount++;
-            console.warn(`套接字将在3秒后尝试第${resetCount}次重连...`);
-            setTimeout(() => {
-                if (wsInstance.readyState !== WebSocket.CLOSED) {
-                    wsInstance.close();
-                }
-                wsInstance = createWebSocket(url, config);
-                isReconnecting = false;
-            }, 3000);
-        } else if (resetCount >= maxReconnectAttempts) {
-            console.error('达到最大重连次数，停止重连');
-            isReconnecting = false;
-        }
-    };
-
-    return wsInstance;
+  return wsInstance;
 };
 
 /**
  * 关闭WebSocket连接
  */
 export const closeWebSocket = () => {
-    // 移除所有事件处理函数
-    wsInstance.onopen = null;
-    wsInstance.onmessage = null;
-    wsInstance.onerror = null;
-    wsInstance.onclose = null;
-    wsInstance.close();
-    wsInstance = null;
-    isReconnecting = false;
-    isClose = true;
+  // 移除所有事件处理函数
+  wsInstance.onopen = null;
+  wsInstance.onmessage = null;
+  wsInstance.onerror = null;
+  wsInstance.onclose = null;
+  wsInstance.close();
+  wsInstance = null;
+  isReconnecting = false;
+  isClose = true;
 };

@@ -30,6 +30,7 @@
     rounded="circle"
   />
   <create-cluster-task
+    ref="createClusterTaskRef"
     :groupList="groupList"
     :status="dialogShow"
     @close="dialogShow = false"
@@ -46,7 +47,9 @@ import CreateClusterTask from "@/components/cluster/CreateClusterTaskDialog.vue"
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
+import confirmDialog from "@/scripts/utils/confirmDialog";
 
+const createClusterTaskRef = ref(null)
 const dialogShow = ref(false)
 const groupList = ref([])
 const list = ref([])
@@ -71,11 +74,13 @@ const onChangeEnable = (uuid) => {
 }
 
 const onDelete = (uuid) => {
-  axiosplus.delete('/api/group_task/deleteByUuid', {params: {uuid}})
-    .then(r => {
-      message.showSuccess(this, r.data.msg)
-      getList()
-    })
+  confirmDialog('确认删除该任务?', '删除后无法恢复!', () => {
+    axiosplus.delete('/api/group_task/deleteByUuid', {params: {uuid}})
+      .then(r => {
+        message.showSuccess(this, r.data.msg)
+        getList()
+      })
+  })
 }
 
 /**
@@ -118,19 +123,36 @@ function validateFormData(formData) {
     return '节点组不能为空';
   }
   if (!formData.execType) {
-    return '执行类型不能为空';
+    return '执行方式不能为空';
   }
   if (!formData.command) {
     return '执行命令不能为空';
   }
+  // 校验 路径是否合法 例如 shell 环境命令
+  const unixPathRegex = /^\/(?:[^\\\/:*?"<>|]+\/?)*$/;
+  const windowsPathRegex = /^[a-zA-Z]:\\(?:[^\\/:*?"<>|]+\\)*[^\\/:*?"<>|]+$/;
+
+  if (formData.execCount) {
+    if (formData.execCount < 1) {
+      return '执行次数不能小于1'
+    }
+  }
+
 
   // 根据 execType 判断对应字段的必填校验
   if (formData.execType === 'date-time' && !formData.execTime.trim()) {
-    return '执行时间不能为空';
+    return '指定时间不能为空';
   } else if (formData.execType === 'cycle' && (!formData.execCycle.week.length || !formData.execCycle.time.trim())) {
     return '执行周期不能为空';
   } else if (formData.execType === 'interval' && !formData.execInterval) {
     return '执行间隔不能为空';
+  }
+
+  if (formData.execType === 'date-time') {
+    // 不能小于当前时间
+    if (new Date(formData.execTime) < new Date()) {
+      return '执行时间不能小于当前时间';
+    }
   }
 
   return false;
@@ -151,6 +173,7 @@ const onSubmit = (data) => {
       getList()
       message.showSuccess(this, r.data.msg)
       dialogShow.value = false
+      createClusterTaskRef.value.clearForm()
     })
 
 }

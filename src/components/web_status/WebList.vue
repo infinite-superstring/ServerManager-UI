@@ -13,22 +13,38 @@
       @update="updateWeb"
     />
   </div>
+  <v-pagination
+    v-model="param.page"
+    v-if="maxPage > 1"
+    :length="maxPage"
+    :total-visible="6"
+    prev-icon="mdi:mdi-menu-left"
+    next-icon="mdi:mdi-menu-right"
+    rounded="circle"
+  ></v-pagination>
 </template>
 
 <script setup>
 
 import WebCard from "@/components/web_status/WebCard.vue";
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import {createWebSocket, closeWebSocket} from "@/scripts/utils/webSocketUtil";
 import confirmDialog from "@/scripts/utils/confirmDialog";
 import message from "@/scripts/utils/message";
 
 const list = ref([])
+const maxPage = ref(0)
 const runtimeData = ref({})
 const webCardRef = ref()
 const ws = ref()
 const emit = defineEmits(['updateWeb'])
+
+let param = ref({
+  name: '',
+  page: 1,
+  pageSize: 6,
+})
 
 
 const updateWeb = (data) => {
@@ -39,18 +55,15 @@ const updateWeb = (data) => {
  * 获取列表
  */
 const getList = (name = '') => {
-  let param = {
-    name: name,
-    page: 1,
-    pageSize: 10,
-  }
-  let paramStr = Object.keys(param).map(key => {
-    return `${key}=${param[key]}`
+  param.value.name = name
+  let paramStr = Object.keys(param.value).map(key => {
+    return `${key}=${param.value[key]}`
   }).join('&')
   axiosplus.get('/api/webStatus/getList?' + paramStr)
     .then(res => {
       if (res.data.status === 1) {
         list.value = res.data.data.list
+        maxPage.value = res.data.data.maxPage
       }
     })
 }
@@ -65,9 +78,12 @@ const onmessage = (data) => {
       handleNewData(parse.data)
       break
     case 'initData':
-      runtimeData.value = parse.data
+      runtimeData.value = parse.data || {}
       break
   }
+}
+const onopen = (instance) => {
+  instance.send(JSON.stringify({type: 'initData'}))
 }
 /**
  * 处理新数据
@@ -75,8 +91,6 @@ const onmessage = (data) => {
  */
 const handleNewData = (data) => {
   let host = Object.keys(data)[0]
-  // runtimeData.value[host].time.push(data[host].time`)
-  // runtimeData.value[host].data.push(data[host].data)`
   if (!runtimeData.value[host]) runtimeData.value[host] = {}
   runtimeData.value[host].time = data[host]['time']
   runtimeData.value[host].data = data[host].data
@@ -89,6 +103,7 @@ const handleNewData = (data) => {
  * @return {*|*[]}
  */
 const getRuntimeTime = (host) => {
+  if (!runtimeData.value) runtimeData.value = {}
   if (host in runtimeData.value) {
     return runtimeData.value[host].time
   } else {
@@ -101,6 +116,7 @@ const getRuntimeTime = (host) => {
  * @return {*|*[]}
  */
 const getRuntimeData = (host) => {
+  if (!runtimeData.value) runtimeData.value = {}
   if (host in runtimeData.value) {
     return runtimeData.value[host].data
   } else {
@@ -113,6 +129,7 @@ const getRuntimeData = (host) => {
  * @return
  */
 const getRuntimeOnline = (host) => {
+  if (!runtimeData.value) runtimeData.value = {}
   if (host in runtimeData.value) {
     // console.log(runtimeData.value[host]);
     return runtimeData.value[host].online
@@ -126,6 +143,7 @@ const getRuntimeOnline = (host) => {
  * @return {number|{type: Number | NumberConstructor, required: boolean}|*}
  */
 const getRuntimeStatusCode = (host) => {
+  if (!runtimeData.value) runtimeData.value = {}
   if (host in runtimeData.value) {
     return runtimeData.value[host].status_code
   } else {
@@ -149,17 +167,29 @@ const deleteWeb = (id) => {
   })
 }
 
-onMounted(() => {
-  /**
-   * 创建网络套接字
-   * @type {WebSocket}
-   */
-  ws.value = createWebSocket(`ws://${location.host}/ws/web_status`, {
+
+/**
+ * 创建网络套接字
+ */
+const initSocket = () => {
+  ws.value = createWebSocket(`ws://${location.host}/ws/web_status/${param.value.page}`, {
     onmessage,
+    onopen,
     autoReconnect: true,
     maxReconnectAttempts: Infinity,
   })
+}
+
+onMounted(() => {
+  initSocket()
   getList()
+})
+
+watch(() => param.value.page, () => {
+  ws.value = null
+  closeWebSocket()
+  getList()
+  initSocket()
 })
 
 // 卸载组件

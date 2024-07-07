@@ -69,6 +69,23 @@
             v-model="formData.execTime"
             v-if="formData.execType === 'date-time'"
           />
+          <div class="form-item">
+            <v-text-field
+              v-model="formData.execPath"
+              label="执行路径|环境"
+              hint="默认为 / "
+              variant="underlined"
+              persistent-hint
+              required
+            />
+          </div>
+          <div class="form-item">
+            <v-checkbox
+              v-model="formData.enable"
+              hide-details
+              label="默认是否启用"
+            />
+          </div>
           <ClusterCommand v-model="formData.command"/>
         </div>
       </v-card-text>
@@ -132,8 +149,29 @@ const formData = ref({
     time: ''
   },
   execInterval: '',
-  command: ''
+  command: '',
+  execPath: null,
+  enable: false
 })
+
+const clearForm = () => {
+  formData.value = {
+    taskName: '',
+    group: null,
+    execCount: '',
+    execType: null,
+    execTime: '',
+    execCycle: {
+      week: [],
+      time: ''
+    },
+    execInterval: '',
+    command: '',
+    execPath: null,
+    enable: false
+  }
+}
+defineExpose({clearForm})
 </script>
 
 

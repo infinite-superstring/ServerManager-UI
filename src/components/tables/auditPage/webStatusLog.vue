@@ -8,7 +8,7 @@
         <v-tab
           prepend-icon="mdi-web"
           v-for="s in sites"
-          :key="s[0]"
+          :key="s[1]"
           :value="s[0]">
           <v-tooltip location="top">
             <span>
