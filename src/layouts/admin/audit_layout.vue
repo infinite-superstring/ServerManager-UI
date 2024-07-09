@@ -2,6 +2,7 @@
 import UserSessionLog from "@/components/tables/auditPage/userSessionLog.vue";
 import NodeSessionLog from "@/components/tables/auditPage/nodeSessionLog.vue";
 import WebStatusLog from '@/components/tables/auditPage/webStatusLog.vue'
+import ClusterTaskAudit from "@/components/tables/auditPage/clusterTaskAudit.vue";
 import operationLog from "@/components/tables/auditPage/operationLog.vue";
 import systemLog from "@/components/tables/auditPage/systemLog.vue";
 import accessLog from "@/components/tables/auditPage/accessLog.vue";
@@ -11,6 +12,7 @@ import TerminalCommandAudit from "@/components/tables/auditPage/terminalCommandA
 export default {
   name: "audit_layout",
   components: {
+    ClusterTaskAudit,
     NodeSessionLog,
     UserSessionLog,
     WebStatusLog,
@@ -40,6 +42,7 @@ export default {
       <v-tab value="User_Session_log">用户会话日志</v-tab>
       <v-tab value="Node_Session_log">节点会话日志</v-tab>
       <v-tab value="web_status_log">网站监控日志</v-tab>
+      <v-tab value="cluster_task_audit">集群任务审计</v-tab>
       <v-tab value="Terminal_Command_audit">终端命令审计</v-tab>
     </v-tabs>
     <v-card-text>
@@ -64,6 +67,9 @@ export default {
         </v-window-item>
         <v-window-item value="web_status_log">
           <web-status-log/>
+        </v-window-item>
+        <v-window-item value="cluster_task_audit">
+          <cluster-task-audit/>
         </v-window-item>
         <v-window-item value="Terminal_Command_audit">
           <terminal-command-audit/>

@@ -80,7 +80,7 @@ watch(() => props.time, (val) => {
     delayChart.data.labels = [...val]
   } else {
     delayChart.data.labels.push(val)
-    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 20)
   }
   delayChart.update()
 }, {
@@ -95,7 +95,7 @@ watch(() => props.data, (val) => {
     delayChart.data.datasets[0].data = [...val]
   } else {
     delayChart.data.datasets[0].data.push(val)
-    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 20)
   }
   delayChart.update()
 }, {
@@ -111,14 +111,14 @@ const loadData = () => {
     delayChart.data.labels = [...props.time]
   } else {
     delayChart.data.labels.push(props.time)
-    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 20)
   }
   if (Array.isArray(props.data)) {
     delayChart.data.datasets[0].data = []
     delayChart.data.datasets[0].data = [...props.data]
   } else {
     delayChart.data.datasets[0].data.push(props.data)
-    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 30)
+    chartUtils.delOldDataAndLabel(delayChart.data.datasets, delayChart.data.labels, 20)
   }
 }
 

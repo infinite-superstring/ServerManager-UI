@@ -83,7 +83,10 @@ const onmessage = (data) => {
   }
 }
 const onopen = (instance) => {
-  instance.send(JSON.stringify({type: 'initData'}))
+  instance.send(JSON.stringify({
+    action: 'initData',
+    data: {}
+  }))
 }
 /**
  * 处理新数据
