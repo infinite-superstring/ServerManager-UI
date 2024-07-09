@@ -41,7 +41,8 @@ export default {
     }
   },
   mounted() {
-    this.getNodeList()
+    this.search = this.$route.query.search
+    this.getNodeList(1, this.search)
     this.displayMode = useWebsiteSettingStore().viewMode.nodeList
   },
   methods: {
@@ -79,6 +80,7 @@ export default {
     :nodeList="nodeListData"
     :display-mode="displayMode"
     @action:click_tag="args => search = `tag:${args}`"
+    @action:click_status="args => search = `status:${args}`"
     @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
     @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"
     @action:edit="args => {edit_node.uuid = args; edit_node.flag = true}"

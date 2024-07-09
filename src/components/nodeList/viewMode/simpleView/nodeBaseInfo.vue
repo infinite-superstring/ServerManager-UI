@@ -14,6 +14,7 @@ export default {
       required: true
     }
   },
+  emits: ['click:status'],
   mounted() {
 
   },
@@ -80,11 +81,15 @@ export default {
       <div class="status-name">
         在线状态
       </div>
-      <div class="status-value" style="color: green" v-if="data.online">
+      <div class="status-value cursor-progress" style="color: green" v-if="data.online" @click="$emit('click:status', 'online')">
         <v-icon icon="mdi:mdi-check-circle-outline" size="x-small"/>
         在线
       </div>
-      <div class="status-value" style="color: red" v-else>
+      <div class="status-value cursor-progress" style="color: red" v-else-if="!data.online && data.platform === '未知'" @click="$emit('click:status', 'uninitialized')">
+        <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+        未初始化
+      </div>
+      <div class="status-value cursor-progress" style="color: red" v-else-if="!data.online"  @click="$emit('click:status', 'offline')">
         <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
         离线
       </div>

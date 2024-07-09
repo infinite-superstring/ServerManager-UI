@@ -5,6 +5,7 @@
     @action:reset_token="args => $emit('action:reset_token', args)"
     @action:del_node="args => $emit('action:del_node', args)"
     @action:click_tag="args => $emit('action:click_tag', args)"
+    @action:click_status="args => $emit('action:click_status', args)"
   />
   <advanced-view
     :node-list="nodeList"
@@ -34,7 +35,7 @@ export default {
       required: true
     }
   },
-  emits: ['action:del_node', 'action:reset_token', 'action:edit', 'action:click_tag']
+  emits: ['action:del_node', 'action:reset_token', 'action:edit', 'action:click_tag', 'action:click_status']
 }
 </script>
 
