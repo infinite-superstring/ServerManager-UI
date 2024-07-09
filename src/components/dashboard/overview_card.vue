@@ -40,7 +40,7 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number text-green-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:online' } })">
+    <p class="status_number cursor-pointer text-green-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:online' } })">
       {{ node_online_count }}
     </p>
     <p class="status_name">
@@ -48,7 +48,7 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number text-red-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:offline' } })">
+    <p class="status_number cursor-pointer text-red-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:offline' } })">
       {{ node_offline_count }}
     </p>
     <p class="status_name">
@@ -56,7 +56,7 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number text-yellow-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:warning' } })">
+    <p class="status_number cursor-pointer text-yellow-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:warning' } })">
       {{ node_warning_count }}
     </p>
     <p class="status_name">

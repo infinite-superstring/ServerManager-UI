@@ -2,10 +2,11 @@
   <v-card class="main" flat>
     <v-card-text>
       <v-row>
-        <v-col class="item">{{ props.task.type === 0 ? '考勤' : '未知' }}</v-col>
-        <v-col class="item">{{ props.task.description ? props.task.description : '未知' }}</v-col>
+        <v-col class="item text-no-wrap">{{ props.task.type === 0 ? '打卡' : '未知' }}</v-col>
+        <v-col class="item text-no-wrap">{{ props.task.description ? props.task.description : '未知' }}</v-col>
         <v-col class="item">
           <v-chip
+            class="text-no-wrap"
             :color="getCipColor(props.task.status)"
           >
             {{ getStatus(props.task.status) }}

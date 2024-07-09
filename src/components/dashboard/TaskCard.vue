@@ -1,12 +1,11 @@
 <template>
   <SignInTaskCard :task="task" @signIn="signIn"/>
-  <TaskItemCard v-for="item in tasks" :task="item" :key="item.id"/>
+<!--  <TaskItemCard v-for="item in tasks" :task="item" :key="item.id"/>-->
 </template>
 
 <script setup>
 
 import SignInTaskCard from "@/components/task/TaskItemCard.vue";
-import TaskItemCard from "@/components/task/TaskItemCard.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";

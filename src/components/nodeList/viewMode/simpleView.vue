@@ -22,7 +22,9 @@ export default {
       :key="item.uuid"
     >
       <v-card-title class="machine-name">
-        {{ item.name }}
+        <span class="overflow-x-hidden">
+          {{ item.name }}
+        </span>
         <div class="machine-action">
           <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
           <v-btn variant="text" size="x-small" color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
@@ -79,6 +81,9 @@ export default {
   width: 32%;
   display: flex;
   flex-direction: column;
+  span {
+    width: 80%;
+  }
 }
 
 @media screen and (max-width: 1000px) {
