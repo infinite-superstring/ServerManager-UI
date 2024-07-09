@@ -1,12 +1,11 @@
 <template>
   <v-row>
-    <v-col cols="4">
+    <v-col cols="12" lg="4">
       <v-treeview
         @click:select="({id})=>handleSelect(id)"
         :items="treeLists"
         :load-children="getChildren"
       >
-
       </v-treeview>
     </v-col>
     <v-divider vertical></v-divider>
@@ -20,7 +19,13 @@
         persistent-hint
         :items="[10, 20, 50, 100, 200, 500, 1000]"
       />
-      {{ current_activity }}
+      <v-divider></v-divider>
+      <cluster-task-audit-terminal
+        v-if="current_activity"
+        :activity="current_activity"
+        :too-big="tooBig"
+        :command="resultList"/>
+      <div v-else class="no-activity">选择一条结果</div>
     </v-col>
   </v-row>
 </template>
@@ -29,14 +34,32 @@
 
 import {onMounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
+import ClusterTaskAuditTerminal from "@/components/tables/auditPage/terminal/clusterTaskAuditTerminal.vue";
 
-const showCount = ref(30)
+const showCount = ref(10)
 const current_activity = ref()
 const treeLists = ref([])
+const resultList = ref([])
+const tooBig = ref(false)
 
 const handleSelect = (value) => {
   if (isObject(value)) {
-    current_activity.value = value.uuid
+    current_activity.value = value
+    axiosplus.get('/api/admin/auditAndLogger/groupTask/get_result_detail', {params: value})
+      .then(r => {
+        resultList.value = r.data.data
+        tooBig.value = false
+      })
+      .catch(r => {
+        resultList.value = []
+        tooBig.value = true
+      })
+  }
+}
+
+const showCountChange = () => {
+  for (let i = 0; i < treeLists.value.length; i++) {
+    treeLists.value[i].children = []
   }
 }
 
@@ -52,7 +75,6 @@ const getTaskNameList = () => {
 }
 
 const getChildren = async (item) => {
-  console.log(item)
   let api = '/api/admin/auditAndLogger/groupTask/'
   let params = {}
   if (item.sign === 'task') {
@@ -74,9 +96,17 @@ const getChildren = async (item) => {
 onMounted(() => {
   getTaskNameList()
 })
+
+watch(() => showCount.value, showCountChange)
 </script>
 
 
 <style scoped>
-
+.no-activity {
+  padding: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

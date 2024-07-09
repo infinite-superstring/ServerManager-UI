@@ -57,7 +57,7 @@
             {{ t }}
           </v-chip>
           <template #activator="{props}">
-            <VIcon v-bind="props">mdi-information</VIcon>
+            <VIcon v-bind="props">mdi-information-outline</VIcon>
           </template>
         </v-tooltip>
         的

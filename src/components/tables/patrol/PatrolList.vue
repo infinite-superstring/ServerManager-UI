@@ -22,14 +22,14 @@ const show = (item) => {
     <thead>
     <tr>
       <th class="text-center">
+        标题
+      </th>
+      <th class="text-center">
         用户
       </th>
       <th class="text-center">
         时间
       </th>
-<!--      <th class="text-center">-->
-<!--        图片-->
-<!--      </th>-->
       <th class="text-center">
         内容
       </th>
@@ -44,14 +44,14 @@ const show = (item) => {
     <tbody>
     <tr class="tbody-tr" v-for="item in list" :key="item.id">
       <td class="text-center">
+        {{ item.title }}
+      </td>
+      <td class="text-center">
         {{ item.user }}
       </td>
       <td class="text-center">
         {{ item.time }}
       </td>
-<!--      <td class="text-center">-->
-<!--        <v-img :src="item.image"/>-->
-<!--      </td>-->
       <td class="text-center">
         <v-btn variant="text" size="small" @click="show(item)">查看</v-btn>
       </td>

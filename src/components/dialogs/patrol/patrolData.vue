@@ -12,6 +12,12 @@
         <v-form ref="formRef">
           <div>
             <div class="text-caption">
+              标题
+            </div>
+            <v-text-field :rules="rules.title" type="text" v-model="formData.title"></v-text-field>
+          </div>
+          <div>
+            <div class="text-caption">
               内容
             </div>
             <v-textarea :rules="rules.content" v-model="formData.content" clearable></v-textarea>
@@ -22,12 +28,6 @@
             </div>
             <v-select :rules="rules.status" type="text" v-model="formData.status"
                       :items="['正常','待观察','异常']"></v-select>
-          </div>
-          <div>
-            <div class="text-caption">
-              图片
-            </div>
-            <v-text-field :rules="rules.image" type="text" v-model="formData.image"></v-text-field>
           </div>
         </v-form>
       </v-card-text>
@@ -67,7 +67,7 @@ const emit = defineEmits(['close', 'submit'])
 const formData = ref({
   content: '',
   status: '',
-  image: '',
+  title: '',
 })
 
 const rules = {
@@ -79,8 +79,8 @@ const rules = {
   status: [
     v => !!v || '状态不能为空',
   ],
-  image: [
-    v => !!v || '图片不能为空',
+  title: [
+    v => !!v || '标题不能为空',
   ],
 }
 
@@ -97,7 +97,7 @@ const submit = () => {
     emit('submit', formData.value)
   })
 }
-watch(()=>props.status,() => {
+watch(() => props.status, () => {
   if (props.data !== null) {
     formData.value = props.data
   }

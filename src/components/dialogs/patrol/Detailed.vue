@@ -12,17 +12,17 @@
       <v-card-text>
         <div>
           <div class="text-caption">
+            标题
+          </div>
+          <VImg :src="data.title" max-height="200px" max-width="200px"/>
+        </div>
+        <div>
+          <div class="text-caption">
             内容
           </div>
           <div class="content">
             {{ data.content }}
           </div>
-        </div>
-        <div>
-          <div class="text-caption">
-            图片
-          </div>
-          <VImg :src="data.image" max-height="200px" max-width="200px"/>
         </div>
       </v-card-text>
       <v-card-actions>
