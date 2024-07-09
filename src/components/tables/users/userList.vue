@@ -21,12 +21,13 @@ export default {
        */
       confirmDialog("操作确认", "确定要删除这个用户吗", async () => {
         users.deleteUser(this, uid).then(() => {
-            this.$emit('update')
-          })
+          this.$emit('update')
+        })
       })
     },
-    updateUserStatus(uid, status) {
-      user.updateUserInfo(this, uid, {disable: status})
+    async updateUserStatus(uid, status) {
+      await user.updateUserInfo(this, uid, {disable: status})
+      this.$emit('update')
     }
   }
 }
@@ -88,7 +89,13 @@ export default {
                 @click="$emit('action', item.uid, 'editPermission')"></v-icon>
       </td>
       <td>
-        <input type='checkbox' :checked="!item.disable" @change="updateUserStatus(item.uid, !$event.target.checked)">
+        <v-checkbox
+          hide-details
+          v-model="item.disable"
+          :value="false"
+          @change="updateUserStatus(item.uid, !$event.target.checked)"
+        />
+        <!--        <input type='checkbox' :checked="!item.disable" @change="updateUserStatus(item.uid, !$event.target.checked)">-->
       </td>
       <td>{{ item.createdAt ? item.createdAt : "未知" }}</td>
       <td>{{ item.lastLoginTime ? `${item.lastLoginTime}（ip:${item.lastLoginIP}）` : "未登录" }}</td>

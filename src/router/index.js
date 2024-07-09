@@ -104,17 +104,17 @@ const routes = [
       title: "集群任务"
     }
   },
-  {
-    path: '/node_manager/clusterExecution',
-    name: "clusterExecution",
-    components: {
-      default: ClusterExecution,
-      appBarBtn: appbar_default
-    },
-    meta: {
-      title: "集群命令"
-    }
-  },
+  // {
+  //   path: '/node_manager/clusterExecution',
+  //   name: "clusterExecution",
+  //   components: {
+  //     default: ClusterExecution,
+  //     appBarBtn: appbar_default
+  //   },
+  //   meta: {
+  //     title: "集群命令"
+  //   }
+  // },
   // 网站可用性监控
   {
     path: '/web_status',

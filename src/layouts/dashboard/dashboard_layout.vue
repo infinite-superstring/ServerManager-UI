@@ -13,7 +13,7 @@ export default {
 
 <template>
   <v-row>
-    <v-col>
+    <v-col cols="12" md="8">
       <v-card class="dashboard_card">
         <v-card-title>
           <p class="dashboard_subtitle">总览</p>
@@ -39,7 +39,7 @@ export default {
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-card class="dashboard_card">
         <v-card-title>
           <p class="dashboard_subtitle">
@@ -58,6 +58,16 @@ export default {
         </v-card-title>
         <v-card-text>
           <TaskCard/>
+        </v-card-text>
+      </v-card>
+      <v-card class="dashboard_card">
+        <v-card-title>
+          <p class="dashboard_subtitle">
+            集群任务
+          </p>
+        </v-card-title>
+        <v-card-text>
+          
         </v-card-text>
       </v-card>
     </v-col>

@@ -1,6 +1,4 @@
 <script>
-import axios from "axios";
-import message from "@/scripts/utils/message.js"
 import dialogs from "@/scripts/utils/dialogs";
 import permission from "@/scripts/admin/permission";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
@@ -49,6 +47,10 @@ export default {
             })
           }
         })
+    },
+    async updateStatus(gid, value) {
+      await permission.editGroup(this, gid, {disable: value})
+      this.$emit("updateData")
     }
   }
 }
@@ -92,11 +94,18 @@ export default {
       </td>
       <td>{{ item.creator ? item.creator : "未知" }}</td>
       <td>{{ item.createdAt ? item.createdAt : "未知" }}</td>
-      <td>{{ item.disable ? "已禁用" : "已启用" }}
-        <v-icon
-          icon="mdi:mdi-square-edit-outline"
-          size="x-small"
-          @click="$emit('action','update_status', item.id)"/>
+      <td>
+        <v-checkbox
+          hide-details
+          v-model="item.disable"
+          :value="false"
+          @change="updateStatus(item.id, !$event.target.checked)"
+        />
+<!--        {{ item.disable ? "已禁用" : "已启用" }}-->
+<!--        <v-icon-->
+<!--          icon="mdi:mdi-square-edit-outline"-->
+<!--          size="x-small"-->
+<!--          @click="$emit('action','update_status', item.id)"/>-->
       </td>
       <td>
         <v-btn

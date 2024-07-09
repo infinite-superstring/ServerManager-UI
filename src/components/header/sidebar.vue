@@ -87,13 +87,13 @@ export default {
           density="compact"
           prepend-icon="mdi:mdi-group">
         </v-list-item>
-        <v-list-item
-          class="list_group_item"
-          :to="{name: 'clusterExecution'}"
-          title="集群指令"
-          density="compact"
-          prepend-icon="mdi:mdi-console">
-        </v-list-item>
+<!--        <v-list-item-->
+<!--          class="list_group_item"-->
+<!--          :to="{name: 'clusterExecution'}"-->
+<!--          title="集群指令"-->
+<!--          density="compact"-->
+<!--          prepend-icon="mdi:mdi-console">-->
+<!--        </v-list-item>-->
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterTask'}"

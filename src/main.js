@@ -22,7 +22,7 @@ registerPlugins(app)
 
 app.mount('#app')
 
-app.config.globalProperties.$default_title = "运维管理"
+app.config.globalProperties.$default_title = "无限超弦：服务器集群管理器"
 
 
 export default app

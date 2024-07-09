@@ -1,5 +1,5 @@
 <template>
-  <v-card class="main">
+  <v-card class="main" flat>
     <v-card-text>
       <v-row>
         <v-col class="item">{{ props.task.type === 0 ? '考勤' : '未知' }}</v-col>

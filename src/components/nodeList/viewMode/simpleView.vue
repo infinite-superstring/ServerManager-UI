@@ -10,7 +10,7 @@ export default {
       required: true
     }
   },
-  emits: ['action:del_node', 'action:reset_token', 'action:click_tag'],
+  emits: ['action:del_node', 'action:reset_token', 'action:click_tag', 'action:edit', 'action:click_status'],
 }
 </script>
 
@@ -30,7 +30,11 @@ export default {
       </v-card-title>
       <v-card-text>
         <v-row>
-          <node-base-info :uuid="item.uuid" :data="item.baseData"/>
+          <node-base-info
+            :uuid="item.uuid"
+            :data="item.baseData"
+            @click:status="args => $emit('action:click_status', args)"
+          />
         </v-row>
         <p class="description" v-if="item.description">
           <v-divider/>

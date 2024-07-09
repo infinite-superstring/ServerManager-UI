@@ -46,8 +46,10 @@ export default {
       variant="solo-filled"
       single-line
       hide-details
+      clearable
       :model-value="search"
       @input="$emit('action:search', $event.target.value)"
+      @click:clear="$emit('action:search', '')"
     >
     </v-text-field>
     <v-btn icon title="切换视图模式">
