@@ -159,7 +159,7 @@ const getRuntimeStatusCode = (host) => {
  * @param id
  */
 const deleteWeb = (id) => {
-  confirmDialog('删除该网站日志将同步删除！', '删除', () => {
+  confirmDialog('删除该网站日志将同步删除！', '该操作无法撤销,请谨慎操作', () => {
     axiosplus.delete(`/api/webStatus/delWeb/${id}`)
       .then(res => {
         if (res.data.status === 1) {

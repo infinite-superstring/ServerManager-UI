@@ -2,7 +2,7 @@
   <div class="toolsBar">
     <v-btn
       color="green"
-      @click="dialogShow = true"
+      @click="addDialogShow = true"
     >
       新建集群任务
     </v-btn>
@@ -17,6 +17,7 @@
     </v-text-field>
   </div>
   <ClusterTaskList
+    @on-show="onShow"
     @change-enable="onChangeEnable"
     @on-delete="onDelete"
     :list="list"/>
@@ -29,13 +30,18 @@
     next-icon="mdi:mdi-menu-right"
     rounded="circle"
   />
-  <create-cluster-task
-    ref="createClusterTaskRef"
+  <cluster-task-dialog
+    ref="addDialogRef"
     :groupList="groupList"
-    :status="dialogShow"
-    @close="dialogShow = false"
+    :status="addDialogShow"
+    @close="addDialogShow = false"
     @submit="onSubmit"
-    :title="'添加集群任务'"
+    title="添加集群任务"
+  />
+  <cluster-task-detailed-dialog
+    ref="editDialogRef"
+    :status="editDialogShow"
+    @close="editDialogShow = false"
   />
 
 </template>
@@ -43,16 +49,24 @@
 <script setup>
 
 import ClusterTaskList from "@/components/cluster/ClusterTaskList.vue";
-import CreateClusterTask from "@/components/cluster/CreateClusterTaskDialog.vue";
+import ClusterTaskDialog from "@/components/cluster/CreateDialog.vue";
+import ClusterTaskDetailedDialog from '@/components/cluster/DetailedDialog.vue'
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
 
-const createClusterTaskRef = ref(null)
-const dialogShow = ref(false)
+const addDialogRef = ref(null)
+const editDialogRef = ref(null)
+/*添加对话框是否显示*/
+const addDialogShow = ref(false)
+/*编辑对话框是否显示*/
+const editDialogShow = ref(false)
+/*所有组*/
 const groupList = ref([])
+/*列表数据*/
 const list = ref([])
+/*搜索参数*/
 const params = ref({
   page: 1,
   pageSize: 20,
@@ -73,6 +87,10 @@ const onChangeEnable = (uuid) => {
     })
 }
 
+/**
+ * 删除任务
+ * @param uuid
+ */
 const onDelete = (uuid) => {
   confirmDialog('确认删除该任务?', '删除后无法恢复!', () => {
     axiosplus.delete('/api/group_task/deleteByUuid', {params: {uuid}})
@@ -172,10 +190,21 @@ const onSubmit = (data) => {
     .then(r => {
       getList()
       message.showSuccess(this, r.data.msg)
-      dialogShow.value = false
-      createClusterTaskRef.value.clearForm()
+      addDialogShow.value = false
+      addDialogRef.value.clearForm()
     })
+}
 
+/**
+ * 展示任务详情
+ * @param uuid
+ */
+const onShow = (uuid) => {
+  axiosplus.get('/api/group_task/get_task_detailed?uuid=' + uuid)
+    .then(r => {
+      editDialogShow.value = true
+      editDialogRef.value.task = r.data.data
+    })
 }
 
 onMounted(() => {

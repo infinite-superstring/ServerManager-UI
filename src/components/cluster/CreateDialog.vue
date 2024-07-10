@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
 import inputUtil from '@/scripts/utils/inputUtil'
 import CycleExec from "@/components/cluster/form/CycleExec.vue";
@@ -120,6 +120,12 @@ const props = defineProps({
   groupList: {
     type: Array,
     default: () => []
+  },
+  data: {
+    type: Object,
+    default: () => {
+      return {}
+    }
   }
 })
 
@@ -171,7 +177,11 @@ const clearForm = () => {
     enable: false
   }
 }
-defineExpose({clearForm})
+defineExpose({clearForm, formData})
+watch(() => props.data, v => {
+  console.log(v)
+  formData.value = v
+})
 </script>
 
 

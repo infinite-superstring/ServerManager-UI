@@ -71,7 +71,7 @@
         />
       </td>
       <td>
-        <v-btn variant="text">详细</v-btn>
+        <v-btn variant="text" @click="this.$emit('onShow',item.uuid)">详细</v-btn>
         <v-btn variant="text" color="red" @click="this.$emit('onDelete',item.uuid)">删除</v-btn>
       </td>
     </tr>
@@ -82,7 +82,7 @@
 <script setup>
 import format from "../../scripts/utils/format";
 
-const emit = defineEmits(['changeEnable', 'onDelete'])
+const emit = defineEmits(['changeEnable', 'onDelete', 'onShow'])
 const props = defineProps({
   list: {
     type: Array,

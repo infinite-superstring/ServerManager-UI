@@ -29,6 +29,10 @@ const props = defineProps({
     type: String,
     default: 'chrome'
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 })
 
 onMounted(async () => {
@@ -42,9 +46,11 @@ onMounted(async () => {
     enableBasicAutocompletion: true, // 启用基本自动完成功能
     scrollPastEnd: true, // 滚动位置
     highlightActiveLine: true, // 高亮当前行
+    readOnly: props.disabled, // 禁用编辑
   }
   aceEdit = ace.edit(aceRef.value, options)
   aceEdit.getSession().setMode('ace/mode/sh');
+  aceEdit.setValue(shell.value)
   // 监听
   aceEdit.session.on('change', () => {
     if (!aceEdit.getValue().length >= 8192) {
