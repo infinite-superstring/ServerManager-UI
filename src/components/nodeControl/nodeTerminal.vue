@@ -177,7 +177,7 @@ export default {
 <template>
   <v-sheet height="75vh" max-height="800px" width="100%">
     <node-offline-overlay :flag="!online"/>
-    <div class="terminal_box" v-show="terminal_login">
+    <div class="terminal_box" v-show="terminal_login && online">
       <div id="terminal" ref="terminal"></div>
       <v-row class="terminal_input_bar d-flex align-center">
         <v-col cols="max">
@@ -199,7 +199,7 @@ export default {
         </v-col>
       </v-row>
     </div>
-    <div class="terminal-login" v-show="!terminal_login">
+    <div class="terminal-login" v-show="!terminal_login && online">
       <terminalLogin :ws="ws"></terminalLogin>
     </div>
   </v-sheet>
@@ -221,7 +221,9 @@ export default {
 
 .terminal_box {
   height: 100%;
-
+  #terminal {
+    height: calc(100% - 80px);
+  }
   .terminal_input_bar {
     margin-top: 10px;
     height: 80px;

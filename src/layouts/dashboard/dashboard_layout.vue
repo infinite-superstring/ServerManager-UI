@@ -62,17 +62,17 @@ export default {
           <TaskCard/>
         </v-card-text>
       </v-card>
-<!--      <v-card class="dashboard_card">-->
-<!--        <v-card-title class="d-flex justify-sm-space-between align-center">-->
-<!--          <p class="dashboard_subtitle">-->
-<!--            集群任务-->
-<!--          </p>-->
-<!--          <p class="more cursor-pointer" @click="$router.push({ name: 'clusterTask' })">更多...</p>-->
-<!--        </v-card-title>-->
-<!--        <v-card-text>-->
-<!--          <group_task_list_card/>-->
-<!--        </v-card-text>-->
-<!--      </v-card>-->
+      <v-card class="dashboard_card">
+        <v-card-title class="d-flex justify-sm-space-between align-center">
+          <p class="dashboard_subtitle">
+            集群任务
+          </p>
+          <p class="more cursor-pointer" @click="$router.push({ name: 'clusterTask' })">更多...</p>
+        </v-card-title>
+        <v-card-text>
+          <group_task_list_card/>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>
