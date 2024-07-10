@@ -81,6 +81,7 @@ export default {
   width: 32%;
   display: flex;
   flex-direction: column;
+
   span {
     width: 80%;
   }
@@ -103,5 +104,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  .v-chip {
+    width: max-content;
+  }
 }
 </style>
