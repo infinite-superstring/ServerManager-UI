@@ -87,13 +87,13 @@ export default {
           density="compact"
           prepend-icon="mdi:mdi-group">
         </v-list-item>
-<!--        <v-list-item-->
-<!--          class="list_group_item"-->
-<!--          :to="{name: 'clusterExecution'}"-->
-<!--          title="集群指令"-->
-<!--          density="compact"-->
-<!--          prepend-icon="mdi:mdi-console">-->
-<!--        </v-list-item>-->
+        <!--        <v-list-item-->
+        <!--          class="list_group_item"-->
+        <!--          :to="{name: 'clusterExecution'}"-->
+        <!--          title="集群指令"-->
+        <!--          density="compact"-->
+        <!--          prepend-icon="mdi:mdi-console">-->
+        <!--        </v-list-item>-->
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterTask'}"
@@ -141,7 +141,12 @@ export default {
         prepend-icon="mdi:mdi-calendar-clock"
         v-if="UserStore.check_user_permission('viewDuty')">
       </v-list-item>
-      <v-list-item :to="{name: 'patrol'}" title="巡检" prepend-icon="mdi-application-edit-outline"></v-list-item>
+      <v-list-item
+        :to="{name: 'patrol'}"
+        title="巡检"
+        prepend-icon="mdi-application-edit-outline"
+        v-if="UserStore.check_user_permission('viewPatrol')">>
+      </v-list-item>
       <v-list-item :to="{name: 'about'}" title="关于" prepend-icon="mdi:mdi-copyright"></v-list-item>
     </v-list>
   </v-navigation-drawer>

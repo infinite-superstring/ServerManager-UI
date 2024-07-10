@@ -21,7 +21,7 @@
       <th class="text-left">
         启用
       </th>
-      <th class="text-left">
+      <th class="text-center">
         操作
       </th>
     </tr>
@@ -70,7 +70,8 @@
           hide-details
         />
       </td>
-      <td>
+      <td class="text-center">
+        <v-btn variant="text" @click="this.$emit('onEdit',item.uuid)">编辑</v-btn>
         <v-btn variant="text" @click="this.$emit('onShow',item.uuid)">详细</v-btn>
         <v-btn variant="text" color="red" @click="this.$emit('onDelete',item.uuid)">删除</v-btn>
       </td>
@@ -82,7 +83,7 @@
 <script setup>
 import format from "../../scripts/utils/format";
 
-const emit = defineEmits(['changeEnable', 'onDelete', 'onShow'])
+const emit = defineEmits(['changeEnable', 'onDelete', 'onShow', 'onEdit'])
 const props = defineProps({
   list: {
     type: Array,

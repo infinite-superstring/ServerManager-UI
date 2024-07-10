@@ -17,9 +17,10 @@
     </v-text-field>
   </div>
   <ClusterTaskList
-    @on-show="onShow"
+    @on-show="onShowDetailDialog"
     @change-enable="onChangeEnable"
     @on-delete="onDelete"
+    @on-edit="onShowEditDialog"
     :list="list"/>
   <v-pagination
     v-model="params.page"
@@ -39,9 +40,13 @@
     title="添加集群任务"
   />
   <cluster-task-detailed-dialog
+    ref="detailDialogRef"
+    :status="detailDialogShow"
+    @close="detailDialogShow = false"
+  />
+  <cluster-task-edit-dialog
+    v-model="editDialogShow"
     ref="editDialogRef"
-    :status="editDialogShow"
-    @close="editDialogShow = false"
   />
 
 </template>
@@ -55,12 +60,15 @@ import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
+import ClusterTaskEditDialog from "@/components/cluster/ClusterTaskEditDialog.vue";
 
 const addDialogRef = ref(null)
-const editDialogRef = ref(null)
+const detailDialogRef = ref(null)
+const c = ref(null)
 /*添加对话框是否显示*/
 const addDialogShow = ref(false)
-/*编辑对话框是否显示*/
+/*详细对话框是否显示*/
+const detailDialogShow = ref(false)
 const editDialogShow = ref(false)
 /*所有组*/
 const groupList = ref([])
@@ -146,17 +154,11 @@ function validateFormData(formData) {
   if (!formData.command) {
     return '执行命令不能为空';
   }
-  // 校验 路径是否合法 例如 shell 环境命令
-  const unixPathRegex = /^\/(?:[^\\\/:*?"<>|]+\/?)*$/;
-  const windowsPathRegex = /^[a-zA-Z]:\\(?:[^\\/:*?"<>|]+\\)*[^\\/:*?"<>|]+$/;
-
   if (formData.execCount) {
     if (formData.execCount < 1) {
       return '执行次数不能小于1'
     }
   }
-
-
   // 根据 execType 判断对应字段的必填校验
   if (formData.execType === 'date-time' && !formData.execTime.trim()) {
     return '指定时间不能为空';
@@ -199,12 +201,19 @@ const onSubmit = (data) => {
  * 展示任务详情
  * @param uuid
  */
-const onShow = (uuid) => {
+const onShowDetailDialog = (uuid) => {
   axiosplus.get('/api/group_task/get_task_detailed?uuid=' + uuid)
     .then(r => {
-      editDialogShow.value = true
+      detailDialogShow.value = true
       editDialogRef.value.task = r.data.data
     })
+}
+/**
+ * 展示编辑对话框
+ */
+const onShowEditDialog = (uuid) => {
+  editDialogShow.value = true
+  axiosplus.get('/api/group_task/get_task_by_uuid?uuid=' + uuid)
 }
 
 onMounted(() => {

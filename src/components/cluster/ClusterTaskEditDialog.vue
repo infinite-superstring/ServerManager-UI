@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    :model-value="status"
+    v-model="status"
     persistent
     max-width="80%"
     min-width="80%"
@@ -98,114 +98,23 @@
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
-import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
-import inputUtil from '@/scripts/utils/inputUtil'
-import CycleExec from "@/components/cluster/form/CycleExec.vue";
+
+import inputUtil from "@/scripts/utils/inputUtil";
 import DateTimeExec from "@/components/cluster/form/DateTimeExec.vue";
 import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
+import CycleExec from "@/components/cluster/form/CycleExec.vue";
+import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
 
-const emit = defineEmits(['close'])
+const status = defineModel()
+const formData = defineModel('data')
+const emit = defineEmits(['submit', 'close'])
 
-const props = defineProps({
-  status: {
-    type: Boolean,
-    default: false,
-    required: true
-  },
-  title: {
-    type: String,
-    default: '创建集群任务'
-  },
-  groupList: {
-    type: Array,
-    default: () => []
-  },
-  data: {
-    type: Object,
-    default: () => {
-      return {}
-    }
-  }
-})
-
-const execType = ref([
-  {
-    title: '指定时间',
-    value: 'date-time'
-  },
-  {
-    title: '周期',
-    value: 'cycle'
-  },
-  {
-    title: '间隔',
-    value: 'interval'
-  },
-])
-
-const formData = ref({
-  taskName: '',
-  group: null,
-  execCount: '',
-  execType: null,
-  execTime: '',
-  execCycle: {
-    week: [],
-    time: ''
-  },
-  execInterval: '',
-  command: '',
-  execPath: null,
-  enable: true
-})
-
-const clearForm = () => {
-  formData.value = {
-    taskName: '',
-    group: null,
-    execCount: '',
-    execType: null,
-    execTime: '',
-    execCycle: {
-      week: [],
-      time: ''
-    },
-    execInterval: '',
-    command: '',
-    execPath: null,
-    enable: false
-  }
-}
-defineExpose({clearForm, formData})
-watch(() => props.data, v => {
-  console.log(v)
-  formData.value = v
+defineExpose({
+  formData
 })
 </script>
 
 
 <style scoped>
 
-
-.form-content {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.form-item {
-  width: 50%;
-  min-width: 200px;
-  padding: 10px;
-}
-
-@media screen and (max-width: 720px) {
-  .dialog-width {
-    width: 90vw;
-  }
-
-  .form-item {
-    width: 100%;
-  }
-}
 </style>

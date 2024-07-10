@@ -1,7 +1,10 @@
 <template>
   <v-row>
     <v-col sm="12" cols="4">
-      <v-dialog :model-value="status" width="500" persistent>
+      <v-dialog
+        :model-value="status"
+        width="500"
+        @update:modelValue="emit('close')">
         <v-card>
           <v-card-title>
             <v-icon>mdi-information</v-icon>

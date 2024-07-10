@@ -1,4 +1,6 @@
 <script>
+import axiosplus from "@/scripts/utils/axios";
+
 export default {
   name: "node_list_card",
   data() {
@@ -7,10 +9,14 @@ export default {
     }
   },
   mounted() {
+    this.get_node_list()
   },
   methods: {
     get_node_list() {
-
+      axiosplus.get('/api/dashboard/getNodeList')
+        .then(r => {
+          this.node_list = r.data.data
+        })
     }
   }
 }
@@ -39,10 +45,45 @@ export default {
       v-for="item in node_list"
       :key="item.uuid"
     >
-      <td>{{ item.name }}</td>
-      <td>{{ item.auth_ip }}</td>
-      <td>{{ item.online }}</td>
-      <td>{{ item.warning }}</td>
+      <td>
+        <span
+          style="cursor:pointer;"
+          @click="$router.push({name:'nodeControl',hash:`#${item.uuid}`})"
+        >
+          {{ item.name }}
+        </span>
+      </td>
+      <td>
+        {{ item.auth_ip }}
+      </td>
+      <td>
+        <span
+          v-if="item.online"
+          style="color: green;cursor:pointer;"
+          @click="$router.push({name:'nodeList',query: { search: 'status:online' }})"
+        >
+          <v-icon icon="mdi:mdi-check-circle-outline" size="x-small"/>
+          在线
+        </span>
+        <span
+          v-else
+          style="color: red;cursor:pointer;"
+          @click="$router.push({name:'nodeList',query: { search: 'status:offline' }})"
+        >
+          <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+          离线
+        </span>
+      </td>
+      <td>
+        <span
+          v-if="item.warning === 'Info'"
+        >
+          正常
+        </span>
+        <span v-else>
+          警告中
+        </span>
+      </td>
     </tr>
     </tbody>
   </v-table>
