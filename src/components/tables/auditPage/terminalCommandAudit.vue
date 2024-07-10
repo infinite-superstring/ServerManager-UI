@@ -39,8 +39,8 @@ export default {
         case "user_select": {
           return axios.get('/api/admin/auditAndLogger/terminalRecord/loadSessionList', {
             params: {
-              node_uuid: item.node_uuid,
-              user_id: item.id
+              node_uuid: item.id.node_uuid,
+              user_id: item.id.user_id
             }
           }).then((res) => {
             console.log(res.data)
@@ -55,7 +55,14 @@ export default {
       })
     },
     download_session() {
-
+      const active = this.active[0]
+      const node_uuid = active?.node_uuid
+      const session_uuid = active?.session_uuid
+      let params = {node_uuid: node_uuid, session_uuid: session_uuid}
+      params = new URLSearchParams(params).toString()
+      const url = `/api/admin/auditAndLogger/terminalRecord/downloadSessionRecord?${params}`
+      const newWindow = window.open(url, '_blank');
+      newWindow.focus();
     }
   },
   created() {
@@ -64,7 +71,6 @@ export default {
   watch: {
     active(newVal) {
       console.log(newVal)
-      console.log(this.model)
     }
   }
 }
@@ -81,13 +87,12 @@ export default {
         v-model:opened="open"
         :items="data"
         :load-children="load_terminal_record"
-        open-strategy="single"
-        active-strategy="leaf"
-        color="warning"
         density="compact"
         item-title="name"
         item-value="id"
         activatable
+        open-on-click
+        transition
         slim
         return-object
       >
@@ -116,7 +121,7 @@ export default {
         请选择要查看的会话
       </div>
       <div
-        v-if="active.length > 0"
+        v-if="active.length > 0 && active[0]?.node_uuid && active[0]?.session_uuid"
         class="d-flex flex-column align-center justify-center">
         <v-icon size="100" color="primary">
           mdi-download
