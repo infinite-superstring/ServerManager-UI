@@ -19,7 +19,7 @@ export default {
       this.avatar = "/api/userInfo/getAvatar?v" + Math.random()
     })
     bus.on('update:UserInfo', () => {
-      this.getUserInfo()
+      this.$user.getUserInfo()
     })
     /*已读所有消息事件 清空未读消息数量*/
     // bus.on('update:Unread', () => {

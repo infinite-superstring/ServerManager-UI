@@ -26,8 +26,23 @@ export default {
           {{ item.name }}
         </span>
         <div class="machine-action">
-          <v-btn variant="text" size="x-small" @click="$emit('action:reset_token', item.uuid)">重置Token</v-btn>
-          <v-btn variant="text" size="x-small" color="red" @click="$emit('action:del_node', item.uuid)">删除节点</v-btn>
+          <v-btn
+            variant="text"
+            size="x-small"
+            @click="$emit('action:reset_token', item.uuid)"
+            :disabled="$user.check_user_permission('editNode')"
+          >
+            重置Token
+          </v-btn>
+          <v-btn
+            variant="text"
+            size="x-small"
+            color="red"
+            @click="$emit('action:del_node', item.uuid)"
+            :disabled="$user.check_user_permission('editNode')"
+          >
+            删除节点
+          </v-btn>
         </div>
       </v-card-title>
       <v-card-text>

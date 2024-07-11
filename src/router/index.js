@@ -18,12 +18,12 @@ import vue from "@/main"
 import Message from '@/views/Messages.vue'
 import nodeGroupEdit from "@/views/node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/node/ClusterTask.vue";
-import ClusterExecution from "@/views/node/ClusterRun.vue";
+// import ClusterExecution from "@/views/node/ClusterRun.vue";
 import PatrolPage from '@/views/Patrol.vue'
 import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
-import dialogs from "@/scripts/utils/dialogs";
+// import dialogs from "@/scripts/utils/dialogs";
 const routes = [
   // 登录
   {
@@ -188,7 +188,7 @@ const routes = [
     },
     meta: {
       title: "审计与日志",
-      permission: "viewAudit"
+      permission: ["viewAudit", 'clusterTask', 'viewWebStatus']
     }
   },
   // 管理 - 设置

@@ -5,7 +5,6 @@ import addNode from "@/components/dialogs/node/addNode.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
 import node_manager from "@/scripts/node/node_manager";
-import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 import EditNode from "@/components/dialogs/node/editNode.vue";
 
 export default {
@@ -43,7 +42,7 @@ export default {
   mounted() {
     this.search = this.$route.query.search
     this.getNodeList(1, this.search)
-    this.displayMode = useWebsiteSettingStore().viewMode.nodeList
+    this.displayMode = this.$web_config.viewMode.nodeList
   },
   methods: {
     getNodeList(page = 1, search = "") {
@@ -64,6 +63,10 @@ export default {
         message.showApiErrorMsg(this, err.message)
       })
       return false
+    },
+    switch_display_mode(mode) {
+      this.$web_config.viewMode.nodeList = mode
+      this.displayMode = mode
     }
   }
 }
@@ -73,7 +76,7 @@ export default {
   <tools-bar
     @action:addNode="add_node=true"
     @action:search="args => {search=args}"
-    @action:switch_display_mode = "args => {displayMode=args}"
+    @action:switch_display_mode = "args => {switch_display_mode(args)}"
     :search="search"
   />
   <node-list

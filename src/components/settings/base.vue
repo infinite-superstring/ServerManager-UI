@@ -68,28 +68,28 @@ export default {
       <v-text-field type="number" v-model="setting_data.base.session_expiry"></v-text-field>
     </div>
   </div>
-  <v-divider></v-divider>
-  <p class="text-h5 setting_subtitle">日志设置</p>
-  <div>
-    <div class="text-caption">
-      将debug输出到文件
-    </div>
-    <v-checkbox></v-checkbox>
-  </div>
-  <div>
-    <div class="text-caption">
-      日志保留时长(天)
-    </div>
-    <v-text-field type="number"></v-text-field>
-  </div>
-  <v-divider></v-divider>
-  <p class="text-h5 setting_subtitle">审计设置</p>
-  <div>
-    <div class="text-caption">
-      审计日志保留时长(天)
-    </div>
-    <v-text-field type="number"></v-text-field>
-  </div>
+<!--  <v-divider></v-divider>-->
+<!--  <p class="text-h5 setting_subtitle">日志设置</p>-->
+<!--  <div>-->
+<!--    <div class="text-caption">-->
+<!--      将debug输出到文件-->
+<!--    </div>-->
+<!--    <v-checkbox></v-checkbox>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <div class="text-caption">-->
+<!--      日志保留时长(天)-->
+<!--    </div>-->
+<!--    <v-text-field type="number"></v-text-field>-->
+<!--  </div>-->
+<!--  <v-divider></v-divider>-->
+<!--  <p class="text-h5 setting_subtitle">审计设置</p>-->
+<!--  <div>-->
+<!--    <div class="text-caption">-->
+<!--      审计日志保留时长(天)-->
+<!--    </div>-->
+<!--    <v-text-field type="number"></v-text-field>-->
+<!--  </div>-->
 </template>
 
 <style scoped>

@@ -35,7 +35,9 @@ export default {
     <v-btn
       id="addUser"
       color="success"
-      @click="$emit('action:addNode')">
+      @click="$emit('action:addNode')"
+      v-if="$user.check_user_permission('editNode')"
+    >
       添加节点
     </v-btn>
     <v-text-field

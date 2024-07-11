@@ -3,6 +3,7 @@
     <v-btn
       color="success"
       @click="addWebDialogStatus = true"
+      v-if="$user.check_user_permission('editWebStatus')"
     >
       新增网站监控
     </v-btn>

@@ -55,7 +55,6 @@ export default {
       active-color="#039BE5"
       v-model:opened="open"
     >
-      <v-divider/>
       <v-list-item
         :to="{name: 'dashboard'}"
         title="仪表盘"
@@ -64,7 +63,15 @@ export default {
       <v-divider/>
       <v-list-item
         subtitle="运维"
-        v-if="!display"
+        v-if="!display && $user.check_user_permission([
+           'editNode',
+           'viewAllNode',
+           'editNodeGroup',
+           'clusterExecuteCommand',
+           'clusterTask',
+           'editWebStatus',
+           'viewWebStatus'
+        ])"
       />
       <v-list-group value="Node Manager">
         <template v-slot:activator="{ props }">
@@ -102,13 +109,13 @@ export default {
           prepend-icon="mdi:mdi-group"
           v-if="$user.check_user_permission('editNodeGroup')"
         />
-<!--        <v-list-item-->
-<!--          class="list_group_item"-->
-<!--          :to="{name: 'clusterExecution'}"-->
-<!--          title="集群指令"-->
-<!--          density="compact"-->
-<!--          prepend-icon="mdi:mdi-console">-->
-<!--        </v-list-item>-->
+        <!--        <v-list-item-->
+        <!--          class="list_group_item"-->
+        <!--          :to="{name: 'clusterExecution'}"-->
+        <!--          title="集群指令"-->
+        <!--          density="compact"-->
+        <!--          prepend-icon="mdi:mdi-console">-->
+        <!--        </v-list-item>-->
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterTask'}"
@@ -150,7 +157,11 @@ export default {
         :to="{name: 'audit'}"
         title="审计日志"
         prepend-icon="mdi:mdi-chart-timeline"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="$user.check_user_permission([
+          'viewAudit',
+          'clusterTask',
+          'viewWebStatus'
+        ])"
       />
       <v-list-item
         :to="{name: 'settings'}"

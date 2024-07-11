@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <p class="text-h5 setting_subtitle">终端审计设置</p>
+  <p class="text-h5 setting_subtitle">终端/命令审计设置</p>
   <v-switch
     v-model="setting_data.terminal_audit.enable"
     label="启用终端审计"
@@ -20,14 +20,14 @@ export default {
     density="compact"
     persistent-hint
   ></v-switch>
-  <v-switch
-    v-model="setting_data.terminal_audit.disable_tab_key"
-    label="禁用终端Tab键"
-    hint="当前终端审计暂不支持Tab键审计，如开启可能会出现审计错误的问题"
-    color="primary"
-    density="compact"
-    persistent-hint
-  ></v-switch>
+<!--  <v-switch-->
+<!--    v-model="setting_data.terminal_audit.disable_tab_key"-->
+<!--    label="禁用终端Tab键"-->
+<!--    hint="当前终端审计暂不支持Tab键审计，如开启可能会出现审计错误的问题"-->
+<!--    color="primary"-->
+<!--    density="compact"-->
+<!--    persistent-hint-->
+<!--  ></v-switch>-->
   <v-textarea
     v-model="setting_data.terminal_audit.warn_command_list"
     label="警告命令列表（一行一个，可使用正则表达式）"

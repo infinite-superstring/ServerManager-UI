@@ -16,9 +16,10 @@ export default {
     <v-btn
       id="addUser"
       color="success"
-      @click="$emit('action:create_group')">
+      @click="$emit('action:create_group')"
+      v-if="$user.check_user_permission('editNodeGroup')"
+    >
       创建组
-      v-if="$user.check_user_permission('editNode')"
     </v-btn>
     <v-text-field
       id="searchUser"
