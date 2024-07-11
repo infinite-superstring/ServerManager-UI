@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-center justify-center" style="height: 100%; width: 100%">
     <div style="width:60%; min-width: 350px">
-<!--      <p class="text-h3 text-light-blue-darken-1 text-center mx-auto my-6">ServerManager</p>-->
+      <p class="text-h3 text-center mx-auto my-6">请登录</p>
 <!--      <v-img class="mx-auto my-6" max-width="228"-->
 <!--             src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"></v-img>-->
 
@@ -37,30 +37,18 @@
 </template>
 
 <script>
+import message from "@/scripts/utils/message";
+
 export default {
   data: () => ({
     visible: false,
     username: '',
     password: '',
-    userNameRules: [
-      value => {
-        if (!value) {
-          return "用户名不能为空"
-        }
-        return true
-      }
-    ],
-    passwordRules: [
-      value => {
-        if (!value) {
-          return "密码不能为空"
-        }
-        return true
-      }
-    ]
   }),
   methods: {
     submit() {
+      if (!this.username) {return message.showWarning(this, "用户名不能为空")}
+      if (!this.password) {return message.showWarning(this, "密码不能为空")}
       this.$user.login(this.username, this.password).then(() => {
         this.$user.getUserInfo().then(() => {
           this.$router.push({name: "dashboard"})

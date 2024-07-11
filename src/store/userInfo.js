@@ -43,7 +43,6 @@ export const useUserStore = defineStore('UserInfo', {
       return new Promise((resolve, reject) => {
         axios.post("/api/auth/login", {"username": username, "password": password}).then(res => {
           const res_data = res.data
-          console.log(res_data)
           switch (res_data.status) {
             case 1:
               sessionStorage.setItem('loginStatus', "true");

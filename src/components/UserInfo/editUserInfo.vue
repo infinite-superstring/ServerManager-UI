@@ -41,7 +41,7 @@ export default {
       }).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
-          this.$user.updateUserInfo()
+          this.$user.getUserInfo()
           message.showSuccess(this, "用户信息保存成功")
           bus.emit('update:UserInfo')
         } else {
