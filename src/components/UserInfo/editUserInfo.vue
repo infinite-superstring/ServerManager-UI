@@ -2,7 +2,6 @@
 import axios from "axios";
 import Cropper from "cropperjs";
 import bus from 'vue3-eventbus'
-import {useUserStore} from "@/store/userInfo";
 import 'cropperjs/dist/cropper.css';
 import message from "@/scripts/utils/message";
 import fileUtils from "@/scripts/utils/fileUtils";
@@ -26,34 +25,23 @@ export default {
   },
   emits: ["update:"],
   mounted() {
-   this.getUserinfo()
-    console.log(this)
+    this.id = this.$user.id
+    this.userName = this.$user.userName
+    this.realName = this.$user.realName
+    this.email = this.$user.email
+    this.group = this.$user.group
   },
   methods: {
-    getUserinfo() {
-      axios.get("/api/userInfo/getInfo").then(res => {
-        const data = res.data.data
-        this.id = data.id;
-        this.userName = data.userName
-        this.realName = data.realName
-        this.email = data.email
-        this.group = data.group
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     saveUserInfo() {
       axios.post("/api/userInfo/editInfo", {
         data: {
           userName: this.userName,
-          realName: this.realName,
           email: this.email
         }
       }).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
-          const userStore = useUserStore()
-          userStore.getUserInfo()
+          this.$user.updateUserInfo()
           message.showSuccess(this, "用户信息保存成功")
           bus.emit('update:UserInfo')
         } else {

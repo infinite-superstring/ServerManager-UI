@@ -7,6 +7,7 @@ export const useWebsiteSettingStore = defineStore('WebsiteSetting', {
     return {
       serverConfig: {
         init: false,
+        webSite_name: null,
         forceOTP_Bind: null
       },
       viewMode: {

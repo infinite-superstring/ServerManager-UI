@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import {useUserStore} from "@/store/userInfo";
-
 export default {
   data: () => ({
     visible: false,
@@ -63,8 +61,8 @@ export default {
   }),
   methods: {
     submit() {
-      useUserStore().login(this.username, this.password).then(() => {
-        useUserStore().getUserInfo().then(() => {
+      this.$user.login(this.username, this.password).then(() => {
+        this.$user.getUserInfo().then(() => {
           this.$router.push({name: "dashboard"})
         })
       })

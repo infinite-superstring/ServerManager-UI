@@ -2,8 +2,6 @@
 import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import validate from "@/scripts/utils/validate";
-import {useUserStore} from "@/store/userInfo";
-
 export default {
   name: "init_user_info",
   data() {
@@ -17,9 +15,8 @@ export default {
     }
   },
   created() {
-    const userStore = useUserStore()
-    this.user_name = userStore.userName
-    this.email = userStore.email
+    this.user_name = this.$user.userName
+    this.email = this.$user.email
   },
   methods: {
     get_verify_code() {
