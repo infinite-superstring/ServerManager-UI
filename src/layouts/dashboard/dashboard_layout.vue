@@ -23,7 +23,14 @@ export default {
           <overview_card/>
         </v-card-text>
       </v-card>
-      <v-card class="dashboard_card">
+      <v-card
+        class="dashboard_card"
+        v-if="$user.check_user_permission([
+            'editNode',
+            'viewAllNode',
+            'editNodeGroup'
+        ])"
+      >
         <v-card-title class="d-flex justify-sm-space-between align-center">
           <p class="dashboard_subtitle text-no-wrap">节点列表</p>
           <p class="more cursor-pointer" @click="$router.push({ name: 'nodeList' })">更多...</p>
@@ -62,7 +69,7 @@ export default {
           <TaskCard/>
         </v-card-text>
       </v-card>
-      <v-card class="dashboard_card">
+      <v-card class="dashboard_card" v-if="$user.check_user_permission('clusterTask')">
         <v-card-title class="d-flex justify-sm-space-between align-center">
           <p class="dashboard_subtitle">
             集群任务

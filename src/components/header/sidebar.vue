@@ -58,7 +58,7 @@ export default {
       <v-divider/>
       <v-list-item
         :to="{name: 'dashboard'}"
-        title="仪表の盘"
+        title="仪表盘"
         prepend-icon="mdi:mdi-view-dashboard"
       />
       <v-divider/>
@@ -73,6 +73,13 @@ export default {
             v-bind="props"
             title="节点管理"
             prepend-icon="mdi:mdi-server-network"
+            v-if="$user.check_user_permission([
+              'editNode',
+              'viewAllNode',
+              'editNodeGroup',
+              'clusterExecuteCommand',
+              'clusterTask'
+            ])"
           />
         </template>
         <v-list-item
@@ -81,6 +88,11 @@ export default {
           title="节点列表"
           density="compact"
           prepend-icon="mdi:mdi-dns-outline"
+          v-if="$user.check_user_permission([
+            'editNode',
+            'viewAllNode',
+            'editNodeGroup'
+          ])"
         />
         <v-list-item
           class="list_group_item"
@@ -88,6 +100,7 @@ export default {
           title="集群编辑"
           density="compact"
           prepend-icon="mdi:mdi-group"
+          v-if="$user.check_user_permission('editNodeGroup')"
         />
 <!--        <v-list-item-->
 <!--          class="list_group_item"-->
@@ -114,7 +127,12 @@ export default {
       <v-divider/>
       <v-list-item
         subtitle="管理"
-        v-if="!display"
+        v-if="!display && $user.check_user_permission([
+          'manageUser',
+          'managePermissionGroup',
+          'viewAudit',
+          'changeSettings'
+        ])"
       />
       <v-list-item
         :to="{name: 'userManagement'}"
