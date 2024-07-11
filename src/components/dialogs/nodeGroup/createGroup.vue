@@ -40,7 +40,7 @@ export default {
   methods: {
     submit() {
       if (!this.group_name) {
-        message.showError(this,"节点组名不能为空")
+        message.showError(this,"集群名不能为空")
         return
       }
       console.log(this.group_leader)
@@ -61,7 +61,7 @@ export default {
           }
           for (let j = 0; j < item.users.length; j++) {
             if (item.users[j] === this.group_leader) {
-              message.showError(this, `规则${i+1}消息接收人与节点组负责人重复`)
+              message.showError(this, `规则${i+1}消息接收人与集群负责人重复`)
               return
             }
           }
@@ -119,11 +119,11 @@ export default {
     :model-value="flag"
   >
     <v-card>
-      <v-card-title>创建新的节点组</v-card-title>
+      <v-card-title>创建新的集群</v-card-title>
       <v-card-text>
-        <v-text-field type="text" label="节点组名" v-model="group_name" max="20"></v-text-field>
-        <v-text-field type="text" label="节点组备注" v-model="group_desc" max="100"></v-text-field>
-        <select-user label="节点组负责人" :value="group_leader" @update:select_user="value => group_leader=value"></select-user>
+        <v-text-field type="text" label="集群名" v-model="group_name" max="20"></v-text-field>
+        <v-text-field type="text" label="集群备注" v-model="group_desc" max="100"></v-text-field>
+        <select-user label="集群负责人" :value="group_leader" @update:select_user="value => group_leader=value"></select-user>
         <select-node label="请选择节点，点击Tag取消选择" @update="value=>group_nodes=value"></select-node>
         <div>
           <div class="text-caption">

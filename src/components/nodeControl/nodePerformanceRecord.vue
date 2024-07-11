@@ -535,6 +535,12 @@ export default {
 
 .select-time {
   width: 100%;
+  display: flex;
+  justify-content: end;
+
+  input {
+    min-width: 170px !important;
+  }
 }
 
 </style>

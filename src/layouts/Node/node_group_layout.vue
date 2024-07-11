@@ -48,7 +48,7 @@ export default {
     delGroup(id) {
       const user_info = localConfigUtils.load_userinfo()
       const web_config = localConfigUtils.load_web_config()
-      dialogs.confirm("你确定要删除这个节点组吗", "该操作无法撤销，请谨慎操作", 'warning').then(async value => {
+      dialogs.confirm("你确定要删除这个集群吗", "该操作无法撤销，请谨慎操作", 'warning').then(async value => {
         if (value) {
           let otp_code = ""
           console.log(user_info.enableOTP)

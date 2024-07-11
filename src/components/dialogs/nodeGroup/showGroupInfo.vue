@@ -62,11 +62,11 @@ export default {
     v-model="m_flag"
   >
     <v-card>
-      <v-card-title>节点组详细消息</v-card-title>
+      <v-card-title>集群详细消息</v-card-title>
       <v-card-text>
-        节点组ID: {{ group_id }}<br>
-        节点组名: {{ group_name }}<br>
-        节点组负责人: {{ group_leader }}<br>
+        集群ID: {{ group_id }}<br>
+        集群名: {{ group_name }}<br>
+        集群负责人: {{ group_leader }}<br>
         节点列表:
         <div>
           <v-chip color="primary" size="small" v-for="node in node_list" :key="node.uuid">
@@ -74,7 +74,7 @@ export default {
           </v-chip>
         </div>
         <br>
-        节点组介绍: {{ group_desc }}<br>
+        集群介绍: {{ group_desc }}<br>
         <v-divider/>
         消息接收规则:
         <v-card
