@@ -66,6 +66,14 @@ export default {
           在线
         </span>
         <span
+          v-if="item.online === null"
+          style="color: red;cursor:pointer;"
+          @click="$router.push({name:'nodeList',query: { search: 'status:uninitialized' }})"
+        >
+          <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+          未初始化
+        </span>
+        <span
           v-else
           style="color: red;cursor:pointer;"
           @click="$router.push({name:'nodeList',query: { search: 'status:offline' }})"
@@ -73,12 +81,18 @@ export default {
           <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
           离线
         </span>
+
       </td>
       <td>
         <span
           v-if="item.warning === 'Info'"
         >
           正常
+        </span>
+        <span
+          v-if="item.warning === false"
+        >
+          无
         </span>
         <span v-else>
           警告中
