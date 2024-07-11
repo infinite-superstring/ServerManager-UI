@@ -1,5 +1,4 @@
 <script>
-import {useUserStore} from "@/store/userInfo";
 import permission from "@/views/admin/Permission.vue";
 
 export default {
@@ -16,12 +15,8 @@ export default {
     }
   },
   emits: ['close', 'update'],
-  created() {
-    this.UserStore = useUserStore()
-  },
   data() {
     return {
-      UserStore: null,
       open: [],
       temp: []
     }
@@ -107,14 +102,14 @@ export default {
           title="集群任务"
           density="compact"
           prepend-icon="mdi:mdi-timeline-outline"
-          v-if="UserStore.check_user_permission('clusterTask')"
+          v-if="$user.check_user_permission('clusterTask')"
         />
       </v-list-group>
       <v-list-item
         :to="{name:'webStatus'}"
         title="网站监控"
         prepend-icon="mdi:mdi-web-check"
-        v-if="UserStore.check_user_permission('viewWebStatus')"
+        v-if="$user.check_user_permission('viewWebStatus')"
       />
       <v-divider/>
       <v-list-item
@@ -125,25 +120,25 @@ export default {
         :to="{name: 'userManagement'}"
         title="用户管理"
         prepend-icon="mdi:mdi-account-details-outline"
-        v-if="UserStore.check_user_permission('manageUser')"
+        v-if="$user.check_user_permission('manageUser')"
       />
       <v-list-item
         :to="{name: 'permissionManagement'}"
         title="权限管理"
         prepend-icon="mdi:mdi-account-cog-outline"
-        v-if="UserStore.check_user_permission('managePermissionGroup')"
+        v-if="$user.check_user_permission('managePermissionGroup')"
       />
       <v-list-item
         :to="{name: 'audit'}"
         title="审计日志"
         prepend-icon="mdi:mdi-chart-timeline"
-        v-if="UserStore.check_user_permission('viewAudit')"
+        v-if="$user.check_user_permission('viewAudit')"
       />
       <v-list-item
         :to="{name: 'settings'}"
         title="系统设置"
         prepend-icon="mdi:mdi-cogs"
-        v-if="UserStore.check_user_permission('changeSettings')"
+        v-if="$user.check_user_permission('changeSettings')"
       />
       <v-divider/>
       <v-list-item
@@ -154,13 +149,13 @@ export default {
         title="值班记录"
         :to="{name: 'duty'}"
         prepend-icon="mdi:mdi-calendar-clock"
-        v-if="UserStore.check_user_permission('viewDuty')"
+        v-if="$user.check_user_permission('viewDuty')"
       />
       <v-list-item
         :to="{name: 'patrol'}"
         title="设备巡检"
         prepend-icon="mdi-application-edit-outline"
-        v-if="UserStore.check_user_permission('viewPatrol')"
+        v-if="$user.check_user_permission('viewPatrol')"
       />
       <v-list-item
         :to="{name: 'about'}"

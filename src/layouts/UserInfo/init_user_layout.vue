@@ -1,11 +1,8 @@
 <script>
 import bus from 'vue3-eventbus'
-
 import Init_user_finish from "@/components/initUser/finish.vue";
 import Init_user_info from "@/components/initUser/edit_info.vue";
 import Init_user_bind_otp from "@/components/initUser/bind_OTP.vue";
-import {useWebsiteSettingStore} from "@/store/webSiteSetting";
-import {useUserStore} from "@/store/userInfo";
 
 export default {
   name: "init_user_layout",
@@ -15,18 +12,13 @@ export default {
       step: null,
       step_item: [],
       qrcode: null,
-      web_config: null,
-      user_store: null
     }
   },
   created() {
-    this.web_config = useWebsiteSettingStore()
-    this.user_store = useUserStore()
-    console.log(this.user_store.isNewUser)
-    if (!this.user_store.isNewUser) {
+    if (!this.$user.isNewUser) {
       this.$router.push({name: "dashboard"})
     }
-    if (this.web_config.serverConfig.forceOTP_Bind) {
+    if (this.$web_config.serverConfig.forceOTP_Bind) {
       this.step_item = ['编辑用户信息', '绑定令牌', '完成']
     } else {
       this.step_item = ['编辑用户信息', '完成']
@@ -44,12 +36,12 @@ export default {
           const submit = this.$refs.edit_user_info.submit()
           if (submit && submit instanceof Promise) {
             submit.then((res) => {
-              if (this.web_config.serverConfig.forceOTP_Bind) {
+              if (this.$web_config.serverConfig.forceOTP_Bind) {
                 this.qrcode = res.data.data.qrcode
                 console.log(this.qrcode)
               } else {
-                this.user_store.isNewUser = false
-                this.user_store.getUserInfo()
+                this.$user.isNewUser = false
+                this.$user.getUserInfo()
               }
               bus.emit("update:UserInfo")
               callback()
@@ -63,9 +55,9 @@ export default {
           if (submit && submit instanceof Promise) {
             submit.then((res) => {
               if (!res) return
-              this.user_store.isNewUser = false
-              this.user_store.enableOTP = true
-              this.user_store.getUserInfo()
+              this.$user.isNewUser = false
+              this.$user.enableOTP = true
+              this.$user.getUserInfo()
               bus.emit("update:UserInfo")
               callback()
             })
@@ -93,15 +85,15 @@ export default {
           <init_user_info ref="edit_user_info"></init_user_info>
         </template>
 
-        <template v-slot:item.2 v-if="this.web_config.serverConfig.forceOTP_Bind">
+        <template v-slot:item.2 v-if="$web_config.serverConfig.forceOTP_Bind">
           <init_user_bind_otp ref="bind_otp" :qrcode="qrcode"></init_user_bind_otp>
         </template>
 
-        <template v-slot:item.2 v-if="!this.web_config.serverConfig.forceOTP_Bind">
+        <template v-slot:item.2 v-if="!$web_config.serverConfig.forceOTP_Bind">
           <init_user_finish></init_user_finish>
         </template>
 
-        <template v-slot:item.3 v-if="this.web_config.serverConfig.forceOTP_Bind">
+        <template v-slot:item.3 v-if="$web_config.serverConfig.forceOTP_Bind">
           <init_user_finish></init_user_finish>
         </template>
 

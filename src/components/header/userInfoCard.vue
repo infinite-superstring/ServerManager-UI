@@ -9,14 +9,11 @@ export default {
     return {
       ws: null,
       reconnecting: false, // ws 是否正在重连
-      username: "UserName",
-      group: "未知",
       avatar: "/api/userInfo/getAvatar?v" + Math.random(),
       unread: 0,
     }
   },
   mounted() {
-    this.getUserInfo()
     this.getUnread()
     bus.on('update:Avatar', () => {
       this.avatar = "/api/userInfo/getAvatar?v" + Math.random()
@@ -41,15 +38,6 @@ export default {
     this.reconnecting = true
   },
   methods: {
-    getUserInfo() {
-      axios.get("/api/userInfo/getInfo").then(res => {
-        const data = res.data.data
-        this.username = data.userName
-        this.group = data.group
-      }).catch(err => {
-        console.error(err)
-      })
-    },
     toMessage() {
       bus.emit('to:Message')
       this.$router.push({name: 'message'})
@@ -134,7 +122,7 @@ export default {
           <v-badge v-if="unread" dot color="red" offset-x="-40" offset-y="-22"/>
           <v-avatar :image="avatar"></v-avatar>
         </template>
-        <span class="username">{{ username }}</span>
+        <span class="username">{{ $user.userName }}</span>
       </v-btn>
     </template>
     <v-list>
