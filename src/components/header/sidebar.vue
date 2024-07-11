@@ -63,7 +63,7 @@ export default {
       <v-divider/>
       <v-list-item
         :to="{name: 'dashboard'}"
-        title="仪表盘"
+        title="仪表の盘"
         prepend-icon="mdi:mdi-view-dashboard"
       />
       <v-divider/>
@@ -135,7 +135,7 @@ export default {
       />
       <v-list-item
         :to="{name: 'audit'}"
-        title="审计与日志"
+        title="审计日志"
         prepend-icon="mdi:mdi-chart-timeline"
         v-if="UserStore.check_user_permission('viewAudit')"
       />

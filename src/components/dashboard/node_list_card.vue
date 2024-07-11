@@ -45,7 +45,7 @@ export default {
       v-for="item in node_list"
       :key="item.uuid"
     >
-      <td>
+      <td class="title">
         <span
           style="cursor:pointer;"
           @click="$router.push({name:'nodeControl',hash:`#${item.uuid}`})"
@@ -54,7 +54,7 @@ export default {
         </span>
       </td>
       <td>
-        {{ item.auth_ip }}
+        {{ item.auth_ip ? item.auth_ip : '未认证' }}
       </td>
       <td>
         <span
@@ -104,5 +104,9 @@ export default {
 </template>
 
 <style scoped>
-
+.title {
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+}
 </style>

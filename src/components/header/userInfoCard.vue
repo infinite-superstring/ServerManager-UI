@@ -11,7 +11,7 @@ export default {
       reconnecting: false, // ws 是否正在重连
       username: "UserName",
       group: "未知",
-      avatar: "/api/userInfo/getAvatar",
+      avatar: "/api/userInfo/getAvatar?v" + Math.random(),
       unread: 0,
     }
   },

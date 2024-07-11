@@ -71,14 +71,7 @@ export default {
         return
       }
       if (this.permissionSelect.length < 1) {
-        this.$notify.create({
-          text: `你好像啥权限都没选择呢~`,
-          level: 'error',
-          location: 'bottom right',
-          notifyOptions: {
-            "close-delay": 3000
-          }
-        })
+        message.showError(this, '请选择权限')
         return
       }
       let permission = {}
@@ -96,25 +89,11 @@ export default {
           this.reset()
           this.$emit('success')
         } else {
-          this.$notify.create({
-            text: `${res.data.msg} (${apiStatus})`,
-            level: 'error',
-            location: 'bottom right',
-            notifyOptions: {
-              "close-delay": 3000
-            }
-          })
+          message.showError(this, res.data.msg)
         }
       }).catch(err => {
         console.error(err)
-        this.$notify.create({
-          text: `API错误：${err.message}`,
-          level: 'error',
-          location: 'bottom right',
-          notifyOptions: {
-            "close-delay": 3000
-          }
-        })
+        message.showApiErrorMsg(this, err.message)
       })
     },
   }
