@@ -66,7 +66,7 @@ export default {
           在线
         </span>
         <span
-          v-if="item.online === null"
+          v-else-if="item.online === null"
           style="color: red;cursor:pointer;"
           @click="$router.push({name:'nodeList',query: { search: 'status:uninitialized' }})"
         >
@@ -90,7 +90,7 @@ export default {
           正常
         </span>
         <span
-          v-if="item.warning === false"
+          v-else-if="item.warning === false"
         >
           无
         </span>
