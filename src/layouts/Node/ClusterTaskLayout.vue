@@ -209,13 +209,25 @@ const onSubmit = (data) => {
     message.showWarning(this, err)
     return
   }
-  axiosplus[data.uuid ? 'put' : 'post']('/api/group_task/operation', data)
+
+  function _submit() {
+    axiosplus[data.uuid ? 'put' : 'post']('/api/group_task/operation', data)
+      .then(r => {
+        getList()
+        message.showSuccess(this, r.data.msg)
+        addDialogShow.value = false
+        addDialogRef.value.clearForm()
+        editDialogShow.value = false
+      })
+  }
+
+  axiosplus.get('/api/group_task/command_legal?command=' + data.command)
     .then(r => {
-      getList()
-      message.showSuccess(this, r.data.msg)
-      addDialogShow.value = false
-      addDialogRef.value.clearForm()
-      editDialogShow.value = false
+      if (r.data.data === false) {
+        confirmDialog('警告!', '命令不安全，是否继续?', _submit)
+      } else {
+        _submit()
+      }
     })
 }
 
