@@ -4,9 +4,11 @@ import user from "@/scripts/admin/users"
 import message from "@/scripts/utils/message";
 import confirmDialog from '@/scripts/utils/confirmDialog'
 import users from "@/scripts/admin/users";
+import NotData from "@/components/emptyState/notData.vue";
 
 export default {
   name: "userList",
+  components: {NotData},
   emits: ['action', 'update'],
   props: {
     userList: {
@@ -34,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <v-table>
+  <v-table v-if="userList.length > 0">
     <thead>
     <tr>
       <th class="text-left">
@@ -106,6 +108,7 @@ export default {
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <v-table density="compact">
+  <v-table density="compact" v-if="tableData.length > 0">
     <thead>
     <tr>
       <th class="text-left">
@@ -36,6 +36,7 @@
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
   <v-pagination
     v-model="currentPage"
     v-if="maxPage > 1"
@@ -51,6 +52,7 @@
 
 import {onBeforeMount, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
+import NotData from "@/components/emptyState/notData.vue";
 
 const params = ref({
   page: 1,

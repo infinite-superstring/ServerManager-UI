@@ -2,6 +2,7 @@
 import dialogs from "@/scripts/utils/dialogs";
 import permission from "@/scripts/admin/permission";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
+import NotData from "@/components/emptyState/notData.vue";
 
 /**
  * 权限组列表
@@ -9,6 +10,7 @@ import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 export default {
   name: "GroupList",
+  components: {NotData},
   emits: [
     /**
      * 动作
@@ -57,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <v-table>
+  <v-table v-if="permissionGroupList.length > 0">
     <thead>
     <tr>
       <th class="text-left">
@@ -126,6 +128,7 @@ export default {
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
 </template>
 
 <style scoped>

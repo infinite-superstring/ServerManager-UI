@@ -1,4 +1,6 @@
 <script setup>
+import NotData from "@/components/emptyState/notData.vue";
+
 const props = defineProps({
   list: {
     type: Array,
@@ -18,7 +20,7 @@ const show = (item) => {
 </script>
 
 <template>
-  <v-table>
+  <v-table v-if="list.length > 0">
     <thead>
     <tr>
       <th class="text-center">
@@ -69,6 +71,7 @@ const show = (item) => {
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
 </template>
 
 <style scoped>

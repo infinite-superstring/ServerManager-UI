@@ -1,8 +1,10 @@
 <script>
 import axiosplus from "@/scripts/utils/axios";
+import NotData from "@/components/emptyState/notData.vue";
 
 export default {
   name: "node_list_card",
+  components: {NotData},
   data() {
     return {
       node_list: []
@@ -23,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <v-table density="compact">
+  <v-table density="compact" v-if="node_list.length > 0">
     <thead>
     <tr>
       <th class="text-left">
@@ -101,6 +103,7 @@ export default {
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
 </template>
 
 <style scoped>

@@ -1,8 +1,11 @@
 <script>
 import axios from "axios";
+import message from "@/scripts/utils/message";
+import NotData from "@/components/emptyState/notData.vue";
 
 export default {
   name: "fileChangeLog_table",
+  components: {NotData},
   data:()=>{
     return {
       currentPage: 1,
@@ -11,17 +14,6 @@ export default {
     }
   },
   methods: {
-    // 显示APi错误
-    showApiErrorMsg(message, status=null) {
-      this.$notify.create({
-        text: `API错误：${message} ${status ? '(status:'+status+')': ''}`,
-        level: 'error',
-        location: 'bottom right',
-        notifyOptions: {
-          "close-delay": 3000
-        }
-      })
-    },
     // 获取用户列表
     getTable(page=1, pageSize=20) {
       axios.post("/api/admin/auditAndLogger/fileChangeLog",{
@@ -46,11 +38,11 @@ export default {
               })
             }
           } else {
-            this.showApiErrorMsg(res.data.msg,apiStatus)
+            message.showError(this, res.data.msg)
           }
       }).catch(err=>{
         console.error(err)
-        this.showApiErrorMsg(err.message)
+        message.showApiErrorMsg(this, err.message)
       })
     },
   },
@@ -66,7 +58,7 @@ export default {
 </script>
 
 <template>
-  <v-table density="compact">
+  <v-table density="compact" v-if="table.length > 0">
     <thead>
       <tr>
         <th class="text-left">
@@ -95,6 +87,7 @@ export default {
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
   <v-pagination
     v-model="currentPage"
     v-if="maxPage > 1"

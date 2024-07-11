@@ -1,8 +1,10 @@
 <script>
 import axios from "@/scripts/utils/axios";
+import NotData from "@/components/emptyState/notData.vue";
 
 export default {
   name: "TerminalCommandAudit",
+  components: {NotData},
   data() {
     return {
       open: null,
@@ -83,6 +85,7 @@ export default {
   >
     <v-col cols="4">
       <v-treeview
+        v-if="data.length > 0"
         v-model:activated="active"
         v-model:opened="open"
         :items="data"
@@ -108,6 +111,7 @@ export default {
           </v-icon>
         </template>
       </v-treeview>
+      <not-data v-else/>
     </v-col>
     <v-divider vertical></v-divider>
     <v-col

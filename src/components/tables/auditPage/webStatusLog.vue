@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="sites.length > 0">
     <v-col cols="2" style="border-right: black solid 1px">
       <v-tabs
         color="primary"
@@ -34,12 +34,14 @@
       </v-tabs-window>
     </v-col>
   </v-row>
+  <not-data v-else/>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import WebStatusLogList from "@/components/tables/auditPage/list/WebStatusLogList.vue";
+import NotData from "@/components/emptyState/notData.vue";
 
 const site = ref()
 const sites = ref([])

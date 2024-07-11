@@ -5,8 +5,10 @@
         @click:select="({id})=>handleSelect(id)"
         :items="treeLists"
         :load-children="getChildren"
+        v-if="treeLists.length > 0"
       >
       </v-treeview>
+      <not-data v-else/>
     </v-col>
     <v-divider vertical></v-divider>
     <v-col>
@@ -35,6 +37,7 @@
 import {onMounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import ClusterTaskAuditTerminal from "@/components/tables/auditPage/terminal/clusterTaskAuditTerminal.vue";
+import NotData from "@/components/emptyState/notData.vue";
 
 const showCount = ref(10)
 const current_activity = ref()

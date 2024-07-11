@@ -1,5 +1,5 @@
 <template>
-  <v-table>
+  <v-table v-if="list.length > 0">
     <thead>
     <tr>
       <th class="text-left">
@@ -78,10 +78,12 @@
     </tr>
     </tbody>
   </v-table>
+  <not-data v-else/>
 </template>
 
 <script setup>
-import format from "../../scripts/utils/format";
+import format from "@/scripts/utils/format";
+import NotData from "@/components/emptyState/notData.vue";
 
 const emit = defineEmits(['changeEnable', 'onDelete', 'onShow', 'onEdit'])
 const props = defineProps({
@@ -99,20 +101,28 @@ const props = defineProps({
 const getWeekText = (week) => {
   let text = []
   for (let w of week) {
-    if (w === 1) {
-      text.push('星期一')
-    } else if (w === 2) {
-      text.push('星期二')
-    } else if (w === 3) {
-      text.push('星期三')
-    } else if (w === 4) {
-      text.push('星期四')
-    } else if (w === 5) {
-      text.push('星期五')
-    } else if (w === 6) {
-      text.push('星期六')
-    } else if (w === 7) {
-      text.push('星期日')
+    switch (w) {
+      case 1:
+        text.push('星期一')
+        break
+      case 2:
+        text.push('星期二')
+        break
+      case 3:
+        text.push('星期三')
+        break
+      case 4:
+        text.push('星期四')
+        break
+      case 5:
+        text.push('星期五')
+        break
+      case 6:
+        text.push('星期六')
+        break
+      case 7:
+        text.push('星期日')
+        break
     }
   }
   return text

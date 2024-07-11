@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="list.length > 0">
     <WebCard
       ref="webCardRef"
       :item="item"
@@ -13,6 +13,7 @@
       @update="updateWeb"
     />
   </div>
+  <not-data v-else/>
   <v-pagination
     v-model="param.page"
     v-if="maxPage > 1"
@@ -32,6 +33,7 @@ import axiosplus from "@/scripts/utils/axios";
 import {createWebSocket, closeWebSocket} from "@/scripts/utils/webSocketUtil";
 import confirmDialog from "@/scripts/utils/confirmDialog";
 import message from "@/scripts/utils/message";
+import NotData from "@/components/emptyState/notData.vue";
 
 const list = ref([])
 const maxPage = ref(0)
