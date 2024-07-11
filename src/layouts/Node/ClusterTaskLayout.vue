@@ -46,6 +46,10 @@
   />
   <cluster-task-edit-dialog
     v-model="editDialogShow"
+    v-model:data="editData"
+    :groupList="groupList"
+    @close="editDialogShow = false"
+    @submit="onSubmit"
     ref="editDialogRef"
   />
 
@@ -56,15 +60,15 @@
 import ClusterTaskList from "@/components/cluster/ClusterTaskList.vue";
 import ClusterTaskDialog from "@/components/cluster/CreateDialog.vue";
 import ClusterTaskDetailedDialog from '@/components/cluster/DetailedDialog.vue'
+import ClusterTaskEditDialog from "@/components/cluster/ClusterTaskEditDialog.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
-import ClusterTaskEditDialog from "@/components/cluster/ClusterTaskEditDialog.vue";
 
 const addDialogRef = ref(null)
 const detailDialogRef = ref(null)
-const c = ref(null)
+const editDialogRef = ref(null)
 /*添加对话框是否显示*/
 const addDialogShow = ref(false)
 /*详细对话框是否显示*/
@@ -81,6 +85,8 @@ const params = ref({
   search: '',
   maxPage: 0
 })
+/*编辑对话框参数*/
+const editData = ref()
 
 
 /**
@@ -179,7 +185,7 @@ function validateFormData(formData) {
 }
 
 /**
- * 创建集群任务
+ * 创建|编辑集群任务
  * @param data
  */
 const onSubmit = (data) => {
@@ -188,12 +194,13 @@ const onSubmit = (data) => {
     message.showWarning(this, err)
     return
   }
-  axiosplus.post('/api/group_task/add', data)
+  axiosplus[data.uuid ? 'put' : 'post']('/api/group_task/operation', data)
     .then(r => {
       getList()
       message.showSuccess(this, r.data.msg)
       addDialogShow.value = false
       addDialogRef.value.clearForm()
+      editDialogShow.value = false
     })
 }
 
@@ -205,7 +212,7 @@ const onShowDetailDialog = (uuid) => {
   axiosplus.get('/api/group_task/get_task_detailed?uuid=' + uuid)
     .then(r => {
       detailDialogShow.value = true
-      editDialogRef.value.task = r.data.data
+      detailDialogRef.value.task = r.data.data
     })
 }
 /**
@@ -214,6 +221,10 @@ const onShowDetailDialog = (uuid) => {
 const onShowEditDialog = (uuid) => {
   editDialogShow.value = true
   axiosplus.get('/api/group_task/get_task_by_uuid?uuid=' + uuid)
+    .then(r => {
+      editData.value = r.data.data
+      editData.value.uuid = uuid
+    })
 }
 
 onMounted(() => {

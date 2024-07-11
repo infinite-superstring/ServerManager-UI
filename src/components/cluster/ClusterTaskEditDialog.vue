@@ -6,7 +6,7 @@
     min-width="80%"
   >
     <v-card>
-      <v-card-title>{{ title }}</v-card-title>
+      <v-card-title>编辑集群任务</v-card-title>
       <v-card-text>
 
         <div class="form-content">
@@ -104,17 +104,74 @@ import DateTimeExec from "@/components/cluster/form/DateTimeExec.vue";
 import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
 import CycleExec from "@/components/cluster/form/CycleExec.vue";
 import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
+import {ref} from "vue";
 
 const status = defineModel()
-const formData = defineModel('data')
+const formData = defineModel('data', {
+  default: {
+    taskName: '',
+    group: null,
+    execCount: '',
+    execType: null,
+    execTime: '',
+    execCycle: {
+      week: [],
+      time: ''
+    },
+    execInterval: '',
+    command: '',
+    execPath: null,
+    enable: false
+  }
+})
 const emit = defineEmits(['submit', 'close'])
 
-defineExpose({
-  formData
+const props = defineProps({
+  groupList: {
+    type: Array,
+    default: () => []
+  }
 })
+
+const execType = ref([
+  {
+    title: '指定时间',
+    value: 'date-time'
+  },
+  {
+    title: '周期',
+    value: 'cycle'
+  },
+  {
+    title: '间隔',
+    value: 'interval'
+  },
+])
+
 </script>
 
 
 <style scoped>
 
+
+.form-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-item {
+  width: 50%;
+  min-width: 200px;
+  padding: 10px;
+}
+
+@media screen and (max-width: 720px) {
+  .dialog-width {
+    width: 90vw;
+  }
+
+  .form-item {
+    width: 100%;
+  }
+}
 </style>

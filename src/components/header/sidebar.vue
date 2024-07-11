@@ -145,7 +145,7 @@ export default {
         :to="{name: 'patrol'}"
         title="巡检"
         prepend-icon="mdi-application-edit-outline"
-        v-if="UserStore.check_user_permission('viewPatrol')">>
+        v-if="UserStore.check_user_permission('viewPatrol')">
       </v-list-item>
       <v-list-item :to="{name: 'about'}" title="关于" prepend-icon="mdi:mdi-copyright"></v-list-item>
     </v-list>
