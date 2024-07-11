@@ -34,6 +34,7 @@
   <cluster-task-dialog
     ref="addDialogRef"
     :groupList="groupList"
+    @searchGroup="deGetGroupList"
     :status="addDialogShow"
     @close="addDialogShow = false"
     @submit="onSubmit"
@@ -48,6 +49,7 @@
     v-model="editDialogShow"
     v-model:data="editData"
     :groupList="groupList"
+    @searchGroup="deGetGroupList"
     @close="editDialogShow = false"
     @submit="onSubmit"
     ref="editDialogRef"
@@ -65,6 +67,7 @@ import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
+import {debounce} from "@/scripts/utils/debounce";
 
 const addDialogRef = ref(null)
 const detailDialogRef = ref(null)
@@ -120,6 +123,11 @@ const onDelete = (uuid) => {
  * @param search
  */
 const getGroupList = (search = '') => {
+  // 如果搜索字符过长
+  if (search.length > 20){
+    message.showWarning(this, '搜索字符过长')
+    search = search.substring(0,20)
+  }
   axiosplus.post('/api/node_manager/node_group/getGroupList'
     , {
       page: 1,
@@ -129,6 +137,11 @@ const getGroupList = (search = '') => {
     groupList.value = r.data.data.PageContent
   })
 }
+/**
+ * 获取节点组列表(防抖)
+ * @type {(function(...[*]): void)|*}
+ */
+const deGetGroupList = debounce(getGroupList,300)
 /**
  * 获取任务列表
  */

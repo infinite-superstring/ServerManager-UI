@@ -22,6 +22,7 @@
           </div>
           <div class="form-item">
             <v-autocomplete
+              @update:search="v=>$emit('searchGroup',v)"
               v-model="formData.group"
               :items="groupList"
               item-value="group_id"
@@ -105,7 +106,7 @@ import CycleExec from "@/components/cluster/form/CycleExec.vue";
 import DateTimeExec from "@/components/cluster/form/DateTimeExec.vue";
 import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'searchGroup'])
 
 const props = defineProps({
   status: {

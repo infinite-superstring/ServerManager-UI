@@ -26,6 +26,7 @@
               :items="groupList"
               item-value="group_id"
               item-title="group_name"
+              @update:search="v=>$emit('searchGroup',v)"
               :label="groupList.length > 0 ? '指定节点组执行任务' : '无可用节点组'"
               hint="指定节点组执行任务"
               variant="underlined"
@@ -124,7 +125,7 @@ const formData = defineModel('data', {
     enable: false
   }
 })
-const emit = defineEmits(['submit', 'close'])
+const emit = defineEmits(['submit', 'close','searchGroup'])
 
 const props = defineProps({
   groupList: {
