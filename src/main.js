@@ -25,8 +25,11 @@ registerPlugins(app)
 app.mount('#app')
 
 app.config.globalProperties.$default_title = "是不是原神害了你：服务器集群管理器"
-app.config.globalProperties.$user = useUserStore()
-app.config.globalProperties.$user.getUserInfo()
+const userStore = useUserStore()
+if (userStore.login_status()) {
+  userStore.getUserInfo()
+}
+app.config.globalProperties.$user = userStore
 app.config.globalProperties.$web_config = useWebsiteSettingStore()
 app.config.globalProperties.$web_config.updateServerConfig(true)
 
