@@ -58,7 +58,7 @@ export default {
       <v-container v-if="userStore.enableOTP">
         <span><v-icon icon="mdi:mdi-check" size="32px" color="success"></v-icon> 已绑定OTP手机令牌</span>
       </v-container>
-      <v-btn color="primary" size="small" @click="test">测试</v-btn>
+<!--      <v-btn color="primary" size="small" @click="test">测试</v-btn>-->
     </v-card-text>
   </v-card>
   <div>
