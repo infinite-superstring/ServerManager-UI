@@ -64,14 +64,14 @@ export default {
           size="small"
           color="primary"
           @click="$emit('action:edit', item.uuid)"
-          :disabled="$user.check_user_permission('editNode')"
+          :disabled="!$user.check_user_permission('editNode')"
         >编辑节点</v-btn>
         <v-btn
           variant="text"
           size="small"
           color="warning"
           @click="$emit('action:reset_token', item.uuid)"
-          :disabled="$user.check_user_permission('editNode')"
+          :disabled="!$user.check_user_permission('editNode')"
         >
           重置Token
         </v-btn>
@@ -80,7 +80,7 @@ export default {
           size="small"
           color="red"
           @click="$emit('action:del_node', item.uuid)"
-          :disabled="$user.check_user_permission('editNode')"
+          :disabled="!$user.check_user_permission('editNode')"
         >
           删除节点
         </v-btn>
