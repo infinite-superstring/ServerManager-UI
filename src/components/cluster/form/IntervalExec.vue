@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const emit = defineEmits(['input'])
 const totalSecond = defineModel()
@@ -70,6 +70,26 @@ const timeToSecond = () => {
   // 转换为总秒数
   totalSecond.value = validHour * 3600 + validMinute * 60 + validSecond;
 };
+
+function secondsToHMS(totalSecond) {
+  const hours = Math.floor(totalSecond / 3600);
+  const minutes = Math.floor((totalSecond % 3600) / 60);
+  const seconds = totalSecond % 60;
+  return {hours, minutes, seconds};
+}
+
+onMounted(() => {
+  if (totalSecond.value) {
+    console.log(totalSecond.value)
+    let hms = secondsToHMS(totalSecond.value)
+    hour.value = hms.hour + ''
+    minute.value = hms.minutes + ''
+    second.value = hms.seconds + ''
+    hour.value = hour.value.toString().padStart(2, '0');
+    minute.value = minute.value.toString().padStart(2, '0');
+    second.value = second.value.toString().padStart(2, '0');
+  }
+})
 </script>
 
 
