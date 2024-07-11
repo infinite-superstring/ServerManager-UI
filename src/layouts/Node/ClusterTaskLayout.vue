@@ -7,6 +7,8 @@
       新建集群任务
     </v-btn>
     <v-text-field
+      v-model="params.search"
+      @update:model-value="getList"
       class="search"
       density="compact"
       label="搜索"
@@ -85,7 +87,7 @@ const list = ref([])
 const params = ref({
   page: 1,
   pageSize: 20,
-  search: '',
+  search: "",
   maxPage: 0
 })
 /*编辑对话框参数*/
@@ -124,9 +126,9 @@ const onDelete = (uuid) => {
  */
 const getGroupList = (search = '') => {
   // 如果搜索字符过长
-  if (search.length > 20){
+  if (search.length > 20) {
     message.showWarning(this, '搜索字符过长')
-    search = search.substring(0,20)
+    search = search.substring(0, 20)
   }
   axiosplus.post('/api/node_manager/node_group/getGroupList'
     , {
@@ -141,12 +143,12 @@ const getGroupList = (search = '') => {
  * 获取节点组列表(防抖)
  * @type {(function(...[*]): void)|*}
  */
-const deGetGroupList = debounce(getGroupList,300)
+const deGetGroupList = debounce(getGroupList, 300)
 /**
  * 获取任务列表
  */
 const getList = () => {
-  axiosplus.get('/api/group_task/getList')
+  axiosplus.get('/api/group_task/getList', {params: params.value})
     .then(r => {
       list.value = r.data.data.list
       params.value.maxPage = r.data.data.maxPage

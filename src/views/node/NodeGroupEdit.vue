@@ -8,7 +8,7 @@ export default {
 </script>
 
 <template>
-  <v-card title="群组编辑" class="pageMain-card">
+  <v-card title="集群编辑" class="pageMain-card">
     <v-card-text>
       <node_group_edit_layout/>
     </v-card-text>

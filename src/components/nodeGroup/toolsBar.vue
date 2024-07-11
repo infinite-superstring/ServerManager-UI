@@ -19,13 +19,13 @@ export default {
       @click="$emit('action:create_group')"
       v-if="$user.check_user_permission('editNodeGroup')"
     >
-      创建组
+      创建集群
     </v-btn>
     <v-text-field
       id="searchUser"
       class="search"
       density="compact"
-      label="按组名搜索"
+      label="按集群名搜索"
       variant="solo-filled"
       single-line
       hide-details

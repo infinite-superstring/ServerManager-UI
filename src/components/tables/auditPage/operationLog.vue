@@ -103,7 +103,7 @@ export default {
       <td>{{ item.time }}</td>
       <td>{{ item.action }}</td>
       <td>{{ item.module }}</td>
-      <td>{{ item.content }}</td>
+      <td class="data" :title="item.content">{{ item.content }}</td>
     </tr>
     </tbody>
   </v-table>
@@ -120,5 +120,10 @@ export default {
 </template>
 
 <style scoped>
-
+.data {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
 </style>

@@ -27,7 +27,7 @@ export default {
         id
       </th>
       <th class="text-left">
-        组名
+        集群名
       </th>
       <th class="text-left">
         负责人

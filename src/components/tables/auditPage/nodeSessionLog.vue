@@ -23,7 +23,7 @@
       v-for="item in tableData"
       :key="item.id"
     >
-      <td>{{ item.name }}</td>
+      <td class="node_name">{{ item.name }}</td>
       <td>{{ item.time }}</td>
       <td>
         <v-chip color="primary" v-if="item.action === 0">
@@ -83,5 +83,10 @@ onBeforeMount(() => {
 
 
 <style scoped>
-
+.node_name{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
 </style>
