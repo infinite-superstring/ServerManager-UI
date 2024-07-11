@@ -141,7 +141,17 @@ export const useUserStore = defineStore('UserInfo', {
       if (this.permissions.includes("all")) {
         return true
       }
-      return this.permissions.includes(permission)
+
+      if (Array.isArray(permission)) {
+        for (let i = 0; i < permission.length; i++) {
+          if (this.permissions.includes(permission[i])) {
+            return true
+          }
+        }
+        return false
+      } else {
+        return this.permissions.includes(permission)
+      }
     }
   },
   persist: true
