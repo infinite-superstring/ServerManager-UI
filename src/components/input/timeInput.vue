@@ -69,6 +69,7 @@ export default {
         :min="min"
         :max="max"
         :title="label"
+        format="24hr"
         color="primary"
         full-width
       ></v-time-picker>

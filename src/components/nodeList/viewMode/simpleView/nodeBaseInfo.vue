@@ -21,7 +21,7 @@ export default {
   methods: {
     async copy_node_uuid() {
       try {
-        const { toClipboard } = useClipboard()
+        const {toClipboard} = useClipboard()
         await toClipboard(this.uuid)
         message.showSuccess(this, "复制节点UUID成功", 1000)
       } catch (e) {
@@ -43,7 +43,7 @@ export default {
         平台
       </div>
       <div class="status-value">
-        {{data.platform}}
+        {{ data.baseData.platform }}
       </div>
     </div>
   </v-col>
@@ -56,7 +56,7 @@ export default {
         CPU使用率
       </div>
       <div class="status-value">
-        {{ data.online ? data.cpu_usage : "未知" }}
+        {{ data.baseData.online ? data.baseData.cpu_usage : "未知" }}
       </div>
     </div>
   </v-col>
@@ -69,7 +69,7 @@ export default {
         内存使用率
       </div>
       <div class="status-value">
-        {{ data.online ? data.memory_used : "未知" }}
+        {{ data.baseData.online ? data.baseData.memory_used : "未知" }}
       </div>
     </div>
   </v-col>
@@ -81,16 +81,19 @@ export default {
       <div class="status-name">
         在线状态
       </div>
-      <div class="status-value cursor-pointer" style="color: green" v-if="data.online" @click="$emit('click:status', 'online')">
-        <v-icon icon="mdi:mdi-check-circle-outline" size="x-small"/>
+      <div class="status-value cursor-pointer" style="color: green" v-if="data.baseData.online"
+           @click="$emit('click:status', 'online')">
+        <v-icon icon="mdi:mdi-check-circle-outline" size="small"/>
         在线
       </div>
-      <div class="status-value cursor-pointer" style="color: red" v-else-if="!data.online && data.platform === '未知'" @click="$emit('click:status', 'uninitialized')">
-        <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+      <div class="status-value cursor-pointer" style="color: red" v-else-if="!data.baseData.online && data.baseData.platform === '未知'"
+           @click="$emit('click:status', 'uninitialized')">
+        <v-icon icon="mdi:mdi-close-circle-outline" size="small"/>
         未初始化
       </div>
-      <div class="status-value cursor-pointer" style="color: red" v-else-if="!data.online"  @click="$emit('click:status', 'offline')">
-        <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
+      <div class="status-value cursor-pointer" style="color: red" v-else-if="!data.baseData.online"
+           @click="$emit('click:status', 'offline')">
+        <v-icon icon="mdi:mdi-close-circle-outline" size="small"/>
         离线
       </div>
     </div>
@@ -104,7 +107,7 @@ export default {
         主机名
       </div>
       <div class="status-value">
-        {{ data.hostname }}
+        {{ data.baseData.hostname }}
       </div>
     </div>
   </v-col>
@@ -119,10 +122,39 @@ export default {
       <div class="status-value">
         <v-icon
           icon="mdi:mdi-clipboard-text-outline"
-          size="small"
           color="primary"
+          size="small"
           title="复制到剪贴板"
           @click="copy_node_uuid()"/>
+      </div>
+    </div>
+  </v-col>
+  <v-col
+    cols="16"
+    sm="6"
+  >
+    <div class="status">
+      <div class="status-name">
+        所有者/创建者
+      </div>
+      <div class="status-value">
+        <v-icon icon="mdi-account-circle-outline" size="small" color="primary"/>
+        {{ data.creator ? data.creator : '未知'  }}
+      </div>
+    </div>
+  </v-col>
+  <v-col
+    cols="16"
+    sm="6"
+  >
+    <div class="status">
+      <div class="status-name">
+        所属节点组
+      </div>
+      <div class="status-value">
+        <span title="您的权限：节点组负责人">
+          {{ data.group ? data.group : '无' }}
+        </span>
       </div>
     </div>
   </v-col>

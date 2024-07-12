@@ -49,7 +49,7 @@ export default {
         <v-row>
           <node-base-info
             :uuid="item.uuid"
-            :data="item.baseData"
+            :data="item"
             @click:status="args => $emit('action:click_status', args)"
           />
         </v-row>

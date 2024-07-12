@@ -2,8 +2,6 @@
   <div class="d-flex align-center justify-center" style="height: 100%; width: 100%">
     <div style="width:60%; min-width: 350px">
       <p class="text-h3 text-center mx-auto my-6">请登录</p>
-<!--      <v-img class="mx-auto my-6" max-width="228"-->
-<!--             src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"></v-img>-->
 
       <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
         <div class="text-subtitle-1 text-medium-emphasis">账户</div>
