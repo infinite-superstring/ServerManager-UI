@@ -6,7 +6,7 @@
         任务名称
       </th>
       <th class="text-left">
-        执行组
+        执行集群
       </th>
       <th class="text-left">
         运行次数
