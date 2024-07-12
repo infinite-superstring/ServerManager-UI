@@ -8,7 +8,7 @@
     </v-btn>
     <v-text-field
       v-model="params.search"
-      @update:model-value="getList"
+      @update:model-value="deGetList"
       class="search"
       density="compact"
       label="搜索"
@@ -154,6 +154,12 @@ const getList = () => {
       params.value.maxPage = r.data.data.maxPage
     })
 }
+
+/**
+ * 获取任务列表(防抖)
+ * @type {(function(...[*]): void)|*}
+ */
+const deGetList = debounce(getList, 300)
 
 /**
  * 校验表单数据

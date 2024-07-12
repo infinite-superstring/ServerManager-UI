@@ -3,6 +3,7 @@ import bus from 'vue3-eventbus'
 import Init_user_finish from "@/components/initUser/finish.vue";
 import Init_user_info from "@/components/initUser/edit_info.vue";
 import Init_user_bind_otp from "@/components/initUser/bind_OTP.vue";
+import bus_constant from "@/scripts/constant/bus_constant";
 
 export default {
   name: "init_user_layout",
@@ -43,7 +44,7 @@ export default {
                 this.$user.isNewUser = false
                 this.$user.getUserInfo()
               }
-              bus.emit("update:UserInfo")
+              bus.emit(bus_constant.UPDATE_USER_INFO)
               callback()
             })
           }
@@ -58,7 +59,7 @@ export default {
               this.$user.isNewUser = false
               this.$user.enableOTP = true
               this.$user.getUserInfo()
-              bus.emit("update:UserInfo")
+              bus.emit(bus_constant.UPDATE_USER_INFO)
               callback()
             })
           }

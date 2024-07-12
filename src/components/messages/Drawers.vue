@@ -3,7 +3,7 @@
     <v-row class="options">
       <v-col class="col">
         <v-btn-group class="btn-group">
-          <v-list class="btn-lists" >
+          <v-list class="btn-lists">
             <v-list-item
               value="all"
               active-color="#2196F3"
@@ -75,6 +75,7 @@ import axios from "@/scripts/utils/axios.js";
 import message from "@/scripts/utils/message";
 import bus from "vue3-eventbus";
 import confirmDialog from '@/scripts/utils/confirmDialog'
+import bus_constant from "@/scripts/constant/bus_constant";
 
 /**
  * 注册事件
@@ -189,10 +190,10 @@ const handlePageChange = (current) => {
 
 onMounted(() => {
   getList()
-  bus.on('to:Message', () => {
+  bus.on(bus_constant.TO_MESSAGE, () => {
     drawer.value = !drawer.value
   })
-  bus.on('update:Message', () => {
+  bus.on(bus_constant.UPDATE_MESSAGE, () => {
     getList()
   })
 })
