@@ -5,6 +5,7 @@ import bus from 'vue3-eventbus'
 import 'cropperjs/dist/cropper.css';
 import message from "@/scripts/utils/message";
 import fileUtils from "@/scripts/utils/fileUtils";
+import bus_constant from "@/scripts/constant/bus_constant";
 
 export default {
   name: "editUserInfo",
@@ -43,7 +44,7 @@ export default {
         if (apiStatus === 1) {
           this.$user.getUserInfo()
           message.showSuccess(this, "用户信息保存成功")
-          bus.emit('update:UserInfo')
+          bus.emit(bus_constant.UPDATE_USER_INFO)
         } else {
           message.showWarning(this, res.data.msg)
         }
@@ -105,7 +106,7 @@ export default {
           this.uploadAvatar.flag = false
           this.uploadAvatar.file = null
           this.avatarUrl = "/api/userInfo/getAvatar?v" + Math.random()
-          bus.emit('update:Avatar')
+          bus.emit(bus_constant.UPDATE_AVATAR)
         } else {
           message.showError(this, res.data.msg)
         }

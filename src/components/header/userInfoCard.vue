@@ -2,6 +2,7 @@
 import axios from "axios";
 import bus from 'vue3-eventbus'
 import notice from '@/scripts/utils/notice'
+import bus_constant from "@/scripts/constant/bus_constant";
 
 export default {
   name: "userInfoCard",
@@ -15,10 +16,10 @@ export default {
   },
   mounted() {
     this.getUnread()
-    bus.on('update:Avatar', () => {
+    bus.on(bus_constant.UPDATE_AVATAR, () => {
       this.avatar = "/api/userInfo/getAvatar?v" + Math.random()
     })
-    bus.on('update:UserInfo', () => {
+    bus.on(bus_constant.UPDATE_USER_INFO, () => {
       this.$user.getUserInfo()
     })
     /*已读所有消息事件 清空未读消息数量*/
@@ -39,7 +40,7 @@ export default {
   },
   methods: {
     toMessage() {
-      bus.emit('to:Message')
+      bus.emit(bus_constant.TO_MESSAGE)
       this.$router.push({name: 'message'})
     },
     /**
@@ -57,7 +58,7 @@ export default {
         if (msg.type === 'newMessage') {
           notice.info('您有一条新消息')
           this.unread = Number.isSafeInteger(msg.data) ? msg.data : 0
-          bus.emit('update:Message', this.unread)
+          bus.emit(bus_constant.UPDATE_MESSAGE, this.unread)
         } else if (msg.type === 'unread') {
           this.unread = Number.isSafeInteger(msg.data) ? msg.data : 0
         }
