@@ -74,9 +74,11 @@ export default {
           </v-chip>
         </div>
         <br>
-        集群介绍: {{ group_desc }}<br>
+        <div v-if="group_desc">
+          集群介绍: {{ group_desc }}<br>
+        </div>
         <v-divider/>
-        消息接收规则:
+        集群权限规则:
         <v-card
           class="pa-3 rules"
           v-for="item in rules"
@@ -89,15 +91,23 @@ export default {
             {{ week }}
           </span>
           <p>开始时间: {{ item.start_time }} —— 结束时间: {{ item.end_time }} </p>
-          接收人:
+          用户:
           <div>
-            <v-chip
-              color="primary"
-              size="small"
+<!--            <v-chip-->
+<!--              color="primary"-->
+<!--              size="small"-->
+<!--              v-for="user in item.recipients"-->
+<!--              :key="user"-->
+<!--            >-->
+<!--              {{ user }}-->
+<!--            </v-chip>-->
+            <span
+              class="user"
               v-for="user in item.recipients"
-              :key="user">
-              {{ user }}
-            </v-chip>
+              :key="user"
+            >
+              <v-icon icon="mdi-account-circle-outline" size="small" color="primary"/> {{ user }}
+            </span>
           </div>
         </v-card>
       </v-card-text>
@@ -113,5 +123,8 @@ export default {
 .week {
   padding: 5px;
   font-size: 0.9em;
+}
+.user {
+  margin-right: 10px;
 }
 </style>

@@ -56,12 +56,12 @@ export default {
         for (let i = 0; i < this.time_slot_recipient.length; i++) {
           const item = this.time_slot_recipient[i]
           if (item.users.length <= 0) {
-            message.showError(this, `规则${i+1}消息接收人为空`)
+            message.showError(this, `规则${i+1}使用者为空`)
             return
           }
           for (let j = 0; j < item.users.length; j++) {
             if (item.users[j] === this.group_leader) {
-              message.showError(this, `规则${i+1}消息接收人与集群负责人重复`)
+              message.showError(this, `规则${i+1}使用者与集群负责人重复`)
               return
             }
           }
@@ -70,11 +70,11 @@ export default {
             return
           }
           if (!item.start_time) {
-            message.showError(this, `规则${i+1}开始时间为空`)
+            message.showError(this, `规则${i+1}开始时间不能为空`)
             return
           }
           if (!item.end_time) {
-            message.showError(this, `规则${i+1}结束时间为空`)
+            message.showError(this, `规则${i+1}结束时间不能为空`)
             return
           }
         }
@@ -127,7 +127,7 @@ export default {
         <select-node label="请选择节点，点击Tag取消选择" @update="value=>group_nodes=value"></select-node>
         <div>
           <div class="text-caption">
-            消息发送规则
+            权限规则
           </div>
           <message_recipient_rules :rules="time_slot_recipient"/>
         </div>

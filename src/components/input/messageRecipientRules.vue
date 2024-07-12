@@ -33,7 +33,7 @@ export default {
           end_time: ""
         })
       } else {
-        message.showError(this, "每个组最多添加10个消息规则")
+        message.showError(this, "每个组最多添加10个权限规则")
       }
     },
     delRule() {
@@ -57,13 +57,13 @@ export default {
       <v-card class="pa-3 rule" v-for="rule in rules" :key="rule">
         <div>
           <div class="text-caption">
-            消息接收人
+            使用者
           </div>
           <select-user :value="users" :multiple="true" @update:select_user="args => rule.users=args"></select-user>
         </div>
         <div>
           <div class="text-caption">
-            在星期几接收信息
+            可用星期
           </div>
           <v-select
             label="请选择"
@@ -82,7 +82,7 @@ export default {
         </div>
         <div>
           <div class="text-caption">
-            接收消息时间
+            可用时间段
           </div>
           <time_range_selection
             @update:start_time="value => rule.start_time = value"
