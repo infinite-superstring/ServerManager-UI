@@ -6,6 +6,9 @@ WORKDIR /app
 # 复制 package.json 和 package-lock.json
 COPY package.json ./
 
+# 安装龙芯特产
+RUN npm install esbuild --registry https://registry.loongnix.cn:4873
+
 # 安装前端依赖
 RUN npm install
 
