@@ -227,7 +227,7 @@ const onSubmit = (data) => {
       })
   }
 
-  axiosplus.get('/api/group_task/command_legal?command=' + data.command)
+  axiosplus.post('/api/group_task/command_legal?command', {command: data.command})
     .then(r => {
       if (r.data.data === false) {
         confirmDialog('警告!', '命令不安全，是否继续?', _submit)

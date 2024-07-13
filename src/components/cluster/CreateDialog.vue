@@ -27,8 +27,8 @@
               :items="groupList"
               item-value="group_id"
               item-title="group_name"
-              :label="groupList.length > 0 ? '指定节点组执行任务' : '无可用节点组'"
-              hint="指定节点组执行任务"
+              :label="groupList.length > 0 ? '指定集群执行任务' : '无可用集群'"
+              hint="指定集群执行任务"
               variant="underlined"
               persistent-hint
               required
