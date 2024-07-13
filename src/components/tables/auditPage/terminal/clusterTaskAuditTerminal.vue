@@ -13,7 +13,7 @@
         <v-icon size="100" color="primary">
           mdi-download
         </v-icon>
-        <v-btn>下载结果文件</v-btn>
+        <v-btn disabled>下载结果文件</v-btn>
       </div>
     </v-card-text>
   </v-card>

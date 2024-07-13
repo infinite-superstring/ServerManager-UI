@@ -53,6 +53,7 @@ export default {
       label="用户名"
     ></v-text-field>
     <v-text-field
+      type="password"
       v-model="password"
       label="密码"
       clearable
