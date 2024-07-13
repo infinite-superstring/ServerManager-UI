@@ -1,0 +1,14 @@
+FROM docker-hub.pigeon-server.cn/library/node:lts-slim
+LABEL authors="fsj"
+
+WORKDIR /app
+
+# 复制 package.json 和 package-lock.json
+COPY package.json ./
+
+# 安装前端依赖
+RUN npm install
+
+# 复制前端源代码并构建
+COPY . .
+RUN npm run build
