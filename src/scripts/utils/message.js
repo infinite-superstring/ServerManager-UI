@@ -9,6 +9,7 @@ function showApiErrorMsg(el, message, status = null, close_delay = 3000) {
   /**
    * 显示API错误信息
    */
+  console.log(close_delay)
   return showError(el, `API错误：${message} ${status ? '(status:' + status + ')' : ''}`, close_delay)
 }
 
@@ -37,6 +38,7 @@ function showError(el, message, close_delay = 3000) {
   /**
    * 显示错误信息
    */
+  console.log(close_delay)
   toast.error(message, { timeout: close_delay })
 }
 

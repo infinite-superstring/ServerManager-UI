@@ -27,16 +27,17 @@ export default {
           this.table = []
           this.maxPage = data.maxPage
           this.currentPage = data.currentPage
-          for (const item of PageContent) {
-            console.log(item)
-            this.table.push({
-              id: item.id,
-              user: item.user,
-              time: item.time,
-              ip: item.ip,
-              module: item.module,
-            })
-          }
+          this.table = PageContent
+          // for (const item of PageContent) {
+          //   console.log(item)
+          //   this.table.push({
+          //     id: item.id,
+          //     user: item.user,
+          //     time: item.time,
+          //     ip: item.ip,
+          //     module: item.module,
+          //   })
+          // }
         } else {
           message.showApiErrorMsg(this, res.data.msg, apiStatus)
         }
@@ -80,6 +81,9 @@ export default {
       <th class="text-left">
         模块
       </th>
+      <th class="text-left">
+        内容
+      </th>
     </tr>
     </thead>
     <tbody>
@@ -91,6 +95,7 @@ export default {
       <td>{{ item.time }}</td>
       <td>{{ item.ip }}</td>
       <td>{{ item.module }}</td>
+      <td>{{ item.content ? item.content : '无' }}</td>
     </tr>
     </tbody>
   </v-table>

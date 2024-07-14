@@ -23,20 +23,10 @@ export default {
         const apiStatus = res.data.status
           if (apiStatus === 1) {
             const data = res.data.data
-            const PageContent = data.PageContent
             this.table = []
             this.maxPage = data.maxPage
             this.currentPage = data.currentPage
-            for (const item of PageContent) {
-              console.log(item)
-              this.table.push({
-                id: item.id,
-                user: item.user,
-                time: item.time,
-                action: item.action,
-                filepath: item.filepath,
-              })
-            }
+            this.table = data.PageContent
           } else {
             message.showError(this, res.data.msg)
           }

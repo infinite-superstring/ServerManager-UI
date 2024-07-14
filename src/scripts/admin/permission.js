@@ -9,7 +9,7 @@ function editGroup(el, gid, data) {
     }).then(res => {
       const apiStatus = res.data.status
       if (apiStatus !== 1) {
-        message.showError(el, res.data.msg, apiStatus)
+        message.showError(el, res.data.msg)
         reject(apiStatus)
       }
       resolve()

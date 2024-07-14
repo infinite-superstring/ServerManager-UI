@@ -43,7 +43,7 @@ export default {
             }
           }
         } else {
-          message.showApiErrorMsg(this, res.data.msg, apiStatus)
+          message.showError(this, res.data.msg)
         }
       })
     },

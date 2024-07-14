@@ -33,20 +33,10 @@ export default {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
           const data = res.data.data
-          const PageContent = data.PageContent
           this.table = []
           this.maxPage = data.maxPage
           this.currentPage = data.currentPage
-          for (const item of PageContent) {
-            this.table.push({
-              id: item.id,
-              user: item.user,
-              time: item.time,
-              action: item.action,
-              module: item.module,
-              content: item.content
-            })
-          }
+          this.table = data.PageContent
         } else {
           this.showApiErrorMsg(res.data.msg, apiStatus)
         }

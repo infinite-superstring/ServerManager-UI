@@ -76,7 +76,8 @@ export default {
             autoCropArea: 1,  // 初始裁剪框占图像的比例
             responsive: true,  // 支持响应式布局
             cropBoxResizable: false, // 禁止用户调整裁剪框的宽高
-            rotatable: false
+            rotatable: false,
+            outputType: 'webp'
           });
           this.uploadAvatar.cropper.setCropBoxData({
             width: 512,
