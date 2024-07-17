@@ -71,9 +71,9 @@
         />
       </td>
       <td class="text-center">
-        <v-btn variant="text" @click="this.$emit('onEdit',item.uuid)">编辑</v-btn>
-        <v-btn variant="text" @click="this.$emit('onShow',item.uuid)">详细</v-btn>
-        <v-btn variant="text" color="red" @click="this.$emit('onDelete',item.uuid)">删除</v-btn>
+        <v-btn variant="text" @click="$emit('onEdit',item.uuid)">编辑</v-btn>
+        <v-btn variant="text" @click="$emit('onShow',item.uuid)">详细</v-btn>
+        <v-btn variant="text" color="red" @click="$emit('onDelete',item.uuid)">删除</v-btn>
       </td>
     </tr>
     </tbody>
