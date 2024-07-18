@@ -19,7 +19,11 @@ import message from "@/scripts/utils/message";
 
 let aceEdit = null
 const aceRef = ref()
-const shell = defineModel()
+const shell = defineModel({
+  default: {
+    type: String
+  }
+})
 const props = defineProps({
   lang: {
     type: String,
@@ -61,7 +65,7 @@ onMounted(async () => {
 });
 
 watch(() => shell.value, v => {
-
+  aceEdit.setValue(shell.value)
 })
 </script>
 

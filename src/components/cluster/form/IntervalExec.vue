@@ -77,19 +77,24 @@ function secondsToHMS(totalSecond) {
   const seconds = totalSecond % 60;
   return {hours, minutes, seconds};
 }
-
-onMounted(() => {
+function echoDisplay(){
   if (totalSecond.value) {
     console.log(totalSecond.value)
     let hms = secondsToHMS(totalSecond.value)
-    hour.value = hms.hour + ''
+    hour.value = hms.hours + ''
     minute.value = hms.minutes + ''
     second.value = hms.seconds + ''
     hour.value = hour.value.toString().padStart(2, '0');
     minute.value = minute.value.toString().padStart(2, '0');
     second.value = second.value.toString().padStart(2, '0');
   }
+}
+
+
+onMounted(() => {
+  echoDisplay()
 })
+
 </script>
 
 
