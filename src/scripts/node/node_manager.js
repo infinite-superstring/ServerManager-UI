@@ -4,7 +4,6 @@ import dialogs from "@/scripts/utils/dialogs";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 
 
-
 async function del_node(el, node_uuid, callback) {
   /**
    * 删除节点
@@ -55,7 +54,7 @@ function reset_token(el, node_uuid, callback) {
           message.showApiErrorMsg(el, res.data.msg, apiStatus)
         } else {
           message.showSuccess(el, res.data.msg)
-          return callback(res.data.data.token)
+          return callback(res.data.data.token, res.data.data.server_token)
         }
       }).catch(err => {
         console.error(err)

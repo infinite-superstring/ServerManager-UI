@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getNodeList(page = 1, search = "") {
-      axios.post('/api/node_manager/getNodeList',{
+      axios.post('/api/node_manager/getNodeList', {
         page: page,
         search: search
       }).then((res) => {
@@ -56,9 +56,9 @@ export default {
           this.nodeListData = res.data.data.PageContent
           return true
         } else {
-         message.error(res.data.msg)
+          message.error(res.data.msg)
         }
-      }).catch(err=>{
+      }).catch(err => {
         console.error(err)
         message.showApiErrorMsg(this, err.message)
       })
@@ -76,7 +76,7 @@ export default {
   <tools-bar
     @action:addNode="add_node=true"
     @action:search="args => {search=args}"
-    @action:switch_display_mode = "args => {switch_display_mode(args)}"
+    @action:switch_display_mode="args => {switch_display_mode(args)}"
     :search="search"
   />
   <node-list
@@ -85,7 +85,7 @@ export default {
     @action:click_tag="args => search = `tag:${args}`"
     @action:click_status="args => search = `status:${args}`"
     @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
-    @action:reset_token="args => node_manager.reset_token(this, args, res => $emit('show_token', 'reset_token', res))"
+    @action:reset_token="args => node_manager.reset_token(this, args, (token,serverToken) => $emit('show_token', 'reset_token', {token,serverToken}))"
     @action:edit="args => {edit_node.uuid = args; edit_node.flag = true}"
   />
   <div class="dialogs">

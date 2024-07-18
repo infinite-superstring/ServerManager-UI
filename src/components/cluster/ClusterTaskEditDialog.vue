@@ -87,7 +87,7 @@
               label="默认是否启用"
             />
           </div>
-          <ClusterCommand v-model="formData.command"/>
+          <ClusterCommand v-if="commandState" v-model="formData.command"/>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -105,9 +105,10 @@ import DateTimeExec from "@/components/cluster/form/DateTimeExec.vue";
 import ClusterCommand from "@/components/cluster/form/ClusterCommand.vue";
 import CycleExec from "@/components/cluster/form/CycleExec.vue";
 import IntervalExec from "@/components/cluster/form/IntervalExec.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const status = defineModel()
+const commandState = ref(false)
 const formData = defineModel('data', {
   default: {
     taskName: '',
@@ -125,7 +126,7 @@ const formData = defineModel('data', {
     enable: false
   }
 })
-const emit = defineEmits(['submit', 'close','searchGroup'])
+const emit = defineEmits(['submit', 'close', 'searchGroup'])
 
 const props = defineProps({
   groupList: {
@@ -148,7 +149,9 @@ const execType = ref([
     value: 'interval'
   },
 ])
-
+watch(() => formData.value.command, () => {
+  commandState.value = true
+})
 </script>
 
 

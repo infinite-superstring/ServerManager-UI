@@ -63,10 +63,6 @@ onMounted(async () => {
     shell.value = aceEdit.getValue()
   })
 });
-
-watch(() => shell.value, v => {
-  aceEdit.setValue(shell.value)
-})
 </script>
 
 

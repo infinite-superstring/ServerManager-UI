@@ -5,7 +5,7 @@
       <VRow>
         <VCol cols="9" class="title" :title="item.title">{{ item.title }}</VCol>
         <VCol cols="3" class="title-op">
-          <v-btn size="x-small" variant="text" @click="this.$emit('update',item)">修改</v-btn>
+          <v-btn size="x-small" variant="text" @click="$emit('update',item)">修改</v-btn>
           <v-btn size="x-small" variant="text" color="red" @click="del(item.id)">删除</v-btn>
         </VCol>
       </VRow>

@@ -90,7 +90,10 @@ export default {
           return message.showError(this, res.data.msg)
         } else {
           // message.showSuccess(this, `节点添加成功,Token:${res.data.data.token}`, 10000)
-          this.$emit('success', res.data.data.token)
+          this.$emit('success', {
+            token: res.data.data.token,
+            serverToken: res.data.data.server_token
+          })
           this.close()
         }
       }).catch(err => {
