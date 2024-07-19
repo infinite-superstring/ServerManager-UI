@@ -51,11 +51,6 @@ export default {
     this.init()
     this.handle_websocket_message()
   },
-  beforeUnmount() {
-    this.send({
-      action: 'terminal:close'
-    });
-  },
   methods: {
     init() {
       /**
@@ -221,9 +216,11 @@ export default {
 
 .terminal_box {
   height: 100%;
+
   #terminal {
     height: calc(100% - 80px);
   }
+
   .terminal_input_bar {
     margin-top: 10px;
     height: 80px;

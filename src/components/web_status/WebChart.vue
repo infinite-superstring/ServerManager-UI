@@ -32,7 +32,8 @@ onMounted(() => {
         borderColor: 'rgba(75, 192, 192, 1)', // 线条颜色
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // 填充颜色
         fill: true, // 是否填充区域
-        tension: 0.1 // 曲线张力
+        tension: 0.1, // 曲线张力
+        pointRadius: 0,
       }]
     },
     options: {

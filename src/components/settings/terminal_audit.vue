@@ -11,15 +11,15 @@ export default {
 </script>
 
 <template>
-  <p class="text-h5 setting_subtitle">终端/命令审计设置</p>
-  <v-switch
-    v-model="setting_data.terminal_audit.enable"
-    label="启用终端审计"
-    hint="启用终端命令审计"
-    color="primary"
-    density="compact"
-    persistent-hint
-  ></v-switch>
+  <p class="text-h6 setting_subtitle">终端/命令审计设置</p>
+<!--  <v-switch-->
+<!--    v-model="setting_data.terminal_audit.enable"-->
+<!--    label="启用终端审计"-->
+<!--    hint="启用终端命令审计"-->
+<!--    color="primary"-->
+<!--    density="compact"-->
+<!--    persistent-hint-->
+<!--  ></v-switch>-->
 <!--  <v-switch-->
 <!--    v-model="setting_data.terminal_audit.disable_tab_key"-->
 <!--    label="禁用终端Tab键"-->
@@ -31,16 +31,7 @@ export default {
   <v-textarea
     v-model="setting_data.terminal_audit.warn_command_list"
     label="警告命令列表（一行一个，可使用正则表达式）"
-    hint="当用户输入该命令列表内的命令时，终端会发出警告"
-    maxlength="4000"
-    counter="4000"
-    clearable
-    persistent-hint
-  ></v-textarea>
-  <v-textarea
-    v-model="setting_data.terminal_audit.danger_command_list"
-    label="高危命令列表（一行一个，可使用正则表达式）"
-    hint="当用户输入该命令列表内的命令时，系统会进行拦截"
+    hint="当用户输入该命令列表内的命令时，终端会要求用户二次确认（超管账户不受影响）"
     maxlength="4000"
     counter="4000"
     clearable
@@ -49,7 +40,7 @@ export default {
   <v-textarea
     v-model="setting_data.terminal_audit.disable_command_list"
     label="禁止命令列表（一行一个，可使用正则表达式）"
-    hint="当用户输入该命令列表内的命令时，系统会禁用该账户（超管账户不受影响）"
+    hint="当用户输入该命令列表内的命令时，系统进行拦截（超管账户不受影响）"
     maxlength="4000"
     counter="4000"
     clearable

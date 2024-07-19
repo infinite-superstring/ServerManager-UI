@@ -15,7 +15,7 @@ export default {
       try {
         const {toClipboard} = useClipboard()
         await toClipboard(this.setting_data.base.server_token)
-        message.showSuccess(this, "复制服务端UUID成功", 1000)
+        message.showSuccess(this, "复制管理端Token成功", 1000)
       } catch (e) {
         message.showError(this, "复制失败")
         console.error(e)
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <p class="text-h5 setting_subtitle">基础设置</p>
+  <p class="text-h6 setting_subtitle">基础设置</p>
   <div>
     <div class="text-caption">
       服务器Token

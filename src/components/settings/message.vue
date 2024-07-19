@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <p class="text-h5 setting_subtitle">消息设置</p>
+  <p class="text-h6 setting_subtitle">消息设置</p>
   <div>
     <div class="text-caption">
       发件方式
@@ -28,7 +28,7 @@ export default {
     <p class="text-h5 setting_subtitle">邮件设置</p>
     <div>
       <div class="text-caption">
-        发件方式
+        邮件发件方法
       </div>
       <v-select
         :items="['stp']"
@@ -79,7 +79,7 @@ export default {
     </div>
   </div>
   <div class="msg_SMS" v-if="setting_data.message.message_send_type === 'SMS'">
-    未实现
+    短信服务暂未实现
   </div>
 </template>
 

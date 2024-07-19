@@ -107,7 +107,7 @@ export default {
       color="primary"
       density="compact"
       label="启用节点告警"
-      hint="启用该节点的负载告警系统，如当前节点负载超过设定值将会给节点组内设置的消息接收人发送消息"
+      hint="启用该节点的负载告警系统，如当前节点负载超过设定值将会给集群内设置的用户发送告警消息"
       persistent-hint
     ></v-switch>
     <v-text-field
@@ -115,7 +115,7 @@ export default {
       type="number"
       variant="underlined"
       label="告警延迟时间（秒）"
-      hint="当节点某个告警项超过阈值时并不会立即发出告警，需持续超过该值设定的时间后才会触发（该值不宜过小，否则可能会引发误报）"
+      hint="当节点某个告警项超过阈值时并不会立即发出告警，需持续超过该值设定的时间后才会触发（该值不宜过小，否则可能会引起误报）"
       persistent-hint
     ></v-text-field>
     <v-text-field
@@ -123,7 +123,7 @@ export default {
       type="number"
       variant="underlined"
       label="告警间隔时间（秒）"
-      hint="当节点告警项触发后，需等待达到预定时间后才能重新触发"
+      hint="当节点告警触发后，需达到设定的时间后才会被重新触发"
       persistent-hint
     ></v-text-field>
     <v-divider/>
@@ -134,7 +134,7 @@ export default {
         color="primary"
         density="compact"
         label="启用"
-        hint="启用CPU负载告警规则，请在下面输入告警阈值"
+        hint="启用CPU负载告警规则，请在下面设置告警阈值"
         persistent-hint
       ></v-switch>
       <v-text-field
@@ -145,7 +145,6 @@ export default {
         hint="当CPU总体占用率超过该值时触发告警"
         persistent-hint
       ></v-text-field>
-
       <v-divider/>
       <p class="text-h6 setting_subtitle">内存告警设置</p>
       <v-switch
@@ -171,7 +170,7 @@ export default {
         color="primary"
         density="compact"
         label="启用"
-        hint="启用内存使用率告警规则，请在下面输入告警阈值"
+        hint="启用网络数据包发送速率告警规则，请在下面输入告警阈值"
         persistent-hint
       ></v-switch>
       <v-text-field
