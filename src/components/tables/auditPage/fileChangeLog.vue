@@ -1,7 +1,7 @@
 <script>
-import axios from "axios";
 import message from "@/scripts/utils/message";
 import NotData from "@/components/emptyState/notData.vue";
+import file_change_log from "@/scripts/apis/audit/file_change_log";
 
 export default {
   name: "fileChangeLog_table",
@@ -14,12 +14,11 @@ export default {
     }
   },
   methods: {
-    // 获取用户列表
     getTable(page=1, pageSize=20) {
-      axios.post("/api/admin/auditAndLogger/fileChangeLog",{
-        page: page,
-        pageSize: pageSize,
-      }).then(res=>{
+      file_change_log.load_file_change_log(
+        page,
+        pageSize
+      ).then(res=>{
         const apiStatus = res.data.status
           if (apiStatus === 1) {
             const data = res.data.data

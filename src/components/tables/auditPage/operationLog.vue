@@ -1,6 +1,6 @@
 <script>
-import axios from "axios";
 import NotData from "@/components/emptyState/notData.vue";
+import operation_log from "@/scripts/apis/audit/operation_log";
 
 export default {
   name: "operationLog_table",
@@ -13,36 +13,16 @@ export default {
     }
   },
   methods: {
-    // 显示APi错误
-    showApiErrorMsg(message, status = null) {
-      this.$notify.create({
-        text: `API错误：${message} ${status ? '(status:' + status + ')' : ''}`,
-        level: 'error',
-        location: 'bottom right',
-        notifyOptions: {
-          "close-delay": 3000
-        }
-      })
-    },
-    // 获取用户列表
     getTable(page = 1, pageSize = 20) {
-      axios.post("/api/admin/auditAndLogger/audit", {
-        page: page,
-        pageSize: pageSize,
-      }).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          const data = res.data.data
-          this.table = []
-          this.maxPage = data.maxPage
-          this.currentPage = data.currentPage
-          this.table = data.PageContent
-        } else {
-          this.showApiErrorMsg(res.data.msg, apiStatus)
-        }
-      }).catch(err => {
-        console.error(err)
-        this.showApiErrorMsg(err.message)
+      operation_log.load_operation_log(
+        page,
+        pageSize
+      ).then(res => {
+        const data = res.data.data
+        this.table = []
+        this.maxPage = data.maxPage
+        this.currentPage = data.currentPage
+        this.table = data.PageContent
       })
     },
     getTableData() {

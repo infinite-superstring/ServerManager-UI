@@ -1,7 +1,7 @@
 <script>
 import PermissionItemTable from "@/components/tables/permissionGroup/permissionItemTable.vue";
 import message from "@/scripts/utils/message.js"
-import permission from "@/scripts/admin/permission";
+import permission from "@/scripts/apis/permission";
 
 export default {
   name: "EditGroupInfo",

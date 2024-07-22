@@ -1,6 +1,6 @@
 <script>
-import axios from "@/scripts/utils/axios";
 import NotData from "@/components/emptyState/notData.vue";
+import terminal_command_audit from "@/scripts/apis/audit/terminal_command_audit";
 
 export default {
   name: "TerminalCommandAudit",
@@ -14,41 +14,23 @@ export default {
     }
   },
   methods: {
-    load_node_list() {
-      axios.get("/api/admin/auditAndLogger/terminalRecord/loadNodeList").then(res => {
-        this.data = res.data.data
-        console.log(this.data)
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     async load_terminal_record(item) {
-      console.log(item)
       const node_type = item?.node_type
       switch (node_type) {
         case "node_select": {
-          return axios.get('/api/admin/auditAndLogger/terminalRecord/loadUserList', {
-            params: {
-              node_uuid: item.id
-            }
-          }).then((res) => {
-            console.log(res.data)
+          return terminal_command_audit.load_node_terminal_user_list(
+            item.id
+          ).then((res) => {
             item.children.push(...res.data.data)
-          }).catch(err => {
-            console.log(err)
           })
         }
         case "user_select": {
-          return axios.get('/api/admin/auditAndLogger/terminalRecord/loadSessionList', {
-            params: {
-              node_uuid: item.id.node_uuid,
-              user_id: item.id.user_id
-            }
-          }).then((res) => {
+          return terminal_command_audit.load_user_terminal_session_list(
+            item.id.node_uuid,
+            item.id.user_id
+          ).then((res) => {
             console.log(res.data)
             item.children.push(...res.data.data)
-          }).catch(err => {
-            console.error(err)
           })
         }
       }
@@ -60,15 +42,11 @@ export default {
       const active = this.active[0]
       const node_uuid = active?.node_uuid
       const session_uuid = active?.session_uuid
-      let params = {node_uuid: node_uuid, session_uuid: session_uuid}
-      params = new URLSearchParams(params).toString()
-      const url = `/api/admin/auditAndLogger/terminalRecord/downloadSessionRecord?${params}`
-      const newWindow = window.open(url, '_blank');
-      newWindow.focus();
+      terminal_command_audit.open_download_session_window(node_uuid, session_uuid)
     }
   },
   created() {
-    this.load_node_list()
+    terminal_command_audit.load_node_list().then(res => {this.data = res})
   },
   watch: {
     active(newVal) {

@@ -37,6 +37,10 @@ async function del_node(el, node_uuid, callback) {
 }
 
 function reset_token(el, node_uuid, callback) {
+  /**
+   * 重置节点Token
+   * @type {*}
+   */
   const user_info = localConfigUtils.load_userinfo()
   const web_config = localConfigUtils.load_web_config()
   dialogs.confirm("确定要重置该节点的Token吗", "该操作无法撤销，请谨慎操作", "warning").then(async res => {

@@ -1,112 +1,50 @@
 <script>
-import ToolsBar from "@/components/nodeGroup/toolsBar.vue";
-import axios from "axios";
-import message from "@/scripts/utils/message";
-import CreateGroup from "@/components/dialogs/nodeGroup/createGroup.vue";
-import Node_group_list from "@/components/nodeGroup/groupList.vue";
-import dialogs from "@/scripts/utils/dialogs";
-import ShowGroupInfo from "@/components/dialogs/nodeGroup/showGroupInfo.vue";
-import localConfigUtils from "@/scripts/utils/localConfigUtils";
+import node_group_list_layout from "@/layouts/Node/node_group_layouts/node_group_list_layout.vue";
+import node_group_alarm_setting_layout from "@/layouts/Node/node_group_layouts/node_group_alarm_setting_layout.vue";
+import node_group_file_send_layout from "@/layouts/Node/node_group_layouts/node_group_file_send_layout.vue";
 
 export default {
   name: "node_group_edit_layout",
-  components: {ShowGroupInfo, Node_group_list, CreateGroup, ToolsBar},
-  data: () => {
+  components: {
+    node_group_file_send_layout,
+    node_group_alarm_setting_layout,
+    node_group_list_layout
+  },
+  data() {
     return {
-      search: "",
-      currentPage: 1,
-      maxPage: null,
-      groupListData: [],
-      createGroupFlag: false,
-      showGroupInfo: {
-        flag: false,
-        id: null
-      }
-    }
-  },
-  mounted() {
-    this.getNodeGroupList()
-  },
-  methods: {
-    getNodeGroupList(page = 1, search = "") {
-      axios.post('/api/node_manager/node_group/getGroupList', {
-        page: page,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.maxPage = res.data.data.maxPage
-          this.currentPage = res.data.data.currentPage
-          this.groupListData = res.data.data.PageContent
-        } else {
-          message.error(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
-      })
-    },
-    delGroup(id) {
-      const user_info = localConfigUtils.load_userinfo()
-      const web_config = localConfigUtils.load_web_config()
-      dialogs.confirm("你确定要删除这个集群吗", "该操作无法撤销，请谨慎操作", 'warning').then(async value => {
-        if (value) {
-          let otp_code = ""
-          console.log(user_info.enableOTP)
-          if (web_config.serverConfig.forceOTP_Bind || user_info.enableOTP) {
-            await dialogs.showVerifyOTP_Dialog().then(res => otp_code = res)
-          }
-          axios.post("/api/node_manager/node_group/delGroup", {
-            group_id: id,
-            code: otp_code
-          }).then((res) => {
-            if (res.data.status === 1) {
-              message.showSuccess(this, res.data.msg)
-              this.getNodeGroupList(this.currentPage, this.search)
-            } else {
-              message.showError(this, res.data.msg)
-            }
-          }).catch(err => {
-            console.error(err)
-            message.showApiErrorMsg(this, err.message)
-          })
-        }
-      })
-    }
-  },
-  watch: {
-    search(val) {
-      this.getNodeGroupList(1, val)
-    },
-    currentPage(val) {
-      this.getNodeGroupList(val, this.search)
+      tab: "group_list",
     }
   }
 }
 </script>
 
 <template>
-  <tools-bar
-    @action:create_group="createGroupFlag=true"
-    @action:search="args => {search=args}"
-    :search="search"
-  />
-  <node_group_list
-    :value="groupListData"
-    @action:del="id=>delGroup(id)"
-    @action:show_info="id => {showGroupInfo.id = id; showGroupInfo.flag = true}"
-  />
-  <div class="dialogs">
-    <create-group
-      :flag="createGroupFlag"
-      @close="createGroupFlag=false"
-      @success="getNodeGroupList"
-    />
-    <show-group-info
-      :id="showGroupInfo.id"
-      :flag="showGroupInfo.flag"
-      @close="showGroupInfo.flag = false; showGroupInfo.id = null"
-    />
-  </div>
+  <v-card>
+    <v-tabs
+      v-model="tab"
+      color="primary"
+    >
+      <v-tab value="group_list">集群列表</v-tab>
+      <v-tab value="group_alarm_setting">集群告警设置</v-tab>
+      <v-tab value="group_file_send">集群文件分发</v-tab>
+    </v-tabs>
+
+    <v-card-text>
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item value="group_list">
+          <node_group_list_layout/>
+        </v-tabs-window-item>
+
+        <v-tabs-window-item value="group_alarm_setting">
+          <node_group_alarm_setting_layout/>
+        </v-tabs-window-item>
+
+        <v-tabs-window-item value="group_file_send">
+          <node_group_file_send_layout/>
+        </v-tabs-window-item>
+      </v-tabs-window>
+    </v-card-text>
+  </v-card>
 </template>
 
 <style scoped>

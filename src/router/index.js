@@ -18,7 +18,7 @@ import vue from "@/main"
 import Message from '@/views/Messages.vue'
 import nodeGroupEdit from "@/views/node/NodeGroupEdit.vue";
 import ClusterTask from "@/views/node/ClusterTask.vue";
-// import ClusterExecution from "@/views/node/ClusterRun.vue";
+import ClusterExecution from "@/views/node/ClusterRun.vue";
 import PatrolPage from '@/views/Patrol.vue'
 import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
@@ -104,17 +104,17 @@ const routes = [
       title: "集群任务"
     }
   },
-  // {
-  //   path: '/node_manager/clusterExecution',
-  //   name: "clusterExecution",
-  //   components: {
-  //     default: ClusterExecution,
-  //     appBarBtn: appbar_default
-  //   },
-  //   meta: {
-  //     title: "集群命令"
-  //   }
-  // },
+  {
+    path: '/node_manager/clusterExecution',
+    name: "clusterExecution",
+    components: {
+      default: ClusterExecution,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "集群命令"
+    }
+  },
   // 网站可用性监控
   {
     path: '/web_status',

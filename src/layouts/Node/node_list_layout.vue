@@ -4,7 +4,7 @@ import nodeList from "@/components/nodeList/nodeList.vue";
 import addNode from "@/components/dialogs/node/addNode.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
-import node_manager from "@/scripts/node/node_manager";
+import node_manager from "@/scripts/apis/node_manager";
 import EditNode from "@/components/dialogs/node/editNode.vue";
 
 export default {

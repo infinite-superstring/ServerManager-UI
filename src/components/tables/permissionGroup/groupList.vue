@@ -1,6 +1,6 @@
 <script>
 import dialogs from "@/scripts/utils/dialogs";
-import permission from "@/scripts/admin/permission";
+import permission from "@/scripts/apis/permission";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 import NotData from "@/components/emptyState/notData.vue";
 

@@ -1,6 +1,6 @@
 <script>
 import InputDialog from "@/components/dialogs/inputDialog.vue";
-import permission from "@/scripts/admin/permission";
+import permission from "@/scripts/apis/permission";
 import message from "@/scripts/utils/message";
 
 export default {

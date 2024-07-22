@@ -1,5 +1,5 @@
 <script>
-import user from "@/scripts/admin/users"
+import user from "@/scripts/apis/users"
 import InputDialog from "@/components/dialogs/inputDialog.vue";
 export default {
   name: "editEmail",

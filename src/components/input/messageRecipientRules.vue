@@ -1,7 +1,7 @@
 <script>
 import Time_range_selection from "@/components/input/timeRangeSelection.vue";
 import SelectUser from "@/components/input/selectUser.vue";
-import users from "@/scripts/admin/users";
+import users from "@/scripts/apis/users";
 import dialogs from "@/scripts/utils/dialogs";
 import message from "@/scripts/utils/message";
 

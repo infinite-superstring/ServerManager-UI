@@ -1,7 +1,6 @@
 <script>
-import axios from "axios";
 import NotData from "@/components/emptyState/notData.vue";
-import message from "@/scripts/utils/message";
+import system_log from "@/scripts/apis/audit/system_log";
 
 export default {
   name: "systemLog_table",
@@ -16,23 +15,15 @@ export default {
   methods: {
     // 获取用户列表
     getTable(page = 1, pageSize = 20) {
-      axios.post("/api/admin/auditAndLogger/systemLog", {
-        page: page,
-        pageSize: pageSize,
-      }).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          const data = res.data.data
+      system_log.load_system_log(
+        page,
+        pageSize
+      ).then(res => {
+        const data = res.data.data
           this.table = []
           this.maxPage = data.maxPage
           this.currentPage = data.currentPage
           this.table = data.PageContent
-        } else {
-          message.showError(this, res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
     getTableData() {
