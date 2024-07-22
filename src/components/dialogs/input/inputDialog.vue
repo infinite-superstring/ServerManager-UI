@@ -26,12 +26,7 @@ export default {
       required: false,
       default: ""
     }
-  },
-  // data: () => {
-  //   return {
-  //     input: null,
-  //   }
-  // }
+  }
 }
 </script>
 
@@ -47,7 +42,12 @@ export default {
       <v-card>
         <v-card-title>{{ title }}</v-card-title>
         <v-card-text>
-          <v-text-field :modelValue="value" :label="label" :type="type" @input="$emit('update', $event.target.value)"></v-text-field>
+          <v-text-field
+            :modelValue="value"
+            :label="label"
+            :type="type"
+            @input="$emit('update', $event.target.value)"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="success" @click="$emit('confirm')">确定</v-btn>

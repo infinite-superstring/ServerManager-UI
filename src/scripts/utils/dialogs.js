@@ -1,8 +1,9 @@
 import Vue from "@/main";
 import {createApp} from 'vue';
 import vuetify from '@/plugins/vuetify';
-import inputOTP from "@/components/dialogs/inputDialog.vue"
+import inputOTP from "@/components/dialogs/input/inputDialog.vue"
 import checkOTP from "@/components/dialogs/OTP/check_OTP.vue"
+import inputDialog from "@/components/dialogs/input/inputDialogV2.vue"
 
 
 function test() {
@@ -54,6 +55,29 @@ async function showBindOTP_Dialog() {
   return init_Dialog(checkOTP)
 }
 
+async function showInput_Dialog(title= "", label= "", hint = "",type= "text", persistent = null, value= null, max= null, min= null) {
+  /**
+   * 展示输入框
+   * @param title 输入框模态标题
+   * @param label 输入框内部标题
+   * @param hint 输入框提示
+   * @param type 输入框类型
+   * @param value 输入框值
+   * @param max 输入框最大值(仅text与number)
+   * @param min 输入框最小值(仅text与number)
+   */
+  return init_Dialog(inputDialog, {
+    title: title,
+    label: label,
+    hint: hint,
+    type: type,
+    persistent: persistent,
+    default_value: value,
+    max: max,
+    min: min,
+  })
+}
+
 function confirm(title, text, level = "info", buttons = null, cardOptions = null, dialogOptions = null) {
   return Vue.config.globalProperties.$dialog.create({
     title: title,
@@ -76,5 +100,6 @@ export default {
   confirm,
   test,
   showVerifyOTP_Dialog,
-  showBindOTP_Dialog
+  showBindOTP_Dialog,
+  showInput_Dialog
 }

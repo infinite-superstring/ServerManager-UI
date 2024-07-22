@@ -1,6 +1,6 @@
 <script>
-import axios from "axios";
 import message from "@/scripts/utils/message.js"
+import permission from "@/scripts/apis/permission";
 
 export default {
   name: "NewGroup",
@@ -19,9 +19,6 @@ export default {
       permissionSelect: [],
     }
   },
-  // created() {
-  //   this.getPermissionList()
-  // },
   watch: {
     openWindow(val) {
       if (val) {
@@ -34,15 +31,10 @@ export default {
       /**
        * 获取权限列表
        */
-      axios.get("/api/admin/permissionManager/getPermissionList").then(res => {
-        if (res.data.status === 1) {
-          this.permissionList = res.data.data
-        } else {
-          message.showApiErrorMsg(this, res.data.msg, res.data.status)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.messages)
+        console.log('get')
+      permission.getPermissionList().then(data=>{
+        console.log(data)
+        this.permissionList = data
       })
     },
     reset() {
@@ -52,48 +44,32 @@ export default {
        */
       this.newGroupName = ""
       this.newGroupStatus = ""
-      // this.permissionList = []
       this.permissionSelect = []
     },
     submitNewGroup() {
       /**
        * 提交新增组
        */
+      if (!this.newGroupName) {
+        message.showError(this, '请输入权限组名')
+        return
+      }
       if (this.newGroupName.length < 3 && this.newGroupName.length > 20) {
-        this.$notify.create({
-          text: `权限组名长度应在3-20个字符`,
-          level: 'error',
-          location: 'bottom right',
-          notifyOptions: {
-            "close-delay": 3000
-          }
-        })
+        message.showError(this, "权限组名长度应在3-20位之间")
         return
       }
       if (this.permissionSelect.length < 1) {
         message.showError(this, '请选择权限')
         return
       }
-      let permission = {}
+      let permission_list = {}
       for (const permissionKey in this.permissionList) {
-        permission[permissionKey] = this.permissionSelect.includes(permissionKey)
+        permission_list[permissionKey] = this.permissionSelect.includes(permissionKey)
       }
-      console.log(permission)
-      axios.post("/api/admin/permissionManager/addPermissionGroup", {
-        name: this.newGroupName,
-        disable: !this.newGroupStatus,
-        permissions: permission
-      }).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          this.reset()
-          this.$emit('success')
-        } else {
-          message.showError(this, res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      permission.addPermissionGroup(this.newGroupName, this.newGroupStatus, permission_list).then(()=>{
+        message.showSuccess(this, `权限组${this.newGroupName}创建成功`)
+        this.reset()
+        this.$emit('success')
       })
     },
   }
@@ -113,7 +89,7 @@ export default {
       <v-card-title>新建权限组</v-card-title>
       <v-card-text>
         <v-text-field type="text" label="权限组名" v-model="newGroupName"></v-text-field>
-        <v-switch label="是否启用" v-model="newGroupStatus" color="primary"></v-switch>
+        <v-switch label="启用权限组" v-model="newGroupStatus" color="primary"></v-switch>
         <v-card class="pa-1">
           <v-card-title>选择该组可使用的权限</v-card-title>
           <v-card-text>

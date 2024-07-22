@@ -1,5 +1,5 @@
 <script>
-import axios from "axios";
+import permission from "@/scripts/apis/permission";
 
 export default {
   name: "permissionItemTable",
@@ -25,11 +25,8 @@ export default {
       /**
        * 获取权限列表
        */
-      axios.get("/api/admin/permissionManager/getPermissionList").then(res=>{
-        this.permissionItemList = res.data.data
-      }).catch(err => {
-        console.error(err)
-        this.showApiErrorMsg(err.message)
+      permission.getPermissionList().then(data=>{
+        this.permissionItemList = data
       })
     },
   },

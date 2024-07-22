@@ -5,14 +5,12 @@ import message from "@/scripts/utils/message";
 
 import EditUserPermission from "@/components/dialogs/users/editUserPermission.vue";
 import NewUser from "@/components/dialogs/users/newUser.vue";
-import EditEmail from "@/components/dialogs/users/editEmail.vue";
-import EditRealName from "@/components/dialogs/users/editRealName.vue";
-import EditUsername from "@/components/dialogs/users/editUsername.vue";
-import ResetPassword from "@/components/dialogs/users/resetPassword.vue"
+import dialogs from "@/scripts/utils/dialogs";
+import user from "@/scripts/apis/users";
 
 export default {
   name: "user_manager_layout",
-  components: {EditUsername, EditRealName, EditEmail, NewUser, EditUserPermission, ResetPassword, userList},
+  components: {NewUser, EditUserPermission, userList},
   data() {
     return {
       search: "",
@@ -54,24 +52,9 @@ export default {
         const apiStatus = res.data.status
         if (apiStatus === 1) {
           const data = res.data.data
-          const PageContent = data.PageContent
-          this.userList = []
+          this.userList = data.PageContent
           this.maxPage = data.maxPage
           this.currentPage = data.currentPage
-          for (const item of PageContent) {
-            this.userList.push({
-              uid: item.id,
-              userName: item.userName,
-              realName: item.realName,
-              email: item.email,
-              createdAt: item.createdAt,
-              lastLoginTime: item.lastLoginTime,
-              lastLoginIP: item.lastLoginIP,
-              permission_id: item.permissionGroupID,
-              permission_name: item.permissionGroupName,
-              disable: item.disable
-            })
-          }
         } else {
           message.showApiErrorMsg(this, res.data.msg, apiStatus)
         }
@@ -79,25 +62,56 @@ export default {
         message.showApiErrorMsg(this, err.message)
       })
     },
-    editUser(uid, action) {
+    editUser(uid, action, current_value = null) {
       /**
        * 编辑用户
        */
       switch (action) {
         // 编辑用户名
         case "editUsername":
-          this.editUserName.uid = uid
-          this.editUserName.flag = true
+          dialogs.showInput_Dialog(
+            "编辑用户名",
+            "请输入新用户名",
+            "用户名应为3-20位字符",
+            "text",
+            true,
+            current_value,
+            20,
+            3
+          ).then(async value => {
+            await user.updateUserInfo(this, uid, {userName: value})
+            this.getUserList()
+          })
           break
         // 编辑真实姓名
         case "editRealName":
-          this.editUserRealName.uid = uid
-          this.editUserRealName.flag = true
+          dialogs.showInput_Dialog(
+            "编辑用户真实姓名",
+            "请输入用户真实姓名",
+            "真实姓名应为2-20位字符",
+            "text",
+            true,
+            current_value,
+            20,
+            2
+          ).then(async value => {
+            await user.updateUserInfo(this, uid, {realName: value})
+            this.getUserList()
+          })
           break
         // 编辑邮箱
         case "editEmail":
-          this.editUserEmail.uid = uid
-          this.editUserEmail.flag = true
+          dialogs.showInput_Dialog(
+            "编辑用户邮箱",
+            "请输入用户邮箱地址",
+            "",
+            "email",
+            true,
+            current_value
+          ).then(async value => {
+            await user.updateUserInfo(this, uid, {email: value})
+            this.getUserList()
+          })
           break
         // 编辑权限
         case "editPermission":
@@ -106,8 +120,16 @@ export default {
           break
         // 重置密码
         case "resetPassword":
-          this.resetPassword.uid = uid
-          this.resetPassword.flag = true
+          dialogs.showInput_Dialog(
+            "重设用户密码",
+            "请输入用户新密码",
+            "",
+            "password",
+            true
+          ).then(async value => {
+            await user.updateUserInfo(this, uid, {password: value})
+            this.getUserList()
+          })
           break
       }
     },
@@ -118,41 +140,6 @@ export default {
       this.editUserPermission.uid = null
       this.editUserPermission.flag = false
       this.getUserList()
-    },
-    closeEditUserEmailWindow() {
-      /**
-       * 关闭编辑用户邮箱窗口
-       * @type {null}
-       */
-      this.editUserEmail.uid = null
-      this.editUserEmail.flag = false
-      this.getUserList()
-    },
-    closeEditUserNameWindow() {
-      /**
-       * 关闭编辑用户名窗口
-       * @type {null}
-       */
-      this.editUserName.uid = null
-      this.editUserName.flag = false
-      this.getUserList()
-    },
-    closeEditUserRealNameWindow() {
-      /**
-       * 关闭编辑用户真实姓名窗口
-       * @type {null}
-       */
-      this.editUserRealName.uid = null
-      this.editUserRealName.flag = false
-      this.getUserList()
-    },
-    closeResetPasswordWindow() {
-      /**
-       * 关闭重置密码窗口
-       * @type {null}
-       */
-      this.resetPassword.uid = null
-      this.resetPassword.flag = false
     },
     closeNewUserWindow() {
       /**
@@ -210,25 +197,9 @@ export default {
 
   <div class="dialogs">
     <edit-user-permission
-    :uid="editUserPermission.uid"
-    :flag="editUserPermission.flag"
-    @close="closeEditUserPermissionWindow()"/>
-    <edit-email
-      :uid="editUserEmail.uid"
-      :flag="editUserEmail.flag"
-      @close="closeEditUserEmailWindow()" />
-    <edit-real-name
-      :uid="editUserRealName.uid"
-      :flag="editUserRealName.flag"
-      @close="closeEditUserRealNameWindow()"/>
-    <edit-username
-      :uid="editUserName.uid"
-      :flag="editUserName.flag"
-      @close="closeEditUserNameWindow()"/>
-    <reset-password
-      :uid="resetPassword.uid"
-      :flag="resetPassword.flag"
-      @close="closeResetPasswordWindow()"/>
+      :uid="editUserPermission.uid"
+      :flag="editUserPermission.flag"
+      @close="closeEditUserPermissionWindow()"/>
     <new-user
       :flag="newUser.flag"
       @close="closeNewUserWindow()"/>

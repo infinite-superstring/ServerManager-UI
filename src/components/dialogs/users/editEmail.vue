@@ -1,6 +1,6 @@
 <script>
 import user from "@/scripts/apis/users"
-import InputDialog from "@/components/dialogs/inputDialog.vue";
+import InputDialog from "@/components/dialogs/input/inputDialog.vue";
 export default {
   name: "editEmail",
   components: {InputDialog},

@@ -1,12 +1,11 @@
 <script>
-import message from "@/scripts/utils/message";
 import NotData from "@/components/emptyState/notData.vue";
 import file_change_log from "@/scripts/apis/audit/file_change_log";
 
 export default {
   name: "fileChangeLog_table",
   components: {NotData},
-  data:()=>{
+  data: () => {
     return {
       currentPage: 1,
       maxPage: null,
@@ -14,24 +13,16 @@ export default {
     }
   },
   methods: {
-    getTable(page=1, pageSize=20) {
+    getTable(page = 1, pageSize = 20) {
       file_change_log.load_file_change_log(
         page,
         pageSize
-      ).then(res=>{
-        const apiStatus = res.data.status
-          if (apiStatus === 1) {
-            const data = res.data.data
-            this.table = []
-            this.maxPage = data.maxPage
-            this.currentPage = data.currentPage
-            this.table = data.PageContent
-          } else {
-            message.showError(this, res.data.msg)
-          }
-      }).catch(err=>{
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      ).then(res => {
+        const data = res.data.data
+        this.table = []
+        this.maxPage = data.maxPage
+        this.currentPage = data.currentPage
+        this.table = data.PageContent
       })
     },
   },
@@ -49,20 +40,20 @@ export default {
 <template>
   <v-table density="compact" v-if="table.length > 0">
     <thead>
-      <tr>
-        <th class="text-left">
-          用户
-        </th>
-        <th class="text-left">
-          时间
-        </th>
-        <th class="text-left">
-          动作
-        </th>
-        <th class="text-left">
-          目标
-        </th>
-      </tr>
+    <tr>
+      <th class="text-left">
+        用户
+      </th>
+      <th class="text-left">
+        时间
+      </th>
+      <th class="text-left">
+        动作
+      </th>
+      <th class="text-left">
+        目标
+      </th>
+    </tr>
     </thead>
     <tbody>
     <tr

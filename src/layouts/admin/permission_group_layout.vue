@@ -4,6 +4,8 @@ import axios from "axios";
 import NewGroup from "@/components/dialogs/permissionGroup/newGroup.vue";
 import EditGroupInfo from "@/components/dialogs/permissionGroup/editGroupInfo.vue";
 import EditGroupName from "@/components/dialogs/permissionGroup/editGroupName.vue";
+import permission from "@/scripts/apis/permission";
+import message from "@/scripts/utils/message";
 
 export default {
   name: "permission_group_layout",
@@ -42,20 +44,9 @@ export default {
         if (apiStatus === 1) {
           const data = res.data.data
           const PageContent = data.PageContent
-          this.permissionGroups = []
           this.maxPage = data.maxPage
           this.currentPage = data.currentPage
-          for (const item of PageContent) {
-            console.log(item)
-            this.permissionGroups.push({
-              id: item.id,
-              name: item.name,
-              creator: item.creator,
-              createdAt: item.createdAt,
-              disable: item.disable,
-            })
-          }
-          console.log(this.permissionGroups)
+          this.permissionGroups = PageContent
         } else {
           this.showApiErrorMsg(res.data.msg, apiStatus)
         }
@@ -76,21 +67,6 @@ export default {
            */
           this.editGroupName.gid = groupId
           this.editGroupName.flag = true
-          break
-        case "update_status":
-          /**
-           * 更新状态
-           */
-          this.getPermissionGroupInfo(groupId).then(res => {
-            const apiStatus = res.data.status
-            if (apiStatus === 1) {
-              this.updateGroupStatusDialog.value = !res.data.data.disable
-              this.updateGroupStatusDialog.gid = groupId
-              this.updateGroupStatusDialog.flag = true
-            } else {
-              this.showApiErrorMsg(res.data.msg, apiStatus)
-            }
-          })
           break
         case "edit":
           /**
@@ -120,21 +96,11 @@ export default {
     },
     // 重命名组
     rename(groupId, newName) {
-      axios.post("/api/admin/permissionManager/setPermissionGroup", {
-        id: groupId,
-        data: {
-          newName: newName
-        }
-      }).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          this.getPermissionGroupList(this.search, this.currentPage)
-        } else {
-          this.showApiErrorMsg(res.data.msg, apiStatus)
-        }
-      }).catch(err => {
-        console.error(err)
-        this.showApiErrorMsg(err.message)
+      permission.setPermissionGroup(this, groupId, {
+        newName: newName
+      }).then(() => {
+        message.showSuccess(this, "重命名权限组成功")
+        this.getPermissionGroupList(this.search, this.currentPage)
       })
     },
     // 更新权限组状态
@@ -175,7 +141,7 @@ export default {
     currentPage(val) {
       this.getPermissionGroupList(this.search, val)
     },
-    "search"(val) {
+    search(val) {
       console.log(val)
       this.getPermissionGroupList(val)
       this.currentPage = 1

@@ -1,5 +1,5 @@
 <script>
-import InputDialog from "@/components/dialogs/inputDialog.vue";
+import InputDialog from "@/components/dialogs/input/inputDialog.vue";
 import permission from "@/scripts/apis/permission";
 import message from "@/scripts/utils/message";
 

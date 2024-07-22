@@ -1,6 +1,5 @@
 <script>
-import axios from "axios";
-import message from "@/scripts/utils/message";
+import permission from "@/scripts/apis/permission";
 
 export default {
   name: "permissionGroupTable",
@@ -30,25 +29,21 @@ export default {
       /**
        * 加载权限组列表
        */
-      axios.post("/api/admin/permissionManager/getPermissionGroups", {search: search, page: page, pageSize: pageSize}).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          this.maxPage = res.data.data.maxPage
-          this.currentPage = res.data.data.currentPage
-          this.list = []
-          for (let i = 0; i < res.data.data.PageContent.length; i++) {
-            const item = res.data.data.PageContent[i]
-            this.list.push({
-              id: item.id,
-              name: item.name
-            })
-          }
-        } else {
-          message.showApiErrorMsg(this, res.data.msg, apiStatus)
+      permission.load_permission_group_list(
+        search,
+        page,
+        pageSize
+      ).then(res => {
+        this.maxPage = res.data.data.maxPage
+        this.currentPage = res.data.data.currentPage
+        this.list = []
+        for (let i = 0; i < res.data.data.PageContent.length; i++) {
+          const item = res.data.data.PageContent[i]
+          this.list.push({
+            id: item.id,
+            name: item.name
+          })
         }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
   },
@@ -89,21 +84,21 @@ export default {
     </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="item in list"
-        :key="item.id"
-      >
-        <td>
-          <input
-            type="radio"
-            name="editUserPermission"
-            :value="item.id"
-            @input="$emit('update', $event.target.value)"
-            v-model="select_copy">
-        </td>
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-      </tr>
+    <tr
+      v-for="item in list"
+      :key="item.id"
+    >
+      <td>
+        <input
+          type="radio"
+          name="editUserPermission"
+          :value="item.id"
+          @input="$emit('update', $event.target.value)"
+          v-model="select_copy">
+      </td>
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+    </tr>
     </tbody>
   </v-table>
   <v-pagination

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 import dialogs from "@/scripts/utils/dialogs";
@@ -11,13 +11,7 @@ function updateUserInfo(el, uid, data) {
    * @param data 更新的数据
    */
   return axios.post("/api/admin/userManager/setUserInfo", {id: uid, data: data}).then(res => {
-    const status = res.data.status
-    if (status !== 1) {
-      message.showApiErrorMsg(el, res.data.msg, status)
-    }
-  }).catch(err => {
-    console.error(err)
-    message.showApiErrorMsg(el, err.message)
+    message.showSuccess(el, "用户信息已更新")
   })
 }
 
@@ -26,9 +20,7 @@ function getUserInfo(el, uid) {
    * 获取用户信息
    * @param uid 用户ID
    */
-  return axios.post("/api/admin/userManager/getUserInfo", {id: uid}).catch(err => {
-    message.showApiErrorMsg(this, err.message)
-  })
+  return axios.post("/api/admin/userManager/getUserInfo", {id: uid})
 }
 
 function getUserList(el, search = "", page_index = 1, page_size = 20) {
@@ -36,9 +28,6 @@ function getUserList(el, search = "", page_index = 1, page_size = 20) {
     page: page_index,
     pageSize: page_size,
     search: search
-  }).catch(err => {
-    console.error(err)
-    message.showApiErrorMsg(el, err.message)
   })
 }
 
@@ -53,12 +42,7 @@ async function deleteUser(el, uid) {
     id: uid,
     code: opt_code
   }).then(res => {
-    const status = res.data.status
-    if (status === 1) {
-      message.showSuccess(this, res.data.msg)
-    } else {
-      message.showError(this, res.data.msg)
-    }
+    message.showSuccess(this, res.data.msg)
   })
 }
 

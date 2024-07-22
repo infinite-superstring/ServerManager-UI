@@ -1,7 +1,7 @@
 <script>
 import user from "@/scripts/apis/users"
 import message from "@/scripts/utils/message";
-import InputDialog from "@/components/dialogs/inputDialog.vue";
+import InputDialog from "@/components/dialogs/input/inputDialog.vue";
 export default {
   name: "editUsername",
   components: {InputDialog},

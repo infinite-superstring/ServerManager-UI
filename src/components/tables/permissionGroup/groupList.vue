@@ -3,6 +3,7 @@ import dialogs from "@/scripts/utils/dialogs";
 import permission from "@/scripts/apis/permission";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 import NotData from "@/components/emptyState/notData.vue";
+import message from "@/scripts/utils/message";
 
 /**
  * 权限组列表
@@ -51,7 +52,13 @@ export default {
         })
     },
     async updateStatus(gid, value) {
-      await permission.editGroup(this, gid, {disable: value})
+      await permission.editGroup(this, gid, {disable: value}).then(()=>{
+        if (value) {
+          message.showSuccess(this, "权限组已禁用")
+        } else {
+          message.showSuccess(this, "权限组已启用")
+        }
+      })
       this.$emit("updateData")
     }
   }
@@ -103,11 +110,6 @@ export default {
           :value="false"
           @change="updateStatus(item.id, !$event.target.checked)"
         />
-<!--        {{ item.disable ? "已禁用" : "已启用" }}-->
-<!--        <v-icon-->
-<!--          icon="mdi:mdi-square-edit-outline"-->
-<!--          size="x-small"-->
-<!--          @click="$emit('action','update_status', item.id)"/>-->
       </td>
       <td>
         <v-btn

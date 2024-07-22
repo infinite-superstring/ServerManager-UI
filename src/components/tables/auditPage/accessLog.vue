@@ -1,7 +1,6 @@
 <script>
-import axios from "axios";
-import message from "@/scripts/utils/message.js"
 import NotData from "@/components/emptyState/notData.vue";
+import access_log from "@/scripts/apis/audit/access_log";
 
 export default {
   name: "accessLog_table",
@@ -16,34 +15,16 @@ export default {
   methods: {
     // 获取用户列表
     getTable(page = 1, pageSize = 20) {
-      axios.post("/api/admin/auditAndLogger/accessLog", {
-        page: page,
-        pageSize: pageSize,
-      }).then(res => {
-        const apiStatus = res.data.status
-        if (apiStatus === 1) {
-          const data = res.data.data
-          const PageContent = data.PageContent
-          this.table = []
-          this.maxPage = data.maxPage
-          this.currentPage = data.currentPage
-          this.table = PageContent
-          // for (const item of PageContent) {
-          //   console.log(item)
-          //   this.table.push({
-          //     id: item.id,
-          //     user: item.user,
-          //     time: item.time,
-          //     ip: item.ip,
-          //     module: item.module,
-          //   })
-          // }
-        } else {
-          message.showApiErrorMsg(this, res.data.msg, apiStatus)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      access_log.load_access_log(
+        page,
+        pageSize
+      ).then(res => {
+        const data = res.data.data
+        const PageContent = data.PageContent
+        this.table = []
+        this.maxPage = data.maxPage
+        this.currentPage = data.currentPage
+        this.table = PageContent
       })
     },
     getTableData() {
