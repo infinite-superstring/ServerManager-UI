@@ -1,5 +1,6 @@
 <script setup>
 
+import UploadFiles from "@/components/input/uploadFiles.vue";
 </script>
 
 <template>
@@ -26,6 +27,8 @@
           Copyright &copy; <a href="https://github.com/infinite-superstring">Infinite Superstring</a>
         </p>
       </div>
+      <v-divider/>
+      <upload-files/>
     </v-card-text>
   </v-card>
 </template>

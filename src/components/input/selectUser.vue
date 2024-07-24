@@ -37,7 +37,6 @@ export default {
     }
   },
   mounted() {
-    console.log(typeof this.value)
     if (this.value && !(this.value instanceof Object)) {
       user.getUserInfo(this, this.value).then(res => {
         if (res.data.status === 1) {
