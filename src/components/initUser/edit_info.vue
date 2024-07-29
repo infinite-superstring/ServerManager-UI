@@ -2,6 +2,8 @@
 import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import validate from "@/scripts/utils/validate";
+import {saveUserInfoApi, sendEmailCodeApi} from "@/scripts/apis/users";
+
 export default {
   name: "init_user_info",
   data() {
@@ -23,11 +25,7 @@ export default {
       if (!validate.validateEmail(this.email)) {
         return message.showError(this, "电子邮箱格式不正确，请检查后重试")
       }
-      axios.get("/api/initUser/sendEmailVerifyCode", {
-        params: {
-          email: this.email,
-        }
-      }).then(res => {
+      sendEmailCodeApi({email: this.email}).then(res => {
         message.showSuccess(this, "发送成功，请检查您的邮箱")
         this.interval = res.data.data.interval;
         this.startTimeout()
@@ -47,7 +45,7 @@ export default {
       if (!this.verify_code) {
         return message.showError(this, "未输入验证码")
       }
-      return axios.post("/api/initUser/saveUserInfo", {
+      return saveUserInfoApi({
         user_name: this.user_name,
         email: this.email,
         password: this.password1,

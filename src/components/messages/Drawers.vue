@@ -76,6 +76,7 @@ import message from "@/scripts/utils/message";
 import bus from "vue3-eventbus";
 import confirmDialog from '@/scripts/utils/confirmDialog'
 import bus_constant from "@/scripts/constant/bus_constant";
+import {deleteAllApi, getListApi, readAllApi} from "@/scripts/apis/message";
 
 /**
  * 注册事件
@@ -103,17 +104,14 @@ const data = ref({
  * 获取表格数据列表
  */
 const getList = () => {
-  axios.get('/api/message/getList',
-    {
-      params: {
-        method: method.value,
-        currentPage: currentPage.value,
-        pageSize: 20,
-      }
-    })
-    .then(r => {
-      data.value = r.data.data
-    })
+  let params = {
+    method: method.value,
+    currentPage: currentPage.value,
+    pageSize: 20,
+  }
+  getListApi(params).then(r => {
+    data.value = r.data.data
+  })
 }
 
 /**
@@ -145,8 +143,7 @@ const getUnread = () => {
  * 删除所有已读消息
  */
 const deleteAll = () => {
-  axios.delete('/api/message/deleteAll')
-    .then((r) => {
+  deleteAllApi().then((r) => {
       message.showSuccess(this, r.data.msg)
       confirmDialogDisplay.value = false
       getList()
@@ -155,8 +152,7 @@ const deleteAll = () => {
 
 
 const readAll = () => {
-  axios.put('/api/message/readAll')
-    .then((r) => {
+  readAllApi().then((r) => {
       message.showSuccess(this, r.data.msg)
       getList()
       /*触发全局事件，更新未读消息数量*/

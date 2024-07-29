@@ -14,6 +14,7 @@
 import DutyCalendar from "@/components/duty/DutyCalendar.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
+import {getDutyApi} from "@/scripts/apis/task";
 
 const dutyCalendarRef = ref(null)
 const exist = ref([])
@@ -33,8 +34,7 @@ const getDuty = (state) => {
     }
   }
   // }
-  axiosplus.get('/api/task/getDuty?year_and_month=' +
-    yearAndMonth).then((res) => {
+  getDutyApi(yearAndMonth).then((res) => {
     let result = res.data.data.map((item) => {
       return {
         userId: item.userId,

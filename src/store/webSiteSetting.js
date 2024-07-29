@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from "@/scripts/utils/axios";
+import {getServerConfigApi} from "@/scripts/apis/setting";
 
 
 export const useWebsiteSettingStore = defineStore('WebsiteSetting', {
@@ -23,9 +24,9 @@ export const useWebsiteSettingStore = defineStore('WebsiteSetting', {
           return this.viewMode.nodeList
       }
     },
-    async updateServerConfig(force=false) {
-      if (this.serverConfig.init && !force){ return }
-      return axios.get("/api/settings/getServerConfig").then((response) => {
+    async updateServerConfig(force = false) {
+      if (this.serverConfig.init && !force) return;
+      return getServerConfigApi().then((response) => {
         this.serverConfig = response.data.data
         this.serverConfig.init = true
       })

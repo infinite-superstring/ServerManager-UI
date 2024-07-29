@@ -1,6 +1,6 @@
 <template>
   <SignInTaskCard :task="task" @signIn="signIn"/>
-<!--  <TaskItemCard v-for="item in tasks" :task="item" :key="item.id"/>-->
+  <!--  <TaskItemCard v-for="item in tasks" :task="item" :key="item.id"/>-->
 </template>
 
 <script setup>
@@ -9,6 +9,7 @@ import SignInTaskCard from "@/components/task/TaskItemCard.vue";
 import {onMounted, ref} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
+import {attendanceCheckInApi, getCheckInStatusApi} from "@/scripts/apis/dashboard";
 
 const task = ref({
   type: 0,
@@ -37,27 +38,25 @@ const getTasks = () => {
 }
 
 const getCheckInStatus = () => {
-  axiosplus.get('/api/task/getCheckInStatus')
-    .then(res => {
-      if (res.data.data) {
-        task.value = res.data.data
-      }
-    })
+  getCheckInStatusApi().then(res => {
+    if (res.data.data) {
+      task.value = res.data.data
+    }
+  })
 }
 
 const signIn = () => {
-  axiosplus.post('/api/task/attendanceCheckIn')
-    .then(res => {
-      if (res.data.status === 1) {
-        if (res.data.data === false) {
-          message.showWarning(this, res.data.msg)
-          return
-        }
-        task.value = res.data.data
-        getCheckInStatus()
-        message.showSuccess(this, res.data.msg)
+  attendanceCheckInApi().then(res => {
+    if (res.data.status === 1) {
+      if (res.data.data === false) {
+        message.showWarning(this, res.data.msg)
+        return
       }
-    })
+      task.value = res.data.data
+      getCheckInStatus()
+      message.showSuccess(this, res.data.msg)
+    }
+  })
 }
 
 

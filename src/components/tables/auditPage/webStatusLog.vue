@@ -39,19 +39,18 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import axiosplus from "@/scripts/utils/axios";
 import WebStatusLogList from "@/components/tables/auditPage/list/WebStatusLogList.vue";
 import NotData from "@/components/emptyState/notData.vue";
+import {getSiteNameListApi} from "@/scripts/apis/audit/web_status";
 
 const site = ref()
 const sites = ref([])
 
 onMounted(() => {
-  axiosplus.get('/api/webStatus/getSiteNames')
-    .then(r => {
-      sites.value = r.data.data
-      if (sites.value.length > 0) site.value = sites.value[0][0]
-    })
+  getSiteNameListApi().then(r => {
+    sites.value = r.data.data
+    if (sites.value.length > 0) site.value = sites.value[0][0]
+  })
 })
 </script>
 

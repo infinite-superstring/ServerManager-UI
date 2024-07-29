@@ -3,6 +3,7 @@ import message from "@/scripts/utils/message.js"
 import axios from "axios";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 import dialogs from "@/scripts/utils/dialogs";
+import {updatePasswordApi} from "@/scripts/apis/users";
 
 export default {
   name: "changePassword",
@@ -39,12 +40,10 @@ export default {
         await dialogs.showVerifyOTP_Dialog().then(res => otp_code = res)
       }
 
-      axios.post("/api/userInfo/setPassword", {
-        data: {
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword2,
-          code: otp_code
-        }
+      updatePasswordApi({
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword2,
+        code: otp_code
       }).then(res => {
         const apiStatus = res.data.status
         if (apiStatus === 1) {

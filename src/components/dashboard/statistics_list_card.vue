@@ -2,6 +2,7 @@
 import Api_speed from "@/components/dashboard/general_chart.vue";
 import axios from "@/scripts/utils/axios";
 import general_chart from "@/components/dashboard/general_chart.vue";
+import {getStatisticsApi} from "@/scripts/apis/dashboard";
 
 export default {
   name: "statistics_list_card",
@@ -23,7 +24,7 @@ export default {
   },
   methods: {
     getStatistics() {
-      axios.get("/api/dashboard/getStatistics").then(res => {
+      getStatisticsApi().then(res => {
         this.api_speed.labels = Object.keys(res.data.data.API_Speed).map(key => parseInt(key));
         this.api_speed.datasets = [{
           // label: "",

@@ -47,6 +47,7 @@ import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import {debounce} from "@/scripts/utils/debounce";
 import UpdateWebDialog from "@/components/dialogs/web_status/UpdateWebDialog.vue";
+import {addApi, updateApi} from "@/scripts/apis/web_status";
 
 const addWebDialogStatus = ref(false)
 const updateWebDialogStatus = ref(false)
@@ -63,30 +64,28 @@ const openUpdate = (data) => {
 }
 
 const onSubmit = (data) => {
-  axiosplus.post("/api/webStatus/addWeb", data)
-    .then(res => {
-      if (res.data.status === 1) {
-        message.showSuccess(this, res.data.msg)
-        webListRef.value.getList()
-        addWebDialogStatus.value = false
-        addWebDialogRef.value.empty()
-      } else {
-        message.showWarning(this, res.data.msg)
-      }
-    })
+  addApi(data).then(res => {
+    if (res.data.status === 1) {
+      message.showSuccess(this, res.data.msg)
+      webListRef.value.getList()
+      addWebDialogStatus.value = false
+      addWebDialogRef.value.empty()
+    } else {
+      message.showWarning(this, res.data.msg)
+    }
+  })
 }
 const onUpdate = (data) => {
-  axiosplus.put('/api/webStatus/update', data)
-    .then(res => {
-      if (res.data.status === 1) {
-        message.showSuccess(this, res.data.msg)
-        webListRef.value.getList()
-        updateWebDialogStatus.value = false
-        updateWebDialogRef.value.empty()
-      } else {
-        message.showWarning(this, res.data.msg)
-      }
-    })
+  updateApi(data).then(res => {
+    if (res.data.status === 1) {
+      message.showSuccess(this, res.data.msg)
+      webListRef.value.getList()
+      updateWebDialogStatus.value = false
+      updateWebDialogRef.value.empty()
+    } else {
+      message.showWarning(this, res.data.msg)
+    }
+  })
 }
 
 const onSearch = () => {

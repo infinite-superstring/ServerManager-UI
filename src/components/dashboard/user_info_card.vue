@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import {getInfoApi} from "@/scripts/apis/users";
 
 export default {
   name: "user_info_card",
@@ -14,12 +15,10 @@ export default {
   },
   methods: {
     getUserInfo() {
-      axios.get("/api/userInfo/getInfo").then(res => {
+      getInfoApi().then(res => {
         const data = res.data.data
         this.username = data.userName
         this.group = data.group
-      }).catch(err => {
-        console.error(err)
       })
     },
   }

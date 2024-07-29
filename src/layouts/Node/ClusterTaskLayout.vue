@@ -70,6 +70,14 @@ import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
 import {debounce} from "@/scripts/utils/debounce";
+import {
+  deleteByUuidApi,
+  enableDisableApi,
+  getByUUIDApi,
+  getDetailApi,
+  getListApi,
+  verifyCommandApi
+} from "@/scripts/apis/clusterTask";
 
 const addDialogRef = ref(null)
 const detailDialogRef = ref(null)
@@ -99,11 +107,10 @@ const editData = ref()
  * @param uuid
  */
 const onChangeEnable = (uuid) => {
-  axiosplus.put('/api/group_task/enableDisable', {uuid})
-    .then(r => {
-      message.showSuccess(this, r.data.msg)
-      getList()
-    })
+  enableDisableApi({uuid}).then(r => {
+    message.showSuccess(this, r.data.msg)
+    getList()
+  })
 }
 
 /**
@@ -112,11 +119,10 @@ const onChangeEnable = (uuid) => {
  */
 const onDelete = (uuid) => {
   confirmDialog('确认删除该任务?', '删除后无法恢复!', () => {
-    axiosplus.delete('/api/group_task/deleteByUuid', {params: {uuid}})
-      .then(r => {
-        message.showSuccess(this, r.data.msg)
-        getList()
-      })
+    deleteByUuidApi(uuid).then(r => {
+      message.showSuccess(this, r.data.msg)
+      getList()
+    })
   })
 }
 
@@ -148,11 +154,10 @@ const deGetGroupList = debounce(getGroupList, 300)
  * 获取任务列表
  */
 const getList = () => {
-  axiosplus.get('/api/group_task/getList', {params: params.value})
-    .then(r => {
-      list.value = r.data.data.list
-      params.value.maxPage = r.data.data.maxPage
-    })
+  getListApi(params.value).then(r => {
+    list.value = r.data.data.list
+    params.value.maxPage = r.data.data.maxPage
+  })
 }
 
 /**
@@ -227,14 +232,13 @@ const onSubmit = (data) => {
       })
   }
 
-  axiosplus.post('/api/group_task/command_legal?command', {command: data.command})
-    .then(r => {
-      if (r.data.data === false) {
-        confirmDialog('警告!', '命令不安全，是否继续?', _submit)
-      } else {
-        _submit()
-      }
-    })
+  verifyCommandApi(data.command).then(r => {
+    if (r.data.data === false) {
+      confirmDialog('警告!', '命令不安全，是否继续?', _submit)
+    } else {
+      _submit()
+    }
+  })
 }
 
 /**
@@ -242,22 +246,20 @@ const onSubmit = (data) => {
  * @param uuid
  */
 const onShowDetailDialog = (uuid) => {
-  axiosplus.get('/api/group_task/get_task_detailed?uuid=' + uuid)
-    .then(r => {
-      detailDialogShow.value = true
-      detailDialogRef.value.task = r.data.data
-    })
+  getDetailApi(uuid).then(r => {
+    detailDialogShow.value = true
+    detailDialogRef.value.task = r.data.data
+  })
 }
 /**
  * 展示编辑对话框
  */
 const onShowEditDialog = (uuid) => {
   editDialogShow.value = true
-  axiosplus.get('/api/group_task/get_task_by_uuid?uuid=' + uuid)
-    .then(r => {
-      editData.value = r.data.data
-      editData.value.uuid = uuid
-    })
+  getByUUIDApi(uuid).then(r => {
+    editData.value = r.data.data
+    editData.value.uuid = uuid
+  })
 }
 
 onMounted(() => {

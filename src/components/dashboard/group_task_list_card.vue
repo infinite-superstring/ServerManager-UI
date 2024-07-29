@@ -2,6 +2,7 @@
 import axios from "@/scripts/utils/axios";
 import format from "@/scripts/utils/format";
 import NotData from "@/components/emptyState/notData.vue";
+import {getListApi} from "@/scripts/apis/clusterTask";
 
 export default {
   name: "group_task_list_card",
@@ -36,11 +37,10 @@ export default {
     }
   },
   created() {
-    axios.get('/api/group_task/getList')
-      .then(r => {
-        console.log(r.data.data)
-        this.data = r.data.data.list
-      })
+    getListApi().then(r => {
+      console.log(r.data.data)
+      this.data = r.data.data.list
+    })
   },
   methods: {
     getWeekText(week) {

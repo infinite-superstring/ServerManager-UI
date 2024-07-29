@@ -3,6 +3,7 @@ import axios from "axios";
 import bus from 'vue3-eventbus'
 import notice from '@/scripts/utils/notice'
 import bus_constant from "@/scripts/constant/bus_constant";
+import {getUnreadCountApi} from "@/scripts/apis/message";
 
 export default {
   name: "userInfoCard",
@@ -47,10 +48,9 @@ export default {
      * 获取未读消息数量
      */
     getUnread() {
-      axios.get("/api/message/getUnread")
-        .then(res => {
-          this.unread = res.data.data
-        })
+      getUnreadCountApi().then(res => {
+        this.unread = res.data.data
+      })
     },
     messageWs(event) {
       try {

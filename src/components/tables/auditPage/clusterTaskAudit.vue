@@ -38,6 +38,7 @@ import {onMounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import ClusterTaskAuditTerminal from "@/components/tables/auditPage/terminal/clusterTaskAuditTerminal.vue";
 import NotData from "@/components/emptyState/notData.vue";
+import {getTaskNameListApi, getTaskResultDetailApi} from "@/scripts/apis/cluster_task_audit";
 
 const showCount = ref(10)
 const current_activity = ref()
@@ -48,7 +49,7 @@ const tooBig = ref(false)
 const handleSelect = (value) => {
   if (isObject(value)) {
     current_activity.value = value
-    axiosplus.get('/api/admin/auditAndLogger/groupTask/get_result_detail', {params: value})
+    getTaskResultDetailApi(value)
       .then(r => {
         resultList.value = r.data.data
         tooBig.value = false
@@ -71,7 +72,7 @@ function isObject(value) {
 }
 
 const getTaskNameList = () => {
-  axiosplus.get('/api/admin/auditAndLogger/groupTask/getNameList')
+  getTaskNameListApi()
     .then(r => {
       treeLists.value = r.data.data
     })

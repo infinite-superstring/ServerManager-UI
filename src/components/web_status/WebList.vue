@@ -34,6 +34,7 @@ import {createWebSocket, closeWebSocket} from "@/scripts/utils/webSocketUtil";
 import confirmDialog from "@/scripts/utils/confirmDialog";
 import message from "@/scripts/utils/message";
 import NotData from "@/components/emptyState/notData.vue";
+import {deleteByIdApi, getListApi} from "@/scripts/apis/web_status";
 
 const list = ref([])
 const maxPage = ref(0)
@@ -58,16 +59,12 @@ const updateWeb = (data) => {
  */
 const getList = (name = '') => {
   param.value.name = name
-  let paramStr = Object.keys(param.value).map(key => {
-    return `${key}=${param.value[key]}`
-  }).join('&')
-  axiosplus.get('/api/webStatus/getList?' + paramStr)
-    .then(res => {
-      if (res.data.status === 1) {
-        list.value = res.data.data.list
-        maxPage.value = res.data.data.maxPage
-      }
-    })
+  getListApi(param.value).then(res => {
+    if (res.data.status === 1) {
+      list.value = res.data.data.list
+      maxPage.value = res.data.data.maxPage
+    }
+  })
 }
 /**
  * 监听消息
@@ -162,13 +159,12 @@ const getRuntimeStatusCode = (host) => {
  */
 const deleteWeb = (id) => {
   confirmDialog('删除该网站日志将同步删除！', '该操作无法撤销,请谨慎操作', () => {
-    axiosplus.delete(`/api/webStatus/delWeb/${id}`)
-      .then(res => {
-        if (res.data.status === 1) {
-          message.showSuccess(this, '删除成功')
-          getList()
-        }
-      })
+    deleteByIdApi(id).then(res => {
+      if (res.data.status === 1) {
+        message.showSuccess(this, '删除成功')
+        getList()
+      }
+    })
   })
 }
 

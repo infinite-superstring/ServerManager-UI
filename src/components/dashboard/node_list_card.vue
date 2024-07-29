@@ -1,6 +1,7 @@
 <script>
 import axiosplus from "@/scripts/utils/axios";
 import NotData from "@/components/emptyState/notData.vue";
+import {getNodeListApi} from "@/scripts/apis/dashboard";
 
 export default {
   name: "node_list_card",
@@ -15,8 +16,7 @@ export default {
   },
   methods: {
     get_node_list() {
-      axiosplus.get('/api/dashboard/getNodeList')
-        .then(r => {
+      getNodeListApi().then(r => {
           this.node_list = r.data.data
         })
     }

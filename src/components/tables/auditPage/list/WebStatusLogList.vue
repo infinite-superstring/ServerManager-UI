@@ -33,6 +33,7 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
+import {getLogApi} from "@/scripts/apis/audit/web_status";
 
 const props = defineProps({
   host: {
@@ -49,12 +50,10 @@ const page = ref({
 const list = ref([])
 
 const getList = () => {
-  axiosplus.get('/api/webStatus/getLog', {
-    params: {
-      host: props.host,
-      page: page.value.page,
-      pageSize: page.value.pageSize
-    }
+  getLogApi({
+    host: props.host,
+    page: page.value.page,
+    pageSize: page.value.pageSize
   }).then(r => {
     list.value = r.data.data.list
     page.value.maxPage = r.data.data.maxPage

@@ -4,10 +4,10 @@ import base_settings from "@/components/settings/base";
 import node_settings from "@/components/settings/node";
 import message_settings from "@/components/settings/message";
 import message from "@/scripts/utils/message.js"
-import axios from "axios";
 import Security_Settings from "@/components/settings/security.vue";
 import WebStatusSettings from "@/components/settings/WebStatusSettings.vue";
 import Terminal_audit from "@/components/settings/terminal_audit.vue";
+import {editSettingApi, getSettingApi} from "@/scripts/apis/setting";
 
 export default {
   name: "setting_layout",
@@ -26,21 +26,16 @@ export default {
       /**
        * 获取设置数据
        */
-      axios.get('/api/admin/settings/getSettings').then(res => {
+      getSettingApi().then(res => {
         this.settings = res.data
-      }).catch(err => {
-        console.error(err)
       })
     },
     save() {
       /**
        * 保存设置信息
        */
-      axios.post('/api/admin/settings/editSettings', this.settings).then(() => {
+      editSettingApi(this.settings).then(() => {
         message.showSuccess(this, "设置已保存")
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
     }
   }

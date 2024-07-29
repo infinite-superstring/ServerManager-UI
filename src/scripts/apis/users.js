@@ -46,6 +46,58 @@ async function deleteUser(el, uid) {
   })
 }
 
+/**
+ * 发送邮箱验证码
+ */
+export const sendEmailCodeApi = (params) => {
+  return axios.get("/api/initUser/sendEmailVerifyCode", {params})
+}
+
+/**
+ * 保存用户信息
+ * @param data
+ */
+export const saveUserInfoApi = (data) => {
+  return axios.post("/api/initUser/saveUserInfo", data)
+}
+
+/**
+ * 获取用户信息
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+export const getInfoApi = () => {
+  return axios.get("/api/userInfo/getInfo")
+}
+
+/**
+ * 编辑用户信息
+ * @param data
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+export const editInfoApi = (data) => {
+  console.log(data)
+  return axios.post("/api/userInfo/editInfo", data)
+}
+
+/**
+ * 上传头像
+ * @param data
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+export const uploadAvatarApi = (data) => {
+  return axios.post("/api/userInfo/uploadAvatar", data)
+
+}
+
+/**
+ * 修改密码
+ * @param data
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+export const updatePasswordApi = (data) => {
+  return axios.post('/api/userInfo/setPassword', {data})
+}
+
 export default {
   updateUserInfo,
   getUserInfo,

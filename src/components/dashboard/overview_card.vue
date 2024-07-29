@@ -1,5 +1,5 @@
 <script>
-import axios from "axios";
+import {getNodeOverviewApi} from "@/scripts/apis/dashboard";
 
 export default {
   name: "overview_card",
@@ -16,14 +16,12 @@ export default {
   },
   methods: {
     get_overview() {
-      axios.get('/api/dashboard/getOverview').then((response) => {
+      getNodeOverviewApi().then((response) => {
         const data = response.data;
-        if (data.status === 1) {
-          this.node_count = data.data.node_count
-          this.node_online_count = data.data.node_online_count
-          this.node_offline_count = data.data.node_offline_count
-          this.node_warning_count = data.data.node_warning_count
-        }
+        this.node_count = data.data.node_count
+        this.node_online_count = data.data.node_online_count
+        this.node_offline_count = data.data.node_offline_count
+        this.node_warning_count = data.data.node_warning_count
       })
     }
   }
@@ -40,7 +38,8 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number cursor-pointer text-green-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:online' } })">
+    <p class="status_number cursor-pointer text-green-darken-2"
+       @click="$router.push({ name: 'nodeList', query: { search: 'status:online' } })">
       {{ node_online_count }}
     </p>
     <p class="status_name">
@@ -48,7 +47,8 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number cursor-pointer text-red-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:offline' } })">
+    <p class="status_number cursor-pointer text-red-darken-2"
+       @click="$router.push({ name: 'nodeList', query: { search: 'status:offline' } })">
       {{ node_offline_count }}
     </p>
     <p class="status_name">
@@ -56,7 +56,8 @@ export default {
     </p>
   </div>
   <div class="status">
-    <p class="status_number cursor-pointer text-yellow-darken-2" @click="$router.push({ name: 'nodeList', query: { search: 'status:warning' } })">
+    <p class="status_number cursor-pointer text-yellow-darken-2"
+       @click="$router.push({ name: 'nodeList', query: { search: 'status:warning' } })">
       {{ node_warning_count }}
     </p>
     <p class="status_name">
