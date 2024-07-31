@@ -148,9 +148,9 @@ export default {
       type: Boolean,
       default: true
     },
-    url: {
+    base_url: {
       /**
-       * 上传URL
+       * 上传基础URL(不带方法)
        */
       type: String,
       required: true
@@ -211,7 +211,7 @@ export default {
           formData.append("index", index)
           formData.append("hash", hash)
           try {
-            const upload_res = await axios.post("/api/file/upload", formData)
+            const upload_res = await axios.post(this.base_url+"/upload", formData)
             if (upload_res.data.status === 1) {
               this.handle_upload_progress(i)
               continue
@@ -224,7 +224,7 @@ export default {
         }
         if (file_info.progress.status !== 1) continue
         try {
-          const upload_res = axios.post("/api/file/merge", formDataUtils.new_form_data({
+          const upload_res = axios.post(this.base_url+"/merge", formDataUtils.new_form_data({
             file_name: file_info.file_name,
             chunk_count: file_info.file_chunks.length,
             chunk_hash_list: file_info.chunk_hash_list

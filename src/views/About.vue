@@ -28,7 +28,6 @@ import UploadFiles from "@/components/input/uploadFiles.vue";
         </p>
       </div>
       <v-divider/>
-      <upload-files/>
     </v-card-text>
   </v-card>
 </template>
