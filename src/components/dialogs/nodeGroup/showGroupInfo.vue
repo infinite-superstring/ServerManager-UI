@@ -96,7 +96,7 @@ export default {
 <!--            <v-chip-->
 <!--              color="primary"-->
 <!--              size="small"-->
-<!--              v-for="user in item.recipients"-->
+<!--              v-for="user in item.user_list"-->
 <!--              :key="user"-->
 <!--            >-->
 <!--              {{ user }}-->
