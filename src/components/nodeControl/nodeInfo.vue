@@ -20,7 +20,7 @@ export default {
 <template>
   <p>节点名称：{{ node_base_info.node_name }}</p>
   <p>节点UUID：{{ node_base_info.node_uuid }}</p>
-  <p v-if="node_base_info.node_group">节点组：{{ node_base_info.node_group }}</p>
+  <p v-if="node_base_info.node_group">所属集群：{{ node_base_info.node_group }}</p>
   <p v-if="node_base_info.node_description">节点备注：{{ node_base_info.node_description }}</p>
   <p v-if="node_base_info.node_tags.length !== 0">节点标签：
     <v-chip v-for="tag in node_base_info.node_tags" :key="tag" color="secondary" size="x-small">{{ tag }}</v-chip>

@@ -21,7 +21,7 @@ export default {
           执行人
         </th>
         <th class="text-left">
-          节点组
+          集群
         </th>
         <th class="text-left">
           执行时间

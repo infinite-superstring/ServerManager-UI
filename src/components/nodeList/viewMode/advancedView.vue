@@ -28,7 +28,7 @@ export default {
         节点名
       </th>
       <th class="text-left">
-        节点组
+        所属集群
       </th>
       <th class="text-left">
         主机名

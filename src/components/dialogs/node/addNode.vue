@@ -3,6 +3,9 @@ import InputTag from "@/components/input/inputTag.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
 import {debounce} from '@/scripts/utils/debounce.js'
+import node_manager from "@/scripts/apis/node_manager";
+import node_tags from "@/scripts/apis/node_tags";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "addNode",
@@ -32,34 +35,14 @@ export default {
   methods: {
     search_tag(tag_name) {
       if (tag_name) {
-        axios.post("/api/node_manager/node_tag/search_tag", {tag: tag_name}).then(res => {
-          const apiStatus = res.data.status
-          if (apiStatus === 1) {
-            this.tag_items = res.data.data.tags
-          } else {
-            return message.showError(this, res.data.msg)
-          }
-        }).catch(err => {
-          console.log(err)
-          return message.showApiErrorMsg(this, err.message)
+        node_tags.search_tag(tag_name).then(res => {
+          this.tag_items = res.data.data.tags
         })
       }
     },
     load_node_group(search = "") {
-      axios.post('/api/node_manager/node_group/getGroupList', {
-        page: 1,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.maxPage = res.data.data.maxPage
-          this.currentPage = res.data.data.currentPage
-          this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
-        } else {
-          message.error(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      node_group.get_node_group_list(search).then((res) => {
+        this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
       })
     },
     open_group_manager_page() {
@@ -79,26 +62,17 @@ export default {
       if (!this.nodeName) {
         return message.showWarning(this, "节点名未填写")
       }
-      axios.post('/api/node_manager/addNode', {
-        node_name: this.nodeName,
-        node_description: this.description,
-        node_tags: this.tags,
-        node_group: this.group
-      }).then(res => {
-        const status = res.data.status
-        if (status !== 1) {
-          return message.showError(this, res.data.msg)
-        } else {
-          // message.showSuccess(this, `节点添加成功,Token:${res.data.data.token}`, 10000)
-          this.$emit('success', {
-            token: res.data.data.token,
-            serverToken: res.data.data.server_token
-          })
-          this.close()
-        }
-      }).catch(err => {
-        console.error(err)
-        return message.showApiErrorMsg(this, err.message)
+      node_manager.add_node(
+        this.nodeName,
+        this.description,
+        this.tags,
+        this.group,
+      ).then(res => {
+        this.$emit('success', {
+          token: res.data.data.token,
+          serverToken: res.data.data.server_token
+        })
+        this.close()
       })
     }
   },

@@ -149,7 +149,7 @@ export default {
   >
     <div class="status">
       <div class="status-name">
-        所属节点组
+        所属集群
       </div>
       <div class="status-value">
         <span title="您的权限：节点组负责人">

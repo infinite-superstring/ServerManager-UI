@@ -28,6 +28,7 @@ import UploadFiles from "@/components/input/uploadFiles.vue";
         </p>
       </div>
       <v-divider/>
+      <upload-files base_url="/api/file_distribution" multiple/>
     </v-card-text>
   </v-card>
 </template>

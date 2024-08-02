@@ -2,6 +2,9 @@
 import InputTag from "@/components/input/inputTag.vue";
 import axios from "axios";
 import message from "@/scripts/utils/message";
+import node_tags from "@/scripts/apis/node_tags";
+import node_manager from "@/scripts/apis/node_manager";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "editNode",
@@ -18,10 +21,10 @@ export default {
   },
   data: () => {
     return {
-      node_name: "",
-      node_desc: "",
-      node_tags: [],
-      node_group: null,
+      name: "",
+      desc: "",
+      tags: [],
+      group: null,
       tag_items: [],
       groupListData: []
     }
@@ -29,53 +32,23 @@ export default {
   methods: {
     search_tag(tag_name) {
       if (tag_name) {
-        axios.post("/api/node_manager/node_tag/search_tag", {tag: tag_name}).then(res => {
-          const apiStatus = res.data.status
-          if (apiStatus === 1) {
-            this.tag_items = res.data.data.tags
-          } else {
-            return message.showError(this, res.data.msg)
-          }
-        }).catch(err => {
-          console.log(err)
-          return message.showApiErrorMsg(this, err.message)
+        node_tags.search_tag(tag_name).then(res => {
+          this.tag_items = res.data.data.tags
         })
       }
     },
     load_node_info() {
-      axios.post('/api/node_manager/getNodeInfo', {
-        uuid: this.uuid,
-      }).then(res => {
-        const status = res.data.status
-        if (status !== 1) {
-          return message.showError(this, res.data.msg)
-        } else {
-          const data = res.data.data
-          this.node_name = data.node_name
-          this.node_desc = data.node_desc
-          this.node_tags = data.node_tags
-          this.group = data.node_group
-        }
-      }).catch(err => {
-        console.error(err)
-        return message.showApiErrorMsg(this, err.message)
+      node_manager.get_node_info(this.uuid).then(res => {
+        const data = res.data.data
+        this.name = data.node_name
+        this.desc = data.node_desc
+        this.tags = data.node_tags
+        this.group = data.node_group
       })
     },
     load_node_group(search = "") {
-      axios.post('/api/node_manager/node_group/getGroupList', {
-        page: 1,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.maxPage = res.data.data.maxPage
-          this.currentPage = res.data.data.currentPage
-          this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
-        } else {
-          message.error(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      node_group.get_node_group_list(search).then((res) => {
+        this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
       })
     },
     open_group_manager_page() {
@@ -88,26 +61,19 @@ export default {
       this.$emit('close')
     },
     submit() {
-      if (!this.node_name) {
+      if (!this.name) {
         return message.showWarning(this, "节点名未填写")
       }
-      axios.post('/api/node_manager/editNode', {
-        node_uuid: this.uuid,
-        node_name: this.node_name,
-        node_description: this.node_desc,
-        node_tags: this.node_tags,
-        node_group: this.node_group
-      }).then(res => {
-        const status = res.data.status
-        if (status !== 1) {
-          return message.showError(this, res.data.msg)
-        } else {
-          this.$emit('success', res.data.data.token)
+      console.log(this.group?.group_id)
+      node_manager.edit_node(
+        this.uuid,
+        this.name,
+        this.desc,
+        this.tags,
+        this.group?.group_id,
+      ).then(res => {
+        this.$emit('success', res.data.data.token)
           this.close()
-        }
-      }).catch(err => {
-        console.error(err)
-        return message.showApiErrorMsg(this, err.message)
       })
     }
   },
@@ -117,10 +83,10 @@ export default {
         this.load_node_info()
         this.load_node_group()
       } else {
-        this.node_name = ""
-        this.node_desc = ""
-        this.node_tags = []
-        this.node_group = null
+        this.name = ""
+        this.desc = ""
+        this.tags = []
+        this.group = null
       }
     }
   }
@@ -143,7 +109,7 @@ export default {
           <div class="text-caption">
             节点名
           </div>
-          <v-text-field type="text" v-model="node_name"></v-text-field>
+          <v-text-field type="text" v-model="name"></v-text-field>
         </div>
         <div>
           <div class="text-caption">
@@ -152,8 +118,8 @@ export default {
           <input-tag
             label=""
             :items="tag_items"
-            :tags="node_tags"
-            @update:chips="args => {node_tags = args}"
+            :tags="tags"
+            @update:chips="args => {tags = args}"
             @input="args => {search_tag(args)}"
           />
         </div>
@@ -166,8 +132,10 @@ export default {
             :items="groupListData"
             item-title="group_name"
             item-value="group_id"
-            v-model="node_group"
+            v-model="group"
             auto-select-first
+            return-object
+            clearable
           >
             <template v-slot:append>
               <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
@@ -180,7 +148,7 @@ export default {
           <div class="text-caption">
             节点备注
           </div>
-          <v-textarea v-model="node_desc"></v-textarea>
+          <v-textarea v-model="desc"></v-textarea>
         </div>
       </v-card-text>
       <v-card-actions>

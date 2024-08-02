@@ -118,7 +118,7 @@ export default {
        * 显示要上传的文件大小
        */
       type: Boolean,
-      default: true
+      default: true,
     },
     progress_height: {
       /**
@@ -180,12 +180,12 @@ export default {
       this.file_info = []
       this.upload_progress = {}
       const files = this.file
-
+      console.log(this.chunk_size * 1024 * 1024)
       files.forEach((file, index) => {
         this.file_info[index] = ({
           file_name: file.name,  // 文件名
           file_size: file.name,  // 文件大小
-          file_chunks: fileUtils.create_chunks(file, this.chunk_size),  // 创建文件块
+          file_chunks: fileUtils.create_chunks(file, this.chunk_size * 1024 * 1024),  // 创建文件块
           progress: {  // 文件上传进度
             uploaded_count: 0,
             value: 0,  // 上传进度值

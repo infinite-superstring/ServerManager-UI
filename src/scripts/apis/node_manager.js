@@ -69,7 +69,46 @@ function reset_token(el, node_uuid, callback) {
   return false
 }
 
+function add_node(name, description, tags, group) {
+  /**
+   * 新增节点
+   */
+  return axios.post('/api/node_manager/addNode', {
+    node_name: name,
+    node_description: description,
+    node_tags: tags,
+    node_group: group
+  })
+}
+
+function edit_node(node_uuid, name, description, tags, group) {
+  /**
+   * 编辑节点信息
+   * @param node_uuid 节点uuid
+   * @param name 新节点名
+   * @param description 节点介绍
+   * @param tags 节点标签
+   * @param group 节点组名
+   */
+  return axios.post('/api/node_manager/editNode', {
+    node_uuid: node_uuid,
+    node_name: name,
+    node_description: description,
+    node_tags: tags,
+    node_group: group
+  })
+}
+
+function get_node_info(node_uuid) {
+  return axios.post('/api/node_manager/getNodeInfo', {
+    uuid: node_uuid,
+  })
+}
+
 export default {
   del_node,
-  reset_token
+  reset_token,
+  add_node,
+  edit_node,
+  get_node_info
 }
