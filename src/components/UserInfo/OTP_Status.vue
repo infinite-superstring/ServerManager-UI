@@ -1,8 +1,8 @@
 <script>
 import bind_otp from "@/components/dialogs/OTP/bind_OTP.vue";
 import message from "@/scripts/utils/message";
-import axios from "@/scripts/utils/axios";
 import dialogs from "@/scripts/utils/dialogs";
+import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
 
 export default {
   name: "OTP_bind",
@@ -22,16 +22,10 @@ export default {
   },
   methods: {
     bindOTP() {
-      axios.get("/api/auth/OTP/bind/sendEmailCode").then(res => {
-        if (res.data.status !== 1) {
-          return message.showError(res.data.msg)
-        }
+      new OTP_CheckAndBind.bind().sendEmailCode().then(res=>{
         this.code_len = res.data.data.code_len
         this.flag = true
         message.showSuccess(this, res.data.msg)
-      }).catch(err=> {
-        console.err(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
     test() {

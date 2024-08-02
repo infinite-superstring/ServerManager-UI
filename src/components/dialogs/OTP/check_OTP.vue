@@ -1,5 +1,6 @@
 <script>
 import axios from "@/scripts/utils/axios";
+import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
 
 export default {
   name: "checkOTP",
@@ -13,11 +14,7 @@ export default {
   watch: {
     otp(val) {
       if (val.length === 6) {
-        axios.get('/api/auth/OTP/verify/checkOTP', {
-          params: {
-            code: val
-          }
-        }).then(() => {
+        new OTP_CheckAndBind.verify().checkOTP(val).then(() => {
           this.confirm(val)
         }).catch(() => {
           this.otp = ""

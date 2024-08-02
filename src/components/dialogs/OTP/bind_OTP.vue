@@ -1,7 +1,7 @@
 <script>
 import QRCode from 'qrcode'
-import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
+import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
 
 export default {
   name: "bind_OTP",
@@ -34,19 +34,11 @@ export default {
       if (this.email_code.length !== this.inputLen) {
         this.error = true
       }
-      axios.post("/api/auth/OTP/bind/verifyEmailCode", {
-        code: this.email_code
-      }).then(res => {
-        if (res.data.data.status !== 1) {
-          return message.showError(this, res.data.msg)
-        }
+      new OTP_CheckAndBind.bind().verifyEmailCode(this.email_code).then(res=>{
         this.step = 2
         this.$nextTick(() => {
           this.showQR_Code(this.$refs.qr_show_img, res.data.data.qrcode)
         });
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
     checkOTP_Code() {
@@ -54,31 +46,17 @@ export default {
       if (this.otp_code.length !== 6) {
         return this.error = true
       }
-      axios.post("/api/auth/OTP/bind/verifyOTP_Code", {
-        code: this.otp_code
-      }).then(res => {
-        if (res.data.data.status !== 1) {
-          return message.showError(this, res.data.msg)
-        }
+      new OTP_CheckAndBind.bind().verifyOTP_Code(this.otp_code).then(res => {
         message.showSuccess(this, res.data.msg)
         return this.$emit("success")
-      }).catch(err=>{
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
     reSendCode() {
       /**
        * 重新发送验证码
        */
-      axios.get("api/auth/OTP/sendEmailCode").then(res => {
-        if (res.data.status !== 1) {
-          return message.showError(res.data.msg)
-        }
+      new OTP_CheckAndBind.bind().sendEmailCode().then(res => {
         message.showSuccess(this, res.data.msg)
-      }).catch(err=> {
-        console.err(err)
-        message.showApiErrorMsg(this, err.message)
       })
     },
     showQR_Code(dom, url) {

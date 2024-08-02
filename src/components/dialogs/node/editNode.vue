@@ -71,9 +71,10 @@ export default {
         this.desc,
         this.tags,
         this.group?.group_id,
-      ).then(res => {
-        this.$emit('success', res.data.data.token)
-          this.close()
+      ).then(() => {
+        message.showSuccess(this, "设置已保存")
+        this.$emit('success')
+        this.close()
       })
     }
   },
