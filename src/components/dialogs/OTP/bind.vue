@@ -4,7 +4,7 @@ import message from "@/scripts/utils/message";
 import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
 
 export default {
-  name: "bind_OTP",
+  name: "bind_otp",
   props: {
     flag: {
       type: Boolean,
@@ -26,13 +26,14 @@ export default {
     }
   },
   methods: {
-    checkAuthCode() {
+    checkEmailCode() {
       /**
        * 检查验证码
        */
       this.error = false
       if (this.email_code.length !== this.inputLen) {
-        this.error = true
+        message.showWarning(this, `请输入${this.inputLen}位验证码`)
+        return this.error = true
       }
       new OTP_CheckAndBind.bind().verifyEmailCode(this.email_code).then(res=>{
         this.step = 2
@@ -44,6 +45,7 @@ export default {
     checkOTP_Code() {
       this.error = false
       if (this.otp_code.length !== 6) {
+        message.showWarning(this, "令牌长度不正确，请检查")
         return this.error = true
       }
       new OTP_CheckAndBind.bind().verifyOTP_Code(this.otp_code).then(res => {
@@ -109,7 +111,7 @@ export default {
           text="验证"
           variant="flat"
           width="70%"
-          @click="checkAuthCode"
+          @click="checkEmailCode"
         ></v-btn>
 
         <div class="text-caption">

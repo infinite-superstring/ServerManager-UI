@@ -1,8 +1,9 @@
 <script>
-import bind_otp from "@/components/dialogs/OTP/bind_OTP.vue";
+import bind_otp from "@/components/dialogs/OTP/bind.vue";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
 import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
+import unbind_otp from "@/components/dialogs/OTP/unbind.vue";
 
 export default {
   name: "OTP_bind",
@@ -11,7 +12,7 @@ export default {
       return dialogs
     }
   },
-  components: {bind_otp},
+  components: {unbind_otp, bind_otp},
   data() {
     return {
       flag: false,
@@ -21,8 +22,15 @@ export default {
   created() {
   },
   methods: {
-    bindOTP() {
+    bind() {
       new OTP_CheckAndBind.bind().sendEmailCode().then(res=>{
+        this.code_len = res.data.data.code_len
+        this.flag = true
+        message.showSuccess(this, res.data.msg)
+      })
+    },
+    unbind() {
+      new OTP_CheckAndBind.unbind().sendEmailCode().then(res=>{
         this.code_len = res.data.data.code_len
         this.flag = true
         message.showSuccess(this, res.data.msg)
@@ -40,19 +48,33 @@ export default {
 </script>
 
 <template>
-  <v-card title="OTP手机令牌">
+  <v-card title="OTP令牌">
     <v-card-text>
       <v-container v-if="!$user.enableOTP">
-        <span><v-icon icon="mdi:mdi-alert" size="32px" color="error"></v-icon> 未绑定OTP手机令牌</span>
-        <v-btn color="primary" size="small" @click="bindOTP">去绑定</v-btn>
+        <span><v-icon icon="mdi:mdi-alert" size="32px" color="error"></v-icon> 未绑定OTP令牌</span>
+        <v-btn color="primary" size="small" @click="bind">去绑定</v-btn>
       </v-container>
       <v-container v-if="$user.enableOTP">
-        <span><v-icon icon="mdi:mdi-check" size="32px" color="success"></v-icon> 已绑定OTP手机令牌</span>
+        <span><v-icon icon="mdi:mdi-check" size="32px" color="success"></v-icon> 已绑定OTP令牌</span>
+        <v-btn color="primary" size="small" @click="unbind">解绑</v-btn>
       </v-container>
     </v-card-text>
   </v-card>
   <div>
-    <bind_otp :flag="flag" :input-len="code_len" @close="flag=false" @success="userStore.enableOTP=true; flag=false"/>
+    <bind_otp
+      v-if="!$user.enableOTP"
+      :flag="flag"
+      :input-len="code_len"
+      @close="flag=false"
+      @success="$user.enableOTP=true; flag=false"
+    />
+    <unbind_otp
+      v-if="$user.enableOTP"
+      :input-len="code_len"
+      :flag="flag"
+      @close="flag=false"
+      @success="$user.enableOTP=false; flag=false"
+    />
   </div>
 </template>
 

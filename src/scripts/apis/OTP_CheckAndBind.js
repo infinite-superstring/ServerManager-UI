@@ -11,7 +11,7 @@ class bind {
     /**
      * 发送邮箱验证码
      */
-    return axios.get("/api/auth/OTP/sendEmailCode")
+    return axios.get("/api/auth/OTP/bind/sendEmailCode")
   }
 
   verifyEmailCode(code) {
@@ -27,7 +27,7 @@ class bind {
     /**
      * 验证OTP并绑定
      */
-    return axios.post("/api/auth/OTP/bind/verifyOTP_Code", {
+    return axios.post("/api/auth/OTP/bind", {
       code: code
     })
   }
@@ -37,17 +37,24 @@ class unbind {
   /**
    * 解绑OTP令牌
    */
+  constructor() {
+  }
+
   sendEmailCode() {
     /**
      * 发送邮箱验证码
      */
-    return axios.get("/api/auth/OTP/sendEmailCode")
+    return axios.get("/api/auth/OTP/unbind/sendEmailCode")
   }
 
-  verifyEmailCode() {
+  verifyEmailCode(code) {
     /**
      * 验证邮箱验证码并解除绑定
+     * @param
      */
+    return axios.post("/api/auth/OTP/unbind", {
+      code: code
+    })
   }
 }
 
@@ -72,5 +79,6 @@ class verify {
 
 export default {
   bind,
+  unbind,
   verify
 }

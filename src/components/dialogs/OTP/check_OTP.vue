@@ -1,5 +1,4 @@
 <script>
-import axios from "@/scripts/utils/axios";
 import OTP_CheckAndBind from "@/scripts/apis/OTP_CheckAndBind";
 
 export default {
