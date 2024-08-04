@@ -27,6 +27,7 @@
     "roboto-fontface": "*",
     "simple-uploader.js": "^0.6.0",
     "spark-md5": "^3.0.2",
+    "tiny-async-pool": "^2.1.0",
     "vue": "^3.2.0",
     "vue-clipboard3": "^2.0.0",
     "vue-router": "^4.0.0",

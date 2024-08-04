@@ -1,16 +1,8 @@
-<script>
-export default {
-  name: "result_list",
-  props: ['data']
-}
-</script>
-
 <template>
   <v-card
     title="结果列表"
     min-height="600px"
   >
-
     <v-table>
       <thead>
       <tr>
@@ -36,10 +28,10 @@ export default {
         v-for="item in data"
         :key="item.name"
       >
-        <td>{{ item.command }}</td>
-        <td>sbyf</td>
-        <td>yf集群</td>
-        <td>{{ item.time }}</td>
+        <td>{{ item.shell }}</td>
+        <td>{{ item.user }}</td>
+        <td>{{ item.group }}</td>
+        <td>{{ item.timestamp }}</td>
         <td>
           <v-btn color="grey" variant="text" title="详细信息" icon="mdi:mdi-information"></v-btn>
           <v-btn variant="text" title="浏览命令结果" icon="mdi:mdi-eye"></v-btn>
@@ -71,6 +63,22 @@ export default {
     <!--    </v-list>-->
   </v-card>
 </template>
+
+<script setup>
+
+const currentPage = defineModel()
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []
+  },
+  maxPage: {
+    type: Number,
+    default: 1
+  }
+})
+
+</script>
 
 <style scoped>
 
