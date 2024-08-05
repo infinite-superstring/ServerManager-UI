@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia'
-import axios from "@/scripts/utils/axios";
 import {getServerConfigApi} from "@/scripts/apis/setting";
 
 
@@ -12,6 +11,7 @@ export const useWebsiteSettingStore = defineStore('WebsiteSetting', {
         forceOTP_Bind: null
       },
       viewMode: {
+        nodeAddMode: "Single",
         nodeList: "SimpleView"
       }
     }
@@ -22,6 +22,9 @@ export const useWebsiteSettingStore = defineStore('WebsiteSetting', {
         case "nodeList":
           this.viewMode.nodeList = this.viewMode.nodeList === "SimpleView" ? "AdvancedView" : "SimpleView"
           return this.viewMode.nodeList
+        case "nodeAddMode":
+          this.viewMode.nodeAddMode = this.viewMode.nodeAddMode === "Single" ? "Multiple" : "Single"
+          return this.viewMode.nodeAddMode
       }
     },
     async updateServerConfig(force = false) {

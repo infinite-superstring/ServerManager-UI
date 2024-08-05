@@ -34,10 +34,11 @@ export default {
         method: 1,
         value: null
       },
-      tab: "0"
+      tab: null
     }
   },
   mounted() {
+    this.tab = this.$web_config.viewMode.nodeAddMode
     this.load_node_group()
   },
   methods: {
@@ -132,16 +133,16 @@ export default {
     <v-card>
       <v-card-title>添加节点</v-card-title>
       <v-tabs
-        v-model="tab"
+        v-model="$web_config.viewMode.nodeAddMode"
         class="ma-3"
       >
-        <v-tab value="0">单例模式</v-tab>
-        <v-tab value="1">批量模式</v-tab>
+        <v-tab value="Single">单例模式</v-tab>
+        <v-tab value="Multiple">批量模式</v-tab>
       </v-tabs>
 
       <v-card-text>
-        <v-tabs-window v-model="tab">
-          <v-tabs-window-item value="0">
+        <v-tabs-window v-model="$web_config.viewMode.nodeAddMode">
+          <v-tabs-window-item value="Single">
             <v-text-field
               type="text"
               label="节点名" v-model="nodeName"
@@ -188,7 +189,7 @@ export default {
             </div>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="1">
+          <v-tabs-window-item value="Multiple">
             <!--TODO-->
             <p class="download_template">
               <v-icon color="primary">mdi-download</v-icon>
