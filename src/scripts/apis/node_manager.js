@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
@@ -69,7 +69,7 @@ function reset_token(el, node_uuid, callback) {
   return false
 }
 
-function add_node(name, description, tags, group) {
+function add_node(name, description, tags, group, auth_restrictions) {
   /**
    * 新增节点
    */
@@ -77,7 +77,8 @@ function add_node(name, description, tags, group) {
     node_name: name,
     node_description: description,
     node_tags: tags,
-    node_group: group
+    node_group: group,
+    node_auth_restrictions: auth_restrictions
   })
 }
 

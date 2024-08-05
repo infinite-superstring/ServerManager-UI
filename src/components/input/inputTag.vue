@@ -13,6 +13,11 @@ export default {
     tags: {
       type: Array,
       required: false
+    },
+    density: {
+      type: String,
+      required: false,
+      default: "default"
     }
   },
   emits: ["input", 'update:chips'],
@@ -49,6 +54,7 @@ export default {
   <v-combobox
     clearable
     multiple
+    :density="density"
     :label="label"
     v-model="chips"
     :items="items"
