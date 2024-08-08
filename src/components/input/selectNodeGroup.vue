@@ -1,7 +1,6 @@
 <script>
-import message from "@/scripts/utils/message";
-import axios from "axios";
 import objectUtils from "@/scripts/utils/objectUtils";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "selectNodeGroup",
@@ -11,11 +10,17 @@ export default {
     }
   },
   props: {
-    value: {
-
-    },
     label: {
       type: String,
+      default: "选择集群"
+    },
+    add_group: {
+      type: Boolean,
+      default: false
+    },
+    hideDetails: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update'],
@@ -26,22 +31,18 @@ export default {
     }
   },
   methods: {
-    searchNodeGroup(search = "", page_index = 1, page_size = 20) {
-      axios.post('/api/node_manager/node_group/getGroupList', {
-        page: page_index,
-        page_size: page_size,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.nodeListData = res.data.data.PageContent
-        } else {
-          console.warn(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(err.message)
+    searchNodeGroup(search = "") {
+      node_group.get_node_group_list(search).then((res) => {
+        this.nodeListData = res.data.data.PageContent
+        console.log(this.nodeListData)
       })
-    }
+    },
+    open_group_manager_page() {
+      let routeData = this.$router.resolve({
+        name: "nodeGroupEdit"
+      });
+      window.open(routeData.href, '_blank');
+    },
   },
   mounted() {
     this.searchNodeGroup()
@@ -57,8 +58,9 @@ export default {
     item-value="group_id"
     color="primary"
     :label="label"
+    :hide-details="hideDetails"
     @update:search="value => searchNodeGroup(value)"
-    @update:model-value="select => $emit('update', select)"
+    @update:model-value="select => {$emit('update', select); console.log(select)}"
     auto-select-first
   >
     <template v-slot:selection="data">
@@ -70,6 +72,11 @@ export default {
       >
         {{ data.item.title }}
       </v-chip>
+    </template>
+    <template v-slot:append v-if="add_group">
+      <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
+        <v-icon icon="mdi:mdi-plus"/>
+      </v-btn>
     </template>
   </v-autocomplete>
 </template>

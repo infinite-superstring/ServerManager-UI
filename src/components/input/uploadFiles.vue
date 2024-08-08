@@ -38,7 +38,7 @@
             :disabled="file.length === 0 && !this.uploading"
             :prepend-icon="multiple ? 'mdi-upload-multiple' : 'mdi-upload'"
           >
-            上传
+            {{ upload_button_text }}
           </v-btn>
         </template>
       </v-file-input>
@@ -147,6 +147,10 @@ export default {
        */
       type: Boolean,
       default: true
+    },
+    upload_button_text: {
+      type: String,
+      default: "上传"
     },
     base_url: {
       /**

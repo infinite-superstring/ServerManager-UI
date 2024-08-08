@@ -1,5 +1,5 @@
 <script>
-import axiosplus from "@/scripts/utils/axios";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "showGroupInfo",
@@ -27,15 +27,15 @@ export default {
   },
   methods: {
     getGroupInfo() {
-      axiosplus.get('/api/node_manager/node_group/getGroupById?group_id=' + this.id)
-        .then(res => {
-          this.group_id = res.data.data.group_id
-          this.group_name = res.data.data.group_name
-          this.group_leader = res.data.data.group_leader
-          this.group_desc = res.data.data.group_desc
-          this.node_list = res.data.data.node_list
-          this.rules = res.data.data.rules
-        })
+      node_group.get_group_info(this.id).then(response => {
+        const data = response.data.data
+        this.group_id = data.group_id
+        this.group_name = data.group_name
+        this.group_leader = data.group_leader
+        this.group_desc = data.group_desc
+        this.node_list = data.node_list
+        this.rules = data.rules
+      })
     }
   },
   watch: {
@@ -66,10 +66,10 @@ export default {
       <v-card-text>
         集群ID: {{ group_id }}<br>
         集群名: {{ group_name }}<br>
-        集群负责人: {{ group_leader }}<br>
+        集群负责人: {{ group_leader?.userName }} (uid: {{group_leader?.id}})<br>
         节点列表:
         <div>
-          <v-chip color="primary" size="small" v-for="node in node_list" :key="node.uuid">
+          <v-chip class="ma-1" color="primary" size="small" v-for="node in node_list" :key="node.uuid">
             {{ node.name }}
           </v-chip>
         </div>
@@ -91,22 +91,15 @@ export default {
             {{ week }}
           </span>
           <p>开始时间: {{ item.start_time }} —— 结束时间: {{ item.end_time }} </p>
-          用户:
           <div>
-<!--            <v-chip-->
-<!--              color="primary"-->
-<!--              size="small"-->
-<!--              v-for="user in item.user_list"-->
-<!--              :key="user"-->
-<!--            >-->
-<!--              {{ user }}-->
-<!--            </v-chip>-->
+            用户:
             <span
               class="user"
-              v-for="user in item.recipients"
+              v-for="user in item.users"
               :key="user"
+              :title="user.userName"
             >
-              <v-icon icon="mdi-account-circle-outline" size="small" color="primary"/> {{ user }}
+              <v-icon icon="mdi-account-circle-outline" size="small" color="primary"/> {{ user.userName }}
             </span>
           </div>
         </v-card>
@@ -124,6 +117,7 @@ export default {
   padding: 5px;
   font-size: 0.9em;
 }
+
 .user {
   margin-right: 10px;
 }

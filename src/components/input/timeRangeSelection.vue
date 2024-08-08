@@ -18,8 +18,6 @@ export default {
   },
   emits: ['update:start_time', 'update:end_time'],
   created() {
-    this.time1 = this.start_time;
-    this.time2 = this.end_time;
   },
   data: () => {
     return {
@@ -29,12 +27,12 @@ export default {
   },
   watch: {
     start_time(val) {
-      if (val !== this.time1) {
+      if (val && val !== this.time1) {
         this.time1 = val;
       }
     },
     end_time(val) {
-      if (val !== this.time2) {
+      if (val && val !== this.time2) {
         this.time2 = val;
       }
     },

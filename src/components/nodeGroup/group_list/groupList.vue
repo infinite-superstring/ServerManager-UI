@@ -46,7 +46,8 @@ export default {
       <td>{{ item.group_name }}</td>
       <td>{{ item.group_leader }}</td>
       <td class="action">
-        <v-btn variant="text" color="primary" @click="$emit('action:show_info', item.group_id)">详细信息</v-btn>
+        <v-btn variant="text" color="primary" @click="$emit('action:edit', item.group_id)">编辑集群</v-btn>
+        <v-btn variant="text" color="info" @click="$emit('action:show_info', item.group_id)">详细信息</v-btn>
         <v-btn variant="text" color="red" @click="$emit('action:del', item.group_id)">删除</v-btn>
       </td>
     </tr>

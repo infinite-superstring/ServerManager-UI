@@ -1,16 +1,21 @@
 <script>
+import node_tags from "@/scripts/apis/node_tags";
+import login from "@/layouts/login.vue";
+import {debounce} from "@/scripts/utils/debounce";
+
 export default {
   name: "inputTag",
+  computed: {
+    login() {
+      return login
+    }
+  },
   props: {
     label: {
       type: String,
       required: true,
     },
-    items: {
-      type: Array,
-      required: false
-    },
-    tags: {
+    value: {
       type: Array,
       required: false
     },
@@ -20,31 +25,41 @@ export default {
       default: "default"
     }
   },
-  emits: ["input", 'update:chips'],
+  emits: ['update'],
   data() {
     return {
-      chips: [],
+      select: [],
+      tags: [],
+      debounce: debounce(this.search_tag, 300),
     }
   },
   mounted() {
-    // if (this.tags) {
-    //   console.log(this.tags)
-    //   this.chips = this.tags
+    // console.log(this.value)
+    // if (this.value) {
+    //   this.select = this.value
     // }
+    this.search_tag()
   },
   methods: {
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
+    search_tag(search="") {
+      if (!search) {return}
+      node_tags.search_tag(search).then(res => {
+        this.tags = res.data.data.tags
+      })
     },
+    select_splice(index) {
+      this.select.splice(index, 1)
+      this.update()
+    },
+    update() {
+      this.$emit('update', this.select)
+    }
   },
   watch: {
-    tags(val) {
-      if (val !== this.chips) {
-        this.chips = val
-      }
-    },
-    chips(val) {
-      this.$emit('update:chips', val)
+    value(val) {
+      console.log(val)
+      if (!val || val === this.select) {return}
+      this.select = val
     }
   }
 }
@@ -52,21 +67,22 @@ export default {
 
 <template>
   <v-combobox
-    clearable
     multiple
     :density="density"
     :label="label"
-    v-model="chips"
-    :items="items"
-    @input="$event => {this.$emit('input', $event.target.value)}"
+    v-model="select"
+    :items="tags"
+    @input="$event => debounce($event.target.value)"
+    @update:model-value="update"
   >
     <template v-slot:selection="data">
       <v-chip
+        class="ma-1"
         :key="data.item"
         :model-value="data.selected"
         size="small"
         color="primary"
-        @click:close="chips.splice(data.index, 1)"
+        @click:close="select_splice(data.index)"
         closable
       >
         {{ data.item.title }}

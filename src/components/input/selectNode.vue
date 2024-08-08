@@ -1,7 +1,6 @@
 <script>
-import message from "@/scripts/utils/message";
-import axios from "axios";
 import objectUtils from "@/scripts/utils/objectUtils";
+import node_manager from "@/scripts/apis/node_manager";
 
 export default {
   name: "selectNode",
@@ -11,9 +10,7 @@ export default {
     }
   },
   props: {
-    value: {
-
-    },
+    value: {},
     label: {
       type: String,
     }
@@ -27,24 +24,25 @@ export default {
   },
   methods: {
     getNodeBaseList(search = "", page_index = 1, page_size = 20) {
-      axios.post('/api/node_manager/getBaseNodeList', {
-        page: page_index,
-        page_size: page_size,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.nodeListData = res.data.data.PageContent
-        } else {
-          console.warn(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(err.message)
+      node_manager.get_base_node_list(
+        search,
+        page_index,
+        page_size
+      ).then((res) => {
+        this.nodeListData = res.data.data.PageContent
       })
     }
   },
   mounted() {
     this.getNodeBaseList()
+  },
+  watch: {
+    value(val) {
+      if (val && val !== this.select) {
+        this.select = val
+        console.log(this.select)
+      }
+    }
   }
 }
 </script>
@@ -58,7 +56,7 @@ export default {
     color="primary"
     :label="label"
     @update:search="value => getNodeBaseList(value)"
-    @update:model-value="select => $emit('update', objectUtils.object_select_value_to_list(select.map(({uuid})=>({uuid})), 'uuid'))"
+    @update:model-value="select => {$emit('update', objectUtils.object_select_value_to_list(select.map(({uuid})=>({uuid})), 'uuid'))}"
     multiple
     return-object
     auto-select-first

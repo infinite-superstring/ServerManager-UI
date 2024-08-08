@@ -33,19 +33,19 @@ export default {
   },
   watch: {
     search(val) {
-      this.getNodeList(1, val)
+      this.getNodeList(val, 1)
     },
     currentPage(val) {
-      this.getNodeList(val, this.search)
+      this.getNodeList(this.search, val)
     }
   },
   mounted() {
     this.search = this.$route.query.search
-    this.getNodeList(1, this.search)
+    this.getNodeList(this.search, 1)
     this.displayMode = this.$web_config.viewMode.nodeList
   },
   methods: {
-    getNodeList(page = 1, search = "") {
+    getNodeList(search = "", page = 1) {
       axios.post('/api/node_manager/getNodeList', {
         page: page,
         search: search
@@ -92,13 +92,13 @@ export default {
     <add-node
       :flag="add_node"
       @close="add_node = false"
-      @success="args => {$emit('show_token', 'new_node', args); getNodeList()}"
+      @success="args => {$emit('show_token', 'new_node', args); getNodeList(search, currentPage)}"
     />
     <edit-node
       :flag="edit_node.flag"
       :uuid="edit_node.uuid"
       @close="edit_node.flag = false; edit_node.uuid = null"
-      @success="getNodeList(currentPage, search)"
+      @success="getNodeList(search, currentPage)"
     />
   </div>
   <v-pagination

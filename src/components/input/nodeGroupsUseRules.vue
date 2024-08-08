@@ -6,7 +6,7 @@ import dialogs from "@/scripts/utils/dialogs";
 import message from "@/scripts/utils/message";
 
 export default {
-  name: "message_recipient_rules",
+  name: "node_group_use_rules",
   computed: {
     users() {
       return users
@@ -20,8 +20,7 @@ export default {
   },
   components: {SelectUser, Time_range_selection},
   data: () => {
-    return {
-    }
+    return {}
   },
   methods: {
     addRule() {
@@ -54,21 +53,18 @@ export default {
 <template>
   <v-card>
     <v-card-text>
-      <v-card class="pa-3 rule" v-for="rule in rules" :key="rule">
-        <div>
-          <div class="text-caption">
-            使用者
-          </div>
-          <select-user :value="users" :multiple="true" @update:select_user="args => rule.users=args"></select-user>
-        </div>
-        <div>
-          <div class="text-caption">
-            可用星期
-          </div>
-          <v-select
-            label="请选择"
-            v-model="rule.week"
-            :items="[
+      <v-card class="pa-3 rule" v-for="(rule, index) in rules" :key="rule">
+        <p class="rule-title">规则{{ index + 1 }}</p>
+        <select-user
+          label="使用者"
+          :value="rule.users"
+          multiple
+          @update:select_user="select => rule.users = select"
+        />
+        <v-select
+          label="使用周期"
+          v-model="rule.week"
+          :items="[
               {title: '星期一', value: 'monday'},
               {title: '星期二', value: 'tuesday'},
               {title: '星期三', value: 'wednesday'},
@@ -77,18 +73,14 @@ export default {
               {title: '星期六', value: 'saturday'},
               {title: '星期日', value: 'sunday'},
             ]"
-            multiple
-          ></v-select>
-        </div>
-        <div>
-          <div class="text-caption">
-            可用时间段
-          </div>
-          <time_range_selection
-            @update:start_time="value => rule.start_time = value"
-            @update:end_time="value => rule.end_time=value"
-          />
-        </div>
+          multiple
+        />
+        <time_range_selection
+          :start_time="rule.start_time"
+          :end_time="rule.end_time"
+          @update:start_time="value => rule.start_time = value"
+          @update:end_time="value => rule.end_time=value"
+        />
       </v-card>
     </v-card-text>
     <v-card-actions>
@@ -107,5 +99,10 @@ export default {
 <style scoped>
 .rule:not(:last-child) {
   margin-bottom: 15px;
+}
+
+.rule-title {
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 </style>

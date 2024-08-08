@@ -99,7 +99,7 @@ export default {
         </v-icon>
       </td>
       <td>
-        {{ item.permission_name ? item.permission_name : "无权限" }}
+        {{ item.permissionGroupID ? item.permissionGroupName : "无权限" }}
         <v-icon
           icon="mdi:mdi-square-edit-outline"
           size="x-small"

@@ -24,7 +24,6 @@ export default {
     }
   },
   methods: {
-
     submit() {
       /**
        * 提交
@@ -44,11 +43,6 @@ export default {
     flag(val) {
       if (val) {
         user.getUserInfo(this, this.uid).then(res => {
-          const apiStatus = res.data.status
-          if (apiStatus != 1) {
-            message.showApiErrorMsg(this, res.data.msg)
-            return
-          }
           this.select = res.data.data.permissionId
         })
       } else {
@@ -70,7 +64,7 @@ export default {
     <v-card>
       <v-card-title>修改用户权限</v-card-title>
       <v-card-text>
-        <permission-group-table :select="select" @update="(val)=>{select = val;console.log(val)}"/>
+        <permission-group-table :select="select" @update="(val)=>{select = val}"/>
       </v-card-text>
       <v-card-actions>
         <v-btn color="success" @click="submit()">确定</v-btn>

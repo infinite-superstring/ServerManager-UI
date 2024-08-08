@@ -1,13 +1,13 @@
 <script>
 import SelectUser from "@/components/input/selectUser.vue";
 import SelectNode from "@/components/input/selectNode.vue";
-import Message_recipient_rules from "@/components/input/messageRecipientRules.vue";
+import node_group_use_rules from "@/components/input/nodeGroupsUseRules.vue";
 import message from "@/scripts/utils/message";
-import axios from "axios";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "createGroup",
-  components: {Message_recipient_rules, SelectNode, SelectUser},
+  components: {node_group_use_rules, SelectNode, SelectUser},
   props: {
     flag: {
       type: Boolean
@@ -79,22 +79,16 @@ export default {
           }
         }
       }
-      axios.post("/api/node_manager/node_group/createGroup", {
-        group_name: this.group_name,
-        group_desc: this.group_desc,
-        group_leader: this.group_leader,
-        group_nodes: this.group_nodes,
-        rules: this.time_slot_recipient
-      }).then(res => {
-        if (res.data.status !== 1) {
-          return message.showError(this, res.data.msg)
-        }
+      node_group.create_group(
+        this.group_name,
+        this.group_desc,
+        this.group_leader,
+        this.group_nodes,
+        this.time_slot_recipient,
+      ).then(res => {
         message.showSuccess(this, res.data.msg)
         this.$emit("success")
         this.close()
-      }).catch(err=>{
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
       })
       this.$emit("success")
     },
@@ -129,7 +123,7 @@ export default {
           <div class="text-caption">
             权限规则
           </div>
-          <message_recipient_rules :rules="time_slot_recipient"/>
+          <node_group_use_rules :rules="time_slot_recipient"/>
         </div>
       </v-card-text>
       <v-card-actions>

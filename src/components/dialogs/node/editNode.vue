@@ -44,6 +44,7 @@ export default {
         this.desc = data.node_desc
         this.tags = data.node_tags
         this.group = data.node_group
+        console.log(this.tags)
       })
     },
     load_node_group(search = "") {
@@ -117,10 +118,8 @@ export default {
             节点标签
           </div>
           <input-tag
-            label=""
-            :items="tag_items"
-            :tags="tags"
-            @update:chips="args => {tags = args}"
+            label="节点标签"
+            :value="tags"
             @input="args => {search_tag(args)}"
           />
         </div>

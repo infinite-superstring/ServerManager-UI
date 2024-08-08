@@ -22,7 +22,6 @@ export default {
   },
   mounted() {
     this.loadPermissionGroups()
-    this.select_copy = this.select
   },
   methods: {
     loadPermissionGroups(search = "", page = 1, pageSize = 20) {
@@ -34,22 +33,20 @@ export default {
         page,
         pageSize
       ).then(res => {
-        this.maxPage = res.data.data.maxPage
-        this.currentPage = res.data.data.currentPage
-        this.list = []
-        for (let i = 0; i < res.data.data.PageContent.length; i++) {
-          const item = res.data.data.PageContent[i]
-          this.list.push({
-            id: item.id,
-            name: item.name
-          })
-        }
+        const data = res.data.data
+        this.maxPage = data.maxPage
+        this.currentPage = data.currentPage
+        this.list = data.PageContent
       })
     },
   },
   watch: {
+    select(val) {
+      if (val && val !== this.select_copy) {
+        this.select_copy = val
+      }
+    },
     search(val) {
-      console.log(val)
       this.loadPermissionGroups(val)
     }
   }

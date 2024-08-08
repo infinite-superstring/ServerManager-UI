@@ -20,16 +20,8 @@ async function del_node(el, node_uuid, callback) {
         uuid: node_uuid,
         code: otp_code
       }).then(res => {
-        const apiStatus = res.data.status;
-        if (apiStatus !== 1) {
-          message.showApiErrorMsg(el, res.data.msg, apiStatus)
-        } else {
-          message.showSuccess(el, res.data.msg)
-          return callback()
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(el, err.msg)
+        message.showSuccess(el, res.data.msg)
+        return callback()
       })
     }
   })
@@ -53,16 +45,8 @@ function reset_token(el, node_uuid, callback) {
         uuid: node_uuid,
         code: otp_code
       }).then(res => {
-        const apiStatus = res.data.status;
-        if (apiStatus !== 1) {
-          message.showApiErrorMsg(el, res.data.msg, apiStatus)
-        } else {
-          message.showSuccess(el, res.data.msg)
-          return callback(res.data.data.token, res.data.data.server_token)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(el, err.msg)
+        message.showSuccess(el, res.data.msg)
+        return callback(res.data.data.token, res.data.data.server_token)
       })
     }
   })
@@ -106,10 +90,22 @@ function get_node_info(node_uuid) {
   })
 }
 
+function get_base_node_list(search = "", page_index = 1, page_size = 20) {
+  /**
+   * 获取基础节点列表（不包含节点状态等信息）
+   */
+  return axios.post('/api/node_manager/getBaseNodeList', {
+    page: page_index,
+    page_size: page_size,
+    search: search
+  })
+}
+
 export default {
   del_node,
   reset_token,
   add_node,
   edit_node,
-  get_node_info
+  get_node_info,
+  get_base_node_list
 }
