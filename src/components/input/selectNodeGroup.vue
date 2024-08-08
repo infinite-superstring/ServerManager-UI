@@ -4,12 +4,14 @@ import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "selectNodeGroup",
+  expose: ['reset'],
   computed: {
     objectUtils() {
       return objectUtils
     }
   },
   props: {
+    value: {},
     label: {
       type: String,
       default: "选择集群"
@@ -37,6 +39,10 @@ export default {
         console.log(this.nodeListData)
       })
     },
+    reset() {
+      console.log('清空选择')
+      this.select = []
+    },
     open_group_manager_page() {
       let routeData = this.$router.resolve({
         name: "nodeGroupEdit"
@@ -45,8 +51,8 @@ export default {
     },
   },
   mounted() {
-    this.searchNodeGroup()
-  }
+      this.searchNodeGroup()
+    }
 }
 </script>
 
@@ -74,7 +80,7 @@ export default {
       </v-chip>
     </template>
     <template v-slot:append v-if="add_group">
-      <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
+      <v-btn icon title="新增集群" variant="plain" @click="open_group_manager_page">
         <v-icon icon="mdi:mdi-plus"/>
       </v-btn>
     </template>

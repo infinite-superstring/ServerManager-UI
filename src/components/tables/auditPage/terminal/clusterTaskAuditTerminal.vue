@@ -23,6 +23,7 @@
 import {Terminal} from "@xterm/xterm";
 import {onMounted, ref, watch} from "vue";
 import ResultTooBig from "@/components/tables/auditPage/terminal/ResultTooBig.vue";
+import {initTerminal} from "@/scripts/utils/terminalUtil";
 
 const props = defineProps({
   command: {
@@ -37,7 +38,7 @@ const props = defineProps({
     default: {},
     required: true
   },
-  tooBig:{
+  tooBig: {
     type: Boolean,
     default: false
   }
@@ -45,34 +46,7 @@ const props = defineProps({
 const terminal = ref()
 const terminalRef = ref()
 const init = () => {
-  terminal.value = new Terminal({
-    rendererType: "canvas",
-    convertEol: true,
-    cursorBlink: true,
-    macOptionIsMeta: true,
-    theme: {
-      background: '#272822',
-      foreground: '#F8F8F2',
-      cursor: '#F8F8F2',
-      selection: 'rgba(248, 248, 242, 0.3)',
-      black: '#272822',
-      red: '#F92672',
-      green: '#A6E22E',
-      yellow: '#F4BF75',
-      blue: '#66D9EF',
-      magenta: '#AE81FF',
-      cyan: '#A1EFE4',
-      white: '#F8F8F2',
-      brightBlack: '#75715E',
-      brightRed: '#F92672',
-      brightGreen: '#A6E22E',
-      brightYellow: '#F4BF75',
-      brightBlue: '#66D9EF',
-      brightMagenta: '#AE81FF',
-      brightCyan: '#A1EFE4',
-      brightWhite: '#F8F8F2',
-    }
-  })
+  terminal.value = initTerminal()
   terminal.value.open(terminalRef.value);
 }
 onMounted(() => {

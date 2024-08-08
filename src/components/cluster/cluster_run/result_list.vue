@@ -34,7 +34,7 @@
         <td>{{ item.timestamp }}</td>
         <td>
           <v-btn color="grey" variant="text" title="详细信息" icon="mdi:mdi-information"></v-btn>
-          <v-btn variant="text" title="浏览命令结果" icon="mdi:mdi-eye"></v-btn>
+          <v-btn variant="text" title="浏览命令结果" icon="mdi:mdi-eye" @click="$emit('selectResult', item.uuid)"></v-btn>
           <v-btn color="red" variant="text" title="删除记录" icon="mdi:mdi-delete"></v-btn>
         </td>
       </tr>
@@ -66,6 +66,7 @@
 
 <script setup>
 
+const emit = defineEmits(['selectResult'])
 const currentPage = defineModel()
 const props = defineProps({
   data: {

@@ -63,6 +63,16 @@ onMounted(async () => {
     shell.value = aceEdit.getValue()
   })
 });
+
+defineExpose({
+  setShell(value) {
+    aceEdit.setValue(value)
+  },
+  clearShell() {
+    shell.value = ""
+    aceEdit.setValue('')
+  }
+})
 </script>
 
 

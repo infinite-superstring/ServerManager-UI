@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <v-card title="集群命令" class="pageMain-card">
+  <v-card title="集群指令" class="pageMain-card">
     <v-card-text>
       <cluster_run_layout/>
     </v-card-text>
