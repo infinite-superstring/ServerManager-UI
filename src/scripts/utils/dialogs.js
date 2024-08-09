@@ -3,6 +3,7 @@ import {createApp} from 'vue';
 import vuetify from '@/plugins/vuetify';
 import inputOTP from "@/components/dialogs/input/inputDialog.vue"
 import checkOTP from "@/components/dialogs/OTP/check_OTP.vue"
+import force_bind_OTP from "@/components/dialogs/OTP/force_bind_OTP.vue";
 import inputDialog from "@/components/dialogs/input/inputDialogV2.vue"
 
 
@@ -52,7 +53,7 @@ async function showBindOTP_Dialog() {
   /**
    * 展示绑定OTP弹窗
    */
-  return init_Dialog(checkOTP)
+  return init_Dialog(force_bind_OTP)
 }
 
 async function showInput_Dialog(title= "", label= "", hint = "",type= "text", persistent = null, value= null, max= null, min= null) {

@@ -1,7 +1,7 @@
 <script>
-import axios from "@/scripts/utils/axios";
 import QR_Code from "@/scripts/utils/QR_Code";
 import message from "@/scripts/utils/message";
+import initUser from "@/scripts/utils/initUser";
 
 export default {
   name: "init_user_bind_OTP",
@@ -23,14 +23,9 @@ export default {
         return message.showError(this, "令牌未填写完整")
       }
       this.error = false
-      return axios.get('/api/initUser/checkOTP_Code', {
-        params: {
-          code: this.input_code
-        }
-      }).catch(() => {
+      return initUser.checkOTP_Code(this.input_code).catch(() => {
         this.error = true
         this.input_code = null
-        // throw new Error('bind otp error')
       })
     }
   }
@@ -42,7 +37,7 @@ export default {
     <v-card-text class="text-center mx-auto align-center">
       <canvas ref="qr_show_img"></canvas>
       <div class="text-body-2">
-        请扫描上方的二维码并输入动态密码
+        请扫描上方的二维码并输入动态令牌
       </div>
       <v-sheet color="surface">
         <v-otp-input
