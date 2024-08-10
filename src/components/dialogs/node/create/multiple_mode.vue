@@ -51,7 +51,7 @@ export default {
   <v-sheet min-width="1400px" width="90vw">
     <p class="download_template">
       <v-icon color="primary">mdi-download</v-icon>
-      <a href="#">下载节点列表模板</a>
+      <a href="/api/node_manager/download_node_list_template">下载节点列表模板</a>
     </p>
     <upload-files
       label="请上传要添加的节点列表"
