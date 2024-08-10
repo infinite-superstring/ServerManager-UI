@@ -3,9 +3,10 @@ import {Terminal} from "@xterm/xterm";
 import Result_list from "@/components/cluster/cluster_run/result_list.vue";
 import Result_show from "@/components/cluster/cluster_run/result_show.vue";
 import Create_shell_task from "@/components/cluster/cluster_run/create_shell_task.vue";
-import {createApi, getCommandInfoApi, getListApi} from "@/scripts/apis/cluster_run";
+import {createApi, deleteApi, getCommandInfoApi, getListApi} from "@/scripts/apis/cluster_run";
 import router from "@/router";
 import message from "@/scripts/utils/message";
+import confirmDialog from "@/scripts/utils/confirmDialog";
 
 
 let terminal
@@ -61,6 +62,14 @@ export default {
         this.$refs.createShellTaskRef.reset()
         message.showSuccess(this, "集群命令已下发成功")
       })
+    },
+    deleteByUUID(uuid) {
+      confirmDialog('删除', '该操作无法撤销，请谨慎操作', () => {
+        deleteApi(uuid).then(() => {
+          this.getList()
+          message.showSuccess(this, "删除成功")
+        })
+      }, 'warning')
     }
   },
   watch: {
@@ -86,7 +95,7 @@ export default {
         v-model:current-page="currentPage"
         :max-page="maxPage"
         :data="result_list"
-        @into=""
+        @delete="deleteByUUID"
         @selectResult="selectResult"
       />
       <result_show

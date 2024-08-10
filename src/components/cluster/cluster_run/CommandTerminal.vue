@@ -33,6 +33,21 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  warning: {
+    type: Boolean,
+    default: false
+  },
+  warning_text: {
+    type: String,
+    default: "出现了一些问题"
+  },
+  warning_click_callback: {
+    type: Function,
+    default: () => {
+      return () => {
+      }
+    }
   }
 })
 
@@ -42,7 +57,12 @@ onMounted(() => {
 })
 
 watch(() => props.command, () => {
-
+  terminal.value.clear()
+  if (props.command.length > 0) {
+    for (let i = 0; i < props.command.length; i++) {
+      terminal.value.writeln(props.command[i])
+    }
+  }
 })
 </script>
 

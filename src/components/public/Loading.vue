@@ -1,7 +1,6 @@
 <template>
   <div class="main">
     <div class="loader"></div>
-<!--    <span class="text">加载中...</span>-->
   </div>
 </template>
 <style scoped>
