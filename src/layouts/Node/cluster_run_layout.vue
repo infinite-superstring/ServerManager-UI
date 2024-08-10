@@ -3,8 +3,9 @@ import {Terminal} from "@xterm/xterm";
 import Result_list from "@/components/cluster/cluster_run/result_list.vue";
 import Result_show from "@/components/cluster/cluster_run/result_show.vue";
 import Create_shell_task from "@/components/cluster/cluster_run/create_shell_task.vue";
-import {getListApi} from "@/scripts/apis/cluster_run";
+import {createApi, getCommandInfoApi, getListApi} from "@/scripts/apis/cluster_run";
 import router from "@/router";
+import message from "@/scripts/utils/message";
 
 
 let terminal
@@ -17,16 +18,14 @@ export default {
       result_list: [],
       currentPage: 1,
       maxPage: 0,
+      params: {
+        group: '',
+        base_path: '',
+        shell: ''
+      }
     }
   },
   mounted() {
-    // terminal = new Terminal({
-    //   // disableStdin: true
-    //   rows: 40, //行数
-    //   cols: 100, // 不指定行数，自动回车后光标从下一行开始
-    //   convertEol: true, //启用时，光标将设置为下一行的开头
-    // });
-    // terminal.open(this.$refs.terminal)
     this.getList()
     router.push({query: {}})
   },
@@ -37,8 +36,15 @@ export default {
       })
     },
     selectResult(uuid) {
-      console.log(uuid)
-      // 设置路由参数为 uuid = uuid
+      getCommandInfoApi(uuid).then(r => {
+        this.$refs.createShellTaskRef.setData(
+          {
+            group: r.data.data.group,
+            base_path: r.data.data.basePath,
+            shell: r.data.data.shell
+          }
+        )
+      })
       router.push({query: {uuid}})
       this.currentIsList = false
     },
@@ -46,6 +52,15 @@ export default {
       this.currentIsList = true
       router.push({query: {}})
       this.getList()
+      this.$refs.createShellTaskRef.reset()
+    },
+    onSubmit(data) {
+      console.log(data)
+      createApi(data).then(() => {
+        this.getList()
+        this.$refs.createShellTaskRef.reset()
+        message.showSuccess(this, "集群命令已下发成功")
+      })
     }
   },
   watch: {
@@ -60,7 +75,9 @@ export default {
   <v-row>
     <v-col cols="12" sm="4">
       <create_shell_task
-        @update="getList"
+        ref="createShellTaskRef"
+        @on-submit="onSubmit"
+        :disabledSubmit="!currentIsList"
       />
     </v-col>
     <v-col cols="12" sm="8">

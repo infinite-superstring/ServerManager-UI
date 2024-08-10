@@ -4,7 +4,7 @@ import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "selectNodeGroup",
-  expose: ['reset'],
+  expose: ['reset', 'setSelect'],
   computed: {
     objectUtils() {
       return objectUtils
@@ -23,9 +23,13 @@ export default {
     hideDetails: {
       type: Boolean,
       default: false
+    },
+    modelValue: {
+      type: String,
+      default: ""
     }
   },
-  emits: ['update'],
+  emits: ['update', 'update:modelValue'],
   data: () => {
     return {
       select: [],
@@ -49,10 +53,18 @@ export default {
       });
       window.open(routeData.href, '_blank');
     },
+    selectUpdateValue() {
+      console.log(this.select)
+      this.$emit('update', this.select)
+      this.$emit('update:modelValue', this.select)
+    },
+    setSelect(value) {
+      this.select = value
+    }
   },
   mounted() {
-      this.searchNodeGroup()
-    }
+    this.searchNodeGroup()
+  }
 }
 </script>
 
@@ -66,7 +78,7 @@ export default {
     :label="label"
     :hide-details="hideDetails"
     @update:search="value => searchNodeGroup(value)"
-    @update:model-value="select => {$emit('update', select); console.log(select)}"
+    @update:model-value="selectUpdateValue"
     auto-select-first
   >
     <template v-slot:selection="data">

@@ -10,7 +10,7 @@
           命令摘要
         </th>
         <th class="text-left">
-          执行人
+          发起者
         </th>
         <th class="text-left">
           集群
@@ -33,7 +33,6 @@
         <td>{{ item.group }}</td>
         <td>{{ item.timestamp }}</td>
         <td>
-          <v-btn color="grey" variant="text" title="详细信息" icon="mdi:mdi-information"></v-btn>
           <v-btn variant="text" title="浏览命令结果" icon="mdi:mdi-eye" @click="$emit('selectResult', item.uuid)"></v-btn>
           <v-btn color="red" variant="text" title="删除记录" icon="mdi:mdi-delete"></v-btn>
         </td>

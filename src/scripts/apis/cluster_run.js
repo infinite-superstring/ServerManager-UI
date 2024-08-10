@@ -9,5 +9,9 @@ export const createApi = (data) => {
 }
 
 export const getNodeResultListByUUIDApi = (uuid) => {
-  return axios.get('/api/execute/getNodeResultByUUID?uuid='+uuid)
+  return axios.get('/api/execute/getNodeResultByUUID?uuid=' + uuid)
+}
+
+export const getCommandInfoApi = (uuid) => {
+  return axios.get('/api/execute/getCommandInfo?uuid='+uuid)
 }
