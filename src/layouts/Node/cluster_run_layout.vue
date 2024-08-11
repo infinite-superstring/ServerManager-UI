@@ -7,6 +7,8 @@ import {createApi, deleteApi, getCommandInfoApi, getListApi} from "@/scripts/api
 import router from "@/router";
 import message from "@/scripts/utils/message";
 import confirmDialog from "@/scripts/utils/confirmDialog";
+import localConfigUtils from "@/scripts/utils/localConfigUtils";
+import dialogs from "@/scripts/utils/dialogs";
 
 
 let terminal
@@ -64,12 +66,21 @@ export default {
       })
     },
     deleteByUUID(uuid) {
-      confirmDialog('删除', '该操作无法撤销，请谨慎操作', () => {
-        deleteApi(uuid).then(() => {
+      const userInfo = localConfigUtils.load_userinfo()
+      const WebConfig = localConfigUtils.load_web_config()
+      let code = undefined
+      confirmDialog('删除', '该操作无法撤销，请谨慎操作', async () => {
+        if (userInfo.enableOTP || WebConfig.serverConfig.forceOTP_Bind) {
+          code = await dialogs.showVerifyOTP_Dialog()
+        }
+        deleteApi(uuid,code).then((r) => {
           this.getList()
-          message.showSuccess(this, "删除成功")
+          message.showSuccess(this, r.data.msg)
         })
       }, 'warning')
+    },
+    verifyOPT() {
+
     }
   },
   watch: {

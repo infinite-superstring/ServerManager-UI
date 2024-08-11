@@ -9,11 +9,22 @@
       <v-sheet width="100%">
         <CommandTerminal
           :command="currResultData.lines"
-          :warning="!currResultData.tooBig"
-          :warning_text="'命令结果过大，无法显示'"
           :loading="isLoading"
         />
       </v-sheet>
+      <div v-if="currResultData.tooBig" class="tooBig">
+        <span><i>内容过大,仅显示最后4000行结果，如需要查看全部结果请点击按钮下载！</i></span>
+        <div
+          class="d-flex flex-column align-center justify-center">
+          <v-icon size="100" color="primary">
+            mdi-download
+          </v-icon>
+          <v-btn @click="download">
+            下载
+            <!--            <a :href="'/api/execute/downloadResult?uuid='+resultUUID" download="">下载</a>-->
+          </v-btn>
+        </div>
+      </div>
     </v-card-text>
     <!--    <v-card-actions>-->
     <!--      <v-btn>清空</v-btn>-->
@@ -23,10 +34,12 @@
 
 <script setup>
 import {ref, watch} from "vue";
-import {getNodeResultListByUUIDApi, getResultByResultUUIDApi} from "@/scripts/apis/cluster_run";
+import {downloadResultApi, getNodeResultListByUUIDApi, getResultByResultUUIDApi} from "@/scripts/apis/cluster_run";
 import {useRouter} from "vue-router";
 import CommandTerminal from "@/components/cluster/cluster_run/CommandTerminal.vue";
 import SelectNodeResult from "@/components/cluster/cluster_run/SelectNodeResult.vue";
+import message from "@/scripts/utils/message";
+import confirmDialog from "@/scripts/utils/confirmDialog";
 
 /**
  * 路由实例
@@ -84,6 +97,13 @@ const getResultByResultUUID = () => {
   })
 }
 
+const download = () => {
+  confirmDialog('下载', '将在新窗口中触发下载', () => {
+    downloadResultApi(resultUUID.value)
+  }, 'success')
+
+}
+
 watch(() => router.currentRoute.value.query.uuid, (n, o) => {
   currUUID.value = n
   getNodeResultListByUUID()
@@ -95,5 +115,9 @@ watch(() => resultUUID.value, n => {
 </script>
 
 <style scoped>
-
+.tooBig {
+  width: 100%;
+  padding-top: 30px;
+  text-align: center;
+}
 </style>

@@ -59,18 +59,6 @@
       next-icon="mdi:mdi-menu-right"
       rounded="circle"
     ></v-pagination>
-    <!--    <v-list-->
-    <!--      density="compact"-->
-    <!--    >-->
-    <!--      <v-list-item-->
-    <!--        v-for="item in data"-->
-    <!--        :key="item.result_id"-->
-    <!--        :title="item.time"-->
-    <!--        variant="plain"-->
-    <!--      >-->
-    <!--        {{ item.command }}-->
-    <!--      </v-list-item>-->
-    <!--    </v-list>-->
   </v-card>
 </template>
 

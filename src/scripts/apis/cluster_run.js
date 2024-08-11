@@ -42,6 +42,12 @@ export const getResultByResultUUIDApi = (uuid) => {
   return axios.get('/api/execute/getResultByUUID?uuid=' + uuid)
 }
 
-export const deleteApi = (uuid) => {
-  return axios.delete('/api/execute/delete?uuid=' + uuid)
+export const deleteApi = (uuid, code) => {
+  return axios.delete('/api/execute/delete', {params: {uuid, code}})
+}
+
+export const downloadResultApi = (uuid) => {
+  let url = '/api/execute/downloadResult?uuid=' + uuid
+  let win = window.open(url, '_blank');
+  win.focus();
 }
