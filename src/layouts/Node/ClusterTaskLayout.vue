@@ -1,23 +1,13 @@
 <template>
-  <div class="toolsBar">
-    <v-btn
-      color="green"
-      @click="addDialogShow = true"
-    >
-      新建集群任务
-    </v-btn>
-    <v-text-field
-      v-model="params.search"
-      @update:model-value="deGetList"
-      class="search"
-      density="compact"
-      label="搜索"
-      variant="solo-filled"
-      single-line
-      hide-details
-    >
-    </v-text-field>
-  </div>
+  <ToolsSelectBar
+    v-model="params"
+    button-label="新建集群任务"
+    search-label="按内容搜索"
+    @add-button-click="addDialogShow = true"
+    @search:input="deGetList"
+    :options="options"
+  >
+  </ToolsSelectBar>
   <ClusterTaskList
     @on-show="onShowDetailDialog"
     @change-enable="onChangeEnable"
@@ -78,6 +68,50 @@ import {
   getListApi,
   verifyCommandApi
 } from "@/scripts/apis/clusterTask";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
+import node_group from "@/scripts/apis/node_group";
+
+/* 搜索参数*/
+const options = ref([
+  {
+    prop: 'enable',
+    label: '启用状态',
+    optional: [
+      {
+        label: '启用',
+        value: true
+      },
+      {
+        label: '禁用',
+        value: false
+      }
+    ],
+    radio: true
+  },
+  {
+    prop: 'execType',
+    label: '执行方式',
+    optional: [
+      {
+        label: '间隔',
+        value: 'interval'
+      },
+      {
+        label: '指定时间',
+        value: 'date-time'
+      },
+      {
+        label: '周期',
+        value: 'cycle'
+      }
+    ]
+  },
+  {
+    prop: 'node_group',
+    label: '集群',
+    optional: []
+  }
+])
 
 const addDialogRef = ref(null)
 const detailDialogRef = ref(null)
@@ -136,12 +170,7 @@ const getGroupList = (search = '') => {
     message.showWarning(this, '搜索字符过长')
     search = search.substring(0, 20)
   }
-  axiosplus.post('/api/node_manager/node_group/getGroupList'
-    , {
-      page: 1,
-      pageSize: 5,
-      search
-    }).then(r => {
+  node_group.getNodeGroupListApi({search, page: 1, pageSize: 5}).then(r => {
     groupList.value = r.data.data.PageContent
   })
 }
@@ -262,9 +291,21 @@ const onShowEditDialog = (uuid) => {
   })
 }
 
+const getGroupOption = () => {
+  node_group.getNodeGroupListApi({page: 1, pageSize: 10}).then(r => {
+    options.value[options.value.length - 1].optional = r.data.data.PageContent.map(item => {
+      return {
+        label: item.group_name,
+        value: item.group_id
+      }
+    })
+  })
+}
+
 onMounted(() => {
   getGroupList()
   getList()
+  getGroupOption()
 })
 </script>
 
