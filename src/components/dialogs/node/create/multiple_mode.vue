@@ -16,20 +16,6 @@ export default {
         error_msgs: []
       }
     }
-  },
-  methods: {
-    auth_restrictions_method(method) {
-      switch (method) {
-        case 1:
-          return "IP地址段"
-        case 2:
-          return "IP地址"
-        case 3:
-          return "MAC地址"
-        default:
-          return "未知"
-      }
-    }
   }
 }
 </script>
@@ -42,7 +28,8 @@ export default {
     </p>
     <upload-files
       label="请上传要添加的节点列表"
-      upload_button_text="上传并解析"
+      accept=".xlsx"
+      auto_upload
       base_url="/api/node_manager/import_node"
       prepend_icon="mdi-table-arrow-up"
       :success_callback="data => results = data.results"
@@ -89,12 +76,11 @@ export default {
               <p v-else>{{ item[0] }}</p>
             </td>
             <td>
-              <!--              <v-chip-group v-if="node_item.node_tags.length > 0">-->
-              <!--                <v-chip v-for="tag in node_item.node_tags" :key="tag">{{ tag }}</v-chip>-->
-              <!--              </v-chip-group>-->
-              <!--              <p v-else>无</p>-->
               <p v-if="results.errors[index][1]" class='error'>{{ results.error_msgs[index][1] }}</p>
-              {{ item[1] ? item[1] : '无' }}
+              <div v-else>
+                <v-chip class="mx-1 my-1" color="primary" v-for="tag in item[1]" :key="tag">{{ tag }}</v-chip>
+                <p v-if="!item[1]">无</p>
+              </div>
             </td>
             <td>
               <p v-if="results.errors[index][2]" class='error'>{{ results.error_msgs[index][2] }}</p>

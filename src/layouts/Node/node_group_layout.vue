@@ -26,7 +26,7 @@ export default {
     >
       <v-tab value="group_list">集群列表</v-tab>
       <v-tab value="group_alarm_setting">集群告警设置</v-tab>
-      <v-tab value="group_file_send">集群文件分发</v-tab>
+<!--      <v-tab value="group_file_send">集群文件分发</v-tab>-->
     </v-tabs>
 
     <v-card-text>
@@ -39,9 +39,9 @@ export default {
           <node_group_alarm_setting_layout/>
         </v-tabs-window-item>
 
-        <v-tabs-window-item value="group_file_send">
-          <node_group_file_send_layout/>
-        </v-tabs-window-item>
+<!--        <v-tabs-window-item value="group_file_send">-->
+<!--          <node_group_file_send_layout/>-->
+<!--        </v-tabs-window-item>-->
       </v-tabs-window>
     </v-card-text>
   </v-card>

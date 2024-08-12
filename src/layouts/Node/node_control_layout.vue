@@ -147,8 +147,8 @@ export default {
         value="Performance_records"
       ></v-tab>
       <v-tab
-        text="控制"
-        value="Control"
+        text="终端"
+        value="Terminal"
       ></v-tab>
       <v-tab
         text="事件"
@@ -195,7 +195,7 @@ export default {
         <v-window-item value="Performance_records">
           <node-performance-record :ws="websocket"/>
         </v-window-item>
-        <v-window-item value="Control">
+        <v-window-item value="Terminal">
           <node-terminal :node_uuid="node_base_info.node_uuid" :ws="websocket" :online="node_base_info.node_online" :os="os"/>
         </v-window-item>
         <v-window-item value="Event">

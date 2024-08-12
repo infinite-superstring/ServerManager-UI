@@ -25,7 +25,7 @@ export default {
       id="searchUser"
       class="search"
       density="compact"
-      label=""
+      label="搜索"
       variant="solo-filled"
       single-line
       hide-details

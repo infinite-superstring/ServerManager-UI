@@ -4,7 +4,6 @@ import ToolsBar from "@/components/nodeGroup/group_list/toolsBar.vue";
 import message from "@/scripts/utils/message";
 import localConfigUtils from "@/scripts/utils/localConfigUtils";
 import dialogs from "@/scripts/utils/dialogs";
-import axios from "@/scripts/utils/axios";
 import CreateGroup from "@/components/dialogs/nodeGroup/createGroup.vue";
 import ShowGroupInfo from "@/components/dialogs/nodeGroup/showGroupInfo.vue";
 import EditGroup from "@/components/dialogs/nodeGroup/editGroup.vue";

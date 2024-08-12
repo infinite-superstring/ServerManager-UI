@@ -24,6 +24,7 @@ import DutyPage from '@/views/Duty.vue'
 import WebStatus from "@/views/web_status/WebStatus.vue";
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 import dialogs from "@/scripts/utils/dialogs";
+import clusterFileSend from "@/views/node/clusterFileSend.vue";
 // import dialogs from "@/scripts/utils/dialogs";
 const routes = [
   // 登录
@@ -96,7 +97,7 @@ const routes = [
     }
   },
   {
-    path: '/node_manager/clusterTask',
+    path: '/node_manager/cluster/Task',
     name: "clusterTask",
     components: {
       default: ClusterTask,
@@ -107,7 +108,7 @@ const routes = [
     }
   },
   {
-    path: '/node_manager/clusterExecution',
+    path: '/node_manager/cluster/Execution',
     name: "clusterExecution",
     components: {
       default: ClusterExecution,
@@ -115,6 +116,17 @@ const routes = [
     },
     meta: {
       title: "集群命令"
+    }
+  },
+  {
+    path: '/node_manager/cluster/FileSend',
+    name: "clusterFileSend",
+    components: {
+      default: clusterFileSend,
+      appBarBtn: appbar_default
+    },
+    meta: {
+      title: "集群文件分发"
     }
   },
   // 网站可用性监控

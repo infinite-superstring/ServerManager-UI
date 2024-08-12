@@ -62,8 +62,8 @@ export default {
         v-model="$web_config.viewMode.nodeAddMode"
         class="ma-3"
       >
-        <v-tab value="Single">单例模式</v-tab>
-        <v-tab value="Multiple">批量模式</v-tab>
+        <v-tab value="Single">单个添加</v-tab>
+        <v-tab value="Multiple">批量添加</v-tab>
       </v-tabs>
 
       <v-card-text>

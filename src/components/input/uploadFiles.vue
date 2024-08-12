@@ -3,6 +3,7 @@
     <div class="d-flex align-items-center">
       <v-file-input
         v-model="file"
+        :accept="accept"
         :label="label"
         :prepend-icon="prepend_icon"
         :multiple="multiple"
@@ -34,7 +35,7 @@
         <template #append>
           <v-btn
             @click="upload"
-            v-if="!auto_upload || show_upload_button"
+            v-if="!auto_upload && show_upload_button"
             :disabled="file.length === 0 && !this.uploading"
             :prepend-icon="multiple ? 'mdi-upload-multiple' : 'mdi-upload'"
           >
@@ -103,6 +104,10 @@ export default {
     prepend_icon: {
       type: String,
       default: "$file",
+    },
+    accept: {
+      type: String,
+      default: "",
     },
     chip_color: {
       /**
@@ -253,7 +258,7 @@ export default {
             }
           }
         } catch (e) {
-          message.showError(this, `文件合并失败：${e}`)
+          // message.showError(this, `文件合并失败：${e}`)
           this.handle_upload_error(i)
         }
       }

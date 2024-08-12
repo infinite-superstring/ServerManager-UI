@@ -124,6 +124,14 @@ export default {
           prepend-icon="mdi:mdi-timeline-outline"
           v-if="$user.check_user_permission('clusterTask')"
         />
+        <v-list-item
+          class="list_group_item"
+          :to="{name: 'clusterFileSend'}"
+          title="文件分发"
+          density="compact"
+          prepend-icon="mdi:mdi-file-send-outline"
+          v-if="$user.check_user_permission('clusterFileSend')"
+        />
       </v-list-group>
       <v-list-item
         :to="{name:'webStatus'}"
