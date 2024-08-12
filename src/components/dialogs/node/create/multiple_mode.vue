@@ -6,28 +6,15 @@ import UploadFiles from "@/components/input/uploadFiles.vue";
 
 export default {
   name: "add_node__multiple_mode",
-  computed: {
-
-  },
+  computed: {},
   components: {UploadFiles, SelectAuthRestrictionsMethod, SelectNodeGroup, InputTag},
   data() {
     return {
-      results: [
-        {
-          node_name: "",  // 节点名
-          node_tags: [],  // 节点标签列表
-          node_desc: "",  // 节点简介
-          node_group: {  // 节点组
-            group_id: 1,  // 节点组id
-            group_name: ""  // 节点组名
-          },
-          auth_restrictions: {  // 认证限制
-            enable: true,  // 启用认证限制
-            method: 1,  // 认证限制方法
-            value: null  // 认证限制值
-          }
-        }
-      ]
+      results: {
+        datas: [],
+        errors: [],
+        error_msgs: []
+      }
     }
   },
   methods: {
@@ -51,15 +38,17 @@ export default {
   <v-sheet min-width="1400px" width="90vw">
     <p class="download_template">
       <v-icon color="primary">mdi-download</v-icon>
-      <a href="/api/node_manager/download_node_list_template">下载节点列表模板</a>
+      <a href="/api/node_manager/import_node/download_template">下载节点列表模板</a>
     </p>
     <upload-files
       label="请上传要添加的节点列表"
       upload_button_text="上传并解析"
-      base_url="#"
+      base_url="/api/node_manager/import_node"
       prepend_icon="mdi-table-arrow-up"
+      :success_callback="data => results = data.results"
+      hide_progress
     />
-    <v-card class="pa-3">
+    <v-card class="pa-3" v-if="results.datas.length > 0">
       <v-card-title>
         解析结果
       </v-card-title>
@@ -92,34 +81,40 @@ export default {
           </thead>
           <tbody>
           <tr
-            v-for="node_item in results"
-            :key="node_item"
+            v-for="(item, index) in results.datas"
+            :key="item"
           >
             <td>
-              {{ node_item.node_name }}
-              <p v-if="!node_item.node_name" class='error'>未填写</p>
+              <p v-if="results.errors[index][0]" class='error'>{{ results.error_msgs[index][0] }}</p>
+              <p v-else>{{ item[0] }}</p>
             </td>
             <td>
-              <v-chip-group v-if="node_item.node_tags.length > 0">
-                <v-chip v-for="tag in node_item.node_tags" :key="tag">{{ tag }}</v-chip>
-              </v-chip-group>
-              <p v-else>无</p>
+              <!--              <v-chip-group v-if="node_item.node_tags.length > 0">-->
+              <!--                <v-chip v-for="tag in node_item.node_tags" :key="tag">{{ tag }}</v-chip>-->
+              <!--              </v-chip-group>-->
+              <!--              <p v-else>无</p>-->
+              <p v-if="results.errors[index][1]" class='error'>{{ results.error_msgs[index][1] }}</p>
+              {{ item[1] ? item[1] : '无' }}
             </td>
             <td>
-              {{ node_item.node_desc ? node_item.node_desc : "无" }}
+              <p v-if="results.errors[index][2]" class='error'>{{ results.error_msgs[index][2] }}</p>
+              <p v-else>{{ item[2] ? item[2] : '无' }}</p>
             </td>
             <td>
-              {{ node_item.node_group.name }} (gid:{{ node_item.node_group.group_id }})
+              <p v-if="results.errors[index][3]" class='error'>{{ results.error_msgs[index][3] }}</p>
+              <p v-else>{{ item[3] ? item[3] : '未选择' }}</p>
             </td>
             <td>
-              <v-checkbox v-model="node_item.auth_restrictions.enable" color="primary" disabled hide-details/>
+              <p v-if="results.errors[index][4]" class='error'>{{ results.error_msgs[index][4] }}</p>
+              <v-checkbox v-else color="primary" v-model="item[4]" disabled hide-details/>
             </td>
             <td>
-              {{ auth_restrictions_method(node_item.auth_restrictions.method) }}
+              <p v-if="results.errors[index][5]" class='error'>{{ results.error_msgs[index][5] }}</p>
+              <p v-else>{{ item[5] ? item[5] : '未选择' }}</p>
             </td>
             <td>
-              {{ node_item.auth_restrictions.value }}
-              <p v-if="!node_item.auth_restrictions.value" :class='node_item.auth_restrictions.enable ? "error" : ""'>未填写</p>
+              <p v-if="results.errors[index][6]" class='error'>{{ results.error_msgs[index][6] }}</p>
+              <p v-else>{{ item[6] ? item[6] : '未填写' }}</p>
             </td>
           </tr>
           </tbody>
@@ -133,6 +128,7 @@ export default {
 .download_template {
   margin-bottom: 15px;
 }
+
 .error {
   color: red;
   text-decoration: underline red;

@@ -43,7 +43,7 @@
         </template>
       </v-file-input>
     </div>
-    <v-sheet :max-height="progress_box_max_height" width="100%" class="overflow-auto">
+    <v-sheet v-if="!hide_progress" :max-height="progress_box_max_height" width="100%" class="overflow-auto">
       <div v-for="item in file_info" :key="item.file_name">
         <h3>{{ item.file_name }}</h3>
         <div>
@@ -90,9 +90,7 @@ export default {
       failure_count: 0,  // 失败计数器
     }
   },
-  computed: {
-
-  },
+  computed: {},
   props: {
     label: {
       type: String,
@@ -119,6 +117,10 @@ export default {
        */
       type: Boolean,
       default: true,
+    },
+    hide_progress: {
+      type: Boolean,
+      default: true
     },
     progress_height: {
       /**
@@ -172,6 +174,10 @@ export default {
        */
       type: Number,
       default: 8
+    },
+    success_callback: {
+      type: Function,
+      default: null
     }
   },
   methods: {
@@ -183,6 +189,8 @@ export default {
       this.uploading = true
       this.file_info = []
       this.upload_progress = {}
+      this.success_count = 0
+      this.failure_count = 0
       const files = this.file
       console.log(this.chunk_size * 1024 * 1024)
       files.forEach((file, index) => {
@@ -207,6 +215,7 @@ export default {
             index: index
           }
         })
+        // 异步上传文件块
         for await (const result of asyncPool(this.threads, tasks, fileUtils.calculateChunkHash)) {
           const {hash, index} = result
           file_info.chunk_hash_list[index] = hash
@@ -215,7 +224,7 @@ export default {
           formData.append("index", index)
           formData.append("hash", hash)
           try {
-            const upload_res = await axios.post(this.base_url+"/upload", formData)
+            const upload_res = await axios.post(this.base_url + "/upload", formData)
             if (upload_res.data.status === 1) {
               this.handle_upload_progress(i)
               continue
@@ -226,19 +235,27 @@ export default {
           this.handle_upload_error(i)
           break
         }
+        // 如果状态不对于1则不合并文件
         if (file_info.progress.status !== 1) continue
+        // 合并文件
         try {
-          const upload_res = axios.post(this.base_url+"/merge", formDataUtils.new_form_data({
+          const upload_res = await axios.post(this.base_url + "/merge", formDataUtils.new_form_data({
             file_name: file_info.file_name,
             chunk_count: file_info.file_chunks.length,
             chunk_hash_list: file_info.chunk_hash_list
           }))
           console.log(upload_res)
+          if (upload_res) {
+            this.success_count += 1
+            // 触发回调
+            if (this.success_callback) {
+              this.success_callback(upload_res.data.data)
+            }
+          }
         } catch (e) {
           message.showError(this, `文件合并失败：${e}`)
           this.handle_upload_error(i)
         }
-        this.success_count += 1
       }
       this.uploading = false
       const msg = "文件上传完成！"
@@ -266,6 +283,8 @@ export default {
       const file_info = this.file_info[file_index]
       file_info.progress.status = -1
       this.failure_count += 1
+      console.log(this.file_info[file_index])
+      console.log(this.failure_count)
     }
   }
 }
