@@ -10,6 +10,18 @@ function get_node_group_list(search = "", page = 1) {
   })
 }
 
+/**
+ * 获取集群列表
+ * @param data
+ * @param data.page 页码
+ * @param data.search 搜索
+ * @param data.pageSize 每页数量
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+function getNodeGroupListApi(data) {
+  return axios.post('/api/node_manager/node_group/getGroupList', data)
+}
+
 function get_group_info(gid) {
   /**
    * 获取集群详细信息
@@ -62,5 +74,6 @@ export default {
   get_group_info,
   create_group,
   delete_group,
-  editGroup
+  editGroup,
+  getNodeGroupListApi
 }
