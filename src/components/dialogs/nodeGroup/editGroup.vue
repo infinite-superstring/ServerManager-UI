@@ -3,6 +3,8 @@ import node_group from "@/scripts/apis/node_group";
 import SelectNode from "@/components/input/selectNode.vue";
 import node_group_use_rules from "@/components/input/nodeGroupsUseRules.vue";
 import SelectUser from "@/components/input/selectUser.vue";
+import message from "@/scripts/utils/message";
+import objectUtils from "@/scripts/utils/objectUtils";
 
 export default {
   name: "editGroup",
@@ -47,10 +49,58 @@ export default {
       this.$emit('close')
     },
     submit() {
-      console.log("name：", this.group_name)
-      console.log("leader：", this.group_leader)
-      console.log("nodes：", this.node_list)
-      console.log("rules：", this.rules)
+      if (!this.group_name) return message.showWarning(this, '集群名不能为空')
+      if (!this.group_leader) return message.showWarning(this, '未选择集群负责人')
+      if (this.node_list.length <= 0) return message.showWarning(this, '未选择节点')
+      if (this.rules.length > 0) {
+        for (let i = 0; i < this.rules.length; i++) {
+          let item = this.rules[i]
+          if (item.users.length <= 0) {
+            message.showError(this, `规则${i + 1}用户未选择`)
+            return
+          }
+          if (item.week.length <= 0) {
+            message.showError(this, `规则${i + 1}星期未选择`)
+            return
+          }
+          if (!item.start_time) {
+            message.showError(this, `规则${i + 1}开始时间不能为空`)
+            return
+          }
+          if (!item.end_time) {
+            message.showError(this, `规则${i + 1}结束时间不能为空`)
+            return
+          }
+        }
+      }
+      let rules = []
+      for (let i = 0; i < this.rules.length; i++) {
+        let users = []
+        for (let j = 0; j < this.rules[i].users.length; j++) {
+          users.push(objectUtils.isPlainObject(this.rules[i].users[j]) ? this.rules[i].users[j].id : this.rules[i].users[j])
+        }
+        let week = []
+        for (let j = 0; j < this.rules[i].week.length; j++) {
+          week.push(objectUtils.isPlainObject(this.rules[i].week[j]) ? this.rules[i].week[j].value : this.rules[i].week[j])
+        }
+        rules.push({
+          users,
+          week,
+          start_time: this.rules[i].start_time,
+          end_time: this.rules[i].end_time
+        })
+      }
+      node_group.editGroup(
+        this.id,
+        this.group_name,
+        this.group_desc,
+        this.group_leader.id,
+        this.node_list,
+        rules,
+      ).then((r) => {
+        this.$emit('success')
+        message.showSuccess(this, r.data.msg)
+      })
     }
   },
   watch: {
@@ -76,15 +126,16 @@ export default {
       <v-card-text>
         <v-text-field type="text" label="集群名" v-model="group_name" max="20" disabled></v-text-field>
         <v-text-field type="text" label="集群备注" v-model="group_desc" max="100"></v-text-field>
-<!--        <select-user-->
-<!--          label="集群负责人"-->
-<!--          :value="group_leader"-->
-<!--          @update:select_user="value => console.log(value)"-->
-<!--        />-->
+        <!--        <select-user-->
+        <!--          label="集群负责人"-->
+        <!--          :value="group_leader"-->
+        <!--          @update:select_user="value => console.log(value)"-->
+        <!--        />-->
         <select-node
           label="请选择节点"
           :value="node_list"
           @update="value=>node_list=value"
+
         />
         <div>
           <div class="text-caption">

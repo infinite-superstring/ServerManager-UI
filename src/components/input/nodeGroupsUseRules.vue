@@ -46,11 +46,6 @@ export default {
         message.showError(this, "没有可删除的规则")
       }
     }
-  },
-  watch:{
-    rules(val) {
-      if (val) console.log(val[0])
-    }
   }
 }
 </script>

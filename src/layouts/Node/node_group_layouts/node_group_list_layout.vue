@@ -90,7 +90,7 @@ export default {
     <edit-group
       :id="editGroup.id"
       :flag="editGroup.flag"
-      @success="getNodeGroupList(currentPage, search)"
+      @success="getNodeGroupList(currentPage, search);editGroup.flag = false"
       @close="editGroup.flag = false; editGroup.id = null"
     />
     <show-group-info

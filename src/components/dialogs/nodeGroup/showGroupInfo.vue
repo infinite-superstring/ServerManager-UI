@@ -87,8 +87,8 @@ export default {
           <span
             class="week"
             v-for="week in item.week"
-            :key="week">
-            {{ week }}
+            :key="week.value">
+            {{ week.title }}
           </span>
           <p>开始时间: {{ item.start_time }} —— 结束时间: {{ item.end_time }} </p>
           <div>

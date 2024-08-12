@@ -39,6 +39,17 @@ function create_group(name, desc, leader_id, node_list, rule_list) {
   })
 }
 
+function editGroup(group_id, name, desc, leader_id, node_list, rule_list) {
+  return axios.post("/api/node_manager/node_group/edit", {
+    group_id: group_id,
+    group_name: name,
+    group_desc: desc,
+    group_leader: leader_id,
+    group_nodes: node_list,
+    rules: rule_list
+  })
+}
+
 function delete_group(group_id, otp_code = null) {
   return axios.post("/api/node_manager/node_group/delGroup", {
     group_id: group_id,
@@ -50,5 +61,6 @@ export default {
   get_node_group_list,
   get_group_info,
   create_group,
-  delete_group
+  delete_group,
+  editGroup
 }

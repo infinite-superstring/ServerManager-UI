@@ -45,7 +45,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.value)
     if (this.value) this.time = this.value
   }
 }

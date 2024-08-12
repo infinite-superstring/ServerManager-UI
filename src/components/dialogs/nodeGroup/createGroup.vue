@@ -45,7 +45,7 @@ export default {
       }
       console.log(this.group_leader)
       if (!this.group_leader) {
-        message.showError(this, "未选择节点负责人")
+        message.showError(this, "未选择集群负责人")
         return
       }
       if (this.group_nodes.length <= 0) {
