@@ -27,7 +27,7 @@ export default {
   emits: ['update:value'],
   data: () => {
     return {
-      time: null,
+      time: '',
       flag: false
     }
   },
@@ -41,9 +41,12 @@ export default {
       }
     },
     time(val) {
-      console.log(val)
       this.$emit('update:value', val)
     }
+  },
+  mounted() {
+    console.log(this.value)
+    if (this.value) this.time = this.value
   }
 }
 </script>

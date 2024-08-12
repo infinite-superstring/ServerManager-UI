@@ -42,6 +42,10 @@ export default {
     time2(val) {
       this.$emit("update:end_time", val);
     }
+  },
+  mounted() {
+    if (this.start_time) this.time1 = this.start_time;
+    if (this.end_time) this.time2 = this.end_time;
   }
 }
 </script>

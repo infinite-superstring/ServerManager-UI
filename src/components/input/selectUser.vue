@@ -43,6 +43,7 @@ export default {
   },
   mounted() {
     this.getUserList()
+    if (this.value) this.select = this.value
   },
   unmounted() {
     this.input = ""
@@ -56,7 +57,9 @@ export default {
     },
     returnValue(val) {
       console.log("update:", val)
-      if (!val) {return}
+      if (!val) {
+        return
+      }
       if (this.returnObject) {
         return this.$emit('update:select_user', val)
       }
