@@ -70,6 +70,7 @@ import {
   verifyCommandApi
 } from "@/scripts/apis/clusterTask";
 import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 import node_group from "@/scripts/apis/node_group";
 
 /* 搜索参数*/
