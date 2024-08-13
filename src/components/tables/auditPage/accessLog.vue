@@ -1,15 +1,24 @@
 <script>
 import NotData from "@/components/emptyState/notData.vue";
 import access_log from "@/scripts/apis/audit/access_log";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 
 export default {
   name: "accessLog_table",
-  components: {NotData},
+  components: {ToolsSelectBar, NotData},
   data: () => {
     return {
       currentPage: 1,
       maxPage: null,
       table: [],
+      params: {},
+      options: [
+        {
+          prop: 'date',
+          label: '时间范围',
+          type: 'date-range',
+        }
+      ]
     }
   },
   methods: {
@@ -17,7 +26,8 @@ export default {
     getTable(page = 1, pageSize = 20) {
       access_log.load_access_log(
         page,
-        pageSize
+        pageSize,
+        this.params
       ).then(res => {
         const data = res.data.data
         const PageContent = data.PageContent
@@ -47,6 +57,13 @@ export default {
 </script>
 
 <template>
+   <ToolsSelectBar
+    v-model="params"
+    hide-add-button
+    :options="options"
+    @search:input="getTable()"
+    @option:click="getTable()"
+  />
   <v-table density="compact" v-if="table.length > 0">
     <thead>
     <tr>

@@ -1,22 +1,32 @@
 <script>
 import NotData from "@/components/emptyState/notData.vue";
 import file_change_log from "@/scripts/apis/audit/file_change_log";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 
 export default {
   name: "fileChangeLog_table",
-  components: {NotData},
+  components: {ToolsSelectBar, NotData},
   data: () => {
     return {
       currentPage: 1,
       maxPage: null,
       table: [],
+      params: {},
+      options: [
+        {
+          prop: 'date',
+          label: '时间范围',
+          type: 'date-range',
+        }
+      ]
     }
   },
   methods: {
     getTable(page = 1, pageSize = 20) {
       file_change_log.load_file_change_log(
         page,
-        pageSize
+        pageSize,
+        this.params
       ).then(res => {
         const data = res.data.data
         this.table = []
@@ -38,6 +48,13 @@ export default {
 </script>
 
 <template>
+   <ToolsSelectBar
+    v-model="params"
+    hide-add-button
+    :options="options"
+    @search:input="getTable()"
+    @option:click="getTable()"
+  />
   <v-table density="compact" v-if="table.length > 0">
     <thead>
     <tr>

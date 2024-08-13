@@ -1,15 +1,43 @@
 <script>
 import NotData from "@/components/emptyState/notData.vue";
 import system_log from "@/scripts/apis/audit/system_log";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 
 export default {
   name: "systemLog_table",
-  components: {NotData},
+  components: {ToolsSelectBar, NotData},
   data: () => {
     return {
       currentPage: 1,
       maxPage: null,
       table: [],
+      params: {},
+      options: [
+        {
+          prop: 'date',
+          label: '时间范围',
+          type: 'date-range',
+        },
+        {
+          prop: 'level',
+          label: '日志等级',
+          optional: [
+            {
+              label: '信息',
+              value: 1
+            },
+            {
+              label: '警告',
+              value: 2
+            },
+            {
+              label: '错误',
+              value: 3
+            }
+          ],
+          type: 'checkbox'
+        }
+      ]
     }
   },
   methods: {
@@ -17,13 +45,14 @@ export default {
     getTable(page = 1, pageSize = 20) {
       system_log.load_system_log(
         page,
-        pageSize
+        pageSize,
+        this.params
       ).then(res => {
         const data = res.data.data
-          this.table = []
-          this.maxPage = data.maxPage
-          this.currentPage = data.currentPage
-          this.table = data.PageContent
+        this.table = []
+        this.maxPage = data.maxPage
+        this.currentPage = data.currentPage
+        this.table = data.PageContent
       })
     },
     getTableData() {
@@ -45,6 +74,13 @@ export default {
 </script>
 
 <template>
+  <ToolsSelectBar
+    v-model="params"
+    hide-add-button
+    :options="options"
+    @search:input="getTable()"
+    @option:click="getTable()"
+  />
   <v-table density="compact" v-if="table.length > 0">
     <thead>
     <tr>

@@ -1,20 +1,21 @@
 <template>
   <div class="many" ref="manyRef">
-    <v-card>
+    <v-card style="margin: 5px">
       <v-card-text>
         <v-row v-for="(item, index) in options" :key="index">
           <v-col cols="1" class="label">
             <span class="font-weight-black">{{ item.label }}</span>
           </v-col>
-          <v-col cols="11">
-            <v-chip-group selected-class="text-primary">
-              <v-chip
-                v-for="(op, index) in item.optional"
-                :key="index"
-                @click="emit('select', {prop:item.prop,value:op.value})"
-              >{{ op.label }}
-              </v-chip>
-            </v-chip-group>
+          <v-col cols="11" class="op">
+            <ChipSelect
+              v-if="item.type === 'radio' || item.type === 'checkbox'"
+              :item="item"
+              @select="args => emit('select', args)"
+            />
+            <TimeRange
+              v-if="item.type === 'date-range'"
+              @input="data => emit('select', {prop:item.prop,value:data,type:item.type})"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -25,6 +26,9 @@
 <script setup>
 
 import {onMounted, ref, watch} from "vue";
+import ChipSelect from "@/components/public/toolsSelectBar/ChipSelect.vue";
+import TimeRange from "@/components/public/toolsSelectBar/TimeRange.vue";
+
 const emit = defineEmits(['select'])
 const manyRef = ref()
 const props = defineProps({
@@ -38,21 +42,27 @@ const props = defineProps({
       {
         prop: 'name',
         label: '选项1',
-        optional: [
-          {
-            label: '选项1-1',
-            value: '1-1'
-          },
-          {
-            label: '选项1-2',
-            value: '1-2'
-          },
-          {
-            label: '选项1-3',
-            value: '1-3'
-          }
-        ],
-        radio: true,
+        optional: {
+          type: Array,
+          default: () => [
+            {
+              label: '选项1-1',
+              value: '1-1'
+            },
+            {
+              label: '选项1-2',
+              value: '1-2'
+            },
+            {
+              label: '选项1-3',
+              value: '1-3'
+            }
+          ]
+        },
+        type: {
+          type: 'radio' | 'checkbox' | 'date' | 'date-range',
+          default: 'radio'
+        },
       }
     ]
   }
@@ -79,7 +89,6 @@ watch(() => props.open, n => {
 
 <style scoped>
 .many {
-  padding: 10px;
   display: block;
   width: 100%;
   height: 0;
@@ -87,10 +96,15 @@ watch(() => props.open, n => {
   overflow: hidden;
 }
 
-.label {
+.label, .op {
   text-align: right;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.op {
+  justify-content: flex-start;
+  align-items: center;
 }
 </style>

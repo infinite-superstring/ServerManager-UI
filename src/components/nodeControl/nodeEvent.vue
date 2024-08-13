@@ -1,8 +1,11 @@
 <script>
 import axios from "axios";
+import node_manager from "@/scripts/apis/node_manager";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 
 export default {
   name: "nodeEvent",
+  components: {ToolsSelectBar},
   props: {
     node_uuid: {
       type: String,
@@ -23,7 +26,53 @@ export default {
           update_time: null,
           phase: [],
         }
-      }
+      },
+      params: {},
+      options: [
+        {
+          prop: 'level',
+          label: '事件级别',
+          optional: [
+            {
+              label: '信息',
+              value: 'Info'
+            },
+            {
+              label: '警告',
+              value: 'Warning'
+            },
+            {
+              label: '错误',
+              value: 'Error'
+            },
+            // {
+            //   label: '致命的',
+            //   value: 'Critical'
+            // }
+          ],
+          type: 'checkbox'
+        },
+        {
+          prop: 'dateRange',
+          label: '时间',
+          type: 'date-range'
+        },
+        {
+          prop: 'status',
+          label: '事件状态',
+          optional: [
+            {
+              label: '运行时',
+              value: true
+            },
+            {
+              label: '已结束',
+              value: false
+            },
+          ],
+          type: 'radio'
+        }
+      ]
     }
   },
   mounted() {
@@ -31,10 +80,11 @@ export default {
   },
   methods: {
     getEventList(page_index = 1, page_size = 20) {
-      axios.post('/api/node_manager/node_event/get_node_events', {
+      node_manager.getNodeEventListApi({
         node_uuid: this.node_uuid,
         page: page_index,
-        pageSize: page_size
+        pageSize: page_size,
+        ...this.params
       }).then((response) => {
         console.log(response.data)
         if (response.data.status !== 1) {
@@ -71,6 +121,14 @@ export default {
 </script>
 
 <template>
+  <ToolsSelectBar
+    v-model="params"
+    search-label="按类型搜索"
+    :hide-add-button="true"
+    @option:click="getEventList()"
+    @search:input="getEventList()"
+    :options="options"
+  />
   <v-table>
     <thead>
     <tr>

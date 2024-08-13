@@ -1,6 +1,7 @@
 <template>
   <div class="toolsBar">
     <v-btn
+      v-if="!hideAddButton"
       color="success"
       @click="$emit('addButtonClick')"
     >
@@ -53,93 +54,59 @@ const props = defineProps({
     default: '点击添加'
   },
   options: {
-    type: Array,
-    default: () => [
-      {
-        prop: 'name',
-        label: '选项1',
-        optional: [
-          {
-            label: '选项1-1',
-            value: '1-1'
-          },
-          {
-            label: '选项1-2',
-            value: '1-2'
-          },
-          {
-            label: '选项1-3',
-            value: '1-3'
-          }
-        ],
-      },
-      {
-        prop: 'name2',
-        label: '选项2',
-        optional: [
-          {
-            label: '选项2-1',
-            value: '2-1'
-          },
-          {
-            label: '选项2-2',
-            value: '2-2'
-          },
-          {
-            label: '选项2-3',
-            value: '2-3'
-          }
-        ],
-      },
-      {
-        prop: 'name3',
-        label: '选项3',
-        optional: [
-          {
-            label: '选项3-1',
-            value: '3-1'
-          },
-          {
-            label: '选项3-2',
-            value: '3-2'
-          },
-          {
-            label: '选项3-3',
-            value: '3-3'
-          }
-        ],
-      },
-      {
-        prop: 'name4',
-        label: '选项4',
-        optional: [
-          {
-            label: '选项4-1',
-            value: '4-1'
-          },
-          {
-            label: '选项4-2',
-            value: '4-2'
-          },
-          {
-            label: '选项4-3',
-            value: '4-3'
-          }
-        ],
-      },
-    ]
+    type: Array
+  },
+  hideAddButton: {
+    type: Boolean,
+    default: false
   }
 })
 const openMany = () => {
   manyIsOpen.value = !manyIsOpen.value
 }
 
+/*
+ *
+ *                               未实现
+ * type: 'radio' | 'checkbox' | 'date' | 'date-range'
+ * 单选 多选 日期 日期范围
+ *
+ */
 const handleSelect = (data) => {
-  if (model.value[data.prop] === data.value) {
-    delete model.value[data.prop]
-  } else {
-    model.value[data.prop] = data.value
+  switch (data.type) {
+    case 'radio'://单选处理方式
+      if (model.value[data.prop] === data.value) {
+        delete model.value[data.prop]
+      } else {
+        model.value[data.prop] = data.value
+      }
+      break
+    case 'checkbox'://多选处理方式
+      if (model.value[data.prop] === undefined) {
+        model.value[data.prop] = [data.value]
+      } else {
+        if (model.value[data.prop].includes(data.value)) {
+          model.value[data.prop] = model.value[data.prop].filter(item => item !== data.value)
+        } else {
+          model.value[data.prop].push(data.value)
+        }
+        if (model.value[data.prop].length === 0) {
+          delete model.value[data.prop]
+        }
+      }
+      break
+    case 'date'://日期处理方式
+      model.value[data.prop] = data.value
+      break
+    case 'date-range'://日期范围处理方式
+      if (data.value) {
+        model.value[data.prop] = data.value
+      } else {
+        delete model.value[data.prop]
+      }
+      break
   }
+
   emit('option:click', data)
   console.log(model.value)
 }

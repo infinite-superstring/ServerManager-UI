@@ -73,10 +73,30 @@ function secondToStr(seconds) {
   return `${hour}小时${minute}分${second}秒`;
 }
 
+/**
+ * 字符串转时间戳
+ * @param dateString
+ * @return {number|null}
+ */
+function convertToTimestamp(dateString) {
+  // 创建一个新的 Date 对象
+  const date = new Date(dateString);
+
+  // 检查日期是否有效
+  if (isNaN(date.getTime())) {
+    console.error('Invalid date string');
+    return null;
+  }
+
+  // 返回时间戳（毫秒）
+  return date.getTime();
+}
+
 export default {
   formatBytes,
   formatPercentage,
   formatTimestampToStr,
   timeStringToSeconds,
-  secondToStr
+  secondToStr,
+  convertToTimestamp
 }

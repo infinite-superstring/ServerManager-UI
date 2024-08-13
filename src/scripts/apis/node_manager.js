@@ -101,11 +101,30 @@ function get_base_node_list(search = "", page_index = 1, page_size = 20) {
   })
 }
 
+/**
+ * 获取节点列表
+ * @param params
+ * @return {Promise<axios.AxiosResponse<any>>}
+ */
+function getNodeListApi(params) {
+  return axios.post('/api/node_manager/getNodeList', params)
+}
+
+/**
+ * 获取节点事件列表
+ * @param data
+ */
+function getNodeEventListApi(data) {
+  return axios.post('/api/node_manager/node_event/get_node_events', data)
+}
+
 export default {
   del_node,
   reset_token,
   add_node,
   edit_node,
   get_node_info,
-  get_base_node_list
+  get_base_node_list,
+  getNodeListApi,
+  getNodeEventListApi
 }

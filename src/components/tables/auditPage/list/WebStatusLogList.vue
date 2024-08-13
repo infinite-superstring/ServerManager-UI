@@ -31,10 +31,12 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import axiosplus from "@/scripts/utils/axios";
 import {getLogApi} from "@/scripts/apis/audit/web_status";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 
+const model = defineModel()
 const props = defineProps({
   host: {
     type: String,
@@ -53,7 +55,8 @@ const getList = () => {
   getLogApi({
     host: props.host,
     page: page.value.page,
-    pageSize: page.value.pageSize
+    pageSize: page.value.pageSize,
+    ...model.value
   }).then(r => {
     list.value = r.data.data.list
     page.value.maxPage = r.data.data.maxPage
@@ -63,9 +66,20 @@ const getList = () => {
 onMounted(() => {
   getList()
 })
+// 卸载组件钩子
+onUnmounted(() => {
+  console.log(props.host + '已卸载')
+})
+onUnmounted(() => {
+  console.log(props.host + '已卸载')
+})
 watch(() => page.value.page, () => {
   getList()
 })
+watch(() => model.value, () => {
+  console.log(model.value)
+  getList()
+}, {deep: true})
 </script>
 
 

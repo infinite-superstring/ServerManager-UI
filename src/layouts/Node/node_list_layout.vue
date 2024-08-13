@@ -2,10 +2,10 @@
 import ToolsBar from "@/components/nodeList/toolsBar.vue";
 import nodeList from "@/components/nodeList/nodeList.vue";
 import addNode from "@/components/dialogs/node/addNode.vue";
-import axios from "axios";
-import message from "@/scripts/utils/message";
 import node_manager from "@/scripts/apis/node_manager";
 import EditNode from "@/components/dialogs/node/editNode.vue";
+import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
+import SwitchViewsButton from "@/components/nodeList/SwitchViewsButton.vue";
 
 export default {
   name: "node_list_layout",
@@ -14,7 +14,7 @@ export default {
       return node_manager
     }
   },
-  components: {EditNode, ToolsBar, nodeList, addNode},
+  components: {SwitchViewsButton, ToolsSelectBar, EditNode, ToolsBar, nodeList, addNode},
   emits: ['show_token'],
   data() {
     return {
@@ -28,7 +28,24 @@ export default {
       currentPage: 1,
       maxPage: null,
       nodeListData: [],
-      displayMode: ""
+      displayMode: "",
+      params: {},
+      options: [
+        {
+          prop: 'XXX',
+          label: '状态',
+          optional: [
+            {
+              label: '正常',
+              value: '正常'
+            },
+            {
+              label: '异常',
+              value: '异常'
+            }
+          ]
+        }
+      ]
     }
   },
   watch: {
@@ -36,33 +53,22 @@ export default {
       this.getNodeList(val, 1)
     },
     currentPage(val) {
-      this.getNodeList(this.search, val)
+      this.getNodeList(this.params.search, val)
     }
   },
   mounted() {
-    this.search = this.$route.query.search
-    this.getNodeList(this.search, 1)
+    this.params.search = this.$route.query.search
+    this.getNodeList(this.params.search, 1)
     this.displayMode = this.$web_config.viewMode.nodeList
   },
   methods: {
     getNodeList(search = "", page = 1) {
-      axios.post('/api/node_manager/getNodeList', {
-        page: page,
-        search: search
-      }).then((res) => {
-        if (res.data.status === 1) {
-          this.maxPage = res.data.data.maxPage
-          this.currentPage = res.data.data.currentPage
-          this.nodeListData = res.data.data.PageContent
-          return true
-        } else {
-          message.error(res.data.msg)
-        }
-      }).catch(err => {
-        console.error(err)
-        message.showApiErrorMsg(this, err.message)
+      node_manager.getNodeListApi({...this.params, page}).then(res => {
+        this.maxPage = res.data.data.maxPage
+        this.currentPage = res.data.data.currentPage
+        this.nodeListData = res.data.data.PageContent
+        return true
       })
-      return false
     },
     switch_display_mode(mode) {
       this.$web_config.viewMode.nodeList = mode
@@ -73,17 +79,29 @@ export default {
 </script>
 
 <template>
-  <tools-bar
-    @action:addNode="add_node=true"
-    @action:search="args => {search=args}"
-    @action:switch_display_mode="args => {switch_display_mode(args)}"
-    :search="search"
-  />
+  <!--  <tools-bar-->
+  <!--    @action:addNode="add_node=true"-->
+  <!--    @action:search="args => {search=args}"-->
+  <!--    @action:switch_display_mode="args => {switch_display_mode(args)}"-->
+  <!--    :search="search"-->
+  <!--  />-->
+  <ToolsSelectBar
+    v-model="params"
+    button-label="添加节点"
+    search-label="按节点名搜索"
+    @add-button-click="add_node=true"
+    @search:input="getNodeList"
+    :options="options"
+  >
+    <template #append>
+      <SwitchViewsButton @switch_display_mode="switch_display_mode"/>
+    </template>
+  </ToolsSelectBar>
   <node-list
     :nodeList="nodeListData"
     :display-mode="displayMode"
-    @action:click_tag="args => search = `tag:${args}`"
-    @action:click_status="args => search = `status:${args}`"
+    @action:click_tag="args => params.search = `tag:${args}`"
+    @action:click_status="args => params.search = `status:${args}`"
     @action:del_node="args => node_manager.del_node(this, args, res => getNodeList())"
     @action:reset_token="args => node_manager.reset_token(this, args, (token,serverToken) => $emit('show_token', 'reset_token', {token,serverToken}))"
     @action:edit="args => {edit_node.uuid = args; edit_node.flag = true}"
@@ -92,13 +110,13 @@ export default {
     <add-node
       :flag="add_node"
       @close="add_node = false"
-      @success="args => {$emit('show_token', 'new_node', args); getNodeList(search, currentPage)}"
+      @success="args => {$emit('show_token', 'new_node', args); getNodeList(params.search, currentPage)}"
     />
     <edit-node
       :flag="edit_node.flag"
       :uuid="edit_node.uuid"
       @close="edit_node.flag = false; edit_node.uuid = null"
-      @success="getNodeList(search, currentPage)"
+      @success="getNodeList(params.search, currentPage)"
     />
   </div>
   <v-pagination
