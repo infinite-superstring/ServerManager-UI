@@ -46,10 +46,10 @@ export default {
             <th class="text-left">
               节点名
             </th>
-            <th class="text-left">
+            <th class="text-left" style="max-width: 200px">
               节点标签
             </th>
-            <th class="text-left">
+            <th class="text-left" style="max-width: 200px">
               节点备注
             </th>
             <th class="text-left">
@@ -75,16 +75,16 @@ export default {
               <p v-if="results.errors[index][0]" class='error'>{{ results.error_msgs[index][0] }}</p>
               <p v-else>{{ item[0] }}</p>
             </td>
-            <td>
+            <td class="remarks">
               <p v-if="results.errors[index][1]" class='error'>{{ results.error_msgs[index][1] }}</p>
-              <div v-else>
+              <div v-else :title="item[1]">
                 <v-chip class="mx-1 my-1" color="primary" v-for="tag in item[1]" :key="tag">{{ tag }}</v-chip>
                 <p v-if="!item[1]">无</p>
               </div>
             </td>
-            <td>
+            <td class="remarks">
               <p v-if="results.errors[index][2]" class='error'>{{ results.error_msgs[index][2] }}</p>
-              <p v-else>{{ item[2] ? item[2] : '无' }}</p>
+              <p v-else :title="item[2]">{{ item[2] ? item[2] : '无' }}</p>
             </td>
             <td>
               <p v-if="results.errors[index][3]" class='error'>{{ results.error_msgs[index][3] }}</p>
@@ -118,5 +118,11 @@ export default {
 .error {
   color: red;
   text-decoration: underline red;
+}
+
+.remarks {
+  max-width: 200px; /* 设置最大宽度 */
+  white-space: nowrap; /* 禁止文本换行 */
+  overflow: hidden; /* 隐藏溢出的内容 */
 }
 </style>
