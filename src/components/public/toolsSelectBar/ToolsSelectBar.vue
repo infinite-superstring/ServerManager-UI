@@ -23,7 +23,7 @@
           title="更多选项"
           @click="openMany"
           variant="text">
-          更多
+          筛选条件
         </v-btn>
       </template>
     </v-text-field>
