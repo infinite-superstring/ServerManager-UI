@@ -1,7 +1,4 @@
 <script setup>
-
-import UploadFiles from "@/components/input/uploadFiles.vue";
-import node_manager from "@/scripts/apis/node_manager";
 </script>
 
 <template>
@@ -28,9 +25,6 @@ import node_manager from "@/scripts/apis/node_manager";
           Copyright &copy; <a href="https://github.com/infinite-superstring">Infinite Superstring</a>
         </p>
       </div>
-      <v-divider/>
-      <upload-files base_url="/api/file_distribution" multiple/>
-      <v-btn @click="node_manager.generate_node_config_pack('http://127.0.0.1', 'xxxxxx', [{node_name: '测试1', node_token: 'xxxxx'},{node_name: '测试2', node_token: 'xxxxx'},{node_name: '测试3', node_token: 'xxxxx'},{node_name: '测试4', node_token: 'xxxxx'}])">测试</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -38,6 +32,5 @@ import node_manager from "@/scripts/apis/node_manager";
 <style scoped>
 .about {
   text-indent: 2em;
-
 }
 </style>
