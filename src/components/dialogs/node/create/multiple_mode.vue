@@ -3,6 +3,8 @@ import InputTag from "@/components/input/inputTag.vue";
 import SelectNodeGroup from "@/components/input/selectNodeGroup.vue";
 import SelectAuthRestrictionsMethod from "@/components/input/selectAuthRestrictionsMethod.vue";
 import UploadFiles from "@/components/input/uploadFiles.vue";
+import message from "@/scripts/utils/message";
+import node_manager from "@/scripts/apis/node_manager";
 
 export default {
   name: "add_node__multiple_mode",
@@ -10,6 +12,7 @@ export default {
   components: {UploadFiles, SelectAuthRestrictionsMethod, SelectNodeGroup, InputTag},
   data() {
     return {
+      table_error: false,
       results: {
         datas: [],
         errors: [],
@@ -17,12 +20,33 @@ export default {
       }
     }
   },
+  emits: ['success'],
   methods: {
     render_data(data) {
       this.results = data.results
-      if (data.error) {
-        message.showWarning(this, "表格有错误，请按照提示进行修正后重新提交", 5000)
+      this.table_error = data.error
+      if (this.table_error) {
+        return message.showWarning(this, "表格有错误，请按照提示进行修正后重新提交", 5000)
       }
+      this.session = data.session
+      message.showSuccess(this, "表格无错误，请检查并确定后点击提交")
+    },
+    submit() {
+      if (this.results.datas <= 0) {
+        return message.showError(this, "没有要导入的节点列表")
+      }
+      if (this.table_error) {
+        return message.showError(this, "表格有错误，请修改后重新上传")
+      }
+      node_manager.save_import_node_list(this.results.datas).then(response => {
+        const data = response.data.data
+        node_manager.generate_node_config_pack(
+          data?.server_host ? data.server_host : location.href,
+          data.server_token,
+          data.node_data_list
+        )
+        this.$emit("success")
+      })
     }
   }
 }

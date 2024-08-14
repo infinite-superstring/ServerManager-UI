@@ -76,7 +76,10 @@ export default {
           </v-tabs-window-item>
 
           <v-tabs-window-item value="Multiple">
-            <add_node__multiple_mode/>
+            <add_node__multiple_mode
+              ref="multiple_mode__form"
+              @success="() => {$emit('success'); close()}"
+            />
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>

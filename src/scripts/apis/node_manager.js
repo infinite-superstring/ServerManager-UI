@@ -1,3 +1,6 @@
+import JSZip from 'jszip'
+import {saveAs} from 'file-saver'
+
 import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import dialogs from "@/scripts/utils/dialogs";
@@ -66,7 +69,7 @@ function add_node(name, description, tags, group, auth_restrictions) {
   })
 }
 
-function edit_node(node_uuid, name, description, tags, group) {
+function edit_node(node_uuid, name, description, tags, group, auth_restrictions) {
   /**
    * 编辑节点信息
    * @param node_uuid 节点uuid
@@ -80,7 +83,8 @@ function edit_node(node_uuid, name, description, tags, group) {
     node_name: name,
     node_description: description,
     node_tags: tags,
-    node_group: group
+    node_group: group,
+    node_auth_restrictions: auth_restrictions
   })
 }
 
@@ -118,6 +122,60 @@ function getNodeEventListApi(data) {
   return axios.post('/api/node_manager/node_event/get_node_events', data)
 }
 
+function save_import_node_list(node_list) {
+  /**
+   * 保存节点导入列表
+   */
+  return axios.post('/api/node_manager/import_node/save', {
+    node_list: node_list
+  })
+}
+
+function generate_node_config_pack(server_host, server_token, node_data_list) {
+  /**
+   * 生成节点配置文件（压缩包）
+   * @param server_host 服务器地址
+   * @param server_token 服务器token
+   * @param node_data_list 包含节点名和节点token的列表
+   */
+  console.log(server_host, server_token, node_data_list)
+  // 创建一个新的JSZip实例
+  const zip = new JSZip()
+  const parsedUrl = new URL(server_host)
+  for (const index in node_data_list) {
+    const item = node_data_list[index]
+    const indexFolder = zip.folder(item.node_name)
+    indexFolder.file('config.toml', `[server]
+# 服务器地址
+server_host = "${parsedUrl.hostname}"
+# 服务器端口号
+server_port = ${parsedUrl.port || (parsedUrl.protocol === 'https:' ? '443' : '80')}
+# 服务器Token
+server_token = "${server_token}"
+# 启用SSL
+enable_SSL = ${parsedUrl.protocol === 'https:'}
+# 客户端名称
+client_name = "${item.node_name}"
+# 客户端Token(需与客户端名称对应)
+client_token = "${item.node_token}"
+# 自动重连到服务器
+re_connect = true
+
+[safe]
+# 允许服务器执行命令
+execute_command = true
+# 允许服务器访问文件
+access_file = true
+# 允许服务器连接终端
+connect_terminal = true`)
+  }
+
+  zip.generateAsync({type: 'blob'}).then((content) => {
+    // 使用 FileSaver.js 保存文件
+    saveAs(content, '节点配置文件.zip')
+  })
+}
+
 export default {
   del_node,
   reset_token,
@@ -125,6 +183,8 @@ export default {
   edit_node,
   get_node_info,
   get_base_node_list,
+  save_import_node_list,
+  generate_node_config_pack,
   getNodeListApi,
   getNodeEventListApi
 }

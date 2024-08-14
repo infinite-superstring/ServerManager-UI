@@ -24,6 +24,15 @@ export default {
       <v-card-title class="machine-name">
         <span class="overflow-x-hidden">
           {{ item.name }}
+          <v-icon
+            v-if="item.enable_auth_restrictions"
+            style="line-height: 100%"
+            color="warning"
+            size="14"
+            title="该节点已启用登录限制"
+          >
+            mdi:mdi-lock-outline
+          </v-icon>
         </span>
         <div class="machine-action">
           <v-btn
