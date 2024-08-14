@@ -28,7 +28,7 @@
         v-for="item in data"
         :key="item.name"
       >
-        <td>{{ item.shell }}</td>
+        <td :title="item.shell">{{ getShell(item.shell) }}</td>
         <td>{{ item.user }}</td>
         <td>{{ item.group }}</td>
         <td>{{ item.timestamp }}</td>
@@ -76,6 +76,18 @@ const props = defineProps({
     default: 1
   }
 })
+
+/**
+ * 最多显示十个字符
+ * @param shell
+ */
+const getShell = (shell) => {
+  if (shell.length > 10) {
+    return shell.substring(0, 10) + '...'
+  } else {
+    return shell
+  }
+}
 
 </script>
 

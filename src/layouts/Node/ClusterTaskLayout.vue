@@ -87,7 +87,7 @@ const options = ref([
         value: false
       }
     ],
-    radio: true
+    type: 'radio'
   },
   {
     prop: 'execType',
@@ -105,12 +105,14 @@ const options = ref([
         label: '周期',
         value: 'cycle'
       }
-    ]
+    ],
+    type: 'checkbox'
   },
   {
     prop: 'node_group',
     label: '集群',
-    optional: []
+    optional: [],
+    type: 'checkbox'
   }
 ])
 

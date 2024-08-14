@@ -2,11 +2,32 @@
   <div class="many" ref="manyRef">
     <v-card style="margin: 5px">
       <v-card-text>
-        <v-row v-for="(item, index) in options" :key="index">
-          <v-col cols="1" class="label">
+        <!--        <v-row class="row" v-for="(item, index) in options" :key="index">-->
+        <!--          <v-col-->
+        <!--            cols="1"-->
+        <!--            class="row-left">-->
+        <!--            <span class="font-weight-black">{{ item.label }}</span>-->
+        <!--          </v-col>-->
+        <!--          <v-col class="row-right">-->
+        <!--            <ChipSelect-->
+        <!--              v-if="item.type === 'radio' || item.type === 'checkbox'"-->
+        <!--              :item="item"-->
+        <!--              @select="args => emit('select', args)"-->
+        <!--            />-->
+        <!--            <TimeRange-->
+        <!--              v-if="item.type === 'date-range'"-->
+        <!--              @input="data => emit('select', {prop:item.prop,value:data,type:item.type})"-->
+        <!--            />-->
+        <!--          </v-col>-->
+        <!--        </v-row>-->
+
+
+        <div class="row" v-for="(item, index) in options" :key="index">
+          <div
+            class="row-left">
             <span class="font-weight-black">{{ item.label }}</span>
-          </v-col>
-          <v-col cols="11" class="op">
+          </div>
+          <div class="row-right">
             <ChipSelect
               v-if="item.type === 'radio' || item.type === 'checkbox'"
               :item="item"
@@ -16,8 +37,10 @@
               v-if="item.type === 'date-range'"
               @input="data => emit('select', {prop:item.prop,value:data,type:item.type})"
             />
-          </v-col>
-        </v-row>
+          </div>
+        </div>
+
+
       </v-card-text>
     </v-card>
   </div>
@@ -67,10 +90,13 @@ const props = defineProps({
     ]
   }
 })
+
+
 onMounted(() => {
   let el = manyRef.value
   el.style.height = props.open ? 'auto' : '0px'
 })
+
 watch(() => props.open, n => {
   let el = manyRef.value
   if (n) {
@@ -96,15 +122,44 @@ watch(() => props.open, n => {
   overflow: hidden;
 }
 
-.label, .op {
-  text-align: right;
+/*
+.row, .row-left, .row-right {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 }
 
-.op {
-  justify-content: flex-start;
+.row-left {
+  justify-content: end;
+}
+*/
+
+.row, .row-left, .row-right {
+  width: 100%;
+  display: flex;
   align-items: center;
 }
+
+.row-left {
+  padding-right: 20px;
+  justify-content: end;
+  width: 100px;
+}
+
+.row-right {
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 730px) {
+  .row-left {
+    min-width: 100px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .row-left {
+    min-width: 100px;
+  }
+}
+
+
 </style>
