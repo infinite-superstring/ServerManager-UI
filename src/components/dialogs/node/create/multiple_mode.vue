@@ -16,6 +16,14 @@ export default {
         error_msgs: []
       }
     }
+  },
+  methods: {
+    render_data(data) {
+      this.results = data.results
+      if (data.error) {
+        message.showWarning(this, "表格有错误，请按照提示进行修正后重新提交", 5000)
+      }
+    }
   }
 }
 </script>
@@ -32,17 +40,20 @@ export default {
       auto_upload
       base_url="/api/node_manager/import_node"
       prepend_icon="mdi-table-arrow-up"
-      :success_callback="data => results = data.results"
+      :success_callback="render_data"
       hide_progress
     />
-    <v-card class="pa-3" v-if="results.datas.length > 0">
+    <v-card class="pa-3" v-if="results.datas.length > 0" flat>
       <v-card-title>
         解析结果
       </v-card-title>
       <v-card-text>
-        <v-table>
+        <v-table class="overflow-auto" height="400px">
           <thead>
           <tr>
+            <th class="text-left">
+              #
+            </th>
             <th class="text-left">
               节点名
             </th>
@@ -71,6 +82,9 @@ export default {
             v-for="(item, index) in results.datas"
             :key="item"
           >
+            <td>
+              {{ index+1 }}
+            </td>
             <td>
               <p v-if="results.errors[index][0]" class='error'>{{ results.error_msgs[index][0] }}</p>
               <p v-else>{{ item[0] }}</p>
