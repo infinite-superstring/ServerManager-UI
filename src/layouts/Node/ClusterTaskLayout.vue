@@ -80,11 +80,11 @@ const options = ref([
     optional: [
       {
         label: '启用',
-        value: true
+        value: 1
       },
       {
         label: '禁用',
-        value: false
+        value: 0
       }
     ],
     type: 'radio'
@@ -106,13 +106,13 @@ const options = ref([
         value: 'cycle'
       }
     ],
-    type: 'checkbox'
+    type: 'radio'
   },
   {
     prop: 'node_group',
     label: '集群',
     optional: [],
-    type: 'checkbox'
+    type: 'radio'
   }
 ])
 

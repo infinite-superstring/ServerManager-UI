@@ -25,6 +25,7 @@ import WebStatus from "@/views/web_status/WebStatus.vue";
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 import dialogs from "@/scripts/utils/dialogs";
 import clusterFileSend from "@/views/node/clusterFileSend.vue";
+import Screen from "@/views/Screen.vue";
 // import dialogs from "@/scripts/utils/dialogs";
 const routes = [
   // 登录
@@ -59,6 +60,18 @@ const routes = [
     },
     meta: {
       title: "仪表盘"
+    }
+  },
+  // 大屏
+  {
+    path: '/screen',
+    name: "screen",
+    components: {
+      default: Screen,
+      // appBarBtn: appbar_default
+    },
+    meta: {
+      title: "大屏"
     }
   },
   // 节点列表
@@ -301,7 +314,9 @@ router.beforeEach(async (to, from, next) => {
 let websiteSettingStore
 router.beforeEach(async (to, from, next) => {
   // 绕过不需要登录的界面
-  if (to.meta.pass_login) {return await next()}
+  if (to.meta.pass_login) {
+    return await next()
+  }
   websiteSettingStore = useWebsiteSettingStore()
   if (!websiteSettingStore.serverConfig.init) await websiteSettingStore.updateServerConfig()
   await next()
@@ -318,16 +333,24 @@ router.beforeEach((to, from, next) => {
 
 // 新用户强制跳转初始化页面
 router.beforeEach((to, from, next) => {
-  if (to.meta.pass_login) {return next()}
-  if (userStore.isNewUser && to.name !== 'init_user') {return next("/init_user")}
+  if (to.meta.pass_login) {
+    return next()
+  }
+  if (userStore.isNewUser && to.name !== 'init_user') {
+    return next("/init_user")
+  }
   return next()
 })
 
 // 检查OTP绑定
 router.beforeEach(async (to, from, next) => {
   // 绕过不需要登录的界面
-  if (to.meta.pass_login) {return await next()}
-  if (to.meta.pass_bind_otp) {return await next()}
+  if (to.meta.pass_login) {
+    return await next()
+  }
+  if (to.meta.pass_bind_otp) {
+    return await next()
+  }
   await next()
   // 如果强制绑定OTP+用户未绑定OTP将弹出绑定框
   if (websiteSettingStore.serverConfig.forceOTP_Bind && !userStore.enableOTP) {
