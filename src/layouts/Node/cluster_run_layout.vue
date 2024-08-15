@@ -1,5 +1,4 @@
 <script>
-import {Terminal} from "@xterm/xterm";
 import Result_list from "@/components/cluster/cluster_run/result_list.vue";
 import Result_show from "@/components/cluster/cluster_run/result_show.vue";
 import Create_shell_task from "@/components/cluster/cluster_run/create_shell_task.vue";
