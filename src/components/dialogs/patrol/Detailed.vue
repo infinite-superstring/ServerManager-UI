@@ -24,6 +24,10 @@
             {{ data.content }}
           </div>
         </div>
+        <div v-if="data.imgId">
+            <div class="text-caption">图片</div>
+            <VImg :src="`data:image/png;base64,${data.imgId}`" max-height="200px" max-width="200px"/>
+        </div>
       </v-card-text>
       <v-card-actions>
         <v-btn color="success" @click="close()">确定</v-btn>
@@ -33,6 +37,8 @@
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue';
+
 const props = defineProps({
   status: {
     type: Boolean,
@@ -42,18 +48,20 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: () => {
-      return {}
-    }
+    default: () => ({
+      title: '',
+      content: '',
+      img64: ''  // 改成 img64
+    }),
   }
-})
-const emit = defineEmits(['close'])
+});
+
+const emit = defineEmits(['close']);
 
 const close = () => {
-  emit('close')
-}
+  emit('close');
+};
 </script>
-
 
 <style scoped>
 .content {
