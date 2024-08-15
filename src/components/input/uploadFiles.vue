@@ -12,6 +12,7 @@
         :clearable="false"
         :disabled="uploading"
         @change="() => {if (auto_upload) upload()}"
+        :hide-details = "!hide_progress"
       >
         <template v-if="multiple" v-slot:selection="{ fileNames }">
           <template v-for="(fileName, index) in fileNames" :key="fileName">
@@ -44,7 +45,7 @@
         </template>
       </v-file-input>
     </div>
-    <v-sheet v-if="!hide_progress" :max-height="progress_box_max_height" width="100%" class="overflow-auto">
+    <v-sheet v-if="!hide_progress && file_info.length > 0" :max-height="progress_box_max_height" width="100%" class="overflow-auto progress">
       <div v-for="item in file_info" :key="item.file_name">
         <h3>{{ item.file_name }}</h3>
         <div>
@@ -125,7 +126,7 @@ export default {
     },
     hide_progress: {
       type: Boolean,
-      default: true
+      default: false
     },
     progress_height: {
       /**
@@ -180,6 +181,14 @@ export default {
       type: Number,
       default: 8
     },
+    start_callback: {
+      type: Function,
+      default: null
+    },
+    end_callback: {
+      type: Function,
+      default: null
+    },
     success_callback: {
       type: Function,
       default: null
@@ -197,7 +206,7 @@ export default {
       this.success_count = 0
       this.failure_count = 0
       const files = this.file
-      console.log(this.chunk_size * 1024 * 1024)
+      if (this.start_callback) {this.start_callback()}
       files.forEach((file, index) => {
         this.file_info[index] = ({
           file_name: file.name,  // 文件名
@@ -249,7 +258,6 @@ export default {
             chunk_count: file_info.file_chunks.length,
             chunk_hash_list: file_info.chunk_hash_list
           }))
-          console.log(upload_res)
           if (upload_res) {
             this.success_count += 1
             // 触发回调
@@ -270,6 +278,7 @@ export default {
         return
       }
       message.showSuccess(this, msg)
+      if (this.end_callback) {this.end_callback()}
     },
     handle_upload_progress(file_index) {
       /**
@@ -294,3 +303,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.progress {
+  margin-top: 15px;
+}
+</style>
