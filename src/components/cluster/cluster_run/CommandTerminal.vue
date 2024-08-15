@@ -16,7 +16,7 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import {initTerminal} from "@/scripts/utils/terminalUtil";
-import Loading from "@/components/public/Loading.vue";
+import Loading from "@/components/public/loading/Loading.vue";
 
 
 const terminalRef = ref(null)
