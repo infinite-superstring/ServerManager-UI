@@ -52,8 +52,19 @@ export default {
       <td
         @click='this.$router.push({name:"nodeControl", hash: `#${item.uuid}`})'
         :title="item.name"
-        class="cursor-pointer text-light-blue-darken-2 font-weight-medium text-decoration-underline table-name">
-        {{ item.name }}
+      >
+        <span class="cursor-pointer text-light-blue-darken-2 font-weight-medium text-decoration-underline table-name">
+          {{ item.name }}
+        </span>
+        <v-icon
+          v-if="item.enable_auth_restrictions"
+          style="line-height: 100%"
+          color="warning"
+          size="14"
+          title="该节点已启用登录限制"
+        >
+          mdi:mdi-lock-outline
+        </v-icon>
       </td>
       <td>{{ item.group ? item.group : "无" }}</td>
       <td>{{ item.baseData ? item.baseData.hostname : "未知" }}</td>
@@ -65,7 +76,9 @@ export default {
           color="primary"
           @click="$emit('action:edit', item.uuid)"
           :disabled="!$user.check_user_permission('editNode')"
-        >编辑节点</v-btn>
+        >
+          编辑节点
+        </v-btn>
         <v-btn
           variant="text"
           size="small"

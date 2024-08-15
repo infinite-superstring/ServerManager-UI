@@ -35,6 +35,7 @@ export default {
   },
   mounted() {
     this.getNodeBaseList()
+    // if (this.value) this.select = this.value
   },
   watch: {
     value(val) {
@@ -42,6 +43,9 @@ export default {
         this.select = val
         console.log(this.select)
       }
+    },
+    select(val) {
+      console.log(this.select)
     }
   }
 }

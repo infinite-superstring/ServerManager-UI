@@ -6,6 +6,7 @@ import node_manager from "@/scripts/apis/node_manager";
 import EditNode from "@/components/dialogs/node/editNode.vue";
 import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 import SwitchViewsButton from "@/components/nodeList/SwitchViewsButton.vue";
+import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "node_list_layout",
@@ -32,18 +33,53 @@ export default {
       params: {},
       options: [
         {
-          prop: 'XXX',
+          prop: 'status',
           label: '状态',
           optional: [
             {
-              label: '正常',
-              value: '正常'
+              label: '在线',
+              value: 'online'
             },
             {
-              label: '异常',
-              value: '异常'
+              label: '离线',
+              value: 'offline'
+            },
+            {
+              label: '未初始化',
+              value: 'uninitialized'
             }
-          ]
+          ],
+          type: 'checkbox'
+        },
+        {
+          prop: 'warning',
+          label: '是否告警',
+          optional: [
+            {
+              label: '是',
+              value: true
+            },
+            {
+              label: '否',
+              value: false
+            }
+          ],
+          type: 'radio'
+        },
+        {
+          prop: 'auth_restriction',
+          label: '登录限制',
+          optional: [
+            {
+              label: '启用',
+              value: true
+            },
+            {
+              label: '禁用',
+              value: false
+            }
+          ],
+          type: 'radio'
         }
       ]
     }
@@ -90,7 +126,8 @@ export default {
     button-label="添加节点"
     search-label="按节点名搜索"
     @add-button-click="add_node=true"
-    @search:input="getNodeList"
+    @search:input="getNodeList()"
+    @option:click="getNodeList()"
     :options="options"
   >
     <template #append>

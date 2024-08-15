@@ -1,6 +1,4 @@
 <script setup>
-
-import UploadFiles from "@/components/input/uploadFiles.vue";
 </script>
 
 <template>
@@ -27,8 +25,6 @@ import UploadFiles from "@/components/input/uploadFiles.vue";
           Copyright &copy; <a href="https://github.com/infinite-superstring">Infinite Superstring</a>
         </p>
       </div>
-      <v-divider/>
-      <upload-files base_url="/api/file_distribution" multiple/>
     </v-card-text>
   </v-card>
 </template>
@@ -36,6 +32,5 @@ import UploadFiles from "@/components/input/uploadFiles.vue";
 <style scoped>
 .about {
   text-indent: 2em;
-
 }
 </style>

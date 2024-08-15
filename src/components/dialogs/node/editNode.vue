@@ -5,10 +5,12 @@ import message from "@/scripts/utils/message";
 import node_tags from "@/scripts/apis/node_tags";
 import node_manager from "@/scripts/apis/node_manager";
 import node_group from "@/scripts/apis/node_group";
+import SelectAuthRestrictionsMethod from "@/components/input/selectAuthRestrictionsMethod.vue";
+import SelectNodeGroup from "@/components/input/selectNodeGroup.vue";
 
 export default {
   name: "editNode",
-  components: {InputTag},
+  components: {SelectNodeGroup, SelectAuthRestrictionsMethod, InputTag},
   props: {
     uuid: {
       type: String,
@@ -25,6 +27,11 @@ export default {
       desc: "",
       tags: [],
       group: null,
+      auth_restrictions: {
+        enable: false,
+        method: 1,
+        value: null
+      },
       tag_items: [],
       groupListData: []
     }
@@ -44,6 +51,8 @@ export default {
         this.desc = data.node_desc
         this.tags = data.node_tags
         this.group = data.node_group
+        this.auth_restrictions = data.auth_restrictions
+        console.log(data.auth_restrictions)
         console.log(this.tags)
       })
     },
@@ -51,12 +60,6 @@ export default {
       node_group.get_node_group_list(search).then((res) => {
         this.groupListData = res.data.data.PageContent.map((({group_id, group_name}) => ({group_id, group_name})))
       })
-    },
-    open_group_manager_page() {
-      let routeData = this.$router.resolve({
-        name: "nodeGroupEdit"
-      });
-      window.open(routeData.href, '_blank');
     },
     close() {
       this.$emit('close')
@@ -72,8 +75,9 @@ export default {
         this.desc,
         this.tags,
         this.group?.group_id,
+        this.auth_restrictions
       ).then(() => {
-        message.showSuccess(this, "设置已保存")
+        message.showSuccess(this, "节点信息保存成功")
         this.$emit('success')
         this.close()
       })
@@ -89,7 +93,25 @@ export default {
         this.desc = ""
         this.tags = []
         this.group = null
+        this.auth_restrictions = {
+          enable: false,
+          method: 1,
+          value: null
+        }
       }
+    }
+  },
+  computed: {
+    auth_restrictions_method_msg() {
+      switch (this.auth_restrictions.method) {
+        case 1:
+          return "允许的IP地址段（如：192.168.1.0/24）"
+        case 2:
+          return "允许的IP地址（如192.168.1.1）"
+        case 3:
+          return "允许的MAC地址"
+      }
+      return ""
     }
   }
 }
@@ -107,48 +129,40 @@ export default {
     <v-card>
       <v-card-title>编辑节点</v-card-title>
       <v-card-text>
-        <div>
-          <div class="text-caption">
-            节点名
-          </div>
-          <v-text-field type="text" v-model="name"></v-text-field>
-        </div>
-        <div>
-          <div class="text-caption">
-            节点标签
-          </div>
-          <input-tag
-            label="节点标签"
-            :value="tags"
-            @input="args => {search_tag(args)}"
+
+        <v-text-field
+          type="text"
+          label="节点名" v-model="name"
+        />
+        <input-tag
+          label="节点标签"
+          @update="value => tags = value"
+        />
+        <select-node-group
+          @update="value => group = value"
+          add_group
+        />
+        <v-textarea
+          v-model="desc"
+          label="节点备注信息"
+        />
+        <v-divider/>
+        <p>登录安全设置</p>
+        <v-switch
+          label="启用节点登录限制"
+          v-model="auth_restrictions.enable"
+          color="primary"
+          hide-details
+        />
+        <div v-if="auth_restrictions.enable">
+          <select-auth-restrictions-method
+            :value="auth_restrictions.method"
+            @update="args => auth_restrictions.method = args"
           />
-        </div>
-        <div>
-          <div class="text-caption">
-            节点分组
-          </div>
-          <v-autocomplete
-            @update:search="value => load_node_group(value)"
-            :items="groupListData"
-            item-title="group_name"
-            item-value="group_id"
-            v-model="group"
-            auto-select-first
-            return-object
-            clearable
-          >
-            <template v-slot:append>
-              <v-btn icon title="新增节点组" variant="plain" @click="open_group_manager_page">
-                <v-icon icon="mdi:mdi-plus"/>
-              </v-btn>
-            </template>
-          </v-autocomplete>
-        </div>
-        <div>
-          <div class="text-caption">
-            节点备注
-          </div>
-          <v-textarea v-model="desc"></v-textarea>
+          <v-text-field
+            v-model="auth_restrictions.value"
+            :label="auth_restrictions_method_msg"
+          />
         </div>
       </v-card-text>
       <v-card-actions>

@@ -48,7 +48,6 @@ export default {
             return message.showError(this, "校验失败")
         }
       }
-      console.log(this.group)
       node_manager.add_node(
         this.nodeName,
         this.description,
@@ -74,11 +73,6 @@ export default {
           return "允许的MAC地址"
       }
       return ""
-    }
-  },
-  watch: {
-    tags(val) {
-      console.log(val)
     }
   }
 }

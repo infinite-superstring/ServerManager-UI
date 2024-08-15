@@ -27,7 +27,8 @@ export default {
     hideSideBar() {
       const pages = [
         'login',
-        'init_user'
+        'init_user',
+        'screen'
       ]
       return pages.includes(this.$route?.name)
     }
