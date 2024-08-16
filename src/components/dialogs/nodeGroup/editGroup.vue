@@ -5,10 +5,11 @@ import node_group_use_rules from "@/components/input/nodeGroupsUseRules.vue";
 import SelectUser from "@/components/input/selectUser.vue";
 import message from "@/scripts/utils/message";
 import objectUtils from "@/scripts/utils/objectUtils";
+import UploadFiles from "@/components/input/uploadFiles.vue";
 
 export default {
   name: "editGroup",
-  components: {SelectUser, node_group_use_rules, SelectNode},
+  components: {UploadFiles, SelectUser, node_group_use_rules, SelectNode},
   props: {
     flag: {
       type: Boolean,
@@ -109,6 +110,10 @@ export default {
         this.getGroupInfo()
       }
     },
+    node_list: (v) => {
+      console.log(v)
+    }
+
   }
 }
 </script>
@@ -132,10 +137,9 @@ export default {
         <!--          @update:select_user="value => console.log(value)"-->
         <!--        />-->
         <select-node
+          v-if="node_list.length > 0"
           label="请选择节点"
-          :value="node_list"
-          @update="value=>node_list=value"
-
+          v-model:select="node_list"
         />
         <div>
           <div class="text-caption">

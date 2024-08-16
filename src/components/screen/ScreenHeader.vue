@@ -3,8 +3,13 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <span>节点名称:</span>
-          <span class="font-weight-black">{{ nodeName ? nodeName : '等待响应' }}</span>
+          <span>当前节点:</span>
+          <span
+            @click="selectBoxShow = !selectBoxShow"
+            title="点击切换"
+            class="font-weight-black">
+                {{ nodeName ? nodeName : '等待响应' }}
+          </span>
         </v-col>
         <v-col class="title text-h6">
           {{ $default_title }}
@@ -20,6 +25,10 @@
 </template>
 
 <script setup>
+
+import {ref} from "vue";
+
+const selectBoxShow = ref(false)
 const props = defineProps({
   nodeName: {
     type: String,
@@ -27,6 +36,10 @@ const props = defineProps({
   },
   date: {
     type: String,
+    required: true
+  },
+  nodeList: {
+    type: Array,
     required: true
   }
 })
