@@ -61,7 +61,6 @@ const show = (item) => {
         <v-chip color="success" v-if="item.status === '正常'">{{ item.status }}</v-chip>
         <v-chip color="warning" v-if="item.status === '待观察'">{{ item.status }}</v-chip>
         <v-chip color="error" v-if="item.status === '异常'">{{ item.status }}</v-chip>
-
       </td>
       <td class="text-center">
         <v-btn variant="text" size="small" @click="edit(item)">

@@ -25,8 +25,8 @@
           </div>
         </div>
         <div v-if="data.imgId">
-            <div class="text-caption">图片</div>
-            <VImg :src="`data:image/png;base64,${data.imgId}`" max-height="200px" max-width="200px"/>
+          <div class="text-caption">图片</div>
+          <VImg :src="`/api/patrol/get_image?imageId=${data.imgId}`" max-height="200px" max-width="200px"/>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -37,7 +37,8 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import {defineProps, defineEmits} from 'vue';
+import {getImageApi} from "@/scripts/apis/patrol";
 
 const props = defineProps({
   status: {
