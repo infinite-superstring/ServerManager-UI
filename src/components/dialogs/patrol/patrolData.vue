@@ -30,7 +30,7 @@
               accept="image/*"
               @change="uploadImage"
             />
-            <div v-if="imageName">已选择图片: {{ imageName }}</div>
+            <div v-if="imageName">已选择图片唯一ID: {{ imageName }}</div>
           </div>
         </v-form>
       </v-card-text>
@@ -39,16 +39,38 @@
         <v-btn color="error" @click="close">取消</v-btn>
       </v-card-actions>
     </v-card>
+
+  </v-dialog>
+  <v-dialog
+    :model-value="isCrop"
+    min-width="400px"
+    width="auto"
+    persistent
+  >
+    <v-card>
+      <v-card-title>裁剪图片</v-card-title>
+      <v-card-text>
+        <img id="cropCanvasRef" ref="cropCanvasRef" src="" alt="">
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="error" @click="isCrop = false">取消</v-btn>
+        <v-btn color="success" @click="submitImageCrop">确定</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
-import axios from 'axios';
+import {nextTick, ref, watch} from 'vue';
 import message from '@/scripts/utils/message';
+import Cropper from "cropperjs";
+import {uploadImageApi} from "@/scripts/apis/patrol";
 
 const formRef = ref(null);
 const imageName = ref('');
 const imageId = ref(null);
+const isCrop = ref(false)
+const cropCanvasRef = ref(null)
+const cropEl = ref()
 
 const props = defineProps({
   status: {
@@ -94,34 +116,51 @@ const close = () => {
 };
 
 const uploadImage = async (event) => {
+  console.log(event)
   const file = event.target.files[0];
-  if (!file) return;
-
-  const formDataImage = new FormData();
-  formDataImage.append('image', file);
-
-  try {
-    const response = await axios.post('/api/patrol/upload_image', formDataImage, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-    console.log(response);
-    imageId.value = response.data.image_id;
-    imageName.value = file.name;
-    message.showSuccess('图片上传成功');
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    message.showError('图片上传失败');
-  }
+  if (!file) return
+  isCrop.value = true
+  await nextTick(() => {
+    console.log(cropCanvasRef.value)
+    console.log(document.getElementById('cropCanvasRef'))
+    cropCanvasRef.value.src = URL.createObjectURL(file);
+    cropEl.value = new Cropper(cropCanvasRef.value, {
+      aspectRatio: 1, // 固定裁剪框的宽高比
+      viewMode: 1,    // 显示裁剪框，允许移动图片
+      dragMode: 'move', // 设置拖动模式为移动图片
+      autoCropArea: 1,  // 初始裁剪框占图像的比例
+      responsive: true,  // 支持响应式布局
+      cropBoxResizable: false, // 禁止用户调整裁剪框的宽高
+      rotatable: false,
+      outputType: 'webp'
+    })
+    cropEl.value.setCropBoxData({
+      width: 512,
+      height: 512
+    })
+  })
 };
+const submitImageCrop = () => {
+  const imgBase64 = cropEl.value.getCroppedCanvas({
+    maxHeight: 512,
+    maxWidth: 512
+  }).toDataURL("image/webp", 0.8)
+  uploadImageApi({image: imgBase64}).then((r) => {
+    imageName.value = r.data.data
+    imageId.value = r.data.data
+    message.showSuccess(this, "图片上传成功")
+    isCrop.value = false
+  })
+}
+
 
 const submit = () => {
   formRef.value.validate().then(async (v) => {
     if (!v.valid) {
-      message.showError('请检查输入');
+      message.showError(this, '请检查输入');
       return;
     }
-
-    const dataToSubmit = { ...formData.value, image_id: imageId.value };
+    const dataToSubmit = {...formData.value, image_id: imageId.value};
     emit('submit', dataToSubmit);
   });
 };
@@ -131,4 +170,8 @@ watch(() => props.status, () => {
     formData.value = props.data;
   }
 });
+
+watch(() => isCrop.value, () => {
+  console.log(isCrop.value)
+})
 </script>
