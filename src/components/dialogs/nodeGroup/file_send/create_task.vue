@@ -16,6 +16,7 @@ export default {
       uploading: false,
     }
   },
+  emits: ['success'],
   methods: {
     file_upload_start() {
       /**
@@ -39,6 +40,7 @@ export default {
       cluster_file_send.create_file_send_task(this.group, this.path, this.files).then((res) => {
         message.showSuccess(this, "任务创建成功")
         this.files = []
+        this.$emit('success')
       })
     }
   }
