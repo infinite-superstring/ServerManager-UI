@@ -1,7 +1,7 @@
 <template>
-  <v-card :subtitle="title" class="unknown-name">
+  <v-card class="pageMain-card">
     <v-card-text>
-      <slot></slot>
+      暂无数据
     </v-card-text>
   </v-card>
 </template>
@@ -11,8 +11,6 @@
 const props = defineProps({
   title: {
     type: String,
-    default: "图表",
-    required: true
   },
 })
 </script>

@@ -1,5 +1,10 @@
 <template>
-  <v-table class="pageMain-card" density="compact">
+  <v-table
+    v-if="data.length > 0"
+    style="width: 100%;"
+    class="pageMain-card"
+    density="compact"
+  >
     <thead>
     <tr>
       <th>节点</th>
@@ -17,9 +22,12 @@
     </tr>
     </tbody>
   </v-table>
+  <NotData v-else/>
 </template>
 
 <script setup>
+import NotData from "@/components/emptyState/notData.vue";
+
 const props = defineProps({
   data: {
     type: Array,

@@ -92,11 +92,26 @@ function convertToTimestamp(dateString) {
   return date.getTime();
 }
 
+
+/**
+ * 不超过最大值
+ * @param num
+ * @param max
+ * @return String
+ */
+function maximumNumber(num, max = 100) {
+  if (num > max) {
+    return max - 1 + '+'
+  }
+  return num
+}
+
 export default {
   formatBytes,
   formatPercentage,
   formatTimestampToStr,
   timeStringToSeconds,
   secondToStr,
-  convertToTimestamp
+  convertToTimestamp,
+  maximumNumber
 }

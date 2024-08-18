@@ -8,6 +8,8 @@
       <ScreenContent
         :topData="topData"
         :bottomData="bottomData"
+        :is-loading="isLoading"
+        :on-line-count="topData.on_line_count"
       />
       <OverlayLoading
         :loading="isLoading"
@@ -35,7 +37,7 @@ const onmessage = ({data}) => {
   console.log(data)
   isLoading.value = false
   topData.value = data.top
-  if (Object.keys(data.body).length < 1){
+  if (Object.keys(data.body).length < 1) {
     loadingText.value = "数据正在到来"
     isLoading.value = true
   }

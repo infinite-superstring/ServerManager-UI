@@ -4,9 +4,15 @@ import bus from 'vue3-eventbus'
 import notice from '@/scripts/utils/notice'
 import bus_constant from "@/scripts/constant/bus_constant";
 import {getUnreadCountApi} from "@/scripts/apis/message";
+import format from "@/scripts/utils/format";
 
 export default {
   name: "userInfoCard",
+  computed: {
+    format() {
+      return format
+    }
+  },
   data() {
     return {
       ws: null,
@@ -135,7 +141,7 @@ export default {
         <v-icon icon="mdi-bell-outline"/>
         消息中心
         <template v-slot:append>
-          <v-badge v-if="unread" :content="unread" class="badge" color="red" inline/>
+          <v-badge v-if="unread" :content="format.maximumNumber(unread, 1000)" class="badge" color="red" inline/>
         </template>
       </v-list-item>
     </v-list>

@@ -14,7 +14,7 @@
               <span
                 class="btn-text"
                 v-if="data.total">
-                ({{ data.total > 99 ? '99+' : data.total }})
+                ({{ format.maximumNumber(data.total) }})
               </span>
             </v-list-item>
             <v-list-item
@@ -26,7 +26,7 @@
               </span>
               <span class="btn-text"
                     v-if="data.unread">
-                ({{ data.unread > 99 ? '99+' : data.unread }})
+                ({{ format.maximumNumber(data.unread) }})
               </span>
             </v-list-item>
             <v-list-item
@@ -77,6 +77,7 @@ import bus from "vue3-eventbus";
 import confirmDialog from '@/scripts/utils/confirmDialog'
 import bus_constant from "@/scripts/constant/bus_constant";
 import {deleteAllApi, getListApi, readAllApi} from "@/scripts/apis/message";
+import format from "../../scripts/utils/format";
 
 /**
  * 注册事件
@@ -230,6 +231,6 @@ defineExpose({
 }
 
 .btn-text {
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 </style>

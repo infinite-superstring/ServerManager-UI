@@ -1,6 +1,6 @@
 <template>
   <v-overlay
-    v-if="loading"
+    v-if="loading || warning"
     class="align-center justify-center cursor-not-allowed substance"
     :model-value="true"
     contained
@@ -8,6 +8,9 @@
     no-click-animation
   >
     <Loading v-if="loading"/>
+    <div class="Tips" v-if="warning">
+      <v-icon :size="60" color="warning">mdi-alert</v-icon>
+    </div>
     <br>
     <br>
     <span class="font-weight-black loading-text">{{ text }}</span>
@@ -26,6 +29,10 @@ const props = defineProps({
   text: {
     type: String,
     default: "加载中..."
+  },
+  warning: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -35,5 +42,9 @@ const props = defineProps({
 .loading-text {
   color: white;
   font-size: 20px;
+}
+
+.Tips {
+  text-align: center;
 }
 </style>
