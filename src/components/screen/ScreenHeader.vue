@@ -3,13 +3,7 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <!--          <span>当前节点:</span>-->
-          <!--          <span-->
-          <!--            @click="selectBoxShow = !selectBoxShow"-->
-          <!--            title="点击切换"-->
-          <!--            class="font-weight-black">-->
-          <!--                {{ nodeName ? nodeName : '等待响应' }}-->
-          <!--          </span>-->
+          <v-btn icon="mdi:mdi-arrow-left" variant="text" title="返回主页" :to="{name: 'dashboard'}"></v-btn>
         </v-col>
         <v-col class="title text-h6">
           {{ $default_title }}
@@ -30,16 +24,8 @@ import {ref} from "vue";
 
 const selectBoxShow = ref(false)
 const props = defineProps({
-  nodeName: {
-    type: String,
-    required: true
-  },
   date: {
     type: String,
-    required: true
-  },
-  nodeList: {
-    type: Array,
     required: true
   }
 })

@@ -60,6 +60,11 @@ export default {
         title="仪表盘"
         prepend-icon="mdi:mdi-view-dashboard"
       />
+      <v-list-item
+        :to="{name: 'screen'}"
+        title="数据大屏"
+        prepend-icon="mdi:mdi-cast-variant"
+      />
       <v-divider/>
       <v-list-item
         subtitle="运维"

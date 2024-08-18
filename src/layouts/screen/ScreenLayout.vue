@@ -2,8 +2,6 @@
   <v-card class="pageMain-card">
     <v-card-title>
       <ScreenHeader
-        node-list=""
-        node-name="我是节点"
         :date="time"/>
     </v-card-title>
     <v-card-text>

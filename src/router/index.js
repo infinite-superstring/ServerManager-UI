@@ -71,7 +71,7 @@ const routes = [
       // appBarBtn: appbar_default
     },
     meta: {
-      title: "大屏"
+      title: "数据大屏"
     }
   },
   // 节点列表
