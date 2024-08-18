@@ -1,6 +1,6 @@
 <template>
   <v-sheet rounded border class="box">
-    <p class="title font-weight-black"><span>{{ title }}</span></p>
+    <p v-if="title" class="title font-weight-black"><span>{{ title }}</span></p>
     <slot></slot>
   </v-sheet>
 </template>
@@ -9,8 +9,6 @@
 const props = defineProps({
   title: {
     type: String,
-    default: "标题",
-    required: true
   },
 })
 </script>
@@ -25,7 +23,12 @@ const props = defineProps({
 }
 
 .box {
-  margin: 10px 5px;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
 }
+
 </style>

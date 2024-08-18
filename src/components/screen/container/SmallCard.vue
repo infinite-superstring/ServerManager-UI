@@ -18,7 +18,6 @@ const props = defineProps({
   },
   footer: {
     type: String,
-    required: true
   }
 })
 </script>

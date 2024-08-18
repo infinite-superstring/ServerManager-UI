@@ -8,6 +8,9 @@
     no-click-animation
   >
     <Loading v-if="loading"/>
+    <br>
+    <br>
+    <span class="font-weight-black loading-text">{{ text }}</span>
   </v-overlay>
 </template>
 
@@ -19,11 +22,18 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  text: {
+    type: String,
+    default: "加载中..."
   }
 })
 </script>
 
 
 <style scoped>
-
+.loading-text {
+  color: white;
+  font-size: 20px;
+}
 </style>

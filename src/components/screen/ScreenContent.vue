@@ -2,64 +2,10 @@
   <v-card class="pageMain-card">
     <v-card-text class="main-content">
       <v-row>
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
-        <SmallCard
-          class="small-card"
-          title="我是标题"
-          content="我是内容"
-          footer="我是脚注"
-        />
+        <ScreenTop :top-data="topData"/>
       </v-row>
       <v-row>
-        <v-col>
-          <ContentSheet title="XXX" style="padding: 10px">
-            <ContentSheet title="平均负载" class="chart">
-              <CpuWatch/>
-            </ContentSheet>
-            <ContentSheet title="内存占用" class="chart">
-              <CpuWatch/>
-            </ContentSheet>
-          </ContentSheet>
-        </v-col>
-        <v-col>
-          <ContentSheet title="XXX">
-            <ChartCard title="网络流量" class="chart">
-              <CpuWatch/>
-            </ChartCard>
-            <ChartCard title="主机数量" class="chart">
-              <CpuWatch/>
-            </ChartCard>
-          </ContentSheet>
-        </v-col>
+        <ScreenBottom :data="bottomData"/>
       </v-row>
     </v-card-text>
   </v-card>
@@ -67,10 +13,19 @@
 
 <script setup>
 
-import CpuWatch from "@/components/charts/node/watch/cpuWatch.vue";
-import ChartCard from "@/components/screen/card/ChartCard.vue";
-import SmallCard from "@/components/screen/card/SmallCard.vue";
-import ContentSheet from "@/components/screen/ContentSheet.vue";
+import ScreenTop from "@/components/screen/ScreenTop.vue";
+import ScreenBottom from "@/components/screen/ScreenBottom.vue";
+
+const props = defineProps({
+  topData: {
+    type: Object,
+    required: true
+  },
+  bottomData: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 
@@ -84,11 +39,6 @@ import ContentSheet from "@/components/screen/ContentSheet.vue";
   height: 100%;
 }
 
-
-.small-card {
-  flex: 1;
-  margin: 5px;
-}
 
 .big-card {
   height: 100%;
