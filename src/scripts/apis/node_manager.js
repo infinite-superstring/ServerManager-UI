@@ -164,10 +164,10 @@ re_connect = true
 [safe]
 # 允许服务器执行命令
 execute_command = true
-# 允许服务器访问文件
-access_file = true
 # 允许服务器连接终端
-connect_terminal = true`)
+connect_terminal = true
+# 允许下载服务器上的文件
+download_file = true`)
   }
 
   zip.generateAsync({type: 'blob'}).then((content) => {
