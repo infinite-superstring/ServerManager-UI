@@ -112,6 +112,24 @@ export default {
     send(data) {
       return this.ws.send(JSON.stringify(data))
     },
+    get_status_color(status) {
+      switch (status) {
+        case 'running':
+          return 'green'
+        case 'warning':
+          return 'yellow'
+        case 'sleeping':
+          return 'grey'
+        case 'disk sleep':
+          return 'grey'
+        case 'zombie':
+          return 'grey'
+        case 'stopped':
+          return 'red'
+        default:
+          return ''
+      }
+    }
   },
   watch: {
     online(val) {
@@ -151,7 +169,7 @@ export default {
         </template>
 
         <template v-slot:item.status="{ value }">
-          <v-chip :color="value==='stopped'?'red':''">
+          <v-chip :color="get_status_color(value)">
             {{ value }}
           </v-chip>
         </template>

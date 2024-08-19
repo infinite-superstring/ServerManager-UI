@@ -42,6 +42,7 @@ export default {
 
 <template>
   <v-navigation-drawer
+    class="sidebar"
     :width="330"
     :rail="display"
     disable-route-watcher
@@ -209,4 +210,5 @@ export default {
 </template>
 
 <style scoped>
+
 </style>
