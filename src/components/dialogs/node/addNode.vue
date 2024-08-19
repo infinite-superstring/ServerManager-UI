@@ -38,7 +38,7 @@ export default {
       if (this.$web_config.viewMode.nodeAddMode === "Single") {
         this.$refs.single_mode__form.submit()
       } else if (this.$web_config.viewMode.nodeAddMode === "Multiple") {
-        // this.btn_loading = true
+        this.btn_loading = true
         this.$refs.multiple_mode__form.submit()
       }
     }

@@ -34,9 +34,11 @@ export default {
     },
     submit() {
       if (this.results.datas <= 0) {
+        this.$emit('error')
         return message.showError(this, "没有要导入的节点列表")
       }
       if (this.table_error) {
+        this.$emit('error')
         return message.showError(this, "表格有错误，请修改后重新上传")
       }
       this.loading = true
