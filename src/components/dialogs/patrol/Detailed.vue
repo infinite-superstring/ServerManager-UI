@@ -12,21 +12,22 @@
       <v-card-text>
         <div>
           <div class="text-caption">
-            标题
+            标题:
           </div>
-          <VImg :src="data.title" max-height="200px" max-width="200px"/>
+          <span>{{ data.title }}</span>
         </div>
         <div>
           <div class="text-caption">
-            内容
+            内容:
           </div>
           <div class="content">
             {{ data.content }}
           </div>
         </div>
         <div v-if="data.images && data.images.length > 0">
-          <div class="text-caption">图片</div>
-          <VImg class="my-2" v-for="image in data.images" :key="image" :src="`/api/patrol/image/${image}`" max-height="200px" max-width="200px"/>
+          <div class="text-caption">图片:</div>
+          <VImg class="my-2" v-for="image in data.images" :key="image" :src="`/api/patrol/image/${image}`"
+                max-height="200px" max-width="200px"/>
         </div>
       </v-card-text>
       <v-card-actions>

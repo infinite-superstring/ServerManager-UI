@@ -83,6 +83,7 @@ const openAddDialog = () => {
 }
 
 const openShowDetailedDialog = (data) => {
+  console.log(data)
   showData.value = {...data}
   showDetailedDialog.value = true
 }

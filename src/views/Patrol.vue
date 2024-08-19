@@ -1,5 +1,5 @@
 <template>
-  <v-card title="巡检登记" class="pageMain-card">
+  <v-card title="设备巡检" class="pageMain-card">
     <v-card-text>
       <PatrolList></PatrolList>
     </v-card-text>
