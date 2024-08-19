@@ -34,6 +34,7 @@ export default {
   <v-card>
     <v-tabs
       v-model="tab"
+      show-arrows
     >
       <v-tab
         value="operation_log"
