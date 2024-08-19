@@ -9,7 +9,7 @@ import SelectAuthRestrictionsMethod from "@/components/input/selectAuthRestricti
 export default {
   name: "add_node__single_mode",
   components: {SelectAuthRestrictionsMethod, SelectNodeGroup, InputTag},
-  emits: ['success'],
+  emits: ['success', 'error'],
   data() {
     return {
       nodeName: null,
@@ -59,7 +59,10 @@ export default {
           token: res.data.data.token,
           serverToken: res.data.data.server_token
         })
+      }).catch(() => {
+        this.$emit('error')
       })
+
     }
   },
   computed: {
@@ -98,7 +101,8 @@ export default {
     hide-details
   />
   <div v-if="auth_restrictions.enable">
-    <select-auth-restrictions-method :value="auth_restrictions.method" @update="args => auth_restrictions.method = args"/>
+    <select-auth-restrictions-method :value="auth_restrictions.method"
+                                     @update="args => auth_restrictions.method = args"/>
     <v-text-field v-model="auth_restrictions.value" :label="auth_restrictions_method_msg"/>
   </div>
 </template>

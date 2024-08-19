@@ -19,6 +19,7 @@ export default {
     return {
       tag_items: [],
       groupListData: null,
+      btn_loading: false,
     }
   },
   mounted() {
@@ -34,6 +35,7 @@ export default {
       this.$emit('close')
     },
     submit() {
+      this.btn_loading = true
       if (this.$web_config.viewMode.nodeAddMode === "Single") {
         this.$refs.single_mode__form.submit()
       } else if (this.$web_config.viewMode.nodeAddMode === "Multiple") {
@@ -41,9 +43,7 @@ export default {
       }
     }
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>
 
@@ -71,20 +71,24 @@ export default {
           <v-tabs-window-item value="Single">
             <add_node__single_mode
               ref="single_mode__form"
-              @success="args => {$emit('success', args); close()}"
+              @success="args => {$emit('success', args); close();btn_loading = false}"
+              @error="btn_loading = false"
             />
           </v-tabs-window-item>
 
           <v-tabs-window-item value="Multiple">
             <add_node__multiple_mode
               ref="multiple_mode__form"
-              @success="() => {$emit('success'); close()}"
+              @success="() => {$emit('success'); close();btn_loading = false}"
+              @error="btn_loading = false"
             />
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="success" @click="submit">{{ $web_config.viewMode.nodeAddMode === 'Multiple' ? '保存并下载配置文件' : '确定' }}</v-btn>
+        <v-btn :loading="btn_loading" color="success" @click="submit">
+          {{ $web_config.viewMode.nodeAddMode === 'Multiple' ? '保存并下载配置文件' : '确定' }}
+        </v-btn>
         <v-btn color="error" @click="close">取消</v-btn>
       </v-card-actions>
     </v-card>

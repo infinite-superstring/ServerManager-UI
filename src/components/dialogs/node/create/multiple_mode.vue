@@ -21,7 +21,7 @@ export default {
       }
     }
   },
-  emits: ['success'],
+  emits: ['success', 'error'],
   methods: {
     render_data(data) {
       this.results = data.results
@@ -49,6 +49,8 @@ export default {
           data.node_data_list
         )
         this.$emit("success")
+      }).catch(() => {
+        this.$emit('error')
       })
     }
   }
@@ -110,7 +112,7 @@ export default {
             :key="item"
           >
             <td>
-              {{ index+1 }}
+              {{ index + 1 }}
             </td>
             <td>
               <p v-if="results.errors[index][0]" class='error'>{{ results.error_msgs[index][0] }}</p>

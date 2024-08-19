@@ -8,8 +8,8 @@
     <tr>
       <th>节点</th>
       <th>总量</th>
-      <th>已使用</th>
-      <th>还剩余</th>
+      <th>已用</th>
+      <th>可用</th>
     </tr>
     </thead>
     <tbody>

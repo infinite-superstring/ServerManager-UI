@@ -1,10 +1,10 @@
 <template>
-  <v-card class="pageMain-card">
+  <v-card class="pageMain-card" ref="mainCardRef">
     <v-card-title>
       <ScreenHeader
         :date="time"/>
     </v-card-title>
-    <v-card-text>
+    <v-card-text style="position:relative;">
       <ScreenContent
         :topData="topData"
         :bottomData="bottomData"
@@ -32,6 +32,7 @@ const poller = ref()
 const time = ref()
 const topData = ref({})
 const bottomData = ref({})
+const mainCardRef = ref()
 
 const onmessage = ({data}) => {
   console.log(data)
@@ -45,7 +46,7 @@ const onmessage = ({data}) => {
   time.value = data.time
 }
 
-const init = () => {
+const startPoll = () => {
   poller.value = pollRequest({
     url: '/api/screen/sse/get_data',
     method: 'get',
@@ -59,9 +60,27 @@ const init = () => {
     retryOnFailure: true
   })
 }
+
+const fullScreen = () => {
+  if (document.fullscreenEnabled) {
+    document.body.requestFullscreen()
+  }
+  startPoll()
+}
+
+const init = () => {
+  fullScreen()
+}
 onMounted(init)
 // 组件卸载时
-onUnmounted(()=>poller.value.stop())
+onUnmounted(() => {
+  poller.value && poller.value.stop()
+  try {
+    document.exitFullscreen()
+  } catch (e) {
+
+  }
+})
 </script>
 
 
