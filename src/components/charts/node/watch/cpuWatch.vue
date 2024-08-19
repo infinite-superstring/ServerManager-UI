@@ -11,6 +11,10 @@ let datasets = []
 export default {
   name: "cpuWatch",
   props: {
+    cpu_core_number: {
+      type: Number,
+      required: true
+    },
     cpu_usage: {
       type: Number,
       required: true,
@@ -29,6 +33,7 @@ export default {
     if (chart !== undefined) {
       chart = undefined
     }
+    this.init()
   },
   unmounted() {
     chart.destroy()
@@ -55,8 +60,21 @@ export default {
     updateCpuCore() {
       if (!this.cpu_core_usage_data) return
       if (datasets.length > 1) return
+      if (this.cpu_core_number) {
+        for (let i = 1; i < this.cpu_core_number; i++) {
+          datasets.push({
+            hidden: true,
+            label: `CPU ${i}`,
+            data: [],
+            fill: false,
+            tension: 0.4
+          })
+        }
+        return;
+      }
       for (const cpu_index in this.cpu_core_usage_data) {
-        datasets.push({
+       datasets.push({
+          hidden: true,
           label: cpu_index,
           data: [],
           fill: false,
