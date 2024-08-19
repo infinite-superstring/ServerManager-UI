@@ -63,7 +63,16 @@ const startPoll = () => {
 
 const fullScreen = () => {
   if (document.fullscreenEnabled) {
-    document.body.requestFullscreen()
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
   }
   startPoll()
 }
@@ -76,7 +85,17 @@ onMounted(init)
 onUnmounted(() => {
   poller.value && poller.value.stop()
   try {
-    document.exitFullscreen()
+    if (document.fullscreenEnabled) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
   } catch (e) {
 
   }
