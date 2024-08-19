@@ -6,7 +6,7 @@
           <select-node-group
             v-model="group"
             ref="group_selectRef"
-            label="执行组"
+            label="执行集群"
           />
         </v-col>
         <v-col cols="12" md="6">
