@@ -10,7 +10,7 @@ COPY package.json ./
 RUN npm install esbuild@0.23.0 --registry https://registry.loongnix.cn:4873
 
 # 安装前端依赖
-RUN npm install
+RUN npm install --registry https://mirrors.cloud.tencent.com/npm/
 
 # 复制前端源代码并构建
 COPY . .

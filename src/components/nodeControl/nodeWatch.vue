@@ -52,6 +52,7 @@ export default {
     <v-window v-model="tab" v-if="base_info.node_online">
       <v-window-item value="cpu">
         <cpu-watch
+          :cpu_core_number="base_info?.node_system_info?.core_count"
           :cpu_usage="status_data.cpu_usage"
           :cpu_core_usage_data="status_data.cpu_core"
           :update_time="status_data.timestamp"
