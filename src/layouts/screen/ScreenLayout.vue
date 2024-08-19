@@ -85,7 +85,7 @@ onMounted(init)
 onUnmounted(() => {
   poller.value && poller.value.stop()
   try {
-    if (document.fullscreenEnabled) {
+    if (document.fullscreenElement) {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.mozCancelFullScreen) {
