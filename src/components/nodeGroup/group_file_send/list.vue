@@ -31,9 +31,9 @@ export default {
           <th class="text-left">
             接收目录
           </th>
-          <th class="text-left">
-            分发进度
-          </th>
+<!--          <th class="text-left">-->
+<!--            分发进度-->
+<!--          </th>-->
           <th class="text-left">
             任务创建者
           </th>
@@ -52,13 +52,13 @@ export default {
         >
           <td :title="`${item.group.name} (gid: ${item.group.id})`">{{ item.group.name }}</td>
           <td>{{ item.receive_directory ? item.receive_directory : '缺省' }}</td>
-          <td>
-            <strong>
-              <span title="进行中">{{ item.progress.activity }}</span> /
-              <span title="传输成功" class="text-green-accent-3">{{ item.progress.success }}</span> /
-              <span title="传输失败" class="text-red-accent-3">{{ item.progress.failure + item.progress.offline }}</span>
-            </strong>
-          </td>
+<!--          <td>-->
+<!--            <strong>-->
+<!--              <span title="进行中">{{ item.progress.activity }}</span> /-->
+<!--              <span title="传输成功" class="text-green-accent-3">{{ item.progress.success }}</span> /-->
+<!--              <span title="传输失败" class="text-red-accent-3">{{ item.progress.failure + item.progress.offline }}</span>-->
+<!--            </strong>-->
+<!--          </td>-->
           <td>
             {{ item.creator.user_name }}
           </td>

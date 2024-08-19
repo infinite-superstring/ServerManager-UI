@@ -6,7 +6,6 @@ import node_manager from "@/scripts/apis/node_manager";
 import EditNode from "@/components/dialogs/node/editNode.vue";
 import ToolsSelectBar from "@/components/public/toolsSelectBar/ToolsSelectBar.vue";
 import SwitchViewsButton from "@/components/nodeList/SwitchViewsButton.vue";
-import node_group from "@/scripts/apis/node_group";
 
 export default {
   name: "node_list_layout",

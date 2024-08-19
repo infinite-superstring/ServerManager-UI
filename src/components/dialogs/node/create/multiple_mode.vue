@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       table_error: false,
+      loading: false,
       results: {
         datas: [],
         errors: [],
@@ -38,7 +39,9 @@ export default {
       if (this.table_error) {
         return message.showError(this, "表格有错误，请修改后重新上传")
       }
+      this.loading = true
       node_manager.save_import_node_list(this.results.datas).then(response => {
+        this.loading = false
         const data = response.data.data
         node_manager.generate_node_config_pack(
           data?.server_host ? data.server_host : location.href,

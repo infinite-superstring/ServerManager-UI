@@ -56,7 +56,7 @@ export default {
           <select-node-group v-model="group" label="分发集群"/>
         </v-col>
         <v-col cols="12" md="6">
-          <v-text-field v-model="path" label="目标目录"/>
+          <v-text-field v-model="path" label="目标目录" hint="默认: data/download" persistent-hint/>
         </v-col>
       </v-row>
        <upload-files

@@ -42,6 +42,7 @@ export default {
 
 <template>
   <v-navigation-drawer
+    class="sidebar"
     :width="330"
     :rail="display"
     disable-route-watcher
@@ -64,6 +65,7 @@ export default {
         :to="{name: 'screen'}"
         title="数据大屏"
         prepend-icon="mdi:mdi-cast-variant"
+        v-if="$user.check_user_permission('viewDataScreen')"
       />
       <v-divider/>
       <v-list-item
@@ -209,4 +211,5 @@ export default {
 </template>
 
 <style scoped>
+
 </style>

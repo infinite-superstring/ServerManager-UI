@@ -131,24 +131,25 @@ export default {
               >
                 <v-expansion-panel-title>
                   {{ key }}
-                  <template v-slot:actions>
-                    <v-icon :color="status_color(value.status)">
-                      {{ status_icon(value.status) }}
-                    </v-icon>
-                  </template>
+<!--                  <template v-slot:actions>-->
+<!--                    <v-icon :color="status_color(value.status)">-->
+<!--                      {{ status_icon(value.status) }}-->
+<!--                    </v-icon>-->
+<!--                  </template>-->
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
-                  状态：
-                  <span v-if="value.status === 'Activity'">活动中</span>
-                  <span v-else-if="value.status === 'Success'">已完成</span>
-                  <span v-else-if="value.status === 'Failure'">错误</span>
-                  <span v-else-if="value.status === 'Offline'">节点离线</span>
+<!--                  状态：-->
+<!--                  <span v-if="value.status === 'Activity'">活动中</span>-->
+<!--                  <span v-else-if="value.status === 'Success'">已完成</span>-->
+<!--                  <span v-else-if="value.status === 'Failure'">错误</span>-->
+<!--                  <span v-else-if="value.status === 'Offline'">节点离线</span>-->
+<!--                  <br>-->
+                  <strong>成功文件：</strong>
+                  <v-chip class="ma-1" v-for="file_name in value.success_files" :key="file_name">{{ file_name }}</v-chip>
+                  <span v-if="value.success_files <= 0">无</span>
                   <br>
-                  成功的文件：
-                  <v-chip v-for="file_name in value.success_files" :key="file_name">{{ file_name }}</v-chip>
-                  <br>
-                  失败的文件：
-                  <v-chip v-for="file_name in value.failure_files" :key="file_name">{{ file_name }}</v-chip>
+                  <strong v-if="value.failure_files.length > 0">失败文件：</strong>
+                  <v-chip class="ma-1" v-for="file_name in value.failure_files" :key="file_name">{{ file_name }}</v-chip>
                 </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>

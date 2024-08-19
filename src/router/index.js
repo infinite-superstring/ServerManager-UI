@@ -35,7 +35,8 @@ const routes = [
     component: login,
     meta: {
       title: "请登录",
-      pass_login: true
+      pass_login: true,
+      hide_sidebar: true,
     }
   },
   {
@@ -47,7 +48,8 @@ const routes = [
     },
     meta: {
       title: "初始化用户",
-      pass_bind_otp: true
+      pass_bind_otp: true,
+      hide_sidebar: true,
     }
   },
   // 仪表板
@@ -71,7 +73,10 @@ const routes = [
       // appBarBtn: appbar_default
     },
     meta: {
-      title: "数据大屏"
+      title: "数据大屏",
+      permission: "viewDataScreen",
+      hide_sidebar: true,
+      hide_app_bar: true,
     }
   },
   // 节点列表
@@ -139,7 +144,8 @@ const routes = [
       appBarBtn: appbar_default
     },
     meta: {
-      title: "集群文件分发"
+      title: "集群文件分发",
+      permission: "clusterFileSend"
     }
   },
   // 网站可用性监控

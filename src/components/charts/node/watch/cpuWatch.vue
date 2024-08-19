@@ -1,8 +1,8 @@
 <script>
 import Chart from 'chart.js/auto';
-import {Colors} from 'chart.js';
 import 'chartjs-adapter-moment';
 import chartUtils from "@/scripts/utils/chartUtils";
+import format from "@/scripts/utils/format";
 
 let chart
 let labels = []
@@ -25,65 +25,6 @@ export default {
     }
   },
   mounted() {
-    labels.push(this.update_time)
-    datasets.push({
-      label: "CPU",
-      data: [],
-      fill: false,
-      tension: 0.4
-    })
-    for (const cpu_index in this.cpu_core_usage_data) {
-      datasets.push({
-        label: cpu_index,
-        data: [],
-        fill: false,
-        tension: 0.4
-      })
-    }
-    Chart.register(Colors);
-    chart = new Chart(this.$refs.chart, {
-      type: 'line',
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: 'index',
-          intersect: true,
-        },
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'minute',
-            }
-          },
-          y: {
-            min: 0,
-            max: 100,
-          }
-        },
-        plugins: {
-          tooltip: {
-            intersect: false,
-            callbacks: {
-              label: function (context) {
-                return context.dataset.label + ": " + context.parsed.y + "%"
-              }
-            }
-          }
-        }
-      },
-      data: {
-        labels: labels,
-        plugins: {
-          colors: {
-            enabled: false
-          },
-        },
-        datasets: datasets
-      }
-    })
-    chartUtils.hideDatasets(chart, 0)
   },
   unmounted() {
     chart.destroy()
@@ -105,13 +46,80 @@ export default {
           }
         }
       }
+    },
+    updateCpuCore() {
+      if (!this.cpu_core_usage_data) return
+      if (datasets.length > 1) return
+      for (const cpu_index in this.cpu_core_usage_data) {
+        datasets.push({
+          label: cpu_index,
+          data: [],
+          fill: false,
+          tension: 0.4
+        })
+      }
+    },
+    init() {
+      // labels.push(this.update_time ? this.update_time : format.formatTimestampToStr(new Date().getTime()))
+      datasets.push({
+        label: "CPU",
+        data: [],
+        fill: false,
+        tension: 0.4
+      })
+      // Chart.register(Colors);
+      this.updateCpuCore()
+      chart = new Chart(this.$refs.chart, {
+        type: 'line',
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: true,
+          },
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'minute',
+              }
+            },
+            y: {
+              min: 0,
+              max: 100,
+            }
+          },
+          plugins: {
+            tooltip: {
+              intersect: false,
+              callbacks: {
+                label: function (context) {
+                  return context.dataset.label + ": " + context.parsed.y + "%"
+                }
+              }
+            }
+          }
+        },
+        data: {
+          labels: labels,
+          plugins: {
+            colors: {
+              enabled: false
+            },
+          },
+          datasets: datasets
+        }
+      })
+      chartUtils.hideDatasets(chart, 0)
     }
   },
   watch: {
     update_time(val) {
-      const data = chartUtils.delOldDataAndLabel(datasets, labels, 30)
-      datasets = data.datasets
-      labels = data.labels
+      if (this.cpu_core_usage_data && !chart){
+        this.init()
+      }
+      this.updateCpuCore()
       this.updateUsageData()
       chart.update()
     }
