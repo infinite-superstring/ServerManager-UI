@@ -2,8 +2,8 @@
   <VDialog
     :model-value="status"
     min-width="500px"
-    max-width="500px"
-    width="auto"
+    max-width="800px"
+    width="100vw"
     persistent
     @close="close"
   >
@@ -11,23 +11,27 @@
       <v-card-title>内容详细</v-card-title>
       <v-card-text>
         <div>
-          <div class="text-caption">
+          <strong>
             标题:
-          </div>
+          </strong>
           <span>{{ data.title }}</span>
         </div>
+        <v-divider/>
         <div>
-          <div class="text-caption">
+          <strong>
             内容:
-          </div>
+          </strong>
           <div class="content">
             {{ data.content }}
           </div>
         </div>
         <div v-if="data.images && data.images.length > 0">
-          <div class="text-caption">图片:</div>
-          <VImg class="my-2" v-for="image in data.images" :key="image" :src="`/api/patrol/image/${image}`"
-                max-height="200px" max-width="200px"/>
+          <v-divider/>
+          <strong>图片:</strong>
+          <viewer class="images" :images="data.images">
+            <!--            <img v-for="src in images" :key="src" :src="src">-->
+            <img class="my-2 image" v-for="image in data.images" :key="image" :src="`/api/patrol/image/${image}`"/>
+          </viewer>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -68,5 +72,14 @@ const close = () => {
 <style scoped>
 .content {
   text-indent: 2em;
+}
+
+.images {
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  max-width: 100%;
 }
 </style>

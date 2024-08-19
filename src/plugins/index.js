@@ -9,11 +9,13 @@ import vuetify from './vuetify'
 import router from '../router'
 import vuetifyInstance from '@/plugins/vuetify' //Or wherever you have your vuetify instance
 import {Vuetify3Dialog} from 'vuetify3-dialog'
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import eventBus from 'vue3-eventbus'
-import Toast, { POSITION  } from "vue-toastification";
+import Toast, {POSITION} from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -22,7 +24,7 @@ const toast_options = {
   position: POSITION.TOP_CENTER
 };
 
-export function registerPlugins (app) {
+export function registerPlugins(app) {
   app
     .use(vuetify)
     .use(router)
@@ -35,4 +37,9 @@ export function registerPlugins (app) {
     .use(pinia)
     .use(eventBus)
     .use(Toast, toast_options)
+    .use(VueViewer, {
+      defaultOptions: {
+        zIndex: 9999, //解决图片放大的层级问题
+      }
+    })
 }
