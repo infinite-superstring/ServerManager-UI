@@ -46,6 +46,9 @@ export default {
       /**
        * 更新使用率数据
        */
+      const data = chartUtils.delOldDataAndLabel(datasets, labels, 30)
+      datasets = data.datasets
+      labels = data.labels
       labels.push(this.update_time)
       datasets[0].data.push(this.cpu_usage)
       for (const cpu_index in this.cpu_core_usage_data) {

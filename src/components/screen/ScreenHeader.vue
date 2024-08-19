@@ -7,7 +7,6 @@
         </v-col>
         <v-col class="title text-h6">
           {{ $default_title }}
-          の
           运维监控
         </v-col>
         <v-col class="date">
@@ -22,7 +21,6 @@
 
 import {ref} from "vue";
 
-const selectBoxShow = ref(false)
 const props = defineProps({
   date: {
     type: String,

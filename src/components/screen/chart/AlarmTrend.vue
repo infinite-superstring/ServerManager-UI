@@ -54,7 +54,6 @@ onMounted(() => {
           intersect: false,
           callbacks: {
             label: function (c) {
-              console.log(c)
               return c.raw + '台节点告警中'
             }
           }
