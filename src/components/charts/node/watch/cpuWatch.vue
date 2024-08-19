@@ -65,7 +65,6 @@ export default {
       }
     },
     init() {
-      // labels.push(this.update_time ? this.update_time : format.formatTimestampToStr(new Date().getTime()))
       datasets.push({
         label: "CPU",
         data: [],
@@ -121,16 +120,10 @@ export default {
   },
   watch: {
     update_time(val) {
-      console.log(this.cpu_core_usage_data)
-      console.log(chart)
-      console.log(this.cpu_core_usage_data && !chart)
       if (this.cpu_core_usage_data && !chart) {
-        console.log('进行初始化')
+        console.log('CPU 图表初始化')
         this.init()
       }
-      console.log(labels)
-      console.log(datasets)
-      console.log(val)
       this.updateCpuCore()
       this.updateUsageData()
       if (chart) {
