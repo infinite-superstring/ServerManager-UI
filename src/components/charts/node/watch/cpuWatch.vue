@@ -25,11 +25,16 @@ export default {
     }
   },
   mounted() {
+    console.log('生命周期->', chart)
+    if (chart !== undefined) {
+      chart = undefined
+    }
   },
   unmounted() {
     chart.destroy()
     datasets = []
     labels = []
+    chart = undefined
   },
   methods: {
     updateUsageData() {
@@ -116,12 +121,21 @@ export default {
   },
   watch: {
     update_time(val) {
-      if (this.cpu_core_usage_data && !chart){
+      console.log(this.cpu_core_usage_data)
+      console.log(chart)
+      console.log(this.cpu_core_usage_data && !chart)
+      if (this.cpu_core_usage_data && !chart) {
+        console.log('进行初始化')
         this.init()
       }
+      console.log(labels)
+      console.log(datasets)
+      console.log(val)
       this.updateCpuCore()
       this.updateUsageData()
-      chart.update()
+      if (chart) {
+        chart.update()
+      }
     }
   }
 }

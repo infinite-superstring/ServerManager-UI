@@ -45,6 +45,9 @@ watch(() => props.data, (val) => {
   console.log(val)
   console.log([...val])
   chartEl.data.datasets[0].data = [...val]
+  if (val.every(item => item === 0)) {
+    chartEl.data.datasets[0].data = [0, 0, 1]
+  }
   chartEl.update()
 })
 </script>
