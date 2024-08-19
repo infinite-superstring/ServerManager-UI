@@ -24,9 +24,9 @@
             {{ data.content }}
           </div>
         </div>
-        <div v-if="data.imgId">
+        <div v-if="data.images && data.images.length > 0">
           <div class="text-caption">图片</div>
-          <VImg :src="`/api/patrol/get_image?imageId=${data.imgId}`" max-height="200px" max-width="200px"/>
+          <VImg class="my-2" v-for="image in data.images" :key="image" :src="`/api/patrol/image/${image}`" max-height="200px" max-width="200px"/>
         </div>
       </v-card-text>
       <v-card-actions>

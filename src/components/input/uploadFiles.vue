@@ -246,6 +246,7 @@ export default {
           } catch (e) {
             console.log("文件", file_info.file_name, "上传失败")
           }
+          console.log('文件块上传失败')
           this.handle_upload_error(i)
           break
         }
@@ -267,6 +268,8 @@ export default {
           }
         } catch (e) {
           // message.showError(this, `文件合并失败：${e}`)
+          console.log('文件合并失败')
+          console.log(e)
           this.handle_upload_error(i)
         }
       }

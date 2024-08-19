@@ -25,12 +25,14 @@
           </div>
           <div>
             <div class="text-caption">上传图片</div>
-            <v-file-input
-              label="选择图片"
+            <upload-files
+              base_url="/api/patrol"
               accept="image/*"
-              @change="uploadImage"
+              :start_callback="upload_start_callback"
+              :success_callback="upload_success_callback"
+              :end_callback="upload_end_callback"
+              multiple
             />
-            <div v-if="imageName">已选择图片唯一ID: {{ imageName }}</div>
           </div>
         </v-form>
       </v-card-text>
@@ -64,6 +66,7 @@ import {nextTick, ref, watch} from 'vue';
 import message from '@/scripts/utils/message';
 import Cropper from "cropperjs";
 import {uploadImageApi} from "@/scripts/apis/patrol";
+import UploadFiles from "@/components/input/uploadFiles.vue";
 
 const formRef = ref(null);
 const imageName = ref('');
@@ -71,6 +74,8 @@ const imageId = ref(null);
 const isCrop = ref(false)
 const cropCanvasRef = ref(null)
 const cropEl = ref()
+const uploadImageFlag = ref(false);
+const image_list = [];
 
 const props = defineProps({
   status: {
@@ -153,6 +158,17 @@ const submitImageCrop = () => {
   })
 }
 
+const upload_success_callback = (data) => {
+  console.log(data.hash)
+  image_list.push(data.hash)
+}
+
+const upload_start_callback = () => {
+  uploadImageFlag.value = true
+}
+const upload_end_callback = () => {
+  uploadImageFlag.value = false
+}
 
 const submit = () => {
   formRef.value.validate().then(async (v) => {
@@ -160,7 +176,10 @@ const submit = () => {
       message.showError(this, '请检查输入');
       return;
     }
-    const dataToSubmit = {...formData.value, image_id: imageId.value};
+    if (uploadImageFlag.value) {
+      message.showError(this, '图片未上传完成')
+    }
+    const dataToSubmit = {...formData.value, images: image_list};
     emit('submit', dataToSubmit);
   });
 };
