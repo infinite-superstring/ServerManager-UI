@@ -22,7 +22,7 @@
 <script setup>
 import ScreenHeader from "@/components/screen/ScreenHeader.vue";
 import ScreenContent from "@/components/screen/ScreenContent.vue";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import OverlayLoading from "@/components/public/loading/OverlayLoading.vue";
 import {pollRequest} from "@/scripts/utils/pollRequest";
 
@@ -60,6 +60,8 @@ const init = () => {
   })
 }
 onMounted(init)
+// 组件卸载时
+onUnmounted(()=>poller.value.stop())
 </script>
 
 

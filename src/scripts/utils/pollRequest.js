@@ -36,7 +36,8 @@ export function pollRequest(config) {
   return {
     stop: () => {
       stop = true
-    }, start: () => {
+    },
+    start: () => {
       stop = false
       sendRequest()
     }

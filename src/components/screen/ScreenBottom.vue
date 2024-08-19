@@ -1,7 +1,9 @@
 <template>
   <v-col class="column">
     <ContentSheet title="主机状态" class="fl1">
-      <HostStatus :data="data.host_status ? data.host_status : []"/>
+      <HostStatus
+        v-if="Array.isArray(data.host_status) ? data.host_status.length > 0 : false"
+        :data="data.host_status ? data.host_status : []"/>
     </ContentSheet>
   </v-col>
 
