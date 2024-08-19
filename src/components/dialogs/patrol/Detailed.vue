@@ -3,9 +3,8 @@
     :model-value="status"
     min-width="500px"
     max-width="800px"
-    width="100vw"
-    persistent
-    @close="close"
+    width="85vw"
+    @update:modelValue="val => {if(!val) close()}"
   >
     <v-card>
       <v-card-title>内容详细</v-card-title>

@@ -299,16 +299,14 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-let userStore
 router.beforeEach(async (to, from, next) => {
-  userStore = useUserStore()
   if (to.meta.pass_login) {
     await next()
   } else {
-    if (sessionStorage.getItem('loginStatus') === "true" && userStore.userName) {
+    if (sessionStorage.getItem('loginStatus') === "true" && vue.config.globalProperties.$user.userName) {
       await next()
     }
-    if (await userStore.login_status()) {
+    if (await vue.config.globalProperties.$user.login_status()) {
       await next()
     } else {
       await next("/login")
@@ -317,20 +315,18 @@ router.beforeEach(async (to, from, next) => {
 });
 
 // 初始化服务端配置文件
-let websiteSettingStore
 router.beforeEach(async (to, from, next) => {
   // 绕过不需要登录的界面
   if (to.meta.pass_login) {
     return await next()
   }
-  websiteSettingStore = useWebsiteSettingStore()
-  if (!websiteSettingStore.serverConfig.init) await websiteSettingStore.updateServerConfig()
+  await vue.config.globalProperties.$web_config.updateServerConfig(true)
   await next()
 })
 
 // 返回403页
 router.beforeEach((to, from, next) => {
-  if (to.meta.permission && !userStore.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
+  if (to.meta.permission && !vue.config.globalProperties.$user.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
     next("/error/403")
   } else {
     next()
@@ -342,7 +338,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.pass_login) {
     return next()
   }
-  if (userStore.isNewUser && to.name !== 'init_user') {
+  if (vue.config.globalProperties.$user.isNewUser && to.name !== 'init_user') {
     return next("/init_user")
   }
   return next()
@@ -359,7 +355,7 @@ router.beforeEach(async (to, from, next) => {
   }
   await next()
   // 如果强制绑定OTP+用户未绑定OTP将弹出绑定框
-  if (websiteSettingStore.serverConfig.forceOTP_Bind && !userStore.enableOTP) {
+  if (vue.config.globalProperties.$web_config.serverConfig.forceOTP_Bind && !vue.config.globalProperties.$user.enableOTP) {
     await dialogs.showBindOTP_Dialog()
   }
 })
