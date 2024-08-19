@@ -74,6 +74,7 @@ const routes = [
     },
     meta: {
       title: "数据大屏",
+      permission: "viewDataScreen",
       hide_sidebar: true,
       hide_app_bar: true,
     }
@@ -143,7 +144,8 @@ const routes = [
       appBarBtn: appbar_default
     },
     meta: {
-      title: "集群文件分发"
+      title: "集群文件分发",
+      permission: "clusterFileSend"
     }
   },
   // 网站可用性监控

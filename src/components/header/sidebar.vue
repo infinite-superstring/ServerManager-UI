@@ -65,6 +65,7 @@ export default {
         :to="{name: 'screen'}"
         title="数据大屏"
         prepend-icon="mdi:mdi-cast-variant"
+        v-if="$user.check_user_permission('viewDataScreen')"
       />
       <v-divider/>
       <v-list-item
