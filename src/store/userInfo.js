@@ -128,30 +128,7 @@ export const useUserStore = defineStore('UserInfo', {
       })
       return status
     },
-    check_user_permission(permission) {
-      /**
-       * 检查用户是否拥有该权限
-       * @param permission 权限名
-       * @return boolean
-       */
-      if (!this.permissions || this.permissions.length <= 0) {
-        return false
-      }
-      if (this.permissions.includes("all")) {
-        return true
-      }
 
-      if (Array.isArray(permission)) {
-        for (let i = 0; i < permission.length; i++) {
-          if (this.permissions.includes(permission[i])) {
-            return true
-          }
-        }
-        return false
-      } else {
-        return this.permissions.includes(permission)
-      }
-    }
   },
   persist: true
 })

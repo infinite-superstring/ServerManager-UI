@@ -1,6 +1,6 @@
 <script>
-
 import {useWebsiteSettingStore} from "@/store/webSiteSetting";
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "toolsBar",
@@ -25,6 +25,9 @@ export default {
     updateDisplayMode() {
       this.currentDisplayMode = this.webSiteSettingStore.updateViewMode('nodeList')
       this.$emit('action:switch_display_mode', this.currentDisplayMode)
+    },
+    check_user_permission() {
+      return check_user_permission
     }
   }
 }
@@ -36,7 +39,7 @@ export default {
       id="addUser"
       color="success"
       @click="$emit('action:addNode')"
-      v-if="$user.check_user_permission('editNode')"
+      v-if="check_user_permission('editNode')"
     >
       添加节点
     </v-btn>

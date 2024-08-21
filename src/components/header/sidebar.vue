@@ -1,13 +1,8 @@
 <script>
-import permission from "@/views/admin/Permission.vue";
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "header_sidebar",
-  computed: {
-    permission() {
-      return permission
-    }
-  },
   props: {
     display: {
       type: Boolean,
@@ -21,6 +16,11 @@ export default {
       temp: []
     }
   },
+  computed: {
+    permission() {
+      return permission
+    }
+  },
   methods: {
     close_list_group() {
       if (this.display) {
@@ -30,6 +30,9 @@ export default {
         this.open = this.temp
         this.temp = []
       }
+    },
+    check_user_permission() {
+      return check_user_permission
     }
   },
   watch: {
@@ -65,12 +68,12 @@ export default {
         :to="{name: 'screen'}"
         title="数据大屏"
         prepend-icon="mdi:mdi-cast-variant"
-        v-if="$user.check_user_permission('viewDataScreen')"
+        v-if="check_user_permission('viewDataScreen')"
       />
       <v-divider/>
       <v-list-item
         subtitle="运维"
-        v-if="!display && $user.check_user_permission([
+        v-if="!display && check_user_permission([
            'editNode',
            'viewAllNode',
            'editNodeGroup',
@@ -87,7 +90,7 @@ export default {
             v-bind="props"
             title="节点管理"
             prepend-icon="mdi:mdi-server-network"
-            v-if="$user.check_user_permission([
+            v-if="check_user_permission([
               'editNode',
               'viewAllNode',
               'editNodeGroup',
@@ -102,7 +105,7 @@ export default {
           title="节点列表"
           density="compact"
           prepend-icon="mdi:mdi-dns-outline"
-          v-if="$user.check_user_permission([
+          v-if="check_user_permission([
             'editNode',
             'viewAllNode',
             'editNodeGroup'
@@ -114,7 +117,7 @@ export default {
           title="集群编辑"
           density="compact"
           prepend-icon="mdi:mdi-group"
-          v-if="$user.check_user_permission('editNodeGroup')"
+          v-if="check_user_permission('editNodeGroup')"
         />
         <v-list-item
           class="list_group_item"
@@ -129,7 +132,7 @@ export default {
           title="集群任务"
           density="compact"
           prepend-icon="mdi:mdi-timeline-outline"
-          v-if="$user.check_user_permission('clusterTask')"
+          v-if="check_user_permission('clusterTask')"
         />
         <v-list-item
           class="list_group_item"
@@ -137,19 +140,19 @@ export default {
           title="文件分发"
           density="compact"
           prepend-icon="mdi:mdi-file-send-outline"
-          v-if="$user.check_user_permission('clusterFileSend')"
+          v-if="check_user_permission('clusterFileSend')"
         />
       </v-list-group>
       <v-list-item
         :to="{name:'webStatus'}"
         title="网站监控"
         prepend-icon="mdi:mdi-web-check"
-        v-if="$user.check_user_permission('viewWebStatus')"
+        v-if="check_user_permission('viewWebStatus')"
       />
       <v-divider/>
       <v-list-item
         subtitle="管理"
-        v-if="!display && $user.check_user_permission([
+        v-if="!display && check_user_permission([
           'manageUser',
           'managePermissionGroup',
           'viewAudit',
@@ -160,19 +163,19 @@ export default {
         :to="{name: 'userManagement'}"
         title="用户管理"
         prepend-icon="mdi:mdi-account-details-outline"
-        v-if="$user.check_user_permission('manageUser')"
+        v-if="check_user_permission('manageUser')"
       />
       <v-list-item
         :to="{name: 'permissionManagement'}"
         title="权限管理"
         prepend-icon="mdi:mdi-account-cog-outline"
-        v-if="$user.check_user_permission('managePermissionGroup')"
+        v-if="check_user_permission('managePermissionGroup')"
       />
       <v-list-item
         :to="{name: 'audit'}"
         title="审计日志"
         prepend-icon="mdi:mdi-chart-timeline"
-        v-if="$user.check_user_permission([
+        v-if="check_user_permission([
           'viewAudit',
           'clusterTask',
           'viewWebStatus'
@@ -182,7 +185,7 @@ export default {
         :to="{name: 'settings'}"
         title="系统设置"
         prepend-icon="mdi:mdi-cogs"
-        v-if="$user.check_user_permission('changeSettings')"
+        v-if="check_user_permission('changeSettings')"
       />
       <v-divider/>
       <v-list-item
@@ -193,13 +196,13 @@ export default {
         title="值班记录"
         :to="{name: 'duty'}"
         prepend-icon="mdi:mdi-calendar-clock"
-        v-if="$user.check_user_permission('viewDuty')"
+        v-if="check_user_permission('viewDuty')"
       />
       <v-list-item
         :to="{name: 'patrol'}"
         title="设备巡检"
         prepend-icon="mdi-application-edit-outline"
-        v-if="$user.check_user_permission('viewPatrol')"
+        v-if="check_user_permission('viewPatrol')"
       />
       <v-list-item
         :to="{name: 'about'}"

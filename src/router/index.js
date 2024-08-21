@@ -26,6 +26,7 @@ import {useWebsiteSettingStore} from "@/store/webSiteSetting";
 import dialogs from "@/scripts/utils/dialogs";
 import clusterFileSend from "@/views/node/clusterFileSend.vue";
 import Screen from "@/views/Screen.vue";
+import {check_user_permission} from "@/scripts/utils/permission";
 // import dialogs from "@/scripts/utils/dialogs";
 const routes = [
   // 登录
@@ -326,7 +327,7 @@ router.beforeEach(async (to, from, next) => {
 
 // 返回403页
 router.beforeEach((to, from, next) => {
-  if (to.meta.permission && !vue.config.globalProperties.$user.check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
+  if (to.meta.permission && !check_user_permission(to.meta.permission)) { // 检查路由是否需要特殊权限
     next("/error/403")
   } else {
     next()

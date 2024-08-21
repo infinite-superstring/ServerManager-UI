@@ -8,6 +8,7 @@ import systemLog from "@/components/tables/auditPage/systemLog.vue";
 import accessLog from "@/components/tables/auditPage/accessLog.vue";
 import fileChangeLog from "@/components/tables/auditPage/fileChangeLog.vue";
 import TerminalCommandAudit from "@/components/tables/auditPage/terminalCommandAudit.vue";
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "audit_layout",
@@ -26,6 +27,11 @@ export default {
     return {
       tab: null
     }
+  },
+  methods: {
+    check_user_permission() {
+      return check_user_permission
+    }
   }
 }
 </script>
@@ -38,55 +44,55 @@ export default {
     >
       <v-tab
         value="operation_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         操作日志
       </v-tab>
       <v-tab
         value="System_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         系统日志
       </v-tab>
       <v-tab
         value="Access_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         访问日志
       </v-tab>
       <v-tab
         value="File_change_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         文件修改日志
       </v-tab>
       <v-tab
         value="User_Session_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         用户会话日志
       </v-tab>
       <v-tab
         value="Node_Session_log"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         节点会话日志
       </v-tab>
       <v-tab
         value="web_status_log"
-        v-if="$user.check_user_permission(['viewAudit', 'viewWebStatus'])"
+        v-if="check_user_permission(['viewAudit', 'viewWebStatus'])"
       >
         网站监控日志
       </v-tab>
       <v-tab
         value="cluster_task_audit"
-        v-if="$user.check_user_permission(['viewAudit', 'clusterTask'])"
+        v-if="check_user_permission(['viewAudit', 'clusterTask'])"
       >
         集群任务审计
       </v-tab>
       <v-tab
         value="Terminal_Command_audit"
-        v-if="$user.check_user_permission('viewAudit')"
+        v-if="check_user_permission('viewAudit')"
       >
         终端命令审计
       </v-tab>
@@ -95,55 +101,55 @@ export default {
       <v-window v-model="tab">
         <v-window-item
           value="operation_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <operation-log/>
         </v-window-item>
         <v-window-item
           value="System_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <system-log/>
         </v-window-item>
         <v-window-item
           value="Access_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <access-log/>
         </v-window-item>
         <v-window-item
           value="File_change_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <file-change-log/>
         </v-window-item>
         <v-window-item
           value="User_Session_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <user-session-log/>
         </v-window-item>
         <v-window-item
           value="Node_Session_log"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <node-session-log/>
         </v-window-item>
         <v-window-item
           value="web_status_log"
-          v-if="$user.check_user_permission(['viewAudit', 'viewWebStatus'])"
+          v-if="check_user_permission(['viewAudit', 'viewWebStatus'])"
         >
           <web-status-log/>
         </v-window-item>
         <v-window-item
           value="cluster_task_audit"
-          v-if="$user.check_user_permission(['viewAudit', 'clusterTask'])"
+          v-if="check_user_permission(['viewAudit', 'clusterTask'])"
         >
           <cluster-task-audit/>
         </v-window-item>
         <v-window-item
           value="Terminal_Command_audit"
-          v-if="$user.check_user_permission('viewAudit')"
+          v-if="check_user_permission('viewAudit')"
         >
           <terminal-command-audit/>
         </v-window-item>

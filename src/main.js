@@ -37,5 +37,5 @@ if (web_config.serverConfig.init) {
 }
 
 app.config.globalProperties.$web_config = web_config
-
+console.log('11111')
 export default app

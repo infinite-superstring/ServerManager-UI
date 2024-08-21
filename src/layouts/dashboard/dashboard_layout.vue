@@ -5,10 +5,16 @@ import Statistics_list_card from "@/components/dashboard/statistics_list_card.vu
 import UserInfoCard from "@/components/dashboard/user_info_card.vue";
 import TaskCard from "@/components/dashboard/TaskCard.vue";
 import Group_task_list_card from "@/components/dashboard/group_task_list_card.vue";
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "dashboard_layout",
-  components: {Group_task_list_card, TaskCard, UserInfoCard, Statistics_list_card, Node_list_card, Overview_card}
+  components: {Group_task_list_card, TaskCard, UserInfoCard, Statistics_list_card, Node_list_card, Overview_card},
+  methods: {
+    check_user_permission() {
+      return check_user_permission
+    }
+  }
 }
 </script>
 
@@ -25,7 +31,7 @@ export default {
       </v-card>
       <v-card
         class="dashboard_card"
-        v-if="$user.check_user_permission([
+        v-if="check_user_permission([
             'editNode',
             'viewAllNode',
             'editNodeGroup'
@@ -69,7 +75,7 @@ export default {
           <TaskCard/>
         </v-card-text>
       </v-card>
-      <v-card class="dashboard_card" v-if="$user.check_user_permission('clusterTask')">
+      <v-card class="dashboard_card" v-if="check_user_permission('clusterTask')">
         <v-card-title class="d-flex justify-sm-space-between align-center">
           <p class="dashboard_subtitle">
             集群任务

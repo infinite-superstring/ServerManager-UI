@@ -1,6 +1,12 @@
 <script>
+import {check_user_permission} from "@/scripts/utils/permission";
 export default {
   name: "node_group_tools_bar",
+  methods: {
+    check_user_permission() {
+      return check_user_permission
+    }
+  },
    emits: ['action:search', 'action:create_group'],
   props: {
     search: {
@@ -17,7 +23,7 @@ export default {
       id="addUser"
       color="success"
       @click="$emit('action:create_group')"
-      v-if="$user.check_user_permission('editNodeGroup')"
+      v-if="check_user_permission('editNodeGroup')"
     >
       创建集群
     </v-btn>

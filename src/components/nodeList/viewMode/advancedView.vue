@@ -1,4 +1,5 @@
 <script>
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "advancedView",
@@ -12,6 +13,11 @@ export default {
   data: () => {
     return {
       select: []
+    }
+  },
+  methods: {
+    check_user_permission() {
+      return check_user_permission
     }
   }
 }
@@ -75,7 +81,7 @@ export default {
           size="small"
           color="primary"
           @click="$emit('action:edit', item.uuid)"
-          :disabled="!$user.check_user_permission('editNode')"
+          :disabled="!check_user_permission('editNode')"
         >
           编辑节点
         </v-btn>
@@ -84,7 +90,7 @@ export default {
           size="small"
           color="warning"
           @click="$emit('action:reset_token', item.uuid)"
-          :disabled="!$user.check_user_permission('editNode')"
+          :disabled="!check_user_permission('editNode')"
         >
           重置Token
         </v-btn>
@@ -93,7 +99,7 @@ export default {
           size="small"
           color="red"
           @click="$emit('action:del_node', item.uuid)"
-          :disabled="!$user.check_user_permission('editNode')"
+          :disabled="!check_user_permission('editNode')"
         >
           删除节点
         </v-btn>

@@ -3,7 +3,7 @@
     <v-btn
       color="success"
       @click="addWebDialogStatus = true"
-      v-if="$user.check_user_permission('editWebStatus')"
+      v-if="check_user_permission('editWebStatus')"
     >
       新增网站监控
     </v-btn>
@@ -39,11 +39,10 @@
 </template>
 
 <script setup>
-
+import {check_user_permission} from "@/scripts/utils/permission";
 import WebList from "@/components/web_status/WebList.vue";
 import AddWebDialog from "@/components/dialogs/web_status/AddWebDialog.vue";
 import {ref} from "vue";
-import axiosplus from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 import {debounce} from "@/scripts/utils/debounce";
 import UpdateWebDialog from "@/components/dialogs/web_status/UpdateWebDialog.vue";

@@ -1,5 +1,6 @@
 <script>
 import NodeBaseInfo from "@/components/nodeList/viewMode/simpleView/nodeBaseInfo.vue";
+import {check_user_permission} from "@/scripts/utils/permission";
 
 export default {
   name: "simpleView",
@@ -11,6 +12,11 @@ export default {
     }
   },
   emits: ['action:del_node', 'action:reset_token', 'action:click_tag', 'action:edit', 'action:click_status'],
+  methods: {
+    check_user_permission() {
+      return check_user_permission
+    }
+  }
 }
 </script>
 
@@ -39,7 +45,7 @@ export default {
             variant="text"
             size="x-small"
             @click="$emit('action:reset_token', item.uuid)"
-            :disabled="!$user.check_user_permission('editNode')"
+            :disabled="!check_user_permission('editNode')"
           >
             重置Token
           </v-btn>
@@ -48,7 +54,7 @@ export default {
             size="x-small"
             color="red"
             @click="$emit('action:del_node', item.uuid)"
-            :disabled="!$user.check_user_permission('editNode')"
+            :disabled="!check_user_permission('editNode')"
           >
             删除节点
           </v-btn>
