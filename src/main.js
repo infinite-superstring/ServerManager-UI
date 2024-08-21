@@ -33,7 +33,7 @@ web_config.updateServerConfig(true)
 if (web_config.serverConfig.init) {
   app.config.globalProperties.$default_title = web_config.serverConfig.webSite_name
 } else {
-  app.config.globalProperties.$default_title = "是不是原神害了你：服务器集群管理器"
+  app.config.globalProperties.$default_title = "ServerManager"
 }
 
 app.config.globalProperties.$web_config = web_config
