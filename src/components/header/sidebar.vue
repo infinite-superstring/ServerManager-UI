@@ -61,18 +61,18 @@ export default {
     >
       <v-list-item
         :to="{name: 'dashboard'}"
-        title="仪表盘"
+        :title="$t('sidebar.dashboard')"
         prepend-icon="mdi:mdi-view-dashboard"
       />
       <v-list-item
         :to="{name: 'screen'}"
-        title="数据大屏"
+        :title="$t('sidebar.screen')"
         prepend-icon="mdi:mdi-cast-variant"
         v-if="check_user_permission('viewDataScreen')"
       />
       <v-divider/>
       <v-list-item
-        subtitle="运维"
+        :subtitle="$t('sidebar.operations.title')"
         v-if="!display && check_user_permission([
            'editNode',
            'viewAllNode',
@@ -88,7 +88,7 @@ export default {
           <v-list-item
             class="list_group_title"
             v-bind="props"
-            title="节点管理"
+            :title="$t('sidebar.operations.node_manage.title')"
             prepend-icon="mdi:mdi-server-network"
             v-if="check_user_permission([
               'editNode',
@@ -102,7 +102,7 @@ export default {
         <v-list-item
           class="list_group_item"
           :to="{name: 'nodeList'}"
-          title="节点列表"
+          :title="$t('sidebar.operations.node_manage.node_list')"
           density="compact"
           prepend-icon="mdi:mdi-dns-outline"
           v-if="check_user_permission([
@@ -114,7 +114,7 @@ export default {
         <v-list-item
           class="list_group_item"
           :to="{name: 'nodeGroupEdit'}"
-          title="集群编辑"
+          :title="$t('sidebar.operations.node_manage.group_edit')"
           density="compact"
           prepend-icon="mdi:mdi-group"
           v-if="check_user_permission('editNodeGroup')"
@@ -122,14 +122,14 @@ export default {
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterExecution'}"
-          title="集群指令"
+          :title="$t('sidebar.operations.node_manage.group_execution')"
           density="compact"
           prepend-icon="mdi:mdi-console">
         </v-list-item>
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterTask'}"
-          title="集群任务"
+          :title="$t('sidebar.operations.node_manage.group_task')"
           density="compact"
           prepend-icon="mdi:mdi-timeline-outline"
           v-if="check_user_permission('clusterTask')"
@@ -137,7 +137,7 @@ export default {
         <v-list-item
           class="list_group_item"
           :to="{name: 'clusterFileSend'}"
-          title="文件分发"
+          :title="$t('sidebar.operations.node_manage.group_file_send')"
           density="compact"
           prepend-icon="mdi:mdi-file-send-outline"
           v-if="check_user_permission('clusterFileSend')"
@@ -145,13 +145,13 @@ export default {
       </v-list-group>
       <v-list-item
         :to="{name:'webStatus'}"
-        title="网站监控"
+        :title="$t('sidebar.operations.web_status')"
         prepend-icon="mdi:mdi-web-check"
         v-if="check_user_permission('viewWebStatus')"
       />
       <v-divider/>
       <v-list-item
-        subtitle="管理"
+        :subtitle="$t('sidebar.manage.title')"
         v-if="!display && check_user_permission([
           'manageUser',
           'managePermissionGroup',
@@ -161,19 +161,19 @@ export default {
       />
       <v-list-item
         :to="{name: 'userManagement'}"
-        title="用户管理"
+        :title="$t('sidebar.manage.user_manage')"
         prepend-icon="mdi:mdi-account-details-outline"
         v-if="check_user_permission('manageUser')"
       />
       <v-list-item
         :to="{name: 'permissionManagement'}"
-        title="权限管理"
+        :title="$t('sidebar.manage.permission_manage')"
         prepend-icon="mdi:mdi-account-cog-outline"
         v-if="check_user_permission('managePermissionGroup')"
       />
       <v-list-item
         :to="{name: 'audit'}"
-        title="审计日志"
+        :title="$t('sidebar.manage.audit_and_log')"
         prepend-icon="mdi:mdi-chart-timeline"
         v-if="check_user_permission([
           'viewAudit',
@@ -183,30 +183,30 @@ export default {
       />
       <v-list-item
         :to="{name: 'settings'}"
-        title="系统设置"
+        :title="$t('sidebar.manage.system_setting')"
         prepend-icon="mdi:mdi-cogs"
         v-if="check_user_permission('changeSettings')"
       />
       <v-divider/>
       <v-list-item
-        subtitle="其他"
+        :subtitle="$t('sidebar.others.title')"
         v-if="!display"
       />
       <v-list-item
-        title="值班记录"
         :to="{name: 'duty'}"
+        :title="$t('sidebar.others.duty_record')"
         prepend-icon="mdi:mdi-calendar-clock"
         v-if="check_user_permission('viewDuty')"
       />
       <v-list-item
         :to="{name: 'patrol'}"
-        title="设备巡检"
+        :title="$t('sidebar.others.patrol_record')"
         prepend-icon="mdi-application-edit-outline"
         v-if="check_user_permission('viewPatrol')"
       />
       <v-list-item
         :to="{name: 'about'}"
-        title="关于系统"
+        :title="$t('sidebar.others.about_system')"
         prepend-icon="mdi:mdi-copyright"
       />
     </v-list>

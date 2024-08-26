@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import axios from "axios";
+import axios from "@/scripts/utils/axios";
 import message from "@/scripts/utils/message";
 
 export const useUserStore = defineStore('UserInfo', {

@@ -1,6 +1,4 @@
 <script>
-import Api_speed from "@/components/dashboard/general_chart.vue";
-import axios from "@/scripts/utils/axios";
 import general_chart from "@/components/dashboard/general_chart.vue";
 import {getStatisticsApi} from "@/scripts/apis/dashboard";
 
@@ -27,7 +25,6 @@ export default {
       getStatisticsApi().then(res => {
         this.api_speed.labels = Object.keys(res.data.data.API_Speed).map(key => parseInt(key));
         this.api_speed.datasets = [{
-          // label: "",
           data: Object.values(res.data.data.API_Speed),
           fill: true,
           pointRadius: 0,
@@ -36,7 +33,6 @@ export default {
 
         this.alarm_trend.labels = Object.keys(res.data.data.alarm_trend).map(key => parseInt(key));
         this.alarm_trend.datasets = [{
-          // label: "",
           data: Object.values(res.data.data.alarm_trend),
           fill: true,
           pointRadius: 0,
@@ -54,7 +50,7 @@ export default {
   <v-row>
     <v-card flat width="100%">
       <v-card-title>
-        平台接口请求量
+        {{ $t('dashboard.statistics.api_speed') }}
       </v-card-title>
       <v-card-text>
         <general_chart
@@ -68,7 +64,7 @@ export default {
   <v-row>
     <v-card flat width="100%">
       <v-card-title>
-        告警趋势
+        {{ $t('dashboard.statistics.warn_trend') }}
       </v-card-title>
       <v-card-text>
         <general_chart

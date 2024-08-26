@@ -34,7 +34,7 @@ export default {
       {{ node_count }}
     </p>
     <p class="status_name">
-      节点总数
+      {{ $t('dashboard.overview.total') }}
     </p>
   </div>
   <div class="status">
@@ -43,7 +43,7 @@ export default {
       {{ node_online_count }}
     </p>
     <p class="status_name">
-      在线中
+      {{ $t('dashboard.overview.online') }}
     </p>
   </div>
   <div class="status">
@@ -52,7 +52,7 @@ export default {
       {{ node_offline_count }}
     </p>
     <p class="status_name">
-      离线中
+      {{ $t('dashboard.overview.offline') }}
     </p>
   </div>
   <div class="status">
@@ -61,7 +61,7 @@ export default {
       {{ node_warning_count }}
     </p>
     <p class="status_name">
-      告警中
+      {{ $t('dashboard.overview.warning') }}
     </p>
   </div>
 </template>

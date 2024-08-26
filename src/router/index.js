@@ -27,7 +27,8 @@ import dialogs from "@/scripts/utils/dialogs";
 import clusterFileSend from "@/views/node/clusterFileSend.vue";
 import Screen from "@/views/Screen.vue";
 import {check_user_permission} from "@/scripts/utils/permission";
-// import dialogs from "@/scripts/utils/dialogs";
+
+
 const routes = [
   // 登录
   {
@@ -304,10 +305,10 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.pass_login) {
     await next()
   } else {
-    if (sessionStorage.getItem('loginStatus') === "true" && vue.config.globalProperties.$user.userName) {
+    if (sessionStorage.getItem('loginStatus') === "true" && useUserStore().userName) {
       await next()
     }
-    if (await vue.config.globalProperties.$user.login_status()) {
+    if (await useUserStore().login_status()) {
       await next()
     } else {
       await next("/login")
@@ -321,7 +322,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.pass_login) {
     return await next()
   }
-  await vue.config.globalProperties.$web_config.updateServerConfig(true)
+  await useWebsiteSettingStore().updateServerConfig(true)
   await next()
 })
 
@@ -339,7 +340,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.pass_login) {
     return next()
   }
-  if (vue.config.globalProperties.$user.isNewUser && to.name !== 'init_user') {
+  if (useUserStore().isNewUser && to.name !== 'init_user') {
     return next("/init_user")
   }
   return next()
@@ -356,7 +357,7 @@ router.beforeEach(async (to, from, next) => {
   }
   await next()
   // 如果强制绑定OTP+用户未绑定OTP将弹出绑定框
-  if (vue.config.globalProperties.$web_config.serverConfig.forceOTP_Bind && !vue.config.globalProperties.$user.enableOTP) {
+  if (useWebsiteSettingStore().serverConfig.forceOTP_Bind && !useUserStore().enableOTP) {
     await dialogs.showBindOTP_Dialog()
   }
 })

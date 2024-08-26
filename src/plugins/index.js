@@ -16,6 +16,8 @@ import Toast, {POSITION} from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
+import { createI18n } from 'vue-i18n'
+import i18ns from '@/i18n/i18ns'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -24,10 +26,17 @@ const toast_options = {
   position: POSITION.TOP_CENTER
 };
 
+const i18n_options = createI18n({
+  messages: i18ns,
+  locale: 'zh_cn'  // 设置默认语言
+})
+
+
 export function registerPlugins(app) {
   app
     .use(vuetify)
     .use(router)
+    .use(i18n_options)
     .use(Vuetify3Dialog, {
       vuetify: vuetifyInstance, //You must pass your vuetify instance as an option
       defaults: {

@@ -8,7 +8,7 @@ export default {
 </script>
 
 <template>
-  <v-card title="仪表盘" class="pageMain-card">
+  <v-card :title="$t('dashboard.title')" class="pageMain-card">
     <v-card-text>
       <dashboard_layout/>
     </v-card-text>

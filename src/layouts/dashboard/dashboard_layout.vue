@@ -23,7 +23,7 @@ export default {
     <v-col cols="12" md="8">
       <v-card class="dashboard_card">
         <v-card-title>
-          <p class="dashboard_subtitle text-no-wrap">总览</p>
+          <p class="dashboard_subtitle text-no-wrap">{{ $t('dashboard.overview.title') }}</p>
         </v-card-title>
         <v-card-text height="300px" id="overview">
           <overview_card/>
@@ -38,8 +38,14 @@ export default {
         ])"
       >
         <v-card-title class="d-flex justify-sm-space-between align-center">
-          <p class="dashboard_subtitle text-no-wrap">节点列表</p>
-          <p class="more cursor-pointer" @click="$router.push({ name: 'nodeList' })">更多...</p>
+          <p class="dashboard_subtitle text-no-wrap">{{ $t('dashboard.node_list.title') }}</p>
+          <p
+            class="more cursor-pointer"
+            :title="$t('dashboard.node_list.more__title')"
+            @click="$router.push({ name: 'nodeList' })"
+          >
+            {{ $t('dashboard.node_list.more') }}
+          </p>
         </v-card-title>
         <v-card-text height="300px">
           <node_list_card/>
@@ -47,7 +53,7 @@ export default {
       </v-card>
       <v-card class="dashboard_card">
         <v-card-title>
-          <p class="dashboard_subtitle text-no-wrap">统计信息</p>
+          <p class="dashboard_subtitle text-no-wrap">{{ $t('dashboard.statistics.title') }}</p>
         </v-card-title>
         <v-card-text>
           <statistics_list_card/>
@@ -58,7 +64,7 @@ export default {
       <v-card class="dashboard_card">
         <v-card-title>
           <p class="dashboard_subtitle text-no-wrap">
-            个人信息
+            {{ $t('dashboard.user_info.title') }}
           </p>
         </v-card-title>
         <v-card-text class="user_info">

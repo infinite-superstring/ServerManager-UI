@@ -27,12 +27,17 @@ export default {
 
 <template>
   <div class="user_info">
-    <v-avatar color="surface-variant" size="80" :image="'/api/userInfo/getAvatar'"></v-avatar>
+    <v-avatar
+      color="surface-variant"
+      size="80"
+      :title="$t('dashboard.user_info.avatar')"
+      :image="'/api/userInfo/getAvatar'"
+    />
     <div>
-      <p class="username">
+      <p class="username" :title="$t('dashboard.user_info.user_name')">
         {{ username }}
       </p>
-      <p class="user_group">
+      <p class="user_group" :title="$t('dashboard.user_info.group')">
         {{ group }}
       </p>
     </div>

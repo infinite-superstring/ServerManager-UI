@@ -29,16 +29,16 @@ export default {
     <thead>
     <tr>
       <th class="text-left">
-        节点名
+        {{ $t('dashboard.node_list.table.name') }}
       </th>
       <th class="text-left">
-        认证IP
+        {{ $t('dashboard.node_list.table.ip') }}
+      </th>
+      <th class="text-left" :title="$t('dashboard.node_list.table.status__title')">
+        {{ $t('dashboard.node_list.table.status') }}
       </th>
       <th class="text-left">
-        在线状态
-      </th>
-      <th class="text-left">
-        告警状态
+        {{ $t('dashboard.node_list.table.warning') }}
       </th>
     </tr>
     </thead>
@@ -56,16 +56,16 @@ export default {
         </span>
       </td>
       <td>
-        {{ item.auth_ip ? item.auth_ip : '未认证' }}
+        {{ item.auth_ip ? item.auth_ip : $t('dashboard.node_list.table.ip_is_empty') }}
       </td>
-      <td>
+      <td :title="$t('dashboard.node_list.table.status__title')">
         <span
           v-if="item.online"
           style="color: green;cursor:pointer;"
           @click="$router.push({name:'nodeList',query: { search: 'status:online' }})"
         >
           <v-icon icon="mdi:mdi-check-circle-outline" size="x-small"/>
-          在线
+          {{ $t('dashboard.node_list.table.status__value.online') }}
         </span>
         <span
           v-else-if="item.online === null"
@@ -73,7 +73,7 @@ export default {
           @click="$router.push({name:'nodeList',query: { search: 'status:uninitialized' }})"
         >
           <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
-          未初始化
+          {{ $t('dashboard.node_list.table.status__value.uninitialized') }}
         </span>
         <span
           v-else
@@ -81,7 +81,7 @@ export default {
           @click="$router.push({name:'nodeList',query: { search: 'status:offline' }})"
         >
           <v-icon icon="mdi:mdi-close-circle-outline" size="x-small"/>
-          离线
+          {{ $t('dashboard.node_list.table.status__value.offline') }}
         </span>
 
       </td>
@@ -89,15 +89,15 @@ export default {
         <span
           v-if="item.warning === 'Info'"
         >
-          正常
+          {{ $t('dashboard.node_list.table.warning__value.normal') }}
         </span>
         <span
           v-else-if="item.warning === false"
         >
-          无
+          {{ $t('dashboard.node_list.table.warning__value.none') }}
         </span>
         <span v-else>
-          警告中
+          {{ $t('dashboard.node_list.table.warning__value.warning') }}
         </span>
       </td>
     </tr>
