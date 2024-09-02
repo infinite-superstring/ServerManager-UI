@@ -74,7 +74,7 @@ export default {
       <v-card class="dashboard_card">
         <v-card-title>
           <p class="dashboard_subtitle text-no-wrap">
-            每日打卡
+            {{ $t('dashboard.user_task.title') }}
           </p>
         </v-card-title>
         <v-card-text>
@@ -84,9 +84,11 @@ export default {
       <v-card class="dashboard_card" v-if="check_user_permission('clusterTask')">
         <v-card-title class="d-flex justify-sm-space-between align-center">
           <p class="dashboard_subtitle">
-            集群任务
+            {{ $t('dashboard.group_task.title') }}
           </p>
-          <p class="more cursor-pointer" @click="$router.push({ name: 'clusterTask' })">更多...</p>
+          <p class="more cursor-pointer" :title="$t('dashboard.group_task.more__title')" @click="$router.push({ name: 'clusterTask' })">
+            {{ $t('dashboard.group_task.more') }}
+          </p>
         </v-card-title>
         <v-card-text>
           <group_task_list_card/>

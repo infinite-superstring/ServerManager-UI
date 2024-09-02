@@ -25,9 +25,11 @@ import ScreenContent from "@/components/screen/ScreenContent.vue";
 import {onMounted, onUnmounted, ref} from "vue";
 import OverlayLoading from "@/components/public/loading/OverlayLoading.vue";
 import {pollRequest} from "@/scripts/utils/pollRequest";
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const isLoading = ref(true)
-const loadingText = ref("加载中...")
+const loadingText = ref(t('screen.load_status.loading'))
 const poller = ref()
 const time = ref()
 const topData = ref({})
@@ -39,7 +41,7 @@ const onmessage = ({data}) => {
   isLoading.value = false
   topData.value = data.top
   if (Object.keys(data.body).length < 1) {
-    loadingText.value = "数据正在到来"
+    loadingText.value = t('screen.load_status.await_data')
     isLoading.value = true
   }
   bottomData.value = data.body
@@ -53,7 +55,7 @@ const startPoll = () => {
     onSuccess: onmessage,
     onError: (error) => {
       isLoading.value = true
-      loadingText.value = "失去连接"
+      loadingText.value = t('screen.load_status.disconnection')
       console.log(error)
     },
     interval: 2,

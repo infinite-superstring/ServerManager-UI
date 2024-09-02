@@ -27,6 +27,7 @@ const toast_options = {
 };
 
 const i18n_options = createI18n({
+  legacy: false,
   messages: i18ns,
   locale: 'zh_cn'  // 设置默认语言
 })

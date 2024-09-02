@@ -40,5 +40,13 @@ export default {
     avatar: '头像',
     user_name: '用户名',
     group: '所在权限组'
+  },
+  user_task: {
+    title: '代办事项'
+  },
+  group_task: {
+    title: '集群任务',
+    more: '更多...',
+    more__title: '进入集群任务页'
   }
 }

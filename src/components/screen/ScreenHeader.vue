@@ -3,14 +3,13 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <v-btn icon="mdi:mdi-arrow-left" variant="text" title="返回主页" :to="{name: 'dashboard'}"></v-btn>
+          <v-btn icon="mdi:mdi-arrow-left" variant="text" :title="$t('screen.back_btn')" :to="{name: 'dashboard'}"></v-btn>
         </v-col>
         <v-col class="title text-h6">
-          {{ $default_title }}
-          运维监控
+          {{ $t('screen.title', {title: $default_title}) }}
         </v-col>
         <v-col class="date">
-          {{ date ? date : '等待响应' }}
+          {{ date ? date : $t('screen.not_update_time') }}
         </v-col>
       </v-row>
     </v-card-text>

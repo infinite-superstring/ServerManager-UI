@@ -1,6 +1,6 @@
 <template>
   <v-col class="column">
-    <ContentSheet title="主机状态" class="fl1">
+    <ContentSheet :title="$t('screen.chart.nodes_status.title')" class="fl1">
       <HostStatus
         v-if="Array.isArray(data.host_status) ? data.host_status.length > 0 : false"
         :data="data.host_status ? data.host_status : []"/>
@@ -9,10 +9,10 @@
 
   <v-col class="column">
     <ContentSheet class="fl1">
-      <ContentSheet title="CPU使用率(Top10)">
+      <ContentSheet :title="$t('screen.chart.cpu_usage.title')">
         <Cpu :data="data.cpu ? data.cpu : []"/>
       </ContentSheet>
-      <ContentSheet title="告警趋势">
+      <ContentSheet :title="$t('screen.chart.alarm_trend.title')">
         <AlarmTrend
           :on-line-count="onLineCount"
           :data="data.alarm_trend ? data.alarm_trend : []"/>
@@ -22,20 +22,20 @@
   </v-col>
   <v-col class="column">
     <ContentSheet class="fl1">
-      <ContentSheet title="内存使用率(Top10)">
+      <ContentSheet :title="$t('screen.chart.memory_usage.title')">
         <Memory :data="data.memory ? data.memory : []"/>
       </ContentSheet>
-      <ContentSheet title="网络流量(Top3)">
+      <ContentSheet :title="$t('screen.chart.network_throughput.title')">
         <NetWork :data="data.network ? data.network : []"/>
       </ContentSheet>
     </ContentSheet>
   </v-col>
   <v-col class="column">
     <ContentSheet class="fl1">
-      <ContentSheet title="平均负载(Top10)">
+      <ContentSheet :title="$t('screen.chart.load_avg.title')">
         <AverageLoad :data="data.average_load ? data.average_load : []"/>
       </ContentSheet>
-      <ContentSheet title="磁盘状态(Top5)">
+      <ContentSheet :title="$t('screen.chart.disk_usage.title')">
         <DiskStatus :data="data.disk ? data.disk : []"/>
       </ContentSheet>
     </ContentSheet>
